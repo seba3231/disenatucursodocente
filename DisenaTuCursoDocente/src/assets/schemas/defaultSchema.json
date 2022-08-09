@@ -1,0 +1,49 @@
+{
+    "etapas":[
+        {
+            "id":1,
+            "nombre":"Programa",
+            "grupos":[
+                {
+                    "id":1,
+                    "nombre":"Contenido",
+                    "idEtapa":1,
+                    "relaciones":null,
+                    "atributos":[
+                        {
+                            "id":1,
+                            "nombre":null,
+                            "multiInstanciable":false,
+                            "puntoCritico":{
+                                "normativa":"¿Cómo se cuentan los créditos de acuerdo a UDELAR?<br>https://dgjuridica.udelar.edu.uy/215-ordenanza-de-estudios-de-grado-y-otros-programas-de-formacion-terciaria/",
+                                "informacionAmpliatoria":null,
+                                "aporteConceptual":null
+                            },
+                            "comentarioPrivado":null,
+                            "tipo":null,
+                            "filaDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Cantidad de créditos",
+                                            "ayuda":null,
+                                            "tipo":"number",
+                                            "datos":null,
+                                            "idAtributo":1,
+                                            "idSelect":null,
+                                            "tamaño":2
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "version":0,
+    "institucion":null,
+    "datosFijos":[]
+}
