@@ -1,82 +1,117 @@
-export interface Esquema{
-    etapas:Etapa[];
-    version:number;
-    institucion:string;
-    datosFijos:DatoFijo[];
+//TODO en InstanciacionEsquima.ts
+//quedé en 2,5,1
+//agregar "multiInstanciable" a Dato
+//agregar "idContenidoCondicional" a Dato
+//cambiar Ubicacion.idDato a []
+//agregar "herencia" a Dato
+export interface Esquema {
+  etapas: Etapa[];
+  version: number;
+  institucion: string;
+  gruposDatosFijos: GrupoDatoFijo[];
+  contenidoCondicional: ContenidoCondicional[];
 }
 
-interface Etapa {
-    id:number;
-    nombre:string;
-    grupos:Grupo[];
+export interface ContenidoCondicional {
+  id: number;
+  herencia: number;
+  muestroSi: DependenciaDeDatos;
+  filaDatos: FilaDatos[];
 }
 
-interface DatoFijo{
-    id:number;
-    valor:string;
-    padres:number[];
+export interface Etapa {
+  id: number;
+  nombre: string;
+  grupos: Grupo[];
 }
 
-interface Grupo{
-    id:number;
-    nombre:string;
-    idEtapa:number;
-    relaciones:number[];
-    atributos:Atributo[];
+export interface GrupoDatoFijo {
+  id: number;
+  nombre: string;
+  opciones: OpcionSelect[];
 }
 
-interface Atributo{
-    id:number;
-    nombre:string;
-    multiInstanciable:boolean;
-    puntoCritico:PuntoCritico;
-    comentarioPrivado:ComentarioPrivado[];
-    ayuda:string;
-    tipo:string;
-        //'simple'
-        //'compuesto'
-    obligatorio:boolean;
-    datos:Dato[];
+export interface OpcionSelect {
+  id: number;
+  idGrupo: number;
+  valor: string;
+  muestroSi: DependenciaDeDatos;
 }
 
-interface ComentarioPrivado{
-    autor:string;
-    fecha:Date;
-    valor:string;
+export interface Grupo {
+  id: number;
+  nombre: string;
+  ubicacion: Ubicacion;
+  relacionesGrafo: Ubicacion[];
+  atributos: Atributo[];
 }
 
-interface Dato{
-    id:number;
-    nombre:string;
-    ayuda:string;
-    tipo:string;
-        //'selectFijoUnico'
-        //'selectFijoMultiple'
-        //'selectUsuarioUnico'
-        //'selectUsuarioMultiple'
-    filaDatos:FilasDato[];
-    idAtributo:number;
-    idSelect:Opciones[];
-    tamaño:number;
-    dependencia:Dependencia;
+export interface Ubicacion {
+  idEtapa: number;
+  idGrupo: number;
+  idAtributo: number;
+  idDato: number[];
 }
 
-interface Opciones{
-    idReferencia:number;
-    idValor:number;
+export interface Atributo {
+  id: number;
+  nombre: string;
+  ubicacion: Ubicacion;
+  herencia: Ubicacion;
+  multiInstanciable: boolean;
+  puntoCritico: PuntoCritico;
+  comentariosPrivados: ComentarioPrivado[];
+  ayuda: string;
+  obligatorio: boolean;
+  filaDatos: FilaDatos[];
 }
 
-interface Dependencia{
-    idDato:number;
-    valorDato:string;
+export interface ComentarioPrivado {
+  autor: string;
+  fecha: Date;
+  valor: string;
 }
 
-interface FilasDato{
-    datos:Dato[]
+export interface Dato {
+  id: number;
+  nombre: string;
+  ubicacion: Ubicacion;
+  herencia: Ubicacion;
+  ayuda: string;
+  tipo: string;
+  //'selectFijoUnico'
+  //'selectFijoMultiple'
+  //'selectUsuarioUnico'
+  //'selectUsuarioMultiple'
+  opciones: Opciones;
+  habilitadoSi: DependenciaDeDatos;
+  multiInstanciable: boolean;
+  idContenidoCondicional: number[];
+  tamaño: number;
+  filaDatos: FilaDatos[];
 }
 
-interface PuntoCritico{
-    normativa:string;
-    informacionAmpliatoria:string;
-    aporteConceptual:string;
+export interface Opciones {
+  //Las opciones referencian a un conjunto de Datos de usuario (referencia)
+  //O las opciones son un GrupoDatoFijo (idGrupoDatoFijo)
+  referencia: Ubicacion;
+  idGrupoDatoFijo: number;
+}
+
+export interface DependenciaDeDatos {
+  referencia: Ubicacion;
+  valorSeleccionado: {
+    idGrupoDatoFijo: number;
+    idOpcion: number;
+  };
+}
+
+export interface FilaDatos {
+  datos: Dato[];
+}
+
+export interface PuntoCritico {
+  normativa: string;
+  informacionAmpliatoria: string;
+  aporteConceptual: string;
 }

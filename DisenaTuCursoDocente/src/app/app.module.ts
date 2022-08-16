@@ -6,6 +6,9 @@ import { Observable } from 'rxjs';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InitialSchemaLoaderService } from './servicios/initial-schema-loader.service';
+import { EtapaComponent } from './etapa/etapa.component';
+import { GrupoComponent } from './grupo/grupo.component';
+import { AtributoComponent } from './atributo/atributo.component';
 
 export function initConfig(loaderService : InitialSchemaLoaderService) {
     //return () => protesis.obtenerConfiguraciones();
@@ -34,7 +37,10 @@ export function initConfig(loaderService : InitialSchemaLoaderService) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    EtapaComponent,
+    GrupoComponent,
+    AtributoComponent
   ],
   imports: [
     BrowserModule,

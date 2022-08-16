@@ -1,0 +1,4 @@
+<p>{{ etapa.nombre }}</p>
+<div *ngFor="let grupo of etapa.grupos" class="container">
+  <app-grupo [grupo]="grupo"></app-grupo>
+</div>

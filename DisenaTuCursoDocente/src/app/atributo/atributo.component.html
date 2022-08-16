@@ -1,0 +1,72 @@
+<div *ngFor="let number of veces">
+  <p>{{ atributo.nombre }}</p>
+  <div *ngFor="let fila of atributo.filaDatos" class="container">
+    <div class="row">
+      <div *ngFor="let dato of fila.datos" class="col-sm">
+        <p>{{ dato.nombre }}</p>
+        <div class="input-group mb-3">
+          <input
+            [type]="dato.tipo"
+            class="form-control"
+            [placeholder]="dato.nombre || ''"
+            aria-label=""
+            aria-describedby="basic-addon1"
+            *ngIf="parsearTipo(dato.tipo)[0] == 0"
+          />
+          <div class="d-flex flex-column">
+            <div *ngIf="parsearTipo(dato.tipo)[0] == 2">
+              <div
+                class="form-check"
+                *ngFor="
+                  let opcion of obtenerOpcionesFijas(
+                    dato.opciones.idGrupoDatoFijo
+                  );
+                  index as radioIndex
+                "
+              >
+                <!--complejizar id? -->
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="radio"
+                  [id]="'radio' + radioIndex + dato.id"
+                  [checked]="radioIndex === 0"
+                />
+                <label
+                  class="form-check-label"
+                  [for]="'radio' + radioIndex + dato.id"
+                >
+                  {{ opcion }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <select
+            class="form-select"
+            *ngIf="
+              parsearTipo(dato.tipo)[0] === 1 &&
+              parsearTipo(dato.tipo)[1] === 'unico'
+            "
+          >
+            <option
+              *ngFor="
+                let opcion of obtenerOpcionesFijas(
+                  dato.opciones.idGrupoDatoFijo
+                );
+                index as radioIndex
+              "
+              [selected]="radioIndex === 0"
+            >
+              {{ opcion }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="atributo.multiInstanciable">
+  <button type="button" class="btn btn-primary" (click)="agregarAtributo()">
+    Agregar {{ atributo.nombre }}
+  </button>
+</div>

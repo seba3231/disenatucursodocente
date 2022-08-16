@@ -1,5 +1,8 @@
-<div *ngFor="let item of initialSchemaService.defaultSchema?.etapas">
-    <p>{{item.nombre}}</p>
+<div
+  *ngFor="let etapa of initialSchemaService.defaultSchema?.etapas"
+  class="'container"
+>
+  <app-etapa [etapa]="etapa"></app-etapa>
 </div>
 
 <router-outlet></router-outlet>

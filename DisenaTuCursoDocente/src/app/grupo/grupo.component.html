@@ -1,0 +1,21 @@
+<div class="card">
+  <div class="card-body">
+    <div class="d-flex flex-row">
+      <i class="bi bi-mortarboard-fill p-2"></i>
+      <h4 class="p-2">{{ grupo.nombre }}</h4>
+    </div>
+    <div class="card border-secondary mb-3">
+      <div class="card-body">
+        <i class="bi bi-chat-right-text-fill"></i>
+        <div
+          *ngFor="let atributo of grupo.atributos"
+          class="container card border-secondary mb-3"
+        >
+          <div class="card-body">
+            <app-atributo [atributo]="atributo"></app-atributo>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

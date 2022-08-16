@@ -1,49 +1,692 @@
 {
-    "etapas":[
+  "etapas": [
+    {
+      "id": 1,
+      "nombre": "Programa",
+      "grupos": [
         {
-            "id":1,
-            "nombre":"Programa",
-            "grupos":[
+          "id": 1,
+          "nombre": "Contenido",
+          "ubicacion": {
+            "idEtapa": 1,
+            "idGrupo": null,
+            "idAtributo": null,
+            "idDato": null
+          },
+          "relaciones": null,
+          "atributos": [
+            {
+              "id": 1,
+              "nombre": null,
+              "ubicacion": {
+                "idEtapa": 1,
+                "idGrupo": 1,
+                "idAtributo": null,
+                "idDato": null
+              },
+              "idHerencia": null,
+              "multiInstanciable": false,
+              "puntoCritico": {
+                "normativa": "¿Cómo se cuentan los créditos de acuerdo a UDELAR?<br>https://dgjuridica.udelar.edu.uy/215-ordenanza-de-estudios-de-grado-y-otros-programas-de-formacion-terciaria/",
+                "informacionAmpliatoria": null,
+                "aporteConceptual": null
+              },
+              "comentariosPrivados": null,
+              "ayuda": null,
+              "obligatorio": false,
+              "filaDatos": [
                 {
-                    "id":1,
-                    "nombre":"Contenido",
-                    "idEtapa":1,
-                    "relaciones":null,
-                    "atributos":[
-                        {
-                            "id":1,
-                            "nombre":null,
-                            "multiInstanciable":false,
-                            "puntoCritico":{
-                                "normativa":"¿Cómo se cuentan los créditos de acuerdo a UDELAR?<br>https://dgjuridica.udelar.edu.uy/215-ordenanza-de-estudios-de-grado-y-otros-programas-de-formacion-terciaria/",
-                                "informacionAmpliatoria":null,
-                                "aporteConceptual":null
-                            },
-                            "comentarioPrivado":null,
-                            "tipo":null,
-                            "filaDatos":[
-                                {
-                                    "datos":[
-                                        {
-                                            "id":1,
-                                            "nombre":"Cantidad de créditos",
-                                            "ayuda":null,
-                                            "tipo":"number",
-                                            "datos":null,
-                                            "idAtributo":1,
-                                            "idSelect":null,
-                                            "tamaño":2
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
+                  "datos": [
+                    {
+                      "id": 1,
+                      "nombre": "Cantidad de créditos",
+                      "ubicacion": {
+                        "idEtapa": 1,
+                        "idGrupo": 1,
+                        "idAtributo": 1,
+                        "idDato": null
+                      },
+                      "ayuda": null,
+                      "tipo": "number",
+                      "opciones": null,
+                      "habilitadoSi": null,
+                      "filaDatos": null,
+                      "idSelectCondicional": null,
+                      "tamaño": 2
+                    }
+                  ]
                 }
-            ]
+              ]
+            },
+            {
+              "id": 2,
+              "nombre": null,
+              "ubicacion": {
+                "idEtapa": 1,
+                "idGrupo": 1,
+                "idAtributo": null,
+                "idDato": null
+              },
+              "idHerencia": null,
+              "multiInstanciable": true,
+              "puntoCritico": null,
+              "comentariosPrivados": null,
+              "ayuda": null,
+              "obligatorio": false,
+              "filaDatos": [
+                {
+                  "datos": [
+                    {
+                      "id": 1,
+                      "nombre": "Temas y/o Competencias",
+                      "ubicacion": {
+                        "idEtapa": 1,
+                        "idGrupo": 1,
+                        "idAtributo": 2,
+                        "idDato": null
+                      },
+                      "ayuda": "Seleccione los temas y/o competencias del tipo Lorem Ipsum",
+                      "tipo": "selectFijoUnico",
+                      "opciones": {
+                        "referencia": null,
+                        "idGrupoDatoFijo": 1
+                      },
+                      "habilitadoSi": null,
+                      "filaDatos": null,
+                      "idSelectCondicional": null,
+                      "tamaño": null
+                    },
+                    {
+                      "id": 3,
+                      "nombre": "Nombre de tema",
+                      "ubicacion": {
+                        "idEtapa": 1,
+                        "idGrupo": 1,
+                        "idAtributo": 2,
+                        "idDato": null
+                      },
+                      "ayuda": null,
+                      "tipo": "string",
+                      "opciones": null,
+                      "habilitadoSi": null,
+                      "filaDatos": null,
+                      "idSelectCondicional": null,
+                      "tamaño": 40
+                    },
+                    {
+                      "id": 4,
+                      "nombre": "Descripción",
+                      "ubicacion": {
+                        "idEtapa": 1,
+                        "idGrupo": 1,
+                        "idAtributo": 2,
+                        "idDato": null
+                      },
+                      "ayuda": null,
+                      "tipo": "string",
+                      "opciones": null,
+                      "habilitadoSi": null,
+                      "filaDatos": null,
+                      "idSelectCondicional": null,
+                      "tamaño": 200
+                    },
+                    {
+                      "id": 5,
+                      "nombre": "Cantidad de horas",
+                      "ubicacion": {
+                        "idEtapa": 1,
+                        "idGrupo": 1,
+                        "idAtributo": 2,
+                        "idDato": null
+                      },
+                      "ayuda": null,
+                      "tipo": "number",
+                      "opciones": null,
+                      "habilitadoSi": null,
+                      "filaDatos": null,
+                      "idSelectCondicional": null,
+                      "tamaño": 3
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "nombre": "Información general",
+          "ubicacion": {
+            "idEtapa": 1,
+            "idGrupo": null,
+            "idAtributo": null,
+            "idDato": null
+          },
+          "relaciones": null,
+          "atributos": [
+            {
+              "id": 1,
+              "nombre": null,
+              "ubicacion": {
+                "idEtapa": 1,
+                "idGrupo": 2,
+                "idAtributo": null,
+                "idDato": null
+              },
+              "idHerencia": null,
+              "multiInstanciable": false,
+              "puntoCritico": null,
+              "comentariosPrivados": null,
+              "ayuda": null,
+              "obligatorio": false,
+              "filaDatos": [
+                {
+                  "datos": [
+                    {
+                      "id": 1,
+                      "nombre": "Nombre de le unidad curricular",
+                      "ubicacion": {
+                        "idEtapa": 1,
+                        "idGrupo": 2,
+                        "idAtributo": 1,
+                        "idDato": null
+                      },
+                      "ayuda": null,
+                      "tipo": "string",
+                      "opciones": null,
+                      "habilitadoSi": null,
+                      "filaDatos": null,
+                      "idSelectCondicional": null,
+                      "tamaño": 40
+                    },
+                    {
+                      "id": 2,
+                      "nombre": "Carreras",
+                      "ubicacion": {
+                        "idEtapa": 1,
+                        "idGrupo": 2,
+                        "idAtributo": 1,
+                        "idDato": null
+                      },
+                      "ayuda": null,
+                      "tipo": "selectFijoMultiple",
+                      "opciones": {
+                        "referencia": null,
+                        "idGrupoDatoFijo": 2
+                      },
+                      "habilitadoSi": null,
+                      "filaDatos": null,
+                      "idSelectCondicional": null,
+                      "tamaño": null
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "nombre": null,
+              "ubicacion": {
+                "idEtapa": 1,
+                "idGrupo": 2,
+                "idAtributo": null,
+                "idDato": null
+              },
+              "idHerencia": null,
+              "multiInstanciable": false,
+              "puntoCritico": null,
+              "comentariosPrivados": null,
+              "ayuda": null,
+              "obligatorio": false,
+              "filaDatos": [
+                {
+                  "datos": [
+                    {
+                      "id": 1,
+                      "nombre": "Área de conocimiento",
+                      "ubicacion": {
+                        "idEtapa": 1,
+                        "idGrupo": 2,
+                        "idAtributo": 2,
+                        "idDato": null
+                      },
+                      "ayuda": null,
+                      "tipo": "selectFijoUnico",
+                      "opciones": {
+                        "referencia": null,
+                        "idGrupoDatoFijo": 3
+                      },
+                      "habilitadoSi": null,
+                      "filaDatos": null,
+                      "idSelectCondicional": null,
+                      "tamaño": null
+                    }
+                  ]
+                },
+                {
+                  "datos": [
+                    {
+                      "id": 2,
+                      "nombre": "Subárea",
+                      "ubicacion": {
+                        "idEtapa": 1,
+                        "idGrupo": 2,
+                        "idAtributo": 2,
+                        "idDato": null
+                      },
+                      "ayuda": null,
+                      "tipo": "selectFijoUnico",
+                      "opciones": {
+                        "referencia": null,
+                        "idGrupoDatoFijo": 4
+                      },
+                      "habilitadoSi": null,
+                      "filaDatos": null,
+                      "idSelectCondicional": null,
+                      "tamaño": null
+                    }
+                  ]
+                },
+                {
+                  "datos": [
+                    {
+                      "id": 3,
+                      "nombre": "Especialización",
+                      "ubicacion": {
+                        "idEtapa": 1,
+                        "idGrupo": 2,
+                        "idAtributo": 2,
+                        "idDato": null
+                      },
+                      "ayuda": null,
+                      "tipo": "string",
+                      "opciones": null,
+                      "habilitadoSi": null,
+                      "filaDatos": null,
+                      "idSelectCondicional": null,
+                      "tamaño": 30
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "nombre": "Cupo de estudiantes",
+              "ubicacion": {
+                "idEtapa": 1,
+                "idGrupo": 2,
+                "idAtributo": null,
+                "idDato": null
+              },
+              "idHerencia": null,
+              "multiInstanciable": false,
+              "puntoCritico": null,
+              "comentariosPrivados": null,
+              "ayuda": null,
+              "obligatorio": false,
+              "filaDatos": [
+                {
+                  "datos": [
+                    {
+                      "id": 1,
+                      "nombre": null,
+                      "ubicacion": {
+                        "idEtapa": 1,
+                        "idGrupo": 2,
+                        "idAtributo": 3,
+                        "idDato": null
+                      },
+                      "ayuda": null,
+                      "tipo": "radio",
+                      "opciones": {
+                        "referencia": null,
+                        "idGrupoDatoFijo": 5
+                      },
+                      "habilitadoSi": null,
+                      "filaDatos": null,
+                      "idSelectCondicional": null,
+                      "tamaño": null
+                    },
+                    {
+                      "id": 2,
+                      "nombre": null,
+                      "ubicacion": {
+                        "idEtapa": 1,
+                        "idGrupo": 2,
+                        "idAtributo": 3,
+                        "idDato": null
+                      },
+                      "ayuda": null,
+                      "tipo": "number",
+                      "opciones": null,
+                      "habilitadoSi": {
+                        "referencia": {
+                          "idEtapa": 1,
+                          "idGrupo": 2,
+                          "idAtributo": 3,
+                          "idDato": 1
+                        },
+                        "valorSeleccionado": {
+                          "idGrupoDatoFijo": 5,
+                          "idOpcion": 1
+                        }
+                      },
+                      "filaDatos": null,
+                      "idSelectCondicional": null,
+                      "tamaño": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
-    ],
-    "version":0,
-    "institucion":null,
-    "datosFijos":[]
+      ]
+    }
+  ],
+  "gruposDatosFijos": [
+    {
+      "id": 1,
+      "nombre": "Temas o Competencias",
+      "opciones": [
+        {
+          "id": 1,
+          "idGrupo": 1,
+          "valor": "Tema",
+          "muestroSi": null
+        },
+        {
+          "id": 2,
+          "idGrupo": 1,
+          "valor": "Competencia",
+          "muestroSi": null
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Carreras",
+      "opciones": [
+        {
+          "id": 1,
+          "idGrupo": 2,
+          "valor": "Ingeniería en Computación",
+          "muestroSi": null
+        },
+        {
+          "id": 2,
+          "idGrupo": 2,
+          "valor": "Doctor en Derecho",
+          "muestroSi": null
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "nombre": "Áreas de conocimiento",
+      "opciones": [
+        {
+          "id": 1,
+          "idGrupo": 3,
+          "valor": "Ciencia",
+          "muestroSi": null
+        },
+        {
+          "id": 2,
+          "idGrupo": 3,
+          "valor": "Humanidades",
+          "muestroSi": null
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "nombre": "Subáreas de conocimiento",
+      "opciones": [
+        {
+          "id": 1,
+          "idGrupo": 4,
+          "valor": "SubCiencia_1",
+          "muestroSi": {
+            "referencia": {
+              "idEtapa": 1,
+              "idGrupo": 2,
+              "idAtributo": 2,
+              "idDato": 1
+            },
+            "valorSeleccionado": {
+              "idGrupoDatoFijo": 3,
+              "idOpcion": 1
+            }
+          }
+        },
+        {
+          "id": 2,
+          "idGrupo": 4,
+          "valor": "SubCiencia_2",
+          "muestroSi": {
+            "referencia": {
+              "idEtapa": 1,
+              "idGrupo": 2,
+              "idAtributo": 2,
+              "idDato": 1
+            },
+            "valorSeleccionado": {
+              "idGrupoDatoFijo": 3,
+              "idOpcion": 1
+            }
+          }
+        },
+        {
+          "id": 3,
+          "idGrupo": 4,
+          "valor": "SubHumanidades_1",
+          "muestroSi": {
+            "referencia": {
+              "idEtapa": 1,
+              "idGrupo": 2,
+              "idAtributo": 2,
+              "idDato": 1
+            },
+            "valorSeleccionado": {
+              "idGrupoDatoFijo": 3,
+              "idOpcion": 2
+            }
+          }
+        },
+        {
+          "id": 4,
+          "idGrupo": 4,
+          "valor": "SubHumanidades_2",
+          "muestroSi": {
+            "referencia": {
+              "idEtapa": 1,
+              "idGrupo": 2,
+              "idAtributo": 2,
+              "idDato": 1
+            },
+            "valorSeleccionado": {
+              "idGrupoDatoFijo": 3,
+              "idOpcion": 2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "nombre": "Si o No",
+      "opciones": [
+        {
+          "id": 1,
+          "idGrupo": 5,
+          "valor": "Si",
+          "muestroSi": null
+        },
+        {
+          "id": 2,
+          "idGrupo": 5,
+          "valor": "No",
+          "muestroSi": null
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "nombre": "Con o sin examen",
+      "opciones": [
+        {
+          "id": 1,
+          "idGrupo": 6,
+          "valor": "Con examen",
+          "muestroSi": null
+        },
+        {
+          "id": 2,
+          "idGrupo": 6,
+          "valor": "Sin examen",
+          "muestroSi": null
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "nombre": "Modalidades con examen",
+      "opciones": [
+        {
+          "id": 1,
+          "idGrupo": 7,
+          "valor": "Reglamentado",
+          "muestroSi": null
+        },
+        {
+          "id": 2,
+          "idGrupo": 7,
+          "valor": "Libre",
+          "muestroSi": null
+        },
+        {
+          "id": 3,
+          "idGrupo": 7,
+          "valor": "Ambos",
+          "muestroSi": null
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "nombre": "Modalidades sin examen",
+      "opciones": [
+        {
+          "id": 1,
+          "idGrupo": 8,
+          "valor": "Trabajo final",
+          "muestroSi": null
+        },
+        {
+          "id": 2,
+          "idGrupo": 8,
+          "valor": "Promedio de calificaciones",
+          "muestroSi": null
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "nombre": "Modalidades de enseñanza",
+      "opciones": [
+        {
+          "id": 1,
+          "idGrupo": 9,
+          "valor": "Presencial",
+          "muestroSi": null
+        },
+        {
+          "id": 2,
+          "idGrupo": 9,
+          "valor": "Online",
+          "muestroSi": null
+        },
+        {
+          "id": 3,
+          "idGrupo": 9,
+          "valor": "Hibrido",
+          "muestroSi": null
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "nombre": "Licencias CC",
+      "opciones": [
+        {
+          "id": 1,
+          "idGrupo": 10,
+          "valor": "CC0",
+          "muestroSi": null
+        },
+        {
+          "id": 2,
+          "idGrupo": 10,
+          "valor": "CC1",
+          "muestroSi": null
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "nombre": "Tipos de espacios fisicos",
+      "opciones": [
+        {
+          "id": 1,
+          "idGrupo": 11,
+          "valor": "Aula",
+          "muestroSi": null
+        },
+        {
+          "id": 2,
+          "idGrupo": 11,
+          "valor": "Laboratorio",
+          "muestroSi": null
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "nombre": "Equipamientos",
+      "opciones": [
+        {
+          "id": 1,
+          "idGrupo": 12,
+          "valor": "Cámara",
+          "muestroSi": null
+        },
+        {
+          "id": 2,
+          "idGrupo": 12,
+          "valor": "Pizarra",
+          "muestroSi": null
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "nombre": "Plataformas disponibles",
+      "opciones": [
+        {
+          "id": 1,
+          "idGrupo": 13,
+          "valor": "Zoom",
+          "muestroSi": null
+        },
+        {
+          "id": 2,
+          "idGrupo": 13,
+          "valor": "BB",
+          "muestroSi": null
+        }
+      ]
+    }
+  ]
 }
