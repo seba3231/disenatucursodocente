@@ -1,9 +1,3 @@
-//TODO en InstanciacionEsquima.ts
-//quedé en 2,5,1
-//agregar "multiInstanciable" a Dato
-//agregar "idContenidoCondicional" a Dato
-//cambiar Ubicacion.idDato a []
-//agregar "herencia" a Dato
 export interface Esquema{
     etapas:Etapa[];
     version:number;

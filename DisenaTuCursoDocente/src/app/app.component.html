@@ -1,8 +1,25 @@
-<div
+<p>-------------------- ZONA GRAFO --------------------</p>
+<div *ngFor="let etapa of initialSchemaService.defaultSchema?.etapas">
+    <button (click)="mostrarGruposDeEtapa(etapa)">Etapa: {{etapa.nombre}}</button>
+</div>
+
+<div *ngIf="gruposDeEtapa">
+    <p>Grupos de la Etapa</p>
+    <button *ngFor="let grupo of gruposDeEtapa" (click)="cargarGrupo(grupo)">
+        {{grupo.nombre}}
+    </button>
+</div>
+<p>------------------ END ZONA GRAFO ------------------</p>
+<p>-------------------- ZONA CONTENIDO GRUPO --------------------</p>
+<div class="'container" *ngIf="grupoCargado">
+    <app-grupo [grupo]="grupoCargado"></app-grupo>
+</div>
+<p>------------------ END ZONA CONTENIDO GRUPO ------------------</p>
+<!--<div
   *ngFor="let etapa of initialSchemaService.defaultSchema?.etapas"
   class="'container"
 >
   <app-etapa [etapa]="etapa"></app-etapa>
-</div>
+</div>-->
 
 <router-outlet></router-outlet>

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Atributo } from '../modelos/schema.model';
 import { DatosFijosService } from '../datos-fijos.service';
+//import { MapTipoInput, TipoInput } from '../enumerados/enums';
 
 @Component({
   selector: 'app-atributo',
@@ -9,11 +10,13 @@ import { DatosFijosService } from '../datos-fijos.service';
 })
 export class AtributoComponent implements OnInit {
   @Input() atributo!: Atributo;
+  //mapTipoInput : Map<TipoInput, string>;
   veces: number[];
 
-  constructor(private datosFijos: DatosFijosService) {
-    this.veces = [1];
-  }
+    constructor(private datosFijos: DatosFijosService) {
+        this.veces = [1];
+        //this.mapTipoInput = MapTipoInput;
+    }
 
   agregarAtributo() {
     this.veces?.push(1);
@@ -46,6 +49,13 @@ export class AtributoComponent implements OnInit {
     const opciones = datoFijo?.opciones.map((opcion) => opcion.valor);
     return opciones;
   }
+
+    addLinkHTML(string: string){
+        var urlRegex = /(https?:\/\/[^\s]+)/g;
+        return string.replace(urlRegex, function(url) {
+            return '<a href="javascript:void">' + url + '</a>';
+        })
+    }
 
   ngOnInit(): void {}
 }

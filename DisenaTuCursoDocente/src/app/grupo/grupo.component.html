@@ -10,6 +10,7 @@
         <div
           *ngFor="let atributo of grupo.atributos"
           class="container card border-secondary mb-3"
+          [ngStyle]="{'background-color': atributo.puntoCritico ? '#e6f1fc' : null}"
         >
           <div class="card-body">
             <app-atributo [atributo]="atributo"></app-atributo>
