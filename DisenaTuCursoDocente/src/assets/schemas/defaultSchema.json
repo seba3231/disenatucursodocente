@@ -1,692 +1,3254 @@
 {
-  "etapas": [
-    {
-      "id": 1,
-      "nombre": "Programa",
-      "grupos": [
+    "etapas":[
         {
-          "id": 1,
-          "nombre": "Contenido",
-          "ubicacion": {
-            "idEtapa": 1,
-            "idGrupo": null,
-            "idAtributo": null,
-            "idDato": null
-          },
-          "relaciones": null,
-          "atributos": [
-            {
-              "id": 1,
-              "nombre": null,
-              "ubicacion": {
-                "idEtapa": 1,
-                "idGrupo": 1,
-                "idAtributo": null,
-                "idDato": null
-              },
-              "idHerencia": null,
-              "multiInstanciable": false,
-              "puntoCritico": {
-                "normativa": "¿Cómo se cuentan los créditos de acuerdo a UDELAR?<br>https://dgjuridica.udelar.edu.uy/215-ordenanza-de-estudios-de-grado-y-otros-programas-de-formacion-terciaria/",
-                "informacionAmpliatoria": null,
-                "aporteConceptual": null
-              },
-              "comentariosPrivados": null,
-              "ayuda": null,
-              "obligatorio": false,
-              "filaDatos": [
+            "id":1,
+            "nombre":"Programa",
+            "grupos":[
                 {
-                  "datos": [
-                    {
-                      "id": 1,
-                      "nombre": "Cantidad de créditos",
-                      "ubicacion": {
-                        "idEtapa": 1,
-                        "idGrupo": 1,
-                        "idAtributo": 1,
-                        "idDato": null
-                      },
-                      "ayuda": null,
-                      "tipo": "number",
-                      "opciones": null,
-                      "habilitadoSi": null,
-                      "filaDatos": null,
-                      "idSelectCondicional": null,
-                      "tamaño": 2
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2,
-              "nombre": null,
-              "ubicacion": {
-                "idEtapa": 1,
-                "idGrupo": 1,
-                "idAtributo": null,
-                "idDato": null
-              },
-              "idHerencia": null,
-              "multiInstanciable": true,
-              "puntoCritico": null,
-              "comentariosPrivados": null,
-              "ayuda": null,
-              "obligatorio": false,
-              "filaDatos": [
-                {
-                  "datos": [
-                    {
-                      "id": 1,
-                      "nombre": "Temas y/o Competencias",
-                      "ubicacion": {
-                        "idEtapa": 1,
-                        "idGrupo": 1,
-                        "idAtributo": 2,
-                        "idDato": null
-                      },
-                      "ayuda": "Seleccione los temas y/o competencias del tipo Lorem Ipsum",
-                      "tipo": "selectFijoUnico",
-                      "opciones": {
-                        "referencia": null,
-                        "idGrupoDatoFijo": 1
-                      },
-                      "habilitadoSi": null,
-                      "filaDatos": null,
-                      "idSelectCondicional": null,
-                      "tamaño": null
+                    "id":1,
+                    "nombre":"Contenido",
+                    "ubicacion":{
+                        "idEtapa":1,
+                        "idGrupo":null,
+                        "idAtributo":null,
+                        "idDato":null
                     },
-                    {
-                      "id": 3,
-                      "nombre": "Nombre de tema",
-                      "ubicacion": {
-                        "idEtapa": 1,
-                        "idGrupo": 1,
-                        "idAtributo": 2,
-                        "idDato": null
-                      },
-                      "ayuda": null,
-                      "tipo": "string",
-                      "opciones": null,
-                      "habilitadoSi": null,
-                      "filaDatos": null,
-                      "idSelectCondicional": null,
-                      "tamaño": 40
-                    },
-                    {
-                      "id": 4,
-                      "nombre": "Descripción",
-                      "ubicacion": {
-                        "idEtapa": 1,
-                        "idGrupo": 1,
-                        "idAtributo": 2,
-                        "idDato": null
-                      },
-                      "ayuda": null,
-                      "tipo": "string",
-                      "opciones": null,
-                      "habilitadoSi": null,
-                      "filaDatos": null,
-                      "idSelectCondicional": null,
-                      "tamaño": 200
-                    },
-                    {
-                      "id": 5,
-                      "nombre": "Cantidad de horas",
-                      "ubicacion": {
-                        "idEtapa": 1,
-                        "idGrupo": 1,
-                        "idAtributo": 2,
-                        "idDato": null
-                      },
-                      "ayuda": null,
-                      "tipo": "number",
-                      "opciones": null,
-                      "habilitadoSi": null,
-                      "filaDatos": null,
-                      "idSelectCondicional": null,
-                      "tamaño": 3
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "nombre": "Información general",
-          "ubicacion": {
-            "idEtapa": 1,
-            "idGrupo": null,
-            "idAtributo": null,
-            "idDato": null
-          },
-          "relaciones": null,
-          "atributos": [
-            {
-              "id": 1,
-              "nombre": null,
-              "ubicacion": {
-                "idEtapa": 1,
-                "idGrupo": 2,
-                "idAtributo": null,
-                "idDato": null
-              },
-              "idHerencia": null,
-              "multiInstanciable": false,
-              "puntoCritico": null,
-              "comentariosPrivados": null,
-              "ayuda": null,
-              "obligatorio": false,
-              "filaDatos": [
-                {
-                  "datos": [
-                    {
-                      "id": 1,
-                      "nombre": "Nombre de le unidad curricular",
-                      "ubicacion": {
-                        "idEtapa": 1,
-                        "idGrupo": 2,
-                        "idAtributo": 1,
-                        "idDato": null
-                      },
-                      "ayuda": null,
-                      "tipo": "string",
-                      "opciones": null,
-                      "habilitadoSi": null,
-                      "filaDatos": null,
-                      "idSelectCondicional": null,
-                      "tamaño": 40
-                    },
-                    {
-                      "id": 2,
-                      "nombre": "Carreras",
-                      "ubicacion": {
-                        "idEtapa": 1,
-                        "idGrupo": 2,
-                        "idAtributo": 1,
-                        "idDato": null
-                      },
-                      "ayuda": null,
-                      "tipo": "selectFijoMultiple",
-                      "opciones": {
-                        "referencia": null,
-                        "idGrupoDatoFijo": 2
-                      },
-                      "habilitadoSi": null,
-                      "filaDatos": null,
-                      "idSelectCondicional": null,
-                      "tamaño": null
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2,
-              "nombre": null,
-              "ubicacion": {
-                "idEtapa": 1,
-                "idGrupo": 2,
-                "idAtributo": null,
-                "idDato": null
-              },
-              "idHerencia": null,
-              "multiInstanciable": false,
-              "puntoCritico": null,
-              "comentariosPrivados": null,
-              "ayuda": null,
-              "obligatorio": false,
-              "filaDatos": [
-                {
-                  "datos": [
-                    {
-                      "id": 1,
-                      "nombre": "Área de conocimiento",
-                      "ubicacion": {
-                        "idEtapa": 1,
-                        "idGrupo": 2,
-                        "idAtributo": 2,
-                        "idDato": null
-                      },
-                      "ayuda": null,
-                      "tipo": "selectFijoUnico",
-                      "opciones": {
-                        "referencia": null,
-                        "idGrupoDatoFijo": 3
-                      },
-                      "habilitadoSi": null,
-                      "filaDatos": null,
-                      "idSelectCondicional": null,
-                      "tamaño": null
-                    }
-                  ]
-                },
-                {
-                  "datos": [
-                    {
-                      "id": 2,
-                      "nombre": "Subárea",
-                      "ubicacion": {
-                        "idEtapa": 1,
-                        "idGrupo": 2,
-                        "idAtributo": 2,
-                        "idDato": null
-                      },
-                      "ayuda": null,
-                      "tipo": "selectFijoUnico",
-                      "opciones": {
-                        "referencia": null,
-                        "idGrupoDatoFijo": 4
-                      },
-                      "habilitadoSi": null,
-                      "filaDatos": null,
-                      "idSelectCondicional": null,
-                      "tamaño": null
-                    }
-                  ]
-                },
-                {
-                  "datos": [
-                    {
-                      "id": 3,
-                      "nombre": "Especialización",
-                      "ubicacion": {
-                        "idEtapa": 1,
-                        "idGrupo": 2,
-                        "idAtributo": 2,
-                        "idDato": null
-                      },
-                      "ayuda": null,
-                      "tipo": "string",
-                      "opciones": null,
-                      "habilitadoSi": null,
-                      "filaDatos": null,
-                      "idSelectCondicional": null,
-                      "tamaño": 30
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 3,
-              "nombre": "Cupo de estudiantes",
-              "ubicacion": {
-                "idEtapa": 1,
-                "idGrupo": 2,
-                "idAtributo": null,
-                "idDato": null
-              },
-              "idHerencia": null,
-              "multiInstanciable": false,
-              "puntoCritico": null,
-              "comentariosPrivados": null,
-              "ayuda": null,
-              "obligatorio": false,
-              "filaDatos": [
-                {
-                  "datos": [
-                    {
-                      "id": 1,
-                      "nombre": null,
-                      "ubicacion": {
-                        "idEtapa": 1,
-                        "idGrupo": 2,
-                        "idAtributo": 3,
-                        "idDato": null
-                      },
-                      "ayuda": null,
-                      "tipo": "radio",
-                      "opciones": {
-                        "referencia": null,
-                        "idGrupoDatoFijo": 5
-                      },
-                      "habilitadoSi": null,
-                      "filaDatos": null,
-                      "idSelectCondicional": null,
-                      "tamaño": null
-                    },
-                    {
-                      "id": 2,
-                      "nombre": null,
-                      "ubicacion": {
-                        "idEtapa": 1,
-                        "idGrupo": 2,
-                        "idAtributo": 3,
-                        "idDato": null
-                      },
-                      "ayuda": null,
-                      "tipo": "number",
-                      "opciones": null,
-                      "habilitadoSi": {
-                        "referencia": {
-                          "idEtapa": 1,
-                          "idGrupo": 2,
-                          "idAtributo": 3,
-                          "idDato": 1
+                    "relacionesGrafo":null,
+                    "atributos":[
+                        {
+                            "id":1,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":1,
+                                "idGrupo":1,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":false,
+                            "puntoCritico":{
+                                "normativa":"¿Cómo se cuentan los créditos de acuerdo a UDELAR?<br>https://dgjuridica.udelar.edu.uy/215-ordenanza-de-estudios-de-grado-y-otros-programas-de-formacion-terciaria/",
+                                "informacionAmpliatoria":null,
+                                "aporteConceptual":null
+                            },
+                            "comentariosPrivados":null,
+                            "ayuda":null,
+                            "obligatorio":false,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Cantidad de créditos",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":1,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"number",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":2,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
                         },
-                        "valorSeleccionado": {
-                          "idGrupoDatoFijo": 5,
-                          "idOpcion": 1
+                        {
+                            "id":2,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":1,
+                                "idGrupo":1,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":true,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "ayuda":null,
+                            "obligatorio":false,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Temas y/o Competencias",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":1,
+                                                "idAtributo":2,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":"Seleccione los temas y/o competencias del tipo Lorem Ipsum",
+                                            "tipo":"selectFijoUnico",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":1
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":3,
+                                            "nombre":"Nombre de tema",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":1,
+                                                "idAtributo":2,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"string",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":40,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":4,
+                                            "nombre":"Descripción",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":1,
+                                                "idAtributo":2,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"string",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":200,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":5,
+                                            "nombre":"Cantidad de horas",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":1,
+                                                "idAtributo":2,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"number",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":3,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }                                
+                            ]
                         }
-                      },
-                      "filaDatos": null,
-                      "idSelectCondicional": null,
-                      "tamaño": 4
-                    }
-                  ]
+                    ]
+                },
+                {
+                    "id":2,
+                    "nombre":"Información general",
+                    "ubicacion":{
+                        "idEtapa":1,
+                        "idGrupo":null,
+                        "idAtributo":null,
+                        "idDato":null
+                    },
+                    "relacionesGrafo":null,
+                    "atributos":[
+                        {
+                            "id":1,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":1,
+                                "idGrupo":2,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":false,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "ayuda":null,
+                            "obligatorio":false,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Nombre de le unidad curricular",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":2,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"string",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":40,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":2,
+                                            "nombre":"Carreras",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":2,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectFijoMultiple",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":2
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id":2,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":1,
+                                "idGrupo":2,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":false,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "ayuda":null,
+                            "obligatorio":false,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Área de conocimiento",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":2,
+                                                "idAtributo":2,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectFijoUnico",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":3
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                },
+                                {
+                                    "datos":[
+                                        {
+                                            "id":2,
+                                            "nombre":"Subárea",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":2,
+                                                "idAtributo":2,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectFijoUnico",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":4
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                },
+                                {
+                                    "datos":[
+                                        {
+                                            "id":3,
+                                            "nombre":"Especialización",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":2,
+                                                "idAtributo":2,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"string",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":30,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id":3,
+                            "nombre":"Cupo de estudiantes",
+                            "ubicacion":{
+                                "idEtapa":1,
+                                "idGrupo":2,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":false,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "ayuda":null,
+                            "obligatorio":false,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":null,
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":2,
+                                                "idAtributo":3,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"radio",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":5
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":2,
+                                            "nombre":null,
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":2,
+                                                "idAtributo":3,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"number",
+                                            "opciones":null,
+                                            "habilitadoSi":{
+                                                "referencia":{
+                                                    "idEtapa":1,
+                                                    "idGrupo":2,
+                                                    "idAtributo":3,
+                                                    "idDato":1
+                                                },
+                                                "valorSeleccionado":{
+                                                    "idGrupoDatoFijo":5,
+                                                    "idOpcion":1
+                                                }
+                                            },
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":4,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id":4,
+                            "nombre":"Forma de aprobación",
+                            "ubicacion":{
+                                "idEtapa":1,
+                                "idGrupo":2,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":false,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Permite exoneración",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":2,
+                                                "idAtributo":4,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"radio",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":5
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":2,
+                                            "nombre":"Porcentaje",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":2,
+                                                "idAtributo":4,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"porcentaje",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":3,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":3,
+                                            "nombre":"Nota",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":2,
+                                                "idAtributo":4,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"porcentaje",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":3,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":4,
+                                            "nombre":null,
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":2,
+                                                "idAtributo":4,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"radio",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":6
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":5,
+                                            "nombre":null,
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":2,
+                                                "idAtributo":4,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectFijoUnico",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":7
+                                            },
+                                            "habilitadoSi":{
+                                                "referencia":{
+                                                    "idEtapa":1,
+                                                    "idGrupo":2,
+                                                    "idAtributo":4,
+                                                    "idDato":4
+                                                },
+                                                "valorSeleccionado":{
+                                                    "idGrupoDatoFijo":6,
+                                                    "idOpcion":1
+                                                }
+                                            },
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":6,
+                                            "nombre":null,
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":2,
+                                                "idAtributo":4,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectFijoUnico",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":8
+                                            },
+                                            "habilitadoSi":{
+                                                "referencia":{
+                                                    "idEtapa":1,
+                                                    "idGrupo":2,
+                                                    "idAtributo":4,
+                                                    "idDato":4
+                                                },
+                                                "valorSeleccionado":{
+                                                    "idGrupoDatoFijo":6,
+                                                    "idOpcion":2
+                                                }
+                                            },
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id":3,
+                    "nombre":"Objetivos",
+                    "ubicacion":{
+                        "idEtapa":1,
+                        "idGrupo":null,
+                        "idAtributo":null,
+                        "idDato":null
+                    },
+                    "relacionesGrafo":null,
+                    "atributos":[
+                        {
+                            "id":1,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":1,
+                                "idGrupo":3,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":false,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":6,
+                                            "nombre":"Modalidad de enseñanza",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":3,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectFijoUnico",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":9
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id":2,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":1,
+                                "idGrupo":3,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":false,
+                            "puntoCritico":{
+                                "normativa":null,
+                                "informacionAmpliatoria":null,
+                                "aporteConceptual":"Lorem ipsum"
+                            },
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Objetivos de aprendizaje",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":3,
+                                                "idAtributo":2,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"string",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":1000,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id":3,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":1,
+                                "idGrupo":3,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":false,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Marco pedagógico",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":3,
+                                                "idAtributo":3,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"string",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":1000,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id":4,
+                    "nombre":"Recursos",
+                    "ubicacion":{
+                        "idEtapa":1,
+                        "idGrupo":null,
+                        "idAtributo":null,
+                        "idDato":null
+                    },
+                    "relacionesGrafo":null,
+                    "atributos":[
+                        {
+                            "id":1,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":1,
+                                "idGrupo":4,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":true,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Bibliografía",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":4,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"archivo",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":10,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":2,
+                                            "nombre":"Temas Asociados",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":4,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectUsuarioMultiple",
+                                            "opciones":{
+                                                "referencia":{
+                                                    "idEtapa":1,
+                                                    "idGrupo":1,
+                                                    "idAtributo":2,
+                                                    "idDato":3
+                                                },
+                                                "idGrupoDatoFijo":null
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id":2,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":1,
+                                "idGrupo":4,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":true,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Recursos educativos",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":4,
+                                                "idAtributo":2,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"archivo",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":10,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":2,
+                                            "nombre":"Temas Asociados",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":4,
+                                                "idAtributo":2,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectUsuarioMultiple",
+                                            "opciones":{
+                                                "referencia":{
+                                                    "idEtapa":1,
+                                                    "idGrupo":1,
+                                                    "idAtributo":2,
+                                                    "idDato":3
+                                                },
+                                                "idGrupoDatoFijo":null
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id":3,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":1,
+                                "idGrupo":4,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":false,
+                            "puntoCritico":{
+                                "normativa":"Lorem ipsum",
+                                "informacionAmpliatoria":null,
+                                "aporteConceptual":"algo"
+                            },
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Licenciamiento Creative Commons",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":4,
+                                                "idAtributo":3,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectFijoUnico",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":10
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
                 }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "gruposDatosFijos": [
-    {
-      "id": 1,
-      "nombre": "Temas o Competencias",
-      "opciones": [
-        {
-          "id": 1,
-          "idGrupo": 1,
-          "valor": "Tema",
-          "muestroSi": null
+            ]
         },
         {
-          "id": 2,
-          "idGrupo": 1,
-          "valor": "Competencia",
-          "muestroSi": null
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "nombre": "Carreras",
-      "opciones": [
-        {
-          "id": 1,
-          "idGrupo": 2,
-          "valor": "Ingeniería en Computación",
-          "muestroSi": null
+            "id":2,
+            "nombre":"Implementación",
+            "grupos":[
+                {
+                    "id":1,
+                    "nombre":"Grupo Humano",
+                    "ubicacion":{
+                        "idEtapa":2,
+                        "idGrupo":null,
+                        "idAtributo":null,
+                        "idDato":null
+                    },
+                    "relacionesGrafo":null,
+                    "atributos":[
+                        {
+                            "id":1,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":1,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":false,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Número de estudiantes",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":1,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"number",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":4,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id":2,
+                            "nombre":"Composición del equipo docente",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":1,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":true,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Nombre",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":1,
+                                                "idAtributo":2,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"string",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":40,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":2,
+                                            "nombre":"Grado",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":1,
+                                                "idAtributo":2,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"string",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":40,
+                                            "filasDatos":null
+                                        }
+                                        
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id":2,
+                    "nombre":"Infraestructura",
+                    "ubicacion":{
+                        "idEtapa":2,
+                        "idGrupo":null,
+                        "idAtributo":null,
+                        "idDato":null
+                    },
+                    "relacionesGrafo":null,
+                    "atributos":[
+                        {
+                            "id":1,
+                            "nombre":"Espacios físicos",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":2,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":true,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Nombre",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":2,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"string",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":40,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":2,
+                                            "nombre":"Tipo",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":2,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectFijoUnico",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":11
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":3,
+                                            "nombre":"Capacidad",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":2,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"number",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":4,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":4,
+                                            "nombre":"Protocolo de distanciamiento",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":2,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"radio",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":5
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":5,
+                                            "nombre":"Equipamiento",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":2,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectFijoMultiple",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":12
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id":2,
+                            "nombre":"Plataformas disponibles",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":2,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":false,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":null,
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":2,
+                                                "idAtributo":2,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectFijoMultiple",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":13
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id":3,
+                            "nombre":"Asistencia técnica",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":2,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":false,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "ayuda":"Lorem ipsum",
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":null,
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":2,
+                                                "idAtributo":3,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"string",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":500,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id":4,
+                            "nombre":"Equipamiento de prestamo a estudiantes",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":2,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":true,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "ayuda":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Tipo",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":2,
+                                                "idAtributo":4,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectFijoUnico",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":12
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":2,
+                                            "nombre":null,
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":2,
+                                                "idAtributo":4,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"string",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":200,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":3,
+                                            "nombre":"Cantidad",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":2,
+                                                "idAtributo":4,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"number",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":4,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id":3,
+                    "nombre":"Recursos",
+                    "ubicacion":{
+                        "idEtapa":2,
+                        "idGrupo":null,
+                        "idAtributo":null,
+                        "idDato":null
+                    },
+                    "relacionesGrafo":null,
+                    "atributos":[
+                        {
+                            "id":1,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":3,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":{
+                                "idEtapa":1,
+                                "idGrupo":4,
+                                "idAtributo":1,
+                                "idDato":null
+                            },
+                            "multiInstanciable":true,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":null
+                        },
+                        {
+                            "id":2,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":3,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":{
+                                "idEtapa":1,
+                                "idGrupo":4,
+                                "idAtributo":2,
+                                "idDato":null
+                            },
+                            "multiInstanciable":true,
+                            "puntoCritico":{
+                                "normativa":null,
+                                "informacionAmpliatoria":"un string",
+                                "aporteConceptual":"un string"
+                            },
+                            "comentariosPrivados":null,
+                            "filasDatos":null
+                        },
+                        {
+                            "id":3,
+                            "nombre":"Otros Recursos",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":3,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":true,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Recursos",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":3,
+                                                "idAtributo":3,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"archivo",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":10,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":2,
+                                            "nombre":"Temas Asociados",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":3,
+                                                "idAtributo":3,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectUsuarioMultiple",
+                                            "opciones":{
+                                                "referencia":{
+                                                    "idEtapa":1,
+                                                    "idGrupo":1,
+                                                    "idAtributo":2,
+                                                    "idDato":3
+                                                },
+                                                "idGrupoDatoFijo":null
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id":4,
+                    "nombre":"Estructura del curso",
+                    "ubicacion":{
+                        "idEtapa":2,
+                        "idGrupo":null,
+                        "idAtributo":null,
+                        "idDato":null
+                    },
+                    "relacionesGrafo":null,
+                    "atributos":[
+                        {
+                            "id":1,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":false,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Fecha inicio",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":4,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"date",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":2,
+                                            "nombre":"Fecha fin",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":4,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"date",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id":2,
+                            "nombre":"Evaluaciones",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":true,
+                            "puntoCritico":{
+                                "aporteConceptual":"aaaa",
+                                "informacionAmpliatoria":"bbb",
+                                "normativa":null
+                            },
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Tipo",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":4,
+                                                "idAtributo":2,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"date",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":14
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":2,
+                                            "nombre":"Herramientas",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":4,
+                                                "idAtributo":2,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectFijoUnico",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":15
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":3,
+                                            "nombre":"Otras",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":4,
+                                                "idAtributo":2,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"string",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":200,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id":3,
+                            "nombre":"Orquestación",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":true,
+                            "puntoCritico":{
+                                "aporteConceptual":"aaaa",
+                                "informacionAmpliatoria":"bbb",
+                                "normativa":null
+                            },
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Nombre",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":4,
+                                                "idAtributo":3,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"string",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":50,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                },
+                                {
+                                    "datos":[
+                                        {
+                                            "id":2,
+                                            "nombre":"Fecha inicio",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":4,
+                                                "idAtributo":3,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"date",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":3,
+                                            "nombre":"Fecha fin",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":4,
+                                                "idAtributo":3,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"date",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":4,
+                                            "nombre":"Modalidad",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":4,
+                                                "idAtributo":3,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectFijoUnico",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":9
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                },
+                                {
+                                    "datos":[
+                                        {
+                                            "id":5,
+                                            "nombre":"Espacios fisicos utilizados",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":4,
+                                                "idAtributo":3,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectUsuarioMultiple",
+                                            "opciones":{
+                                                "referencia":{
+                                                    "idEtapa":2,
+                                                    "idGrupo":2,
+                                                    "idAtributo":1,
+                                                    "idDato":1
+                                                },
+                                                "idGrupoDatoFijo":null
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":6,
+                                            "nombre":"Plataformas disponibles",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":4,
+                                                "idAtributo":3,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectFijoMultiple",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":13
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                },
+                                {
+                                    "datos":[
+                                        {
+                                            "id":7,
+                                            "nombre":"Unidad",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":4,
+                                                "idAtributo":3,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":null,
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":true,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":[
+                                                {
+                                                    "datos":[
+                                                        {
+                                                            "id":1,
+                                                            "nombre":null,
+                                                            "ubicacion":{
+                                                                "idEtapa":2,
+                                                                "idGrupo":4,
+                                                                "idAtributo":3,
+                                                                "idDato":[7]
+                                                            },
+                                                            "herencia":null,
+                                                            "ayuda":null,
+                                                            "tipo":"selectFijoUnico",
+                                                            "opciones":{
+                                                                "referencia":null,
+                                                                "idGrupoDatoFijo":16
+                                                            },
+                                                            "habilitadoSi":null,
+                                                            "multiInstanciable":false,
+                                                            "idContenidoCondicional":[1,2,3],
+                                                            "tamaño":null,
+                                                            "filasDatos":null
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id":5,
+                    "nombre":"Objetivos",
+                    "ubicacion":{
+                        "idEtapa":2,
+                        "idGrupo":null,
+                        "idAtributo":null,
+                        "idDato":null
+                    },
+                    "relacionesGrafo":null,
+                    "atributos":[
+                        {
+                            "id":1,
+                            "nombre":"Metodología de enseñanza",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":5,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":false,
+                            "puntoCritico":{
+                                "aporte":"aaa",
+                                "informacionAmpliatoria":"no null",
+                                "normativa":null
+                            },
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":null,
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":5,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"selectFijoUnico",
+                                            "opciones":{
+                                                "referencia":null,
+                                                "idGrupoDatoFijo":17
+                                            },
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                },
+                                {
+                                    "datos":[
+                                        {
+                                            "id":2,
+                                            "nombre":"Otras metodologías",
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":5,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"string",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":200,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id":2,
+                            "nombre":"Modalidad de enseñanza",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":5,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":{
+                                "idEtapa":1,
+                                "idGrupo":3,
+                                "idAtributo":1,
+                                "idDato":null
+                            },
+                            "multiInstanciable":false,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":null
+                        },
+                        {
+                            "id":3,
+                            "nombre":"Objetivo de aprendizaje",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":5,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":false,
+                            "puntoCritico":{
+                                "aporteConceptual":"no null",
+                                "informacionAmpliatoria":null,
+                                "normativa":null
+                            },
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":null,
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":5,
+                                                "idAtributo":3,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"string",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":2000,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id":4,
+                            "nombre":"Marco pedagógico",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":5,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":false,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":null,
+                                            "ubicacion":{
+                                                "idEtapa":2,
+                                                "idGrupo":5,
+                                                "idAtributo":4,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"string",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":2000,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
         {
-          "id": 2,
-          "idGrupo": 2,
-          "valor": "Doctor en Derecho",
-          "muestroSi": null
+            "id":3,
+            "nombre":"Dictado",
+            "grupos":[
+                {
+                    "id":1,
+                    "nombre":"Bitácora del curso",
+                    "ubicacion":{
+                        "idEtapa":3,
+                        "idGrupo":null,
+                        "idAtributo":null,
+                        "idDato":null
+                    },
+                    "relacionesGrafo":null,
+                    "atributos":[
+                        {
+                            "id":1,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":3,
+                                "idGrupo":1,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":null,
+                            "multiInstanciable":true,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Fecha",
+                                            "ubicacion":{
+                                                "idEtapa":3,
+                                                "idGrupo":1,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"dateLog",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                },
+                                {
+                                    "datos":[
+                                        {
+                                            "id":2,
+                                            "nombre":null,
+                                            "ubicacion":{
+                                                "idEtapa":3,
+                                                "idGrupo":1,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"string",
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":1000,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id":2,
+                    "nombre":"Estructura del curso",
+                    "ubicacion":{
+                        "idEtapa":3,
+                        "idGrupo":null,
+                        "idAtributo":null,
+                        "idDato":null
+                    },
+                    "relacionesGrafo":null,
+                    "atributos":[
+                        {
+                            "id":1,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":3,
+                                "idGrupo":2,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":1,
+                                "idDato":null
+                            },
+                            "multiInstanciable":false,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":null
+                        },
+                        {
+                            "id":2,
+                            "nombre":"Evaluaciones",
+                            "ubicacion":{
+                                "idEtapa":3,
+                                "idGrupo":2,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":2,
+                                "idDato":null
+                            },
+                            "multiInstanciable":true,
+                            "puntoCritico":{
+                                "aporteConceptual":"aaaa",
+                                "informacionAmpliatoria":"bbb",
+                                "normativa":null
+                            },
+                            "comentariosPrivados":null,
+                            "filasDatos":null
+                        },
+                        {
+                            "id":3,
+                            "nombre":"Orquestación",
+                            "ubicacion":{
+                                "idEtapa":3,
+                                "idGrupo":2,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":3,
+                                "idDato":null
+                            },
+                            "multiInstanciable":true,
+                            "puntoCritico":{
+                                "aporteConceptual":"aaaa",
+                                "informacionAmpliatoria":"bbb",
+                                "normativa":null
+                            },
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Unidad",
+                                            "ubicacion":{
+                                                "idEtapa":3,
+                                                "idGrupo":2,
+                                                "idAtributo":3,
+                                                "idDato":null
+                                            },
+                                            "herencia":{
+                                                "idEtapa":2,
+                                                "idGrupo":4,
+                                                "idAtributo":3,
+                                                "idDato":[7]
+                                            },
+                                            "ayuda":null,
+                                            "tipo":null,
+                                            "multiInstanciable":true,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":null,
+                                            "filasDatos":[
+                                                {
+                                                    "datos":[
+                                                        {
+                                                            "id":1,
+                                                            "nombre":null,
+                                                            "ubicacion":{
+                                                                "idEtapa":3,
+                                                                "idGrupo":2,
+                                                                "idAtributo":3,
+                                                                "idDato":[1]
+                                                            },
+                                                            "herencia":{
+                                                                "idEtapa":2,
+                                                                "idGrupo":4,
+                                                                "idAtributo":3,
+                                                                "idDato":[7,1]
+                                                            },
+                                                            "ayuda":null,
+                                                            "tipo":"selectFijoUnico",
+                                                            "opciones":{
+                                                                "referencia":null,
+                                                                "idGrupoDatoFijo":16
+                                                            },
+                                                            "habilitadoSi":null,
+                                                            "multiInstanciable":false,
+                                                            "idContenidoCondicional":[4,5,6],
+                                                            "tamaño":null,
+                                                            "filasDatos":null
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id":3,
+                    "nombre":"Recursos",
+                    "ubicacion":{
+                        "idEtapa":3,
+                        "idGrupo":null,
+                        "idAtributo":null,
+                        "idDato":null
+                    },
+                    "relacionesGrafo":null,
+                    "atributos":[
+                        {
+                            "id":1,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":3,
+                                "idGrupo":3,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":{
+                                "idEtapa":2,
+                                "idGrupo":3,
+                                "idAtributo":1,
+                                "idDato":null
+                            },
+                            "multiInstanciable":true,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Comentarios de la bibliografía",
+                                            "ubicacion":{
+                                                "idEtapa":3,
+                                                "idGrupo":3,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":1000,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id":2,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":3,
+                                "idGrupo":3,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":{
+                                "idEtapa":2,
+                                "idGrupo":3,
+                                "idAtributo":2,
+                                "idDato":null
+                            },
+                            "multiInstanciable":true,
+                            "puntoCritico":{
+                                "normativa":null,
+                                "informacionAmpliatoria":"un string",
+                                "aporteConceptual":"un string"
+                            },
+                            "comentariosPrivados":null,
+                            "filasDatos":[
+                                {
+                                    "datos":[
+                                        {
+                                            "id":1,
+                                            "nombre":"Comentarios de los recursos",
+                                            "ubicacion":{
+                                                "idEtapa":3,
+                                                "idGrupo":3,
+                                                "idAtributo":2,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":1000,
+                                            "filasDatos":null
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id":3,
+                            "nombre":null,
+                            "ubicacion":{
+                                "idEtapa":3,
+                                "idGrupo":3,
+                                "idAtributo":null,
+                                "idDato":null
+                            },
+                            "herencia":{
+                                "idEtapa":2,
+                                "idGrupo":3,
+                                "idAtributo":3,
+                                "idDato":null
+                            },
+                            "multiInstanciable":true,
+                            "puntoCritico":null,
+                            "comentariosPrivados":null,
+                            "filasDatos":null
+                        }
+                    ]
+                }
+            ]
         }
-      ]
-    },
-    {
-      "id": 3,
-      "nombre": "Áreas de conocimiento",
-      "opciones": [
+    ],
+    "version":0,
+    "institucion":null,
+    "gruposDatosFijos":[
         {
-          "id": 1,
-          "idGrupo": 3,
-          "valor": "Ciencia",
-          "muestroSi": null
+            "id":1,
+            "nombre":"Temas o Competencias",
+            "opciones":[
+                {
+                    "id":1,
+                    "idGrupo":1,
+                    "valor":"Tema",
+                    "muestroSi":null
+                },
+                {
+                    "id":2,
+                    "idGrupo":1,
+                    "valor":"Competencia",
+                    "muestroSi":null
+                }
+            ]
         },
         {
-          "id": 2,
-          "idGrupo": 3,
-          "valor": "Humanidades",
-          "muestroSi": null
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "nombre": "Subáreas de conocimiento",
-      "opciones": [
+            "id":2,
+            "nombre":"Carreras",
+            "opciones":[
+                {
+                    "id":1,
+                    "idGrupo":2,
+                    "valor":"Ingeniería en Computación",
+                    "muestroSi":null
+                },
+                {
+                    "id":2,
+                    "idGrupo":2,
+                    "valor":"Doctor en Derecho",
+                    "muestroSi":null
+                }
+            ]
+        },
         {
-          "id": 1,
-          "idGrupo": 4,
-          "valor": "SubCiencia_1",
-          "muestroSi": {
-            "referencia": {
-              "idEtapa": 1,
-              "idGrupo": 2,
-              "idAtributo": 2,
-              "idDato": 1
+            "id":3,
+            "nombre":"Áreas de conocimiento",
+            "opciones":[
+                {
+                    "id":1,
+                    "idGrupo":3,
+                    "valor":"Ciencia",
+                    "muestroSi":null
+                },
+                {
+                    "id":2,
+                    "idGrupo":3,
+                    "valor":"Humanidades",
+                    "muestroSi":null
+                }
+            ]
+        },
+        {
+            "id":4,
+            "nombre":"Subáreas de conocimiento",
+            "opciones":[
+                {
+                    "id":1,
+                    "idGrupo":4,
+                    "valor":"SubCiencia_1",
+                    "muestroSi":{
+                        "referencia":{
+                            "idEtapa":1,
+                            "idGrupo":2,
+                            "idAtributo":2,
+                            "idDato":1
+                        },
+                        "valorSeleccionado":{
+                            "idGrupoDatoFijo":3,
+                            "idOpcion":1
+                        }
+                    }
+                },
+                {
+                    "id":2,
+                    "idGrupo":4,
+                    "valor":"SubCiencia_2",
+                    "muestroSi":{
+                        "referencia":{
+                            "idEtapa":1,
+                            "idGrupo":2,
+                            "idAtributo":2,
+                            "idDato":1
+                        },
+                        "valorSeleccionado":{
+                            "idGrupoDatoFijo":3,
+                            "idOpcion":1
+                        }
+                    }
+                },
+                {
+                    "id":3,
+                    "idGrupo":4,
+                    "valor":"SubHumanidades_1",
+                    "muestroSi":{
+                        "referencia":{
+                            "idEtapa":1,
+                            "idGrupo":2,
+                            "idAtributo":2,
+                            "idDato":1
+                        },
+                        "valorSeleccionado":{
+                            "idGrupoDatoFijo":3,
+                            "idOpcion":2
+                        }
+                    }
+                },
+                {
+                    "id":4,
+                    "idGrupo":4,
+                    "valor":"SubHumanidades_2",
+                    "muestroSi":{
+                        "referencia":{
+                            "idEtapa":1,
+                            "idGrupo":2,
+                            "idAtributo":2,
+                            "idDato":1
+                        },
+                        "valorSeleccionado":{
+                            "idGrupoDatoFijo":3,
+                            "idOpcion":2
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "id":5,
+            "nombre":"Si o No",
+            "opciones":[
+                {
+                    "id":1,
+                    "idGrupo":5,
+                    "valor":"Si",
+                    "muestroSi":null
+                },
+                {
+                    "id":2,
+                    "idGrupo":5,
+                    "valor":"No",
+                    "muestroSi":null
+                }
+            ]
+        },
+        {
+            "id":6,
+            "nombre":"Con o sin examen",
+            "opciones":[
+                {
+                    "id":1,
+                    "idGrupo":6,
+                    "valor":"Con examen",
+                    "muestroSi":null
+                },
+                {
+                    "id":2,
+                    "idGrupo":6,
+                    "valor":"Sin examen",
+                    "muestroSi":null
+                }
+            ]
+        },
+        {
+            "id":7,
+            "nombre":"Modalidades con examen",
+            "opciones":[
+                {
+                    "id":1,
+                    "idGrupo":7,
+                    "valor":"Reglamentado",
+                    "muestroSi":null
+                },
+                {
+                    "id":2,
+                    "idGrupo":7,
+                    "valor":"Libre",
+                    "muestroSi":null
+                },
+                {
+                    "id":3,
+                    "idGrupo":7,
+                    "valor":"Ambos",
+                    "muestroSi":null
+                }
+            ]
+        },
+        {
+            "id":8,
+            "nombre":"Modalidades sin examen",
+            "opciones":[
+                {
+                    "id":1,
+                    "idGrupo":8,
+                    "valor":"Trabajo final",
+                    "muestroSi":null
+                },
+                {
+                    "id":2,
+                    "idGrupo":8,
+                    "valor":"Promedio de calificaciones",
+                    "muestroSi":null
+                }
+            ]
+        },
+        {
+            "id":9,
+            "nombre":"Modalidades de enseñanza",
+            "opciones":[
+                {
+                    "id":1,
+                    "idGrupo":9,
+                    "valor":"Presencial",
+                    "muestroSi":null
+                },
+                {
+                    "id":2,
+                    "idGrupo":9,
+                    "valor":"Online",
+                    "muestroSi":null
+                },
+                {
+                    "id":3,
+                    "idGrupo":9,
+                    "valor":"Hibrido",
+                    "muestroSi":null
+                }
+            ]
+        },
+        {
+            "id":10,
+            "nombre":"Licencias CC",
+            "opciones":[
+                {
+                    "id":1,
+                    "idGrupo":10,
+                    "valor":"CC0",
+                    "muestroSi":null
+                },
+                {
+                    "id":2,
+                    "idGrupo":10,
+                    "valor":"CC1",
+                    "muestroSi":null
+                }
+            ]
+        },
+        {
+            "id":11,
+            "nombre":"Tipos de espacios fisicos",
+            "opciones":[
+                {
+                    "id":1,
+                    "idGrupo":11,
+                    "valor":"Aula",
+                    "muestroSi":null
+                },
+                {
+                    "id":2,
+                    "idGrupo":11,
+                    "valor":"Laboratorio",
+                    "muestroSi":null
+                }
+            ]
+        },
+        {
+            "id":12,
+            "nombre":"Equipamientos",
+            "opciones":[
+                {
+                    "id":1,
+                    "idGrupo":12,
+                    "valor":"Cámara",
+                    "muestroSi":null
+                },
+                {
+                    "id":2,
+                    "idGrupo":12,
+                    "valor":"Pizarra",
+                    "muestroSi":null
+                }
+            ]
+        },
+        {
+            "id":13,
+            "nombre":"Plataformas disponibles",
+            "opciones":[
+                {
+                    "id":1,
+                    "idGrupo":13,
+                    "valor":"Zoom",
+                    "muestroSi":null
+                },
+                {
+                    "id":2,
+                    "idGrupo":13,
+                    "valor":"BB",
+                    "muestroSi":null
+                }
+            ]
+        },
+        {
+            "id":14,
+            "nombre":"Tipos de evaluacion",
+            "opciones":[
+                {
+                    "id":1,
+                    "idGrupo":14,
+                    "valor":"Diagnostica",
+                    "muestroSi":null
+                },
+                {
+                    "id":2,
+                    "idGrupo":14,
+                    "valor":"Formativa",
+                    "muestroSi":null
+                },
+                {
+                    "id":3,
+                    "idGrupo":14,
+                    "valor":"Sumativa",
+                    "muestroSi":null
+                },
+                {
+                    "id":4,
+                    "idGrupo":14,
+                    "valor":"Continua",
+                    "muestroSi":null
+                }
+            ]
+        },
+        {
+            "id":15,
+            "nombre":"Herramientas",
+            "opciones":[
+                {
+                    "id":1,
+                    "idGrupo":15,
+                    "valor":"Herramienta_1",
+                    "muestroSi":null
+                },
+                {
+                    "id":2,
+                    "idGrupo":15,
+                    "valor":"Herramienta_2",
+                    "muestroSi":null
+                }
+            ]
+        },
+        {
+            "id":16,
+            "nombre":"Tipos de unidades",
+            "opciones":[
+                {
+                    "id":1,
+                    "idGrupo":16,
+                    "valor":"Temas o competencias",
+                    "muestroSi":null
+                },
+                {
+                    "id":2,
+                    "idGrupo":16,
+                    "valor":"Actividad",
+                    "muestroSi":null
+                },
+                {
+                    "id":3,
+                    "idGrupo":16,
+                    "valor":"Evaluación del módulo",
+                    "muestroSi":null
+                }
+            ]
+        },
+        {
+            "id":17,
+            "nombre":"Tipos de unidades",
+            "opciones":[
+                {
+                    "id":1,
+                    "idGrupo":17,
+                    "valor":"Conferencia",
+                    "muestroSi":null
+                },
+                {
+                    "id":2,
+                    "idGrupo":17,
+                    "valor":"MOOC",
+                    "muestroSi":null
+                },
+                {
+                    "id":3,
+                    "idGrupo":17,
+                    "valor":"Aprendizaje Basado en Proyectos (ABP)",
+                    "muestroSi":null
+                },
+                {
+                    "id":4,
+                    "idGrupo":17,
+                    "valor":"Aula invertida",
+                    "muestroSi":null
+                },
+                {
+                    "id":5,
+                    "idGrupo":17,
+                    "valor":"Aprendizaje cooperativo",
+                    "muestroSi":null
+                },
+                {
+                    "id":6,
+                    "idGrupo":17,
+                    "valor":"Gamificación",
+                    "muestroSi":null
+                },
+                {
+                    "id":7,
+                    "idGrupo":17,
+                    "valor":"Pensamiento de diseño",
+                    "muestroSi":null
+                },
+                {
+                    "id":8,
+                    "idGrupo":17,
+                    "valor":"Método de caso",
+                    "muestroSi":null
+                },
+                {
+                    "id":9,
+                    "idGrupo":17,
+                    "valor":"Aprendizaje basado en problemas",
+                    "muestroSi":null
+                }
+            ]
+        }
+    ],
+    "contenidoCondicional":[
+        {
+            "id":1,
+            "herencia":null,
+            "muestroSi":{
+                "referencia":{
+                    "idEtapa":2,
+                    "idGrupo":4,
+                    "idAtributo":3,
+                    "idDato":[7,1]
+                },
+                "valorSeleccionado":{
+                    "idGrupoDatoFijo":16,
+                    "idOpcion":1
+                }
             },
-            "valorSeleccionado": {
-              "idGrupoDatoFijo": 3,
-              "idOpcion": 1
-            }
-          }
+            "filasDatos":[
+                {
+                    "datos":[
+                        {
+                            "id":1,
+                            "nombre":"Horas",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":3,
+                                "idDato":[7,1]
+                            },
+                            "herencia":null,
+                            "ayuda":null,
+                            "tipo":"number",
+                            "opciones":null,
+                            "habilitadoSi":null,
+                            "multiInstanciable":false,
+                            "idContenidoCondicional":null,
+                            "tamaño":3,
+                            "filasDatos":null
+                        },
+                        {
+                            "id":2,
+                            "nombre":"Temas y/o competencias",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":3,
+                                "idDato":[7,1]
+                            },
+                            "herencia":null,
+                            "ayuda":null,
+                            "tipo":"selectUsuarioMultiple",
+                            "opciones":{
+                                "referencia":{
+                                    "idEtapa":1,
+                                    "idGrupo":1,
+                                    "idAtributo":2,
+                                    "idDato":[2]
+                                },
+                                "idGrupoDatoFijo":null
+                            },
+                            "habilitadoSi":null,
+                            "multiInstanciable":false,
+                            "idContenidoCondicional":null,
+                            "tamaño":null,
+                            "filasDatos":null
+                        },
+                        {
+                            "id":3,
+                            "nombre":"Recursos",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":3,
+                                "idDato":[7,1]
+                            },
+                            "herencia":null,
+                            "ayuda":null,
+                            "tipo":"selectUsuarioMultiple",
+                            "opciones":{
+                                "referencia":{
+                                    "idEtapa":2,
+                                    "idGrupo":3,
+                                    "idAtributo":2,
+                                    "idDato":[1]
+                                },
+                                "idGrupoDatoFijo":null
+                            },
+                            "habilitadoSi":null,
+                            "multiInstanciable":false,
+                            "idContenidoCondicional":null,
+                            "tamaño":null,
+                            "filasDatos":null
+                        },
+                        {
+                            "id":4,
+                            "nombre":"Bibliografía",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":3,
+                                "idDato":[7,1]
+                            },
+                            "herencia":null,
+                            "ayuda":null,
+                            "tipo":"selectUsuarioMultiple",
+                            "opciones":{
+                                "referencia":{
+                                    "idEtapa":2,
+                                    "idGrupo":3,
+                                    "idAtributo":1,
+                                    "idDato":[1]
+                                },
+                                "idGrupoDatoFijo":null
+                            },
+                            "habilitadoSi":null,
+                            "multiInstanciable":false,
+                            "idContenidoCondicional":null,
+                            "tamaño":null,
+                            "filasDatos":null
+                        }
+                    ]
+                },
+                {
+                    "datos":[
+                        {
+                            "id":5,
+                            "nombre":"Descripción",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":3,
+                                "idDato":[7,1]
+                            },
+                            "herencia":null,
+                            "ayuda":null,
+                            "tipo":"string",
+                            "opciones":null,
+                            "habilitadoSi":null,
+                            "multiInstanciable":false,
+                            "idContenidoCondicional":null,
+                            "tamaño":1000,
+                            "filasDatos":null
+                        }
+                    ]
+                }
+            ]
         },
         {
-          "id": 2,
-          "idGrupo": 4,
-          "valor": "SubCiencia_2",
-          "muestroSi": {
-            "referencia": {
-              "idEtapa": 1,
-              "idGrupo": 2,
-              "idAtributo": 2,
-              "idDato": 1
+            "id":2,
+            "herencia":null,
+            "muestroSi":{
+                "referencia":{
+                    "idEtapa":2,
+                    "idGrupo":4,
+                    "idAtributo":3,
+                    "idDato":[7,1]
+                },
+                "valorSeleccionado":{
+                    "idGrupoDatoFijo":16,
+                    "idOpcion":2
+                }
             },
-            "valorSeleccionado": {
-              "idGrupoDatoFijo": 3,
-              "idOpcion": 1
-            }
-          }
+            "filasDatos":[
+                {
+                    "datos":[
+                        {
+                            "id":1,
+                            "nombre":"Horas",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":3,
+                                "idDato":[7,1]
+                            },
+                            "herencia":null,
+                            "ayuda":null,
+                            "tipo":"number",
+                            "opciones":null,
+                            "habilitadoSi":null,
+                            "multiInstanciable":false,
+                            "idContenidoCondicional":null,
+                            "tamaño":3,
+                            "filasDatos":null
+                        },
+                        {
+                            "id":2,
+                            "nombre":"Recursos",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":3,
+                                "idDato":[7,1]
+                            },
+                            "herencia":null,
+                            "ayuda":null,
+                            "tipo":"selectUsuarioMultiple",
+                            "opciones":{
+                                "referencia":{
+                                    "idEtapa":2,
+                                    "idGrupo":3,
+                                    "idAtributo":2,
+                                    "idDato":[1]
+                                },
+                                "idGrupoDatoFijo":null
+                            },
+                            "habilitadoSi":null,
+                            "multiInstanciable":false,
+                            "idContenidoCondicional":null,
+                            "tamaño":null,
+                            "filasDatos":null
+                        },
+                        {
+                            "id":3,
+                            "nombre":"Bibliografía",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":3,
+                                "idDato":[7,1]
+                            },
+                            "herencia":null,
+                            "ayuda":null,
+                            "tipo":"selectUsuarioMultiple",
+                            "opciones":{
+                                "referencia":{
+                                    "idEtapa":2,
+                                    "idGrupo":3,
+                                    "idAtributo":1,
+                                    "idDato":[1]
+                                },
+                                "idGrupoDatoFijo":null
+                            },
+                            "habilitadoSi":null,
+                            "multiInstanciable":false,
+                            "idContenidoCondicional":null,
+                            "tamaño":null,
+                            "filasDatos":null
+                        }
+                    ]
+                },
+                {
+                    "datos":[
+                        {
+                            "id":4,
+                            "nombre":"Descripción",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":3,
+                                "idDato":[7,1]
+                            },
+                            "herencia":null,
+                            "ayuda":null,
+                            "tipo":"string",
+                            "opciones":null,
+                            "habilitadoSi":null,
+                            "multiInstanciable":false,
+                            "idContenidoCondicional":null,
+                            "tamaño":1000,
+                            "filasDatos":null
+                        }
+                    ]
+                }
+            ]
         },
         {
-          "id": 3,
-          "idGrupo": 4,
-          "valor": "SubHumanidades_1",
-          "muestroSi": {
-            "referencia": {
-              "idEtapa": 1,
-              "idGrupo": 2,
-              "idAtributo": 2,
-              "idDato": 1
+            "id":3,
+            "herencia":null,
+            "muestroSi":{
+                "referencia":{
+                    "idEtapa":2,
+                    "idGrupo":4,
+                    "idAtributo":3,
+                    "idDato":[7,1]
+                },
+                "valorSeleccionado":{
+                    "idGrupoDatoFijo":16,
+                    "idOpcion":3
+                }
             },
-            "valorSeleccionado": {
-              "idGrupoDatoFijo": 3,
-              "idOpcion": 2
-            }
-          }
+            "filasDatos":[
+                {
+                    "datos":[
+                        {
+                            "id":1,
+                            "nombre":"Fecha inicio",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":3,
+                                "idDato":[7,1]
+                            },
+                            "herencia":null,
+                            "ayuda":null,
+                            "tipo":"date",
+                            "opciones":null,
+                            "habilitadoSi":null,
+                            "multiInstanciable":false,
+                            "idContenidoCondicional":null,
+                            "tamaño":null,
+                            "filasDatos":null
+                        },
+                        {
+                            "id":2,
+                            "nombre":"Fecha Fin",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":3,
+                                "idDato":[7,1]
+                            },
+                            "herencia":null,
+                            "ayuda":null,
+                            "tipo":"date",
+                            "opciones":null,
+                            "habilitadoSi":null,
+                            "multiInstanciable":false,
+                            "idContenidoCondicional":null,
+                            "tamaño":null,
+                            "filasDatos":null
+                        },
+                        {
+                            "id":3,
+                            "nombre":"Evaluaciones",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":3,
+                                "idDato":[7,1]
+                            },
+                            "herencia":null,
+                            "ayuda":null,
+                            "tipo":"selectUsuarioMultiple",
+                            "opciones":{
+                                "referencia":{
+                                    "idEtapa":2,
+                                    "idGrupo":4,
+                                    "idAtributo":2,
+                                    "idDato":[1]
+                                },
+                                "idGrupoDatoFijo":null
+                            },
+                            "habilitadoSi":null,
+                            "multiInstanciable":false,
+                            "idContenidoCondicional":null,
+                            "tamaño":null,
+                            "filasDatos":null
+                        }
+                    ]
+                },
+                {
+                    "datos":[
+                        {
+                            "id":4,
+                            "nombre":"Comentarios de la evaliación",
+                            "ubicacion":{
+                                "idEtapa":2,
+                                "idGrupo":4,
+                                "idAtributo":3,
+                                "idDato":[7,1]
+                            },
+                            "herencia":null,
+                            "ayuda":null,
+                            "tipo":"string",
+                            "opciones":null,
+                            "habilitadoSi":null,
+                            "multiInstanciable":false,
+                            "idContenidoCondicional":null,
+                            "tamaño":1000,
+                            "filasDatos":null
+                        }
+                    ]
+                }
+            ]
         },
         {
-          "id": 4,
-          "idGrupo": 4,
-          "valor": "SubHumanidades_2",
-          "muestroSi": {
-            "referencia": {
-              "idEtapa": 1,
-              "idGrupo": 2,
-              "idAtributo": 2,
-              "idDato": 1
+            "id":4,
+            "herencia":1,
+            "muestroSi":{
+                "referencia":{
+                    "idEtapa":3,
+                    "idGrupo":2,
+                    "idAtributo":3,
+                    "idDato":[1,1]
+                },
+                "valorSeleccionado":{
+                    "idGrupoDatoFijo":16,
+                    "idOpcion":1
+                }
             },
-            "valorSeleccionado": {
-              "idGrupoDatoFijo": 3,
-              "idOpcion": 2
-            }
-          }
+            "filasDatos":null
+        },
+        {
+            "id":5,
+            "herencia":2,
+            "muestroSi":{
+                "referencia":{
+                    "idEtapa":3,
+                    "idGrupo":2,
+                    "idAtributo":3,
+                    "idDato":[1,1]
+                },
+                "valorSeleccionado":{
+                    "idGrupoDatoFijo":16,
+                    "idOpcion":2
+                }
+            },
+            "filasDatos":[
+                {
+                    "datos":[
+                        {
+                            "id":1,
+                            "nombre":"Subir resultados",
+                            "ubicacion":{
+                                "idEtapa":3,
+                                "idGrupo":2,
+                                "idAtributo":3,
+                                "idDato":[1,1]
+                            },
+                            "herencia":null,
+                            "ayuda":null,
+                            "tipo":"archivo",
+                            "opciones":null,
+                            "habilitadoSi":null,
+                            "multiInstanciable":false,
+                            "idContenidoCondicional":null,
+                            "tamaño":3,
+                            "filasDatos":null
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id":6,
+            "herencia":3,
+            "muestroSi":{
+                "referencia":{
+                    "idEtapa":3,
+                    "idGrupo":2,
+                    "idAtributo":3,
+                    "idDato":[1,1]
+                },
+                "valorSeleccionado":{
+                    "idGrupoDatoFijo":16,
+                    "idOpcion":3
+                }
+            },
+            "filasDatos":[
+                {
+                    "datos":[
+                        {
+                            "id":1,
+                            "nombre":"Subir resultados",
+                            "ubicacion":{
+                                "idEtapa":3,
+                                "idGrupo":2,
+                                "idAtributo":3,
+                                "idDato":[1,1]
+                            },
+                            "herencia":null,
+                            "ayuda":null,
+                            "tipo":"archivo",
+                            "opciones":null,
+                            "habilitadoSi":null,
+                            "multiInstanciable":false,
+                            "idContenidoCondicional":null,
+                            "tamaño":3,
+                            "filasDatos":null
+                        }
+                    ]
+                }
+            ]
         }
-      ]
-    },
-    {
-      "id": 5,
-      "nombre": "Si o No",
-      "opciones": [
-        {
-          "id": 1,
-          "idGrupo": 5,
-          "valor": "Si",
-          "muestroSi": null
-        },
-        {
-          "id": 2,
-          "idGrupo": 5,
-          "valor": "No",
-          "muestroSi": null
-        }
-      ]
-    },
-    {
-      "id": 6,
-      "nombre": "Con o sin examen",
-      "opciones": [
-        {
-          "id": 1,
-          "idGrupo": 6,
-          "valor": "Con examen",
-          "muestroSi": null
-        },
-        {
-          "id": 2,
-          "idGrupo": 6,
-          "valor": "Sin examen",
-          "muestroSi": null
-        }
-      ]
-    },
-    {
-      "id": 7,
-      "nombre": "Modalidades con examen",
-      "opciones": [
-        {
-          "id": 1,
-          "idGrupo": 7,
-          "valor": "Reglamentado",
-          "muestroSi": null
-        },
-        {
-          "id": 2,
-          "idGrupo": 7,
-          "valor": "Libre",
-          "muestroSi": null
-        },
-        {
-          "id": 3,
-          "idGrupo": 7,
-          "valor": "Ambos",
-          "muestroSi": null
-        }
-      ]
-    },
-    {
-      "id": 8,
-      "nombre": "Modalidades sin examen",
-      "opciones": [
-        {
-          "id": 1,
-          "idGrupo": 8,
-          "valor": "Trabajo final",
-          "muestroSi": null
-        },
-        {
-          "id": 2,
-          "idGrupo": 8,
-          "valor": "Promedio de calificaciones",
-          "muestroSi": null
-        }
-      ]
-    },
-    {
-      "id": 9,
-      "nombre": "Modalidades de enseñanza",
-      "opciones": [
-        {
-          "id": 1,
-          "idGrupo": 9,
-          "valor": "Presencial",
-          "muestroSi": null
-        },
-        {
-          "id": 2,
-          "idGrupo": 9,
-          "valor": "Online",
-          "muestroSi": null
-        },
-        {
-          "id": 3,
-          "idGrupo": 9,
-          "valor": "Hibrido",
-          "muestroSi": null
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "nombre": "Licencias CC",
-      "opciones": [
-        {
-          "id": 1,
-          "idGrupo": 10,
-          "valor": "CC0",
-          "muestroSi": null
-        },
-        {
-          "id": 2,
-          "idGrupo": 10,
-          "valor": "CC1",
-          "muestroSi": null
-        }
-      ]
-    },
-    {
-      "id": 11,
-      "nombre": "Tipos de espacios fisicos",
-      "opciones": [
-        {
-          "id": 1,
-          "idGrupo": 11,
-          "valor": "Aula",
-          "muestroSi": null
-        },
-        {
-          "id": 2,
-          "idGrupo": 11,
-          "valor": "Laboratorio",
-          "muestroSi": null
-        }
-      ]
-    },
-    {
-      "id": 12,
-      "nombre": "Equipamientos",
-      "opciones": [
-        {
-          "id": 1,
-          "idGrupo": 12,
-          "valor": "Cámara",
-          "muestroSi": null
-        },
-        {
-          "id": 2,
-          "idGrupo": 12,
-          "valor": "Pizarra",
-          "muestroSi": null
-        }
-      ]
-    },
-    {
-      "id": 13,
-      "nombre": "Plataformas disponibles",
-      "opciones": [
-        {
-          "id": 1,
-          "idGrupo": 13,
-          "valor": "Zoom",
-          "muestroSi": null
-        },
-        {
-          "id": 2,
-          "idGrupo": 13,
-          "valor": "BB",
-          "muestroSi": null
-        }
-      ]
-    }
-  ]
+    ]
 }
