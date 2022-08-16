@@ -2,7 +2,15 @@ export interface Esquema{
     etapas:Etapa[];
     version:number;
     institucion:string;
-    datosFijos:DatoFijo[];
+    gruposDatosFijos:GrupoDatoFijo[];
+    contenidoCondicional:ContenidoCondicional[];
+}
+
+interface ContenidoCondicional{
+    id:number;
+    herencia:number;
+    muestroSi:DependenciaDeDatos;
+    filaDatos:FilaDatos[];
 }
 
 interface Etapa {
@@ -11,32 +19,45 @@ interface Etapa {
     grupos:Grupo[];
 }
 
-interface DatoFijo{
+interface GrupoDatoFijo{
     id:number;
+    nombre:string;
+    opciones:OpcionSelect[];
+}
+
+interface OpcionSelect{
+    id:number;
+    idGrupo:number;
     valor:string;
-    padres:number[];
+    muestroSi:DependenciaDeDatos;
 }
 
 interface Grupo{
     id:number;
     nombre:string;
-    idEtapa:number;
-    relaciones:number[];
+    ubicacion:Ubicacion;
+    relacionesGrafo:Ubicacion[];
     atributos:Atributo[];
+}
+
+interface Ubicacion{
+    idEtapa:number;
+    idGrupo:number;
+    idAtributo:number;
+    idDato:number[];
 }
 
 interface Atributo{
     id:number;
     nombre:string;
+    ubicacion:Ubicacion;
+    herencia:Ubicacion;
     multiInstanciable:boolean;
     puntoCritico:PuntoCritico;
-    comentarioPrivado:ComentarioPrivado[];
+    comentariosPrivados:ComentarioPrivado[];
     ayuda:string;
-    tipo:string;
-        //'simple'
-        //'compuesto'
     obligatorio:boolean;
-    datos:Dato[];
+    filasDatos:FilaDatos[];
 }
 
 interface ComentarioPrivado{
@@ -48,30 +69,38 @@ interface ComentarioPrivado{
 interface Dato{
     id:number;
     nombre:string;
+    ubicacion:Ubicacion;
+    herencia:Ubicacion;
     ayuda:string;
     tipo:string;
         //'selectFijoUnico'
         //'selectFijoMultiple'
         //'selectUsuarioUnico'
         //'selectUsuarioMultiple'
-    filaDatos:FilasDato[];
-    idAtributo:number;
-    idSelect:Opciones[];
+    opciones:Opciones;
+    habilitadoSi:DependenciaDeDatos;
+    multiInstanciable:boolean;
+    idContenidoCondicional:number[];
     tamaño:number;
-    dependencia:Dependencia;
+    filasDatos:FilaDatos[];
 }
 
 interface Opciones{
-    idReferencia:number;
-    idValor:number;
+    //Las opciones referencian a un conjunto de Datos de usuario (referencia)
+    //O las opciones son un GrupoDatoFijo (idGrupoDatoFijo)
+    referencia:Ubicacion;
+    idGrupoDatoFijo:number;
 }
 
-interface Dependencia{
-    idDato:number;
-    valorDato:string;
+interface DependenciaDeDatos{
+    referencia:Ubicacion;
+    valorSeleccionado:{
+        idGrupoDatoFijo:number;
+        idOpcion:number;
+    }
 }
 
-interface FilasDato{
+interface FilaDatos{
     datos:Dato[]
 }
 
