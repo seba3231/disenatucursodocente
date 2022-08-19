@@ -1,7 +1,7 @@
 {
   "name": "disena-tu-curso-docente",
   "version": "0.0.0",
-  "main":"ElectronEntry.js",
+  "main": "ElectronEntry.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -24,9 +24,8 @@
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
-
   "devDependencies": {
-    "@angular-devkit/build-angular": "^14.1.1",
+    "@angular-devkit/build-angular": "^14.1.2",
     "@angular/cli": "~14.1.1",
     "@angular/compiler-cli": "^14.1.0",
     "@types/jasmine": "~4.0.0",
