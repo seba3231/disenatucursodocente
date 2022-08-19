@@ -1,4 +1,3 @@
-import { ConditionalExpr } from '@angular/compiler';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
@@ -9,6 +8,9 @@ import { InitialSchemaLoaderService } from './servicios/initial-schema-loader.se
 import { EtapaComponent } from './etapa/etapa.component';
 import { GrupoComponent } from './grupo/grupo.component';
 import { AtributoComponent } from './atributo/atributo.component';
+import { MatSelectModule } from '@angular/material/select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 
 export function initConfig(loaderService : InitialSchemaLoaderService) {
     //return () => protesis.obtenerConfiguraciones();
@@ -44,7 +46,10 @@ export function initConfig(loaderService : InitialSchemaLoaderService) {
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatSelectModule,
+    FormsModule
   ],
   providers: [
     {
