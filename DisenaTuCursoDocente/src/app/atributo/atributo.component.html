@@ -1,106 +1,141 @@
-<div *ngIf="atributo.puntoCritico" class="puntoCritico">
-    <div class="accordion" id="accordionExample">
-        <div *ngIf="atributo.puntoCritico.normativa" class="accordion-item">
-            <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                    Normativa
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                <div class="accordion-body" [innerHTML]="addLinkHTML(atributo.puntoCritico.normativa)"></div>
-            </div>
+<div *ngIf="atributo.puntoCritico" class="accordion puntoCritico">
+    <div *ngIf="atributo.puntoCritico.normativa" class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contenidoNormativa">
+                Normativa
+            </button>
+        </h2>
+        <div id="contenidoNormativa" class="accordion-collapse collapse collapse">
+            <div class="accordion-body" [innerHTML]="addLinkHTML(atributo.puntoCritico.normativa)"></div>
         </div>
-        <div *ngIf="atributo.puntoCritico.informacionAmpliatoria" class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Información Ampliatoria
-                </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                <div class="accordion-body" [innerHTML]="addLinkHTML(atributo.puntoCritico.informacionAmpliatoria)"></div>
-            </div>
+    </div>
+    <div *ngIf="atributo.puntoCritico.informacionAmpliatoria" class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contenidoInformacionAmpliatoria">
+                Información Ampliatoria
+            </button>
+        </h2>
+        <div id="contenidoInformacionAmpliatoria" class="accordion-collapse collapse">
+            <div class="accordion-body" [innerHTML]="addLinkHTML(atributo.puntoCritico.informacionAmpliatoria)"></div>
         </div>
-        <div *ngIf="atributo.puntoCritico.aporteConceptual" class="accordion-item">
-            <h2 class="accordion-header" id="headingThree">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Aporte Conceptual
-                </button>
-            </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                <div class="accordion-body" [innerHTML]="addLinkHTML(atributo.puntoCritico.aporteConceptual)"></div>
-            </div>
+    </div>
+    <div *ngIf="atributo.puntoCritico.aporteConceptual" class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contenidoAporteConceptual">
+                Aporte Conceptual
+            </button>
+        </h2>
+        <div id="contenidoAporteConceptual" class="accordion-collapse collapse">
+            <div class="accordion-body" [innerHTML]="addLinkHTML(atributo.puntoCritico.aporteConceptual)"></div>
         </div>
     </div>
 </div>
-<div *ngFor="let number of veces">
-  <p>{{ atributo.nombre }}</p>
-  <div *ngFor="let fila of atributo.filasDatos" class="container">
-    <div class="row">
-      <div *ngFor="let dato of fila.datos" class="col-sm">
-        <p>{{ dato.nombre }}</p>
-        <div class="input-group mb-3">
-          <input
-            [type]="dato.tipo"
-            class="form-control"
-            [placeholder]="dato.nombre || ''"
-            aria-label=""
-            aria-describedby="basic-addon1"
-            *ngIf="parsearTipo(dato.tipo)[0] == 0"
-          />
-          <div class="d-flex flex-column">
-            <div *ngIf="parsearTipo(dato.tipo)[0] == 2">
-              <div
-                class="form-check"
-                *ngFor="
-                  let opcion of obtenerOpcionesFijas(
-                    dato.opciones.idGrupoDatoFijo
-                  );
-                  index as radioIndex
-                "
-              >
-                <!--complejizar id? -->
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="radio"
-                  [id]="'radio' + radioIndex + dato.id"
-                  [checked]="radioIndex === 0"
-                />
-                <label
-                  class="form-check-label"
-                  [for]="'radio' + radioIndex + dato.id"
+<div *ngFor="let _ of [].constructor(cantidadInstancias)">
+    <p>{{ atributo.nombre }}</p>
+    <div *ngFor="let fila of atributo.filasDatos" class="row">
+        <div *ngFor="let dato of fila.datos" class="col">
+            <div class="mb-3">
+                <!--
+                    number,
+                    selectFijoUnico,
+                    text,
+                    selectFijoMultiple,
+                    radio,
+                    porcentaje,
+                    archivo,
+                    selectUsuarioMultiple,
+                    date,
+                    dateLog
+                -->
+                <label class="form-label">{{ dato.nombre ? dato.nombre : "&nbsp;" }}</label>
+                <!-- Codigo text,number-->
+                <div *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.text))
+                        || dato.tipo === (mapTipoInput.get(enumTiposInput.number))
+                    "
                 >
-                  {{ opcion }}
-                </label>
-              </div>
+                    <input (keyup)="a(dato.ubicacion,dato.id)" [type]="dato.tipo" class="form-control" [placeholder]="dato.nombre || ''">
+                </div>
+                <!-- Codigo selectFijoUnico -->
+                <div *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
+                    <select class="form-select">
+                        <option 
+                            *ngFor="let opcion of obtenerOpcionesFijas(dato.opciones.idGrupoDatoFijo);index as radioIndex"
+                            [selected]="radioIndex === 0"
+                        >
+                            {{ opcion }}
+                        </option>
+                    </select>
+                </div>
+                <!-- Codigo selectFijoMultiple -->
+                <div *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
+                    <mat-form-field appearance="fill">
+                        <mat-label>{{ dato.nombre ? dato.nombre : "Seleccione" }}</mat-label>
+                        <mat-select multiple>
+                            <!--<mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>-->
+                            <mat-option *ngFor="let opcion of obtenerOpciones(dato)" [value]="opcion.valor">{{opcion.string}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
             </div>
-          </div>
-          <select
-            class="form-select"
-            *ngIf="
-              parsearTipo(dato.tipo)[0] === 1 &&
-              parsearTipo(dato.tipo)[1] === 'unico'
-            "
-          >
-            <option
-              *ngFor="
-                let opcion of obtenerOpcionesFijas(
-                  dato.opciones.idGrupoDatoFijo
-                );
-                index as radioIndex
-              "
-              [selected]="radioIndex === 0"
-            >
-              {{ opcion }}
-            </option>
-          </select>
         </div>
-      </div>
     </div>
-  </div>
+
+    <!--
+    <div *ngFor="let fila of atributo.filasDatos" class="container">
+        <div class="row">
+            <div *ngFor="let dato of fila.datos" class="col-sm">
+                <p>{{ dato.nombre }}</p>
+                <div class="input-group mb-3">
+                    <input
+                        [type]="dato.tipo"
+                        class="form-control"
+                        [placeholder]="dato.nombre || ''"
+                        aria-label=""
+                        aria-describedby="basic-addon1"
+                        *ngIf="parsearTipo(dato.tipo)[0] == 0"
+                    />
+                    <div class="d-flex flex-column">
+                        <div *ngIf="parsearTipo(dato.tipo)[0] == 2">
+                            <div
+                                class="form-check"
+                                *ngFor="let opcion of obtenerOpcionesFijas(dato.opciones.idGrupoDatoFijo); index as radioIndex"
+                            >
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="radio"
+                                    [id]="'radio' + radioIndex + dato.id"
+                                    [checked]="radioIndex === 0"
+                                />
+                                <label
+                                    class="form-check-label"
+                                    [for]="'radio' + radioIndex + dato.id"
+                                >
+                                    {{ opcion }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <select
+                        class="form-select"
+                        *ngIf="parsearTipo(dato.tipo)[0] === 1 
+                            && parsearTipo(dato.tipo)[1] === 'unico'"
+                    >
+                        <option
+                            *ngFor="let opcion of obtenerOpcionesFijas(dato.opciones.idGrupoDatoFijo);index as radioIndex"
+                            [selected]="radioIndex === 0"
+                        >
+                            {{ opcion }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
 </div>
 <div *ngIf="atributo.multiInstanciable">
-  <button type="button" class="btn btn-primary" (click)="agregarAtributo()">
-    Agregar {{ atributo.nombre }}
-  </button>
+    <button type="button" class="btn btn-primary" (click)="agregarInstanciaAtributo()">
+        Agregar {{ atributo.nombre }}
+    </button>
 </div>
