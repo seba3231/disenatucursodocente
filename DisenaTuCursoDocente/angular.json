@@ -28,7 +28,11 @@
                 "node_modules/bootstrap-icons/font/bootstrap-icons.css",
                 "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/d3.v4.min.js",
+              "src/assets/js/graph.js",
+              "src/assets/js/script.js"
+            ]
           },
           "configurations": {
             "production": {

@@ -1,25 +1,56 @@
-<p>-------------------- ZONA GRAFO --------------------</p>
-<div *ngFor="let etapa of initialSchemaService.defaultSchema?.etapas">
-    <button (click)="mostrarGruposDeEtapa(etapa)">Etapa: {{etapa.nombre}}</button>
+<!-- cabezal -->
+<header class="ps-4 pt-2">
+  <div class="d-flex flex-row">
+    <i class="bi bi-mortarboard-fill p-2" style="font-size: 1.8rem;"></i>
+    <h1 class="p-2 fw-bolder">Nombre del Curso</h1>
+  </div>
+</header>
+
+<!-- zona del grafo -->
+<div class="chart-container" style="max-width: 1000px; margin: auto;">
+  <div id="triangle" class="triangle">
+    <div class="triangle-container">
+      <span id="triangle-title" class="triangle-title"></span>
+      <span id="triangle-description" class="triangle-description"></span>
+    </div>
+  </div>
 </div>
 
-<div *ngIf="gruposDeEtapa">
-    <p>Grupos de la Etapa</p>
-    <button *ngFor="let grupo of gruposDeEtapa" (click)="cargarGrupo(grupo)">
-        {{grupo.nombre}}
-    </button>
+<!-- zona del menu provisorio -->
+<div class="row">
+  <div class="col">
+      <div class="mb-3">            
+          <label class="form-label">Nombre del Curso</label>
+          <input [(ngModel)]="nombreCurso" placeholder="Ingrese nombre del curso" class="form-control"/>
+      </div>
+      <button type="button" (click)="crearArchivo()" class="btn btn-primary">Crear o Cargar Archivo</button>
+  </div>
 </div>
-<p>------------------ END ZONA GRAFO ------------------</p>
+<!--<div *ngIf="nombreCurso">-->
+  <p>-------------------- ZONA GRAFO --------------------</p>
+  <div *ngFor="let etapa of initialSchemaService.defaultSchema?.etapas">
+      <button (click)="mostrarGruposDeEtapa(etapa)">Etapa: {{etapa.nombre}}</button>
+  </div>
+  
+  <div *ngIf="gruposDeEtapa">
+      <p>Grupos de la Etapa</p>
+      <button *ngFor="let grupo of gruposDeEtapa" (click)="cargarGrupo(grupo)">
+          {{grupo.nombre}}
+      </button>
+  </div>
+  <p>------------------ END ZONA GRAFO ------------------</p>
+<!--</div>-->
+
 <p>-------------------- ZONA CONTENIDO GRUPO --------------------</p>
 <div class="'container" *ngIf="grupoCargado">
-    <app-grupo [grupo]="grupoCargado"></app-grupo>
+  <app-grupo [grupo]="grupoCargado"></app-grupo>
 </div>
 <p>------------------ END ZONA CONTENIDO GRUPO ------------------</p>
 <!--<div
-  *ngFor="let etapa of initialSchemaService.defaultSchema?.etapas"
-  class="'container"
+*ngFor="let etapa of initialSchemaService.defaultSchema?.etapas"
+class="'container"
 >
-  <app-etapa [etapa]="etapa"></app-etapa>
+<app-etapa [etapa]="etapa"></app-etapa>
 </div>-->
 
 <router-outlet></router-outlet>
