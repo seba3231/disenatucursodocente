@@ -1,2 +1,82 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "bootstrap-icons/font/bootstrap-icons.css";
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500&display=swap');
+
+*{
+  font-family: "Raleway";
+}
+
+
+/*Grafo*/
+#main {
+    overflow: hidden;
+    position: relative;
+  }
+  .nodes circle {
+    stroke-width: 1;
+    stroke: white;
+  }
+  
+  .links {
+    stroke-width: 2;
+    stroke: #dcdddd;
+  }
+  
+  .label{
+    color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*height: calc(100% - .9em);*/
+    width: 100%;
+    font-weight: 500;
+  }
+  
+  foreignObject{
+    pointer-events: none;
+  }
+  
+  .triangle {
+  
+      width: 0;
+      height: 0;
+      border-left: 250px solid transparent;
+      border-right: 250px solid transparent;
+      border-bottom: 250px solid #dcdddd;
+    top: 200px;
+    position: absolute;
+    left: 200px;
+    z-index: -1;
+  }
+  
+  .triangle-title{
+    font-weight: 600;
+    opacity: .8;
+    font-size: 16px;
+    padding: 4px 0px
+  }
+  
+  .triangle-container{
+    position: relative;
+    width: 500px;
+    height: 330px;
+    text-align: center;
+    left: -250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .triangle-description{
+    font-weight: 500;
+    opacity: .8;
+    font-size: 13px;
+    max-width: 235px;
+    line-height: 1.2;
+  }
+  
+  .chart-container{
+    position: relative;
+  }

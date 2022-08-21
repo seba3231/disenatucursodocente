@@ -1,4 +1,22 @@
-<p>-------------------- ZONA GRAFO --------------------</p>
+<!-- cabezal -->
+<header class="ps-4 pt-2">
+  <div class="d-flex flex-row">
+    <i class="bi bi-mortarboard-fill p-2" style="font-size: 1.8rem;"></i>
+    <h1 class="p-2 fw-bolder">Nombre del Curso</h1>
+  </div>
+</header>
+
+<!-- zona del grafo -->
+<div class="chart-container" style="max-width: 1000px; margin: auto;">
+  <div id="triangle" class="triangle">
+    <div class="triangle-container">
+      <span id="triangle-title" class="triangle-title"></span>
+      <span id="triangle-description" class="triangle-description"></span>
+    </div>
+  </div>
+</div>
+
+<!-- zona del menu provisorio -->
 <div *ngFor="let etapa of initialSchemaService.defaultSchema?.etapas">
     <button (click)="mostrarGruposDeEtapa(etapa)">Etapa: {{etapa.nombre}}</button>
 </div>
