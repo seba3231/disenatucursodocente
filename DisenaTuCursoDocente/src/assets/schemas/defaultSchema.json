@@ -5,7 +5,7 @@
             "nombre":"Programa",
             "grupos":[
                 {
-                    "id":1,
+                    "id":11,
                     "nombre":"Contenido",
                     "ubicacion":{
                         "idEtapa":1,
@@ -20,7 +20,7 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":1,
-                                "idGrupo":1,
+                                "idGrupo":11,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -42,7 +42,7 @@
                                             "nombre":"Cantidad de créditos",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":1,
+                                                "idGrupo":11,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -65,7 +65,7 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":1,
-                                "idGrupo":1,
+                                "idGrupo":11,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -83,7 +83,7 @@
                                             "nombre":"Temas y/o Competencias",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":1,
+                                                "idGrupo":11,
                                                 "idAtributo":2,
                                                 "idDato":null
                                             },
@@ -105,7 +105,7 @@
                                             "nombre":"Nombre de tema",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":1,
+                                                "idGrupo":11,
                                                 "idAtributo":2,
                                                 "idDato":null
                                             },
@@ -124,7 +124,7 @@
                                             "nombre":"Descripción",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":1,
+                                                "idGrupo":11,
                                                 "idAtributo":2,
                                                 "idDato":null
                                             },
@@ -143,7 +143,7 @@
                                             "nombre":"Cantidad de horas",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":1,
+                                                "idGrupo":11,
                                                 "idAtributo":2,
                                                 "idDato":null
                                             },
@@ -166,7 +166,7 @@
                             "nombre":"Prueba Input Text",
                             "ubicacion":{
                                 "idEtapa":1,
-                                "idGrupo":1,
+                                "idGrupo":11,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -184,7 +184,7 @@
                                             "nombre":"Input Text",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":1,
+                                                "idGrupo":11,
                                                 "idAtributo":3,
                                                 "idDato":null
                                             },
@@ -205,7 +205,7 @@
                     ]
                 },
                 {
-                    "id":2,
+                    "id":12,
                     "nombre":"Información general",
                     "ubicacion":{
                         "idEtapa":1,
@@ -220,7 +220,7 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":1,
-                                "idGrupo":2,
+                                "idGrupo":12,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -238,7 +238,7 @@
                                             "nombre":"Nombre de le unidad curricular",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":2,
+                                                "idGrupo":12,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -257,7 +257,7 @@
                                             "nombre":"Carreras",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":2,
+                                                "idGrupo":12,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -283,7 +283,7 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":1,
-                                "idGrupo":2,
+                                "idGrupo":12,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -301,7 +301,7 @@
                                             "nombre":"Área de conocimiento",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":2,
+                                                "idGrupo":12,
                                                 "idAtributo":2,
                                                 "idDato":null
                                             },
@@ -327,7 +327,7 @@
                                             "nombre":"Subárea",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":2,
+                                                "idGrupo":12,
                                                 "idAtributo":2,
                                                 "idDato":null
                                             },
@@ -353,7 +353,7 @@
                                             "nombre":"Especialización",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":2,
+                                                "idGrupo":12,
                                                 "idAtributo":2,
                                                 "idDato":null
                                             },
@@ -376,7 +376,7 @@
                             "nombre":"Cupo de estudiantes",
                             "ubicacion":{
                                 "idEtapa":1,
-                                "idGrupo":2,
+                                "idGrupo":12,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -394,7 +394,7 @@
                                             "nombre":null,
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":2,
+                                                "idGrupo":12,
                                                 "idAtributo":3,
                                                 "idDato":null
                                             },
@@ -416,7 +416,7 @@
                                             "nombre":null,
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":2,
+                                                "idGrupo":12,
                                                 "idAtributo":3,
                                                 "idDato":null
                                             },
@@ -427,7 +427,7 @@
                                             "habilitadoSi":{
                                                 "referencia":{
                                                     "idEtapa":1,
-                                                    "idGrupo":2,
+                                                    "idGrupo":12,
                                                     "idAtributo":3,
                                                     "idDato":1
                                                 },
@@ -450,7 +450,7 @@
                             "nombre":"Forma de aprobación",
                             "ubicacion":{
                                 "idEtapa":1,
-                                "idGrupo":2,
+                                "idGrupo":12,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -466,7 +466,7 @@
                                             "nombre":"Permite exoneración",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":2,
+                                                "idGrupo":12,
                                                 "idAtributo":4,
                                                 "idDato":null
                                             },
@@ -488,7 +488,7 @@
                                             "nombre":"Porcentaje",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":2,
+                                                "idGrupo":12,
                                                 "idAtributo":4,
                                                 "idDato":null
                                             },
@@ -507,7 +507,7 @@
                                             "nombre":"Nota",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":2,
+                                                "idGrupo":12,
                                                 "idAtributo":4,
                                                 "idDato":null
                                             },
@@ -526,7 +526,7 @@
                                             "nombre":null,
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":2,
+                                                "idGrupo":12,
                                                 "idAtributo":4,
                                                 "idDato":null
                                             },
@@ -548,7 +548,7 @@
                                             "nombre":null,
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":2,
+                                                "idGrupo":12,
                                                 "idAtributo":4,
                                                 "idDato":null
                                             },
@@ -562,7 +562,7 @@
                                             "habilitadoSi":{
                                                 "referencia":{
                                                     "idEtapa":1,
-                                                    "idGrupo":2,
+                                                    "idGrupo":12,
                                                     "idAtributo":4,
                                                     "idDato":4
                                                 },
@@ -581,7 +581,7 @@
                                             "nombre":null,
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":2,
+                                                "idGrupo":12,
                                                 "idAtributo":4,
                                                 "idDato":null
                                             },
@@ -595,7 +595,7 @@
                                             "habilitadoSi":{
                                                 "referencia":{
                                                     "idEtapa":1,
-                                                    "idGrupo":2,
+                                                    "idGrupo":12,
                                                     "idAtributo":4,
                                                     "idDato":4
                                                 },
@@ -616,7 +616,7 @@
                     ]
                 },
                 {
-                    "id":3,
+                    "id":13,
                     "nombre":"Objetivos",
                     "ubicacion":{
                         "idEtapa":1,
@@ -631,7 +631,7 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":1,
-                                "idGrupo":3,
+                                "idGrupo":13,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -647,7 +647,7 @@
                                             "nombre":"Modalidad de enseñanza",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":3,
+                                                "idGrupo":13,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -673,7 +673,7 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":1,
-                                "idGrupo":3,
+                                "idGrupo":13,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -693,7 +693,7 @@
                                             "nombre":"Objetivos de aprendizaje",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":3,
+                                                "idGrupo":13,
                                                 "idAtributo":2,
                                                 "idDato":null
                                             },
@@ -716,7 +716,7 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":1,
-                                "idGrupo":3,
+                                "idGrupo":13,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -732,7 +732,7 @@
                                             "nombre":"Marco pedagógico",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":3,
+                                                "idGrupo":13,
                                                 "idAtributo":3,
                                                 "idDato":null
                                             },
@@ -753,7 +753,7 @@
                     ]
                 },
                 {
-                    "id":4,
+                    "id":14,
                     "nombre":"Recursos",
                     "ubicacion":{
                         "idEtapa":1,
@@ -768,7 +768,7 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":1,
-                                "idGrupo":4,
+                                "idGrupo":14,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -784,7 +784,7 @@
                                             "nombre":"Bibliografía",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":4,
+                                                "idGrupo":14,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -803,7 +803,7 @@
                                             "nombre":"Temas Asociados",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":4,
+                                                "idGrupo":14,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -834,7 +834,7 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":1,
-                                "idGrupo":4,
+                                "idGrupo":14,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -850,7 +850,7 @@
                                             "nombre":"Recursos educativos",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":4,
+                                                "idGrupo":14,
                                                 "idAtributo":2,
                                                 "idDato":null
                                             },
@@ -869,7 +869,7 @@
                                             "nombre":"Temas Asociados",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":4,
+                                                "idGrupo":14,
                                                 "idAtributo":2,
                                                 "idDato":null
                                             },
@@ -900,7 +900,7 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":1,
-                                "idGrupo":4,
+                                "idGrupo":14,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -920,7 +920,7 @@
                                             "nombre":"Licenciamiento Creative Commons",
                                             "ubicacion":{
                                                 "idEtapa":1,
-                                                "idGrupo":4,
+                                                "idGrupo":14,
                                                 "idAtributo":3,
                                                 "idDato":null
                                             },
@@ -950,7 +950,7 @@
             "nombre":"Implementación",
             "grupos":[
                 {
-                    "id":1,
+                    "id":21,
                     "nombre":"Grupo Humano",
                     "ubicacion":{
                         "idEtapa":2,
@@ -965,7 +965,7 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":2,
-                                "idGrupo":1,
+                                "idGrupo":21,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -981,7 +981,7 @@
                                             "nombre":"Número de estudiantes",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":1,
+                                                "idGrupo":21,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -1004,7 +1004,7 @@
                             "nombre":"Composición del equipo docente",
                             "ubicacion":{
                                 "idEtapa":2,
-                                "idGrupo":1,
+                                "idGrupo":21,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -1020,7 +1020,7 @@
                                             "nombre":"Nombre",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":1,
+                                                "idGrupo":21,
                                                 "idAtributo":2,
                                                 "idDato":null
                                             },
@@ -1039,7 +1039,7 @@
                                             "nombre":"Grado",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":1,
+                                                "idGrupo":21,
                                                 "idAtributo":2,
                                                 "idDato":null
                                             },
@@ -1061,7 +1061,7 @@
                     ]
                 },
                 {
-                    "id":2,
+                    "id":22,
                     "nombre":"Infraestructura",
                     "ubicacion":{
                         "idEtapa":2,
@@ -1076,7 +1076,7 @@
                             "nombre":"Espacios físicos",
                             "ubicacion":{
                                 "idEtapa":2,
-                                "idGrupo":2,
+                                "idGrupo":22,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -1092,7 +1092,7 @@
                                             "nombre":"Nombre",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":2,
+                                                "idGrupo":22,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -1111,7 +1111,7 @@
                                             "nombre":"Tipo",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":2,
+                                                "idGrupo":22,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -1133,7 +1133,7 @@
                                             "nombre":"Capacidad",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":2,
+                                                "idGrupo":22,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -1152,7 +1152,7 @@
                                             "nombre":"Protocolo de distanciamiento",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":2,
+                                                "idGrupo":22,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -1174,7 +1174,7 @@
                                             "nombre":"Equipamiento",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":2,
+                                                "idGrupo":22,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -1200,7 +1200,7 @@
                             "nombre":"Plataformas disponibles",
                             "ubicacion":{
                                 "idEtapa":2,
-                                "idGrupo":2,
+                                "idGrupo":22,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -1216,7 +1216,7 @@
                                             "nombre":null,
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":2,
+                                                "idGrupo":22,
                                                 "idAtributo":2,
                                                 "idDato":null
                                             },
@@ -1242,7 +1242,7 @@
                             "nombre":"Asistencia técnica",
                             "ubicacion":{
                                 "idEtapa":2,
-                                "idGrupo":2,
+                                "idGrupo":22,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -1259,7 +1259,7 @@
                                             "nombre":null,
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":2,
+                                                "idGrupo":22,
                                                 "idAtributo":3,
                                                 "idDato":null
                                             },
@@ -1282,7 +1282,7 @@
                             "nombre":"Equipamiento de prestamo a estudiantes",
                             "ubicacion":{
                                 "idEtapa":2,
-                                "idGrupo":2,
+                                "idGrupo":22,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -1299,7 +1299,7 @@
                                             "nombre":"Tipo",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":2,
+                                                "idGrupo":22,
                                                 "idAtributo":4,
                                                 "idDato":null
                                             },
@@ -1321,7 +1321,7 @@
                                             "nombre":null,
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":2,
+                                                "idGrupo":22,
                                                 "idAtributo":4,
                                                 "idDato":null
                                             },
@@ -1340,7 +1340,7 @@
                                             "nombre":"Cantidad",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":2,
+                                                "idGrupo":22,
                                                 "idAtributo":4,
                                                 "idDato":null
                                             },
@@ -1361,7 +1361,7 @@
                     ]
                 },
                 {
-                    "id":3,
+                    "id":23,
                     "nombre":"Recursos",
                     "ubicacion":{
                         "idEtapa":2,
@@ -1376,13 +1376,13 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":2,
-                                "idGrupo":3,
+                                "idGrupo":23,
                                 "idAtributo":null,
                                 "idDato":null
                             },
                             "herencia":{
                                 "idEtapa":1,
-                                "idGrupo":4,
+                                "idGrupo":14,
                                 "idAtributo":1,
                                 "idDato":null
                             },
@@ -1396,13 +1396,13 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":2,
-                                "idGrupo":3,
+                                "idGrupo":23,
                                 "idAtributo":null,
                                 "idDato":null
                             },
                             "herencia":{
                                 "idEtapa":1,
-                                "idGrupo":4,
+                                "idGrupo":14,
                                 "idAtributo":2,
                                 "idDato":null
                             },
@@ -1420,7 +1420,7 @@
                             "nombre":"Otros Recursos",
                             "ubicacion":{
                                 "idEtapa":2,
-                                "idGrupo":3,
+                                "idGrupo":23,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -1436,7 +1436,7 @@
                                             "nombre":"Recursos",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":3,
+                                                "idGrupo":23,
                                                 "idAtributo":3,
                                                 "idDato":null
                                             },
@@ -1455,7 +1455,7 @@
                                             "nombre":"Temas Asociados",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":3,
+                                                "idGrupo":23,
                                                 "idAtributo":3,
                                                 "idDato":null
                                             },
@@ -1465,7 +1465,7 @@
                                             "opciones":{
                                                 "referencia":{
                                                     "idEtapa":1,
-                                                    "idGrupo":1,
+                                                    "idGrupo":11,
                                                     "idAtributo":2,
                                                     "idDato":3
                                                 },
@@ -1484,7 +1484,7 @@
                     ]
                 },
                 {
-                    "id":4,
+                    "id":24,
                     "nombre":"Estructura del curso",
                     "ubicacion":{
                         "idEtapa":2,
@@ -1499,7 +1499,7 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":2,
-                                "idGrupo":4,
+                                "idGrupo":24,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -1515,7 +1515,7 @@
                                             "nombre":"Fecha inicio",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":4,
+                                                "idGrupo":24,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -1534,7 +1534,7 @@
                                             "nombre":"Fecha fin",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":4,
+                                                "idGrupo":24,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -1557,7 +1557,7 @@
                             "nombre":"Evaluaciones",
                             "ubicacion":{
                                 "idEtapa":2,
-                                "idGrupo":4,
+                                "idGrupo":24,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -1577,7 +1577,7 @@
                                             "nombre":"Tipo",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":4,
+                                                "idGrupo":24,
                                                 "idAtributo":2,
                                                 "idDato":null
                                             },
@@ -1599,7 +1599,7 @@
                                             "nombre":"Herramientas",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":4,
+                                                "idGrupo":24,
                                                 "idAtributo":2,
                                                 "idDato":null
                                             },
@@ -1621,7 +1621,7 @@
                                             "nombre":"Otras",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":4,
+                                                "idGrupo":24,
                                                 "idAtributo":2,
                                                 "idDato":null
                                             },
@@ -1644,7 +1644,7 @@
                             "nombre":"Orquestación",
                             "ubicacion":{
                                 "idEtapa":2,
-                                "idGrupo":4,
+                                "idGrupo":24,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -1664,7 +1664,7 @@
                                             "nombre":"Nombre",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":4,
+                                                "idGrupo":24,
                                                 "idAtributo":3,
                                                 "idDato":null
                                             },
@@ -1687,7 +1687,7 @@
                                             "nombre":"Fecha inicio",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":4,
+                                                "idGrupo":24,
                                                 "idAtributo":3,
                                                 "idDato":null
                                             },
@@ -1706,7 +1706,7 @@
                                             "nombre":"Fecha fin",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":4,
+                                                "idGrupo":24,
                                                 "idAtributo":3,
                                                 "idDato":null
                                             },
@@ -1725,7 +1725,7 @@
                                             "nombre":"Modalidad",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":4,
+                                                "idGrupo":24,
                                                 "idAtributo":3,
                                                 "idDato":null
                                             },
@@ -1751,7 +1751,7 @@
                                             "nombre":"Espacios fisicos utilizados",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":4,
+                                                "idGrupo":24,
                                                 "idAtributo":3,
                                                 "idDato":null
                                             },
@@ -1761,7 +1761,7 @@
                                             "opciones":{
                                                 "referencia":{
                                                     "idEtapa":2,
-                                                    "idGrupo":2,
+                                                    "idGrupo":22,
                                                     "idAtributo":1,
                                                     "idDato":1
                                                 },
@@ -1778,7 +1778,7 @@
                                             "nombre":"Plataformas disponibles",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":4,
+                                                "idGrupo":24,
                                                 "idAtributo":3,
                                                 "idDato":null
                                             },
@@ -1804,7 +1804,7 @@
                                             "nombre":"Unidad",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":4,
+                                                "idGrupo":24,
                                                 "idAtributo":3,
                                                 "idDato":null
                                             },
@@ -1824,7 +1824,7 @@
                                                             "nombre":null,
                                                             "ubicacion":{
                                                                 "idEtapa":2,
-                                                                "idGrupo":4,
+                                                                "idGrupo":24,
                                                                 "idAtributo":3,
                                                                 "idDato":[7]
                                                             },
@@ -1852,7 +1852,7 @@
                     ]
                 },
                 {
-                    "id":5,
+                    "id":25,
                     "nombre":"Objetivos",
                     "ubicacion":{
                         "idEtapa":2,
@@ -1867,7 +1867,7 @@
                             "nombre":"Metodología de enseñanza",
                             "ubicacion":{
                                 "idEtapa":2,
-                                "idGrupo":5,
+                                "idGrupo":25,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -1887,7 +1887,7 @@
                                             "nombre":null,
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":5,
+                                                "idGrupo":25,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -1913,7 +1913,7 @@
                                             "nombre":"Otras metodologías",
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":5,
+                                                "idGrupo":25,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -1936,13 +1936,13 @@
                             "nombre":"Modalidad de enseñanza",
                             "ubicacion":{
                                 "idEtapa":2,
-                                "idGrupo":5,
+                                "idGrupo":25,
                                 "idAtributo":null,
                                 "idDato":null
                             },
                             "herencia":{
                                 "idEtapa":1,
-                                "idGrupo":3,
+                                "idGrupo":13,
                                 "idAtributo":1,
                                 "idDato":null
                             },
@@ -1956,7 +1956,7 @@
                             "nombre":"Objetivo de aprendizaje",
                             "ubicacion":{
                                 "idEtapa":2,
-                                "idGrupo":5,
+                                "idGrupo":25,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -1976,7 +1976,7 @@
                                             "nombre":null,
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":5,
+                                                "idGrupo":25,
                                                 "idAtributo":3,
                                                 "idDato":null
                                             },
@@ -1999,7 +1999,7 @@
                             "nombre":"Marco pedagógico",
                             "ubicacion":{
                                 "idEtapa":2,
-                                "idGrupo":5,
+                                "idGrupo":25,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -2015,7 +2015,7 @@
                                             "nombre":null,
                                             "ubicacion":{
                                                 "idEtapa":2,
-                                                "idGrupo":5,
+                                                "idGrupo":25,
                                                 "idAtributo":4,
                                                 "idDato":null
                                             },
@@ -2042,7 +2042,7 @@
             "nombre":"Dictado",
             "grupos":[
                 {
-                    "id":1,
+                    "id":31,
                     "nombre":"Bitácora del curso",
                     "ubicacion":{
                         "idEtapa":3,
@@ -2057,7 +2057,7 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":3,
-                                "idGrupo":1,
+                                "idGrupo":31,
                                 "idAtributo":null,
                                 "idDato":null
                             },
@@ -2073,7 +2073,7 @@
                                             "nombre":"Fecha",
                                             "ubicacion":{
                                                 "idEtapa":3,
-                                                "idGrupo":1,
+                                                "idGrupo":31,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -2096,7 +2096,7 @@
                                             "nombre":null,
                                             "ubicacion":{
                                                 "idEtapa":3,
-                                                "idGrupo":1,
+                                                "idGrupo":31,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -2132,13 +2132,13 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":3,
-                                "idGrupo":2,
+                                "idGrupo":32,
                                 "idAtributo":null,
                                 "idDato":null
                             },
                             "herencia":{
                                 "idEtapa":2,
-                                "idGrupo":4,
+                                "idGrupo":24,
                                 "idAtributo":1,
                                 "idDato":null
                             },
@@ -2152,13 +2152,13 @@
                             "nombre":"Evaluaciones",
                             "ubicacion":{
                                 "idEtapa":3,
-                                "idGrupo":2,
+                                "idGrupo":32,
                                 "idAtributo":null,
                                 "idDato":null
                             },
                             "herencia":{
                                 "idEtapa":2,
-                                "idGrupo":4,
+                                "idGrupo":24,
                                 "idAtributo":2,
                                 "idDato":null
                             },
@@ -2176,13 +2176,13 @@
                             "nombre":"Orquestación",
                             "ubicacion":{
                                 "idEtapa":3,
-                                "idGrupo":2,
+                                "idGrupo":32,
                                 "idAtributo":null,
                                 "idDato":null
                             },
                             "herencia":{
                                 "idEtapa":2,
-                                "idGrupo":4,
+                                "idGrupo":24,
                                 "idAtributo":3,
                                 "idDato":null
                             },
@@ -2201,13 +2201,13 @@
                                             "nombre":"Unidad",
                                             "ubicacion":{
                                                 "idEtapa":3,
-                                                "idGrupo":2,
+                                                "idGrupo":32,
                                                 "idAtributo":3,
                                                 "idDato":null
                                             },
                                             "herencia":{
                                                 "idEtapa":2,
-                                                "idGrupo":4,
+                                                "idGrupo":24,
                                                 "idAtributo":3,
                                                 "idDato":[7]
                                             },
@@ -2224,13 +2224,13 @@
                                                             "nombre":null,
                                                             "ubicacion":{
                                                                 "idEtapa":3,
-                                                                "idGrupo":2,
+                                                                "idGrupo":32,
                                                                 "idAtributo":3,
                                                                 "idDato":[1]
                                                             },
                                                             "herencia":{
                                                                 "idEtapa":2,
-                                                                "idGrupo":4,
+                                                                "idGrupo":24,
                                                                 "idAtributo":3,
                                                                 "idDato":[7,1]
                                                             },
@@ -2257,7 +2257,7 @@
                     ]
                 },
                 {
-                    "id":3,
+                    "id":33,
                     "nombre":"Recursos",
                     "ubicacion":{
                         "idEtapa":3,
@@ -2272,13 +2272,13 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":3,
-                                "idGrupo":3,
+                                "idGrupo":33,
                                 "idAtributo":null,
                                 "idDato":null
                             },
                             "herencia":{
                                 "idEtapa":2,
-                                "idGrupo":3,
+                                "idGrupo":23,
                                 "idAtributo":1,
                                 "idDato":null
                             },
@@ -2293,7 +2293,7 @@
                                             "nombre":"Comentarios de la bibliografía",
                                             "ubicacion":{
                                                 "idEtapa":3,
-                                                "idGrupo":3,
+                                                "idGrupo":33,
                                                 "idAtributo":1,
                                                 "idDato":null
                                             },
@@ -2314,13 +2314,13 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":3,
-                                "idGrupo":3,
+                                "idGrupo":33,
                                 "idAtributo":null,
                                 "idDato":null
                             },
                             "herencia":{
                                 "idEtapa":2,
-                                "idGrupo":3,
+                                "idGrupo":23,
                                 "idAtributo":2,
                                 "idDato":null
                             },
@@ -2339,7 +2339,7 @@
                                             "nombre":"Comentarios de los recursos",
                                             "ubicacion":{
                                                 "idEtapa":3,
-                                                "idGrupo":3,
+                                                "idGrupo":33,
                                                 "idAtributo":2,
                                                 "idDato":null
                                             },
@@ -2360,13 +2360,13 @@
                             "nombre":null,
                             "ubicacion":{
                                 "idEtapa":3,
-                                "idGrupo":3,
+                                "idGrupo":33,
                                 "idAtributo":null,
                                 "idDato":null
                             },
                             "herencia":{
                                 "idEtapa":2,
-                                "idGrupo":3,
+                                "idGrupo":23,
                                 "idAtributo":3,
                                 "idDato":null
                             },
