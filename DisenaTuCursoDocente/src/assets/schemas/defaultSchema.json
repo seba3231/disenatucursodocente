@@ -624,7 +624,7 @@
                         "idAtributo":null,
                         "idDato":null
                     },
-                    "relacionesGrafo":null,
+                    "relacionesGrafo":[2],
                     "atributos":[
                         {
                             "id":1,
@@ -761,7 +761,7 @@
                         "idAtributo":null,
                         "idDato":null
                     },
-                    "relacionesGrafo":null,
+                    "relacionesGrafo":[2,3],
                     "atributos":[
                         {
                             "id":1,
@@ -1369,7 +1369,7 @@
                         "idAtributo":null,
                         "idDato":null
                     },
-                    "relacionesGrafo":null,
+                    "relacionesGrafo":[1,3],
                     "atributos":[
                         {
                             "id":1,
@@ -1492,7 +1492,7 @@
                         "idAtributo":null,
                         "idDato":null
                     },
-                    "relacionesGrafo":null,
+                    "relacionesGrafo":[3],
                     "atributos":[
                         {
                             "id":1,
@@ -1860,7 +1860,7 @@
                         "idAtributo":null,
                         "idDato":null
                     },
-                    "relacionesGrafo":null,
+                    "relacionesGrafo":[1],
                     "atributos":[
                         {
                             "id":1,
@@ -2125,7 +2125,7 @@
                         "idAtributo":null,
                         "idDato":null
                     },
-                    "relacionesGrafo":null,
+                    "relacionesGrafo":[2],
                     "atributos":[
                         {
                             "id":1,
@@ -2265,7 +2265,7 @@
                         "idAtributo":null,
                         "idDato":null
                     },
-                    "relacionesGrafo":null,
+                    "relacionesGrafo":[1,2],
                     "atributos":[
                         {
                             "id":1,
