@@ -27,7 +27,7 @@
   </div>
 </div>
 <!--<div *ngIf="nombreCurso">-->
-  <p>-------------------- ZONA GRAFO --------------------</p>
+  <!-- <p>-------------------- ZONA GRAFO --------------------</p>
   <div *ngFor="let etapa of initialSchemaService.defaultSchema?.etapas">
       <button (click)="mostrarGruposDeEtapa(etapa)">Etapa: {{etapa.nombre}}</button>
   </div>
@@ -38,11 +38,11 @@
           {{grupo.nombre}}
       </button>
   </div>
-  <p>------------------ END ZONA GRAFO ------------------</p>
+  <p>------------------ END ZONA GRAFO ------------------</p> -->
 <!--</div>-->
 
 <p>-------------------- ZONA CONTENIDO GRUPO --------------------</p>
-<div class="'container" *ngIf="grupoCargado">
+<div class="'container p-4" *ngIf="grupoCargado">
   <app-grupo [grupo]="grupoCargado"></app-grupo>
 </div>
 <p>------------------ END ZONA CONTENIDO GRUPO ------------------</p>

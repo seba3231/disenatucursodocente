@@ -267,6 +267,16 @@ function onClickNode(){
         var svgLinks = d3.select('svg').selectAll("line[grado='2'][stroke]").remove()
 
         cloneNode(this)
+
+        var grupoIdVar = this.__data__.id;
+        console.log(grupoIdVar)
+        var event = new CustomEvent('grupoOnClick', {
+            detail: {
+                grupoId: grupoIdVar,
+            }
+        })
+        window.dispatchEvent(event);
+        // grupoOnClick(this.__data__.id)
     }
 }
 
@@ -333,7 +343,7 @@ function cloneNode(nodeOriginal){
         nodeGray.setAttribute("fill","#bebfbf");
     
     //agrego los links
-    var parents = nodeOriginal.__data__.parent.split(",");
+    var parents = nodeOriginal.__data__.parent
     
     for (var i=0; i < parents.length; i++) { 
         var nodeParent = d3.select('svg').selectAll("circle[id='"+parents[i]+"']")

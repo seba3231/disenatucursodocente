@@ -16,6 +16,7 @@ export interface ContenidoCondicional{
 export interface Etapa {
     id:number;
     nombre:string;
+    descripcion:string;
     grupos:Grupo[];
 }
 
