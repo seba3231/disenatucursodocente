@@ -1,22 +1,5 @@
-<!-- cabezal -->
-<header class="ps-4 pt-2">
-  <div class="d-flex flex-row">
-    <i class="bi bi-mortarboard-fill p-2" style="font-size: 1.8rem;"></i>
-    <h1 class="p-2 fw-bolder">Nombre del Curso</h1>
-  </div>
-</header>
-
-<!-- zona del grafo -->
-<div class="chart-container" style="max-width: 1000px; margin: auto;">
-  <div id="triangle" class="triangle">
-    <div class="triangle-container">
-      <span id="triangle-title" class="triangle-title"></span>
-      <span id="triangle-description" class="triangle-description"></span>
-    </div>
-  </div>
-</div>
-
 <!-- zona del menu provisorio -->
+<p>-------------------- CARGAR ARCHIVO --------------------</p>
 <div class="row">
   <div class="col">
       <div class="mb-3">            
@@ -27,23 +10,51 @@
       <button *ngIf="this.initialSchemaService.loadedData" type="button" (click)="descargarArchivo()" class="btn btn-primary">Descargar Archivo</button>
   </div>
 </div>
+<p>-------------------- END CARGAR ARCHIVO --------------------</p>
+
 <p>-------------------- ZONA GRAFO --------------------</p>
-<div *ngIf="this.initialSchemaService.loadedData">
-  <div *ngFor="let etapa of initialSchemaService.defaultSchema?.etapas">
-      <button (click)="mostrarGruposDeEtapa(etapa)">Etapa: {{etapa.nombre}}</button>
-  </div>
-  
-  <div *ngIf="gruposDeEtapa">
-      <p>Grupos de la Etapa</p>
-      <button *ngFor="let grupo of gruposDeEtapa" (click)="cargarGrupo(grupo)">
-          {{grupo.nombre}}
-      </button>
-  </div>
+<!-- cabezal -->
+<header class="ps-4 pt-2 container">
+<div class="d-flex flex-row border-bottom">
+    <i class="bi bi-mortarboard-fill p-2" style="font-size: 1.8rem;"></i>
+    <h1 class="p-2 fw-bolder">Nombre del Curso</h1>
+</div>
+</header>
+<!-- zona del grafo -->
+<div class="chart-container" style="max-width: 1000px; margin: auto; left:40px;">
+<div id="triangle" class="triangle">
+    <div class="triangle-container">
+    <span id="triangle-title" class="triangle-title"></span>
+    <span id="triangle-description" class="triangle-description"></span>
+    </div>
+</div>
 </div>
 <p>------------------ END ZONA GRAFO ------------------</p>
 
-<p>-------------------- ZONA CONTENIDO GRUPO --------------------</p>
-<div class="'container" *ngIf="grupoCargado">
+<div *ngIf="this.initialSchemaService.loadedData">
+    <!-- botones -->
+    <div class="container text-center mb-3">
+    <div >
+        <a class="btn btn-primary background-primary m-2" href="#!" role="button">
+        <i class="bi bi-cloud-arrow-down me-2"></i>EXPORTAR</a>
+        <a class="btn btn-primary background-primary m-2" href="#!" role="button">
+            <i class="bi bi-share-fill me-2"></i>COMPARTIR</a>
+        <a class="btn btn-primary background-primary m-2" href="#!" role="button">
+        <i class="bi bi-clock-history me-2"></i>VER HISTORIAL</a>
+    </div>
+    </div>
+</div>
+
+<!-- -------------------- ZONA CONTENIDO GRUPO -------------------- -->
+<div class="'container p-4" *ngIf="grupoCargado">
   <app-grupo [grupo]="grupoCargado"></app-grupo>
 </div>
-<p>------------------ END ZONA CONTENIDO GRUPO ------------------</p>
+<div class="'container" *ngIf="!grupoCargado">
+  <div class="card container p-4">
+    <div class="card-body ">
+      <h2 class="p-2 fw-bolder text-center opacity-75 p-4 m-auto" style="max-width: 50ch;">En este espacio podrás editar tu curso luego de seleccionar la etapa en el menú</h2>
+      <img src="../assets/img/empty_espaciotrabajo.svg" alt="" style="max-width: 500px;margin: auto;display: block;">
+    </div>
+  </div>
+</div>
+<!-- ------------------ END ZONA CONTENIDO GRUPO ------------------ -->

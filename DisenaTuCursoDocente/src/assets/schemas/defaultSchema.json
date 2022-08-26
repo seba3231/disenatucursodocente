@@ -3,6 +3,7 @@
         {
             "id":1,
             "nombre":"Programa",
+            "descripcion": "La elaboración del Programa educativo es el proceso sistemático de produccion de nuevos programas educativos o de revisión de programas existentes. Implica la definición de objetivos, contenidos, métodos y procedimientos de evaluación.",
             "grupos":[
                 {
                     "id":11,
@@ -583,7 +584,7 @@
                         "idAtributo":null,
                         "idDato":null
                     },
-                    "relacionesGrafo":null,
+                    "relacionesGrafo":[2],
                     "atributos":[
                         {
                             "id":1,
@@ -720,7 +721,7 @@
                         "idAtributo":null,
                         "idDato":null
                     },
-                    "relacionesGrafo":null,
+                    "relacionesGrafo":[2,3],
                     "atributos":[
                         {
                             "id":1,
@@ -907,6 +908,7 @@
         {
             "id":2,
             "nombre":"Implementación",
+            "descripcion": "En esta etapa existen algunas definiciones que estarán dadas por las circunstancias de la cursada y otras que estarán definidas por el/la docente. Una vez el curso se ofrece se deberán tener los siguientes datos",
             "grupos":[
                 {
                     "id":21,
@@ -1328,7 +1330,7 @@
                         "idAtributo":null,
                         "idDato":null
                     },
-                    "relacionesGrafo":null,
+                    "relacionesGrafo":[1,3],
                     "atributos":[
                         {
                             "id":1,
@@ -1451,7 +1453,7 @@
                         "idAtributo":null,
                         "idDato":null
                     },
-                    "relacionesGrafo":null,
+                    "relacionesGrafo":[3],
                     "atributos":[
                         {
                             "id":1,
@@ -1819,7 +1821,7 @@
                         "idAtributo":null,
                         "idDato":null
                     },
-                    "relacionesGrafo":null,
+                    "relacionesGrafo":[1],
                     "atributos":[
                         {
                             "id":1,
@@ -1999,6 +2001,7 @@
         {
             "id":3,
             "nombre":"Dictado",
+            "descripcion": "Definiciones de diseño “on the spot” en la edición: implica ajustes que se toman sobre la marcha de acuerdo a decisiones del docente basadas en cómo el curso se desenvuelve y cómo los estudiantes responden. Se registran los cambios hechos. ",
             "grupos":[
                 {
                     "id":31,
@@ -2084,7 +2087,7 @@
                         "idAtributo":null,
                         "idDato":null
                     },
-                    "relacionesGrafo":null,
+                    "relacionesGrafo":[2],
                     "atributos":[
                         {
                             "id":1,
@@ -2224,7 +2227,7 @@
                         "idAtributo":null,
                         "idDato":null
                     },
-                    "relacionesGrafo":null,
+                    "relacionesGrafo":[1,2],
                     "atributos":[
                         {
                             "id":1,
