@@ -3,34 +3,42 @@ import { Ubicacion } from "./schema.model";
 export interface SchemaSavedData{
     id:number;
     schemaVersion:number;
-    intitucion:string | null;
+    intitucion?:string;
     nombreCurso:string;
     version:number;
     fechaCreacion:Date;
     fechaModificacion:Date;
-    datosGuardados:DatoGuardado[] | null;
+    datosGuardados?:DatoGuardado[];
 }
 
 export interface DatoGuardado{
-    ubicacion:Ubicacion;
-    valor:{
-        string:string;
-        number:number;
-        selectFijo:[
-            {
-                idGrupo:number;
-                idOpcion:number;
-            }
-        ],
-        selectUsuario:[
-            {
-                ubicacion:Ubicacion;
-            }
-        ],
-        archivo:{
-            nombre:string;
-            ruta:string;
-        },
-        date:Date;
-    }
+    ubicacionAtributo:Ubicacion;
+    cantidadInstancias:number;
+    valoresAtributo:ValoresAtributo[]
+}
+
+export interface ValoresAtributo{
+    idDato:[number];
+    valoresDato:ValoresDato[];
+}
+
+export interface ValoresDato{
+    string:string | null;
+    number:number | null;
+    selectFijo:[
+        {
+            idGrupo:number;
+            idOpcion:number;
+        }
+    ] | null,
+    selectUsuario:[
+        {
+            ubicacion:Ubicacion;
+        }
+    ] | null,
+    archivo:{
+        nombre:string;
+        ruta:string;
+    } | null,
+    date:Date | null;
 }

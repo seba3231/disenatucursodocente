@@ -20,14 +20,15 @@
 <div class="row">
   <div class="col">
       <div class="mb-3">            
-          <label class="form-label">Nombre del Curso</label>
-          <input [(ngModel)]="nombreCurso" placeholder="Ingrese nombre del curso" class="form-control"/>
+          <label class="form-label">Archivo a cargar</label>
+          <input [(ngModel)]="nombreArchivo" placeholder="archivos en assets/schemasData/" class="form-control"/>
       </div>
-      <button type="button" (click)="crearArchivo()" class="btn btn-primary">Crear o Cargar Archivo</button>
+      <button type="button" (click)="cargarArchivo()" class="btn btn-primary">Cargar Archivo</button>
+      <button *ngIf="this.initialSchemaService.loadedData" type="button" (click)="descargarArchivo()" class="btn btn-primary">Descargar Archivo</button>
   </div>
 </div>
-<!--<div *ngIf="nombreCurso">-->
-  <p>-------------------- ZONA GRAFO --------------------</p>
+<p>-------------------- ZONA GRAFO --------------------</p>
+<div *ngIf="this.initialSchemaService.loadedData">
   <div *ngFor="let etapa of initialSchemaService.defaultSchema?.etapas">
       <button (click)="mostrarGruposDeEtapa(etapa)">Etapa: {{etapa.nombre}}</button>
   </div>
@@ -38,19 +39,11 @@
           {{grupo.nombre}}
       </button>
   </div>
-  <p>------------------ END ZONA GRAFO ------------------</p>
-<!--</div>-->
+</div>
+<p>------------------ END ZONA GRAFO ------------------</p>
 
 <p>-------------------- ZONA CONTENIDO GRUPO --------------------</p>
 <div class="'container" *ngIf="grupoCargado">
   <app-grupo [grupo]="grupoCargado"></app-grupo>
 </div>
 <p>------------------ END ZONA CONTENIDO GRUPO ------------------</p>
-<!--<div
-*ngFor="let etapa of initialSchemaService.defaultSchema?.etapas"
-class="'container"
->
-<app-etapa [etapa]="etapa"></app-etapa>
-</div>-->
-
-<router-outlet></router-outlet>

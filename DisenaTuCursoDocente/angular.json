@@ -31,7 +31,8 @@
             "scripts": [
               "src/assets/js/d3.v4.min.js",
               "src/assets/js/graph.js",
-              "src/assets/js/script.js"
+              "src/assets/js/script.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ]
           },
           "configurations": {
