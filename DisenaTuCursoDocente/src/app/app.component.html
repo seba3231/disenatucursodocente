@@ -1,13 +1,13 @@
 <!-- cabezal -->
-<header class="ps-4 pt-2">
-  <div class="d-flex flex-row">
+<header class="ps-4 pt-2 container">
+  <div class="d-flex flex-row border-bottom">
     <i class="bi bi-mortarboard-fill p-2" style="font-size: 1.8rem;"></i>
     <h1 class="p-2 fw-bolder">Nombre del Curso</h1>
   </div>
 </header>
 
 <!-- zona del grafo -->
-<div class="chart-container" style="max-width: 1000px; margin: auto;">
+<div class="chart-container" style="max-width: 1000px; margin: auto; left:40px;">
   <div id="triangle" class="triangle">
     <div class="triangle-container">
       <span id="triangle-title" class="triangle-title"></span>
@@ -15,17 +15,18 @@
     </div>
   </div>
 </div>
-
-<!-- zona del menu provisorio -->
-<div class="row">
-  <div class="col">
-      <div class="mb-3">            
-          <label class="form-label">Nombre del Curso</label>
-          <input [(ngModel)]="nombreCurso" placeholder="Ingrese nombre del curso" class="form-control"/>
-      </div>
-      <button type="button" (click)="crearArchivo()" class="btn btn-primary">Crear o Cargar Archivo</button>
+<!-- botones -->
+<div class="container text-center mb-3">
+  <div >
+    <a class="btn btn-primary background-primary m-2" href="#!" role="button">
+      <i class="bi bi-cloud-arrow-down me-2"></i>EXPORTAR</a>
+    <a class="btn btn-primary background-primary m-2" href="#!" role="button">
+        <i class="bi bi-share-fill me-2"></i>COMPARTIR</a>
+    <a class="btn btn-primary background-primary m-2" href="#!" role="button">
+      <i class="bi bi-clock-history me-2"></i>VER HISTORIAL</a>
   </div>
 </div>
+
 <!--<div *ngIf="nombreCurso">-->
   <!-- <p>-------------------- ZONA GRAFO --------------------</p>
   <div *ngFor="let etapa of initialSchemaService.defaultSchema?.etapas">
@@ -41,11 +42,20 @@
   <p>------------------ END ZONA GRAFO ------------------</p> -->
 <!--</div>-->
 
-<p>-------------------- ZONA CONTENIDO GRUPO --------------------</p>
+<!-- -------------------- ZONA CONTENIDO GRUPO -------------------- -->
 <div class="'container p-4" *ngIf="grupoCargado">
   <app-grupo [grupo]="grupoCargado"></app-grupo>
 </div>
-<p>------------------ END ZONA CONTENIDO GRUPO ------------------</p>
+<div class="'container" *ngIf="!grupoCargado">
+  <div class="card container p-4">
+    <div class="card-body ">
+      <h2 class="p-2 fw-bolder text-center opacity-75 p-4 m-auto" style="max-width: 50ch;">En este espacio podrás editar tu curso luego de seleccionar la etapa en el menú</h2>
+      <img src="../assets/img/empty_espaciotrabajo.svg" alt="" style="max-width: 500px;margin: auto;display: block;">
+    </div>
+  </div>
+</div>
+<!-- ------------------ END ZONA CONTENIDO GRUPO ------------------ -->
+
 <!--<div
 *ngFor="let etapa of initialSchemaService.defaultSchema?.etapas"
 class="'container"
@@ -54,3 +64,13 @@ class="'container"
 </div>-->
 
 <router-outlet></router-outlet>
+<!-- zona crear archivo -->
+<div class="">
+  <div class="col">
+      <div class="mb-3">            
+          <label class="form-label">Nombre del Curso</label>
+          <input [(ngModel)]="nombreCurso" placeholder="Ingrese nombre del curso" class="form-control"/>
+      </div>
+      <button type="button" (click)="crearArchivo()" class="btn btn-primary">Crear o Cargar Archivo</button>
+  </div>
+</div>

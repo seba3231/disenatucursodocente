@@ -4,7 +4,7 @@ var Graph = function(targetElement, graph) {
     
         width = 1100//targetElement.offsetWidth,
     
-        height = 800,
+        height = 720,
     
         svg = d3.select(targetElement).append('svg')
             .attr("width", width)
