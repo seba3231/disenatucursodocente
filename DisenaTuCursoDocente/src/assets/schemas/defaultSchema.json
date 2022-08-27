@@ -102,7 +102,7 @@
                                             "filasDatos":null
                                         },
                                         {
-                                            "id":3,
+                                            "id":2,
                                             "nombre":"Nombre de tema",
                                             "ubicacion":{
                                                 "idEtapa":1,
@@ -121,7 +121,7 @@
                                             "filasDatos":null
                                         },
                                         {
-                                            "id":4,
+                                            "id":3,
                                             "nombre":"Descripción",
                                             "ubicacion":{
                                                 "idEtapa":1,
@@ -140,7 +140,7 @@
                                             "filasDatos":null
                                         },
                                         {
-                                            "id":5,
+                                            "id":4,
                                             "nombre":"Cantidad de horas",
                                             "ubicacion":{
                                                 "idEtapa":1,
@@ -160,47 +160,6 @@
                                         }
                                     ]
                                 }                                
-                            ]
-                        },
-                        {
-                            "id":3,
-                            "nombre":"Prueba Input Text",
-                            "ubicacion":{
-                                "idEtapa":1,
-                                "idGrupo":11,
-                                "idAtributo":null,
-                                "idDato":null
-                            },
-                            "herencia":null,
-                            "multiInstanciable":true,
-                            "puntoCritico":null,
-                            "comentariosPrivados":null,
-                            "ayuda":null,
-                            "obligatorio":false,
-                            "filasDatos":[
-                                {
-                                    "datos":[
-                                        {
-                                            "id":1,
-                                            "nombre":"Input Text",
-                                            "ubicacion":{
-                                                "idEtapa":1,
-                                                "idGrupo":11,
-                                                "idAtributo":3,
-                                                "idDato":null
-                                            },
-                                            "herencia":null,
-                                            "ayuda":null,
-                                            "tipo":"text",
-                                            "opciones":null,
-                                            "habilitadoSi":null,
-                                            "multiInstanciable":false,
-                                            "idContenidoCondicional":null,
-                                            "tamaño":2,
-                                            "filasDatos":null
-                                        }
-                                    ]
-                                }
                             ]
                         }
                     ]

@@ -30,7 +30,7 @@
         </div>
     </div>
 </div>
-<div *ngFor="let _ of [].constructor(cantidadInstancias)">
+<div *ngFor="let _ of [].constructor(cantidadInstancias); index as i">
     <p>{{ atributo.nombre }}</p>
     <div *ngFor="let fila of atributo.filasDatos" class="row">
         <div *ngFor="let dato of fila.datos" class="col">
@@ -53,29 +53,28 @@
                         || dato.tipo === (mapTipoInput.get(enumTiposInput.number))
                     "
                 >
-                    <input (keyup)="a(dato.ubicacion,dato.id)" [type]="dato.tipo" class="form-control" [placeholder]="dato.nombre || ''">
+                    <input [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),i,mapTipoInput.revGet(dato.tipo)!)" (keyup)="a(dato.ubicacion,dato.id)" [type]="dato.tipo" class="form-control" [placeholder]="dato.nombre || ''">
                 </div>
                 <!-- Codigo selectFijoUnico -->
                 <div *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
                     <select class="form-select">
                         <option 
                             *ngFor="let opcion of obtenerOpcionesFijas(dato.opciones.idGrupoDatoFijo);index as radioIndex"
-                            [selected]="radioIndex === 0"
+                            [selected]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),i,mapTipoInput.revGet(dato.tipo)!)"
                         >
                             {{ opcion }}
                         </option>
                     </select>
                 </div>
-                <!-- Codigo selectFijoMultiple -->
+                <!-- Codigo selectFijoMultiple 
                 <div *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
                     <mat-form-field appearance="fill">
                         <mat-label>{{ dato.nombre ? dato.nombre : "Seleccione" }}</mat-label>
                         <mat-select multiple>
-                            <!--<mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>-->
                             <mat-option *ngFor="let opcion of obtenerOpciones(dato)" [value]="opcion.valor">{{opcion.string}}</mat-option>
                         </mat-select>
                     </mat-form-field>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>

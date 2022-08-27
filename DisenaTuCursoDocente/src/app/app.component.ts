@@ -13,16 +13,13 @@ declare function createGraph(graph : any): any;
 
 export class AppComponent implements OnInit {
     title = 'DisenaTuCursoDocente';
-    nombreCurso:string='';
-
     gruposDeEtapa : Grupo[] | undefined = undefined;
     grupoCargado : Grupo | undefined = undefined;
     savedData : SchemaSavedData | undefined = undefined;
     defaultSchema : Esquema | undefined = undefined;
 
-    constructor(public initialSchemaService : InitialSchemaLoaderService){
-
-    }
+    nombreArchivo:string='';
+    constructor(public initialSchemaService : InitialSchemaLoaderService){ }
 
 
     ngOnInit() {
@@ -113,38 +110,14 @@ export class AppComponent implements OnInit {
         this.grupoCargado = grupo;
     }
 
-    crearArchivo(){
-        /*const {dialog} = require('electron').remote;
-        var fs = require('fs');
+    cargarArchivo(){
+        this.initialSchemaService.loadDataFile(this.nombreArchivo);
+    }
 
-        var options = {
-            title: "Save file",
-            defaultPath : "my_filename",
-            buttonLabel : "Save",
-
-            filters :[
-                {name: 'txt', extensions: ['txt']},
-                {name: 'All Files', extensions: ['*']}
-            ]
-        };
-
-        dialog.showSaveDialog(null, options).then(
-            () => {
-                console.log(require('path').join(process.cwd(), "my/relative/path.txt"));
-                //fs.writeFileSync(filePath, "hello world", 'utf-8');
-            }
-        );*/
-        /*let nuevoArchivo:SchemaSavedData = {
-            schemaVersion:1,
-            intitucion:null,
-            nombreCurso:this.nombreCurso,
-            version:0,
-            datosGuardados:null
-        };
+    descargarArchivo(){
         let a = document.createElement('a');
-        a.setAttribute('href', 'data:text/plain;charset=utf-u,'+encodeURIComponent(JSON.stringify(nuevoArchivo)));
-        a.setAttribute('download', this.nombreCurso+".json");
+        a.setAttribute('href', 'data:text/plain;charset=utf-u,'+encodeURIComponent(JSON.stringify(this.initialSchemaService.loadedData, null, 4)));
+        a.setAttribute('download', "file.json");
         a.click();
-        this.savedData = nuevoArchivo;*/
     }
 }
