@@ -11,6 +11,7 @@ import { AtributoComponent } from './atributo/atributo.component';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+import { ModalComponent } from './modal/modal.component';
 
 export function initConfig(loaderService : InitialSchemaLoaderService) {
     //return () => protesis.obtenerConfiguraciones();
@@ -42,7 +43,8 @@ export function initConfig(loaderService : InitialSchemaLoaderService) {
     AppComponent,
     EtapaComponent,
     GrupoComponent,
-    AtributoComponent
+    AtributoComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
