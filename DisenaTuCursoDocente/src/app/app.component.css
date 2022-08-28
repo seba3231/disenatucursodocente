@@ -13,6 +13,9 @@
     max-height: 280px;
 }
 
+.card{
+    cursor: pointer;
+}
 .card-title{
     padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
     color: var(--bs-card-color);

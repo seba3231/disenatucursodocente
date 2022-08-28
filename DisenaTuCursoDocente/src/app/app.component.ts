@@ -1,9 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { RouterModule, Routes } from '@angular/router';
-import { Etapa, Grupo,Esquema } from './modelos/schema.model';
-import { SchemaSavedData } from './modelos/schemaData.model';
 import { InitialSchemaLoaderService } from './servicios/initial-schema-loader.service';
 
 declare function createGraph(graph : any): any;

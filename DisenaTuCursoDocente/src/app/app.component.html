@@ -23,7 +23,7 @@
       <h3 class="pb-4 opacity-75">Mis cursos</h3>
       <div class="row">
         <div class="col-md-4" *ngFor="let cursos of initialSchemaService.allData" (click)="cardClick(cursos.id)">
-          <div class="card">
+          <div class="card cursor-pointer">
             <div class="card-title">
               <h5>{{cursos.nombreCurso}}</h5>
               <small class="m-0">Autor: {{cursos.autor}}</small>
