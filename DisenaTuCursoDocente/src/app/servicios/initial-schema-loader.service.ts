@@ -9,6 +9,7 @@ export class InitialSchemaLoaderService {
     
     defaultSchema?:Esquema;
     loadedData?:SchemaSavedData = undefined;
+    allData?:SchemaSavedData[] = undefined;
     constructor() { }
 
     loadInitialSchema(){
@@ -37,6 +38,21 @@ export class InitialSchemaLoaderService {
             if (xmlhttp.status === 200) {
                 this.loadedData = JSON.parse(xmlhttp.responseText);
                 console.log(this.loadedData);
+            }
+        };
+        xmlhttp.send();
+    }
+
+    loadAllDataFile(fileName:string){
+        //Leo información de archivo
+        const xmlhttp = new XMLHttpRequest();
+        const method = 'GET';
+        const url = 'assets/schemasData/'+fileName;
+        xmlhttp.open(method, url, true);
+        xmlhttp.onload = () => {
+            if (xmlhttp.status === 200) {
+                this.allData = JSON.parse(xmlhttp.responseText);
+                console.log(this.allData);
             }
         };
         xmlhttp.send();

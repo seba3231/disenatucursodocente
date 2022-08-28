@@ -2,6 +2,7 @@ export interface Esquema{
     etapas:Etapa[];
     version:number;
     institucion:string;
+    autor: string;
     gruposDatosFijos:GrupoDatoFijo[];
     contenidoCondicional:ContenidoCondicional[];
 }

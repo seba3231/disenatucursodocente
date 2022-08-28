@@ -31,7 +31,7 @@
     </div>
 </div>
 <div *ngFor="let _ of [].constructor(cantidadInstancias); index as i">
-    <p>{{ atributo.nombre }}</p>
+    <h5>{{ atributo.nombre }}</h5>
     <div *ngFor="let fila of atributo.filasDatos" class="row">
         <div *ngFor="let dato of fila.datos" class="col">
             <div class="mb-3">

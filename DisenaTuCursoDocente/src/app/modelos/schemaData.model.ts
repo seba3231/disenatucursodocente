@@ -4,6 +4,7 @@ export interface SchemaSavedData{
     id:number;
     schemaVersion:number;
     intitucion?:string;
+    autor?:string;
     nombreCurso:string;
     version:number;
     fechaCreacion:Date;
