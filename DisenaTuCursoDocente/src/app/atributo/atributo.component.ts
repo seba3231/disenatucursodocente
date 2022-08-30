@@ -211,7 +211,7 @@ export class AtributoComponent {
                 }
             }
         }
-        return "null_fin";
+        return "";
     }
 
     computoUbicacionAbsoluta(ubicacion:Ubicacion,id:number) : Ubicacion {
