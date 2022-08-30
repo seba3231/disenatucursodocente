@@ -50,7 +50,7 @@
                             "selectFijo":[
                                 {
                                     "idGrupo":1,
-                                    "idOpcion":2
+                                    "idOpcion":1
                                 }
                             ],
                             "selectUsuario":null,
@@ -63,7 +63,7 @@
                             "selectFijo":[
                                 {
                                     "idGrupo":1,
-                                    "idOpcion":1
+                                    "idOpcion":0
                                 }
                             ],
                             "selectUsuario":null,
@@ -168,6 +168,93 @@
                     ]
                 }
             ]
+        },
+        {
+            "ubicacionAtributo":{
+                "idEtapa":1,
+                "idGrupo":12,
+                "idAtributo":1,
+                "idDato":null
+            },
+            "cantidadInstancias":1,
+            "valoresAtributo":[
+                {
+                    "idDato":[1],
+                    "valoresDato":[
+                        {
+                            "string":null,
+                            "number":"nombre_unidad_curricular_1",
+                            "selectFijo":null,
+                            "selectUsuario":null,
+                            "archivo":null,
+                            "date":null
+                        }
+                    ]
+                },
+                {
+                    "idDato":[2],
+                    "valoresDato":[
+                        {
+                            "string":null,
+                            "number":null,
+                            "selectFijo":null,
+                            "selectUsuario":null,
+                            "archivo":null,
+                            "date":null
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "ubicacionAtributo":{
+                "idEtapa":1,
+                "idGrupo":12,
+                "idAtributo":2,
+                "idDato":null
+            },
+            "cantidadInstancias":1,
+            "valoresAtributo":[
+                {
+                    "idDato":[1],
+                    "valoresDato":[
+                        {
+                            "string":null,
+                            "number":null,
+                            "selectFijo":null,
+                            "selectUsuario":null,
+                            "archivo":null,
+                            "date":null
+                        }
+                    ]
+                },
+                {
+                    "idDato":[2],
+                    "valoresDato":[
+                        {
+                            "string":null,
+                            "number":null,
+                            "selectFijo":null,
+                            "selectUsuario":null,
+                            "archivo":null,
+                            "date":null
+                        }
+                    ]
+                },
+                {
+                    "idDato":[3],
+                    "valoresDato":[
+                        {
+                            "string":"una_especializacion_1",
+                            "number":null,
+                            "selectFijo":null,
+                            "selectUsuario":null,
+                            "archivo":null,
+                            "date":null
+                        }
+                    ]
+                }
+            ]
         }
     ]
 },
@@ -223,7 +310,7 @@
                             "selectFijo":[
                                 {
                                     "idGrupo":1,
-                                    "idOpcion":2
+                                    "idOpcion":1
                                 }
                             ],
                             "selectUsuario":null,
@@ -236,7 +323,7 @@
                             "selectFijo":[
                                 {
                                     "idGrupo":1,
-                                    "idOpcion":1
+                                    "idOpcion":0
                                 }
                             ],
                             "selectUsuario":null,

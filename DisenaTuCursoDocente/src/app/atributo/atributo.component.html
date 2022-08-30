@@ -30,7 +30,7 @@
         </div>
     </div>
 </div>
-<div *ngFor="let _ of [].constructor(cantidadInstancias); index as i">
+<div *ngFor="let _ of [].constructor(cantidadInstancias); index as indiceInstancia">
     <h5>{{ atributo.nombre }}</h5>
     <div *ngFor="let fila of atributo.filasDatos" class="row">
         <div *ngFor="let dato of fila.datos" class="col">
@@ -49,32 +49,35 @@
                 -->
                 <label class="form-label">{{ dato.nombre ? dato.nombre : "&nbsp;" }}</label>
                 <!-- Codigo text,number-->
-                <div *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.text))
+                <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.text))
                         || dato.tipo === (mapTipoInput.get(enumTiposInput.number))
                     "
                 >
-                    <input [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),i,mapTipoInput.revGet(dato.tipo)!)" (keyup)="a(dato.ubicacion,dato.id)" [type]="dato.tipo" class="form-control" [placeholder]="dato.nombre || ''">
-                </div>
+                    <input [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,atributo.multiInstanciable)" (keyup)="a(dato.ubicacion,dato.id)" [type]="dato.tipo" class="form-control" [placeholder]="dato.nombre || ''">
+                </ng-container>
                 <!-- Codigo selectFijoUnico -->
-                <div *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
-                    <select class="form-select">
-                        <option 
-                            *ngFor="let opcion of obtenerOpcionesFijas(dato.opciones.idGrupoDatoFijo);index as radioIndex"
-                            [selected]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),i,mapTipoInput.revGet(dato.tipo)!)"
-                        >
-                            {{ opcion }}
-                        </option>
+                <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
+                    <select class="form-select" (change)="cambioSelect($event.target,computoUbicacionAbsoluta(dato.ubicacion,dato.id),atributo.multiInstanciable,indiceInstancia)">
+                        <ng-container *ngFor="let opcion of obtenerOpciones(dato)">
+                            <option 
+                                *ngIf="muestroOpcion(opcion.muestroSi)"
+                                [selected]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,atributo.multiInstanciable)"
+                                [value]="opcion.valor"
+                            >
+                                {{ opcion.string }}
+                            </option>
+                        </ng-container>
                     </select>
-                </div>
-                <!-- Codigo selectFijoMultiple 
-                <div *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
-                    <mat-form-field appearance="fill">
-                        <mat-label>{{ dato.nombre ? dato.nombre : "Seleccione" }}</mat-label>
-                        <mat-select multiple>
-                            <mat-option *ngFor="let opcion of obtenerOpciones(dato)" [value]="opcion.valor">{{opcion.string}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>-->
+                </ng-container>
+                    <!-- Codigo selectFijoMultiple -->
+                    <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoMultiple))">
+                        <mat-form-field appearance="fill">
+                            <mat-label>{{ dato.nombre ? dato.nombre : "Seleccione" }}</mat-label>
+                            <mat-select multiple>
+                                <mat-option *ngFor="let opcion of obtenerOpciones(dato)" [value]="opcion.valor">{{opcion.string}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </ng-container>
             </div>
         </div>
     </div>

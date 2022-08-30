@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Atributo, Dato, Ubicacion } from '../modelos/schema.model';
+import { Component, EventEmitter, Input } from '@angular/core';
+import { Atributo, Dato, DependenciaDeDatos, Ubicacion } from '../modelos/schema.model';
 import { DatosFijosService } from '../datos-fijos.service';
 import { MapTipoInput, TipoInput, TwoWayMap } from '../enumerados/enums';
 import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.service';
@@ -14,11 +14,11 @@ export class AtributoComponent {
     @Input() atributo!: Atributo;
     mapTipoInput : TwoWayMap<TipoInput, string>;
     enumTiposInput = TipoInput;
-
     cantidadInstancias:number = 1;
     valoresAtributo:ValoresAtributo[] | undefined;
     
-    mapOpcionesSelect : Map<Ubicacion,any> = new Map();
+    mapOpcionesSelect : Map<string,any> = new Map();
+    mapOpcionSeleccionada : Map<string,number> = new Map();
 
     constructor(private datosFijos: DatosFijosService,
         private initialSchemaService : InitialSchemaLoaderService) {
@@ -47,49 +47,38 @@ export class AtributoComponent {
                 if(dato.opciones){
                     if(dato.opciones.referencia){
                         //TODO: Proceso Datos de Usuario
-
                     }
                     else{
                         //Proceso Datos Fijos
                         const datosFijos = this.datosFijos.getDatosFijos();
                         const datoFijo = datosFijos?.find((datoFijo) => datoFijo.id === dato.opciones.idGrupoDatoFijo);
                         for (const opcion of datoFijo?.opciones!) {
-                            //TODO: Procesar muestroSi
                             let ubicacionAbsoluta = this.computoUbicacionAbsoluta(dato.ubicacion,dato.id);
-                            let hasKey = false;
-                            for (const [key, value] of this.mapOpcionesSelect) {
-                                if (key.idEtapa === ubicacionAbsoluta.idEtapa
-                                    && key.idGrupo === ubicacionAbsoluta.idGrupo
-                                    && key.idAtributo === ubicacionAbsoluta.idAtributo
-                                    && key.idDato.length === ubicacionAbsoluta.idDato.length && key.idDato.every(function(value, index) { return value === ubicacionAbsoluta.idDato[index]})
-                                ){
-                                    value.push (
-                                        {
-                                            string:opcion.valor,
-                                            valor:{
-                                                valorUsuario:null,
-                                                valorFijo:{
-                                                    idGrupo:datoFijo?.id,
-                                                    idOpcion:opcion.id
-                                                }
+                            let retrievedValue = this.mapOpcionesSelect.get(JSON.stringify(ubicacionAbsoluta));
+                            if(retrievedValue){
+                                //Si ya existe la key en el map, agrego una opción al array de opciones
+                                retrievedValue.push(
+                                    {
+                                        string:opcion.valor,
+                                        muestroSi:opcion.muestroSi,
+                                        valor:{
+                                            valorUsuario:null,
+                                            valorFijo:{
+                                                idGrupo:datoFijo?.id,
+                                                idOpcion:opcion.id
                                             }
                                         }
-                                    )
-                                    hasKey = true;
-                                    break;
-                                }
+                                    }
+                                )
                             }
-                            if(!hasKey){
+                            else{
+                                //Si no existe la key en el map
                                 this.mapOpcionesSelect.set(
-                                    {
-                                        idEtapa:ubicacionAbsoluta.idEtapa,
-                                        idGrupo:ubicacionAbsoluta.idGrupo,
-                                        idAtributo:ubicacionAbsoluta.idAtributo,
-                                        idDato:ubicacionAbsoluta.idDato
-                                    },
+                                    JSON.stringify(ubicacionAbsoluta),
                                     [
                                         {
                                             string:opcion.valor,
+                                            muestroSi:opcion.muestroSi,
                                             valor:{
                                                 valorUsuario:null,
                                                 valorFijo:{
@@ -123,34 +112,6 @@ export class AtributoComponent {
         this.cantidadInstancias++;
     }
 
-  parsearTipo(tipo: string) {
-    //0: normal
-    //1: select fijo
-    //2: radio
-    //3: select no fijo
-    //poner todos los que hagan diferencia en el rendereo
-    switch (tipo) {
-      case 'selectFijoUnico':
-        return [1, 'unico'];
-        break;
-      case 'selectFijoMultiple':
-        return [1, 'multiple'];
-        break;
-      case 'radio':
-        return [2, null];
-      default:
-        return [0, null];
-        break;
-    }
-  }
-
-    obtenerOpcionesFijas(idDatoFijo: number) {
-        const datosFijos = this.datosFijos.getDatosFijos();
-        const datoFijo = datosFijos?.find((datoFijo) => datoFijo.id === idDatoFijo);
-        const opciones = datoFijo?.opciones.map((opcion) => opcion.valor);
-        return opciones;
-    }
-
     addLinkHTML(string: string){
         var urlRegex = /(https?:\/\/[^\s]+)/g;
         return string.replace(urlRegex, function(url) {
@@ -159,18 +120,40 @@ export class AtributoComponent {
     }
     
     obtenerOpciones(dato:Dato){
+        
         let ubicacionAbsoluta = this.computoUbicacionAbsoluta(dato.ubicacion,dato.id);
-        for (const [key, value] of this.mapOpcionesSelect) {
-            if (key.idEtapa === ubicacionAbsoluta.idEtapa
-                && key.idGrupo === ubicacionAbsoluta.idGrupo
-                && key.idAtributo === ubicacionAbsoluta.idAtributo
-                && key.idDato.length === ubicacionAbsoluta.idDato.length && key.idDato.every(function(value, index) { return value === ubicacionAbsoluta.idDato[index]})
-            ){
-                return value;
-            }
+        let opciones = this.mapOpcionesSelect.get(JSON.stringify(ubicacionAbsoluta));
+        if(opciones !== null){
+            return opciones;
         }
         console.log("No se enecontro array de opciones");
         return [];
+    }
+
+    muestroOpcion(muestroSi:DependenciaDeDatos){
+        if(muestroSi){
+            let clave = JSON.stringify(muestroSi.referencia);
+            let opcionSeleccionada = this.mapOpcionSeleccionada.get(clave);
+            if(opcionSeleccionada !== undefined){
+
+                return opcionSeleccionada === muestroSi.valorSeleccionado.idOpcion
+            }
+        }
+        return true;
+    }
+
+    cambioSelect(event:any,ubicacion:Ubicacion,multiInstanciable:boolean,indice:number){
+        if(!multiInstanciable){
+            let clave = JSON.stringify(ubicacion);
+            let valor = event.selectedIndex;
+            this.mapOpcionSeleccionada.set(
+                clave,
+                valor
+            );
+        }
+        else{
+            //TODO: escribir variable de datos guardados
+        }
     }
 
     a(ubicacion:Ubicacion,id:number){
@@ -178,7 +161,7 @@ export class AtributoComponent {
         //console.log("opa");
     }
 
-    cargarInfoPrevia(ubicacion:Ubicacion, indice:number, tipoInput: TipoInput){
+    cargarInfoPrevia(ubicacion:Ubicacion, indice:number, tipoInput: TipoInput,multiInstanciable:boolean){
         if(this.valoresAtributo){
             for(let valoresDato of this.valoresAtributo){
 
@@ -189,48 +172,45 @@ export class AtributoComponent {
                         case TipoInput.number:
                             return valoresDato.valoresDato[indice].number;
                         case TipoInput.selectFijoUnico:
-                            if(valoresDato.valoresDato[indice].selectFijo){
-                                return valoresDato.valoresDato[indice].selectFijo![0].idOpcion-1;
+                                                 
+                            let indiceRetorno=0;
+
+                            if(multiInstanciable){
+                                if(valoresDato.valoresDato[indice].selectFijo){
+                                    indiceRetorno = valoresDato.valoresDato[indice].selectFijo![0].idOpcion;
+                                }
                             }
                             else{
-                                return 0;
+                                let key = JSON.stringify({
+                                    idEtapa:this.atributo.ubicacion.idEtapa,
+                                    idGrupo:this.atributo.ubicacion.idGrupo,
+                                    idAtributo:this.atributo.id,
+                                    idDato:ubicacion.idDato
+                                });
+                                let value = this.mapOpcionSeleccionada.get(key);
+                                //Checkeo que solo se compute una vez este codigo
+                                if(!value){
+                                    if(valoresDato.valoresDato[indice].selectFijo){
+                                        indiceRetorno = valoresDato.valoresDato[indice].selectFijo![0].idOpcion;
+                                    }
+                                    this.mapOpcionSeleccionada.set(
+                                        key,
+                                        indiceRetorno
+                                    );
+                                }
+                                else{
+                                    indiceRetorno = value;
+                                }
                             }
+                            
+                            return indiceRetorno;
+
                         default:
                             return "null";
                     }
                 }
             }
         }
-        /*if(this.initialSchemaService.loadedData && this.initialSchemaService.loadedData.datosGuardados){
-            for(let datoGuardado of this.initialSchemaService.loadedData.datosGuardados){
-                
-                if (datoGuardado.ubicacionAtributo.idEtapa === ubicacion.idEtapa
-                    && datoGuardado.ubicacionAtributo.idGrupo === ubicacion.idGrupo
-                    && datoGuardado.ubicacionAtributo.idAtributo === ubicacion.idAtributo
-                ){
-                    for(let valoresDato of datoGuardado.valoresAtributo){
-
-                        if(valoresDato.idDato.length === ubicacion.idDato.length && valoresDato.idDato.every(function(value, index) { return value === ubicacion.idDato[index]})){
-                            switch (tipoInput) {
-                                case TipoInput.text:
-                                    return valoresDato.valoresDato[indice].string;
-                                case TipoInput.number:
-                                    return valoresDato.valoresDato[indice].number;
-                                case TipoInput.selectFijoUnico:
-                                    if(valoresDato.valoresDato[indice].selectFijo){
-                                        return valoresDato.valoresDato[indice].selectFijo[0].idOpcion-1;
-                                    }
-                                    else{
-                                        return 0;
-                                    }
-                                default:
-                                    return "null";
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
         return "null_fin";
     }
 

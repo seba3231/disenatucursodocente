@@ -393,7 +393,7 @@
                                                 },
                                                 "valorSeleccionado":{
                                                     "idGrupoDatoFijo":5,
-                                                    "idOpcion":1
+                                                    "idOpcion":0
                                                 }
                                             },
                                             "multiInstanciable":false,
@@ -528,7 +528,7 @@
                                                 },
                                                 "valorSeleccionado":{
                                                     "idGrupoDatoFijo":6,
-                                                    "idOpcion":1
+                                                    "idOpcion":0
                                                 }
                                             },
                                             "multiInstanciable":false,
@@ -561,7 +561,7 @@
                                                 },
                                                 "valorSeleccionado":{
                                                     "idGrupoDatoFijo":6,
-                                                    "idOpcion":2
+                                                    "idOpcion":1
                                                 }
                                             },
                                             "multiInstanciable":false,
@@ -2350,13 +2350,13 @@
             "nombre":"Temas o Competencias",
             "opciones":[
                 {
-                    "id":1,
+                    "id":0,
                     "idGrupo":1,
                     "valor":"Tema",
                     "muestroSi":null
                 },
                 {
-                    "id":2,
+                    "id":1,
                     "idGrupo":1,
                     "valor":"Competencia",
                     "muestroSi":null
@@ -2368,13 +2368,13 @@
             "nombre":"Carreras",
             "opciones":[
                 {
-                    "id":1,
+                    "id":0,
                     "idGrupo":2,
                     "valor":"Ingeniería en Computación",
                     "muestroSi":null
                 },
                 {
-                    "id":2,
+                    "id":1,
                     "idGrupo":2,
                     "valor":"Doctor en Derecho",
                     "muestroSi":null
@@ -2386,13 +2386,13 @@
             "nombre":"Áreas de conocimiento",
             "opciones":[
                 {
-                    "id":1,
+                    "id":0,
                     "idGrupo":3,
                     "valor":"Ciencia",
                     "muestroSi":null
                 },
                 {
-                    "id":2,
+                    "id":1,
                     "idGrupo":3,
                     "valor":"Humanidades",
                     "muestroSi":null
@@ -2404,32 +2404,49 @@
             "nombre":"Subáreas de conocimiento",
             "opciones":[
                 {
-                    "id":1,
+                    "id":0,
                     "idGrupo":4,
                     "valor":"SubCiencia_1",
                     "muestroSi":{
                         "referencia":{
                             "idEtapa":1,
-                            "idGrupo":2,
+                            "idGrupo":12,
                             "idAtributo":2,
-                            "idDato":1
+                            "idDato":[1]
                         },
                         "valorSeleccionado":{
                             "idGrupoDatoFijo":3,
-                            "idOpcion":1
+                            "idOpcion":0
+                        }
+                    }
+                },
+                {
+                    "id":1,
+                    "idGrupo":4,
+                    "valor":"SubCiencia_2",
+                    "muestroSi":{
+                        "referencia":{
+                            "idEtapa":1,
+                            "idGrupo":12,
+                            "idAtributo":2,
+                            "idDato":[1]
+                        },
+                        "valorSeleccionado":{
+                            "idGrupoDatoFijo":3,
+                            "idOpcion":0
                         }
                     }
                 },
                 {
                     "id":2,
                     "idGrupo":4,
-                    "valor":"SubCiencia_2",
+                    "valor":"SubHumanidades_1",
                     "muestroSi":{
                         "referencia":{
                             "idEtapa":1,
-                            "idGrupo":2,
+                            "idGrupo":12,
                             "idAtributo":2,
-                            "idDato":1
+                            "idDato":[1]
                         },
                         "valorSeleccionado":{
                             "idGrupoDatoFijo":3,
@@ -2440,34 +2457,17 @@
                 {
                     "id":3,
                     "idGrupo":4,
-                    "valor":"SubHumanidades_1",
-                    "muestroSi":{
-                        "referencia":{
-                            "idEtapa":1,
-                            "idGrupo":2,
-                            "idAtributo":2,
-                            "idDato":1
-                        },
-                        "valorSeleccionado":{
-                            "idGrupoDatoFijo":3,
-                            "idOpcion":2
-                        }
-                    }
-                },
-                {
-                    "id":4,
-                    "idGrupo":4,
                     "valor":"SubHumanidades_2",
                     "muestroSi":{
                         "referencia":{
                             "idEtapa":1,
-                            "idGrupo":2,
+                            "idGrupo":12,
                             "idAtributo":2,
-                            "idDato":1
+                            "idDato":[1]
                         },
                         "valorSeleccionado":{
                             "idGrupoDatoFijo":3,
-                            "idOpcion":2
+                            "idOpcion":1
                         }
                     }
                 }
@@ -2478,13 +2478,13 @@
             "nombre":"Si o No",
             "opciones":[
                 {
-                    "id":1,
+                    "id":0,
                     "idGrupo":5,
                     "valor":"Si",
                     "muestroSi":null
                 },
                 {
-                    "id":2,
+                    "id":1,
                     "idGrupo":5,
                     "valor":"No",
                     "muestroSi":null
@@ -2496,13 +2496,13 @@
             "nombre":"Con o sin examen",
             "opciones":[
                 {
-                    "id":1,
+                    "id":0,
                     "idGrupo":6,
                     "valor":"Con examen",
                     "muestroSi":null
                 },
                 {
-                    "id":2,
+                    "id":1,
                     "idGrupo":6,
                     "valor":"Sin examen",
                     "muestroSi":null
@@ -2514,19 +2514,19 @@
             "nombre":"Modalidades con examen",
             "opciones":[
                 {
-                    "id":1,
+                    "id":0,
                     "idGrupo":7,
                     "valor":"Reglamentado",
                     "muestroSi":null
                 },
                 {
-                    "id":2,
+                    "id":1,
                     "idGrupo":7,
                     "valor":"Libre",
                     "muestroSi":null
                 },
                 {
-                    "id":3,
+                    "id":2,
                     "idGrupo":7,
                     "valor":"Ambos",
                     "muestroSi":null
@@ -2538,13 +2538,13 @@
             "nombre":"Modalidades sin examen",
             "opciones":[
                 {
-                    "id":1,
+                    "id":0,
                     "idGrupo":8,
                     "valor":"Trabajo final",
                     "muestroSi":null
                 },
                 {
-                    "id":2,
+                    "id":1,
                     "idGrupo":8,
                     "valor":"Promedio de calificaciones",
                     "muestroSi":null
@@ -2556,19 +2556,19 @@
             "nombre":"Modalidades de enseñanza",
             "opciones":[
                 {
-                    "id":1,
+                    "id":0,
                     "idGrupo":9,
                     "valor":"Presencial",
                     "muestroSi":null
                 },
                 {
-                    "id":2,
+                    "id":1,
                     "idGrupo":9,
                     "valor":"Online",
                     "muestroSi":null
                 },
                 {
-                    "id":3,
+                    "id":2,
                     "idGrupo":9,
                     "valor":"Hibrido",
                     "muestroSi":null
@@ -2580,13 +2580,13 @@
             "nombre":"Licencias CC",
             "opciones":[
                 {
-                    "id":1,
+                    "id":0,
                     "idGrupo":10,
                     "valor":"CC0",
                     "muestroSi":null
                 },
                 {
-                    "id":2,
+                    "id":1,
                     "idGrupo":10,
                     "valor":"CC1",
                     "muestroSi":null
@@ -2598,13 +2598,13 @@
             "nombre":"Tipos de espacios fisicos",
             "opciones":[
                 {
-                    "id":1,
+                    "id":0,
                     "idGrupo":11,
                     "valor":"Aula",
                     "muestroSi":null
                 },
                 {
-                    "id":2,
+                    "id":1,
                     "idGrupo":11,
                     "valor":"Laboratorio",
                     "muestroSi":null
@@ -2616,13 +2616,13 @@
             "nombre":"Equipamientos",
             "opciones":[
                 {
-                    "id":1,
+                    "id":0,
                     "idGrupo":12,
                     "valor":"Cámara",
                     "muestroSi":null
                 },
                 {
-                    "id":2,
+                    "id":1,
                     "idGrupo":12,
                     "valor":"Pizarra",
                     "muestroSi":null
@@ -2634,13 +2634,13 @@
             "nombre":"Plataformas disponibles",
             "opciones":[
                 {
-                    "id":1,
+                    "id":0,
                     "idGrupo":13,
                     "valor":"Zoom",
                     "muestroSi":null
                 },
                 {
-                    "id":2,
+                    "id":1,
                     "idGrupo":13,
                     "valor":"BB",
                     "muestroSi":null
@@ -2652,25 +2652,25 @@
             "nombre":"Tipos de evaluacion",
             "opciones":[
                 {
-                    "id":1,
+                    "id":0,
                     "idGrupo":14,
                     "valor":"Diagnostica",
                     "muestroSi":null
                 },
                 {
-                    "id":2,
+                    "id":1,
                     "idGrupo":14,
                     "valor":"Formativa",
                     "muestroSi":null
                 },
                 {
-                    "id":3,
+                    "id":2,
                     "idGrupo":14,
                     "valor":"Sumativa",
                     "muestroSi":null
                 },
                 {
-                    "id":4,
+                    "id":3,
                     "idGrupo":14,
                     "valor":"Continua",
                     "muestroSi":null
@@ -2682,13 +2682,13 @@
             "nombre":"Herramientas",
             "opciones":[
                 {
-                    "id":1,
+                    "id":0,
                     "idGrupo":15,
                     "valor":"Herramienta_1",
                     "muestroSi":null
                 },
                 {
-                    "id":2,
+                    "id":1,
                     "idGrupo":15,
                     "valor":"Herramienta_2",
                     "muestroSi":null
@@ -2700,19 +2700,19 @@
             "nombre":"Tipos de unidades",
             "opciones":[
                 {
-                    "id":1,
+                    "id":0,
                     "idGrupo":16,
                     "valor":"Temas o competencias",
                     "muestroSi":null
                 },
                 {
-                    "id":2,
+                    "id":1,
                     "idGrupo":16,
                     "valor":"Actividad",
                     "muestroSi":null
                 },
                 {
-                    "id":3,
+                    "id":2,
                     "idGrupo":16,
                     "valor":"Evaluación del módulo",
                     "muestroSi":null
@@ -2724,55 +2724,55 @@
             "nombre":"Tipos de unidades",
             "opciones":[
                 {
-                    "id":1,
+                    "id":0,
                     "idGrupo":17,
                     "valor":"Conferencia",
                     "muestroSi":null
                 },
                 {
-                    "id":2,
+                    "id":1,
                     "idGrupo":17,
                     "valor":"MOOC",
                     "muestroSi":null
                 },
                 {
-                    "id":3,
+                    "id":2,
                     "idGrupo":17,
                     "valor":"Aprendizaje Basado en Proyectos (ABP)",
                     "muestroSi":null
                 },
                 {
-                    "id":4,
+                    "id":3,
                     "idGrupo":17,
                     "valor":"Aula invertida",
                     "muestroSi":null
                 },
                 {
-                    "id":5,
+                    "id":4,
                     "idGrupo":17,
                     "valor":"Aprendizaje cooperativo",
                     "muestroSi":null
                 },
                 {
-                    "id":6,
+                    "id":5,
                     "idGrupo":17,
                     "valor":"Gamificación",
                     "muestroSi":null
                 },
                 {
-                    "id":7,
+                    "id":6,
                     "idGrupo":17,
                     "valor":"Pensamiento de diseño",
                     "muestroSi":null
                 },
                 {
-                    "id":8,
+                    "id":7,
                     "idGrupo":17,
                     "valor":"Método de caso",
                     "muestroSi":null
                 },
                 {
-                    "id":9,
+                    "id":8,
                     "idGrupo":17,
                     "valor":"Aprendizaje basado en problemas",
                     "muestroSi":null
@@ -2787,13 +2787,13 @@
             "muestroSi":{
                 "referencia":{
                     "idEtapa":2,
-                    "idGrupo":4,
+                    "idGrupo":24,
                     "idAtributo":3,
                     "idDato":[7,1]
                 },
                 "valorSeleccionado":{
                     "idGrupoDatoFijo":16,
-                    "idOpcion":1
+                    "idOpcion":0
                 }
             },
             "filasDatos":[
@@ -2932,13 +2932,13 @@
             "muestroSi":{
                 "referencia":{
                     "idEtapa":2,
-                    "idGrupo":4,
+                    "idGrupo":24,
                     "idAtributo":3,
                     "idDato":[7,1]
                 },
                 "valorSeleccionado":{
                     "idGrupoDatoFijo":16,
-                    "idOpcion":2
+                    "idOpcion":1
                 }
             },
             "filasDatos":[
@@ -3050,13 +3050,13 @@
             "muestroSi":{
                 "referencia":{
                     "idEtapa":2,
-                    "idGrupo":4,
+                    "idGrupo":24,
                     "idAtributo":3,
                     "idDato":[7,1]
                 },
                 "valorSeleccionado":{
                     "idGrupoDatoFijo":16,
-                    "idOpcion":3
+                    "idOpcion":2
                 }
             },
             "filasDatos":[
@@ -3160,13 +3160,13 @@
             "muestroSi":{
                 "referencia":{
                     "idEtapa":3,
-                    "idGrupo":2,
+                    "idGrupo":32,
                     "idAtributo":3,
                     "idDato":[1,1]
                 },
                 "valorSeleccionado":{
                     "idGrupoDatoFijo":16,
-                    "idOpcion":1
+                    "idOpcion":0
                 }
             },
             "filasDatos":null
@@ -3177,13 +3177,13 @@
             "muestroSi":{
                 "referencia":{
                     "idEtapa":3,
-                    "idGrupo":2,
+                    "idGrupo":32,
                     "idAtributo":3,
                     "idDato":[1,1]
                 },
                 "valorSeleccionado":{
                     "idGrupoDatoFijo":16,
-                    "idOpcion":2
+                    "idOpcion":1
                 }
             },
             "filasDatos":[
@@ -3218,13 +3218,13 @@
             "muestroSi":{
                 "referencia":{
                     "idEtapa":3,
-                    "idGrupo":2,
+                    "idGrupo":32,
                     "idAtributo":3,
                     "idDato":[1,1]
                 },
                 "valorSeleccionado":{
                     "idGrupoDatoFijo":16,
-                    "idOpcion":3
+                    "idOpcion":2
                 }
             },
             "filasDatos":[
