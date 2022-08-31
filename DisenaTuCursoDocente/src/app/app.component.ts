@@ -64,7 +64,6 @@ export class AppComponent {
             // do whatever you want here
             let dropdown = document.querySelectorAll(".dropdown-menu")
             dropdown.forEach(div => {
-                console.log(div);
                 if (div.classList.contains("show"))
                     div.classList.remove('show'); 
 
@@ -73,6 +72,18 @@ export class AppComponent {
         
     }
     public descargarCurso(event: any, cursoId: number):void{
+        event.stopPropagation();
+        let a = document.createElement('a');
+        if (cursoId && this.initialSchemaService.allData)
+            for (var i=0; i < this.initialSchemaService.allData.length; i++) {
+                if (this.initialSchemaService.allData[i].id == cursoId)
+                    a.setAttribute('href', 'data:text/plain;charset=utf-u,'+encodeURIComponent(JSON.stringify(this.initialSchemaService.allData[i], null, 4)));
+                    a.setAttribute('download', this.initialSchemaService.allData[i].nombreCurso + ".json");
+                    a.click();
+            }
+        
+    }
+    public descargarPDF(event: any, cursoId: number):void{
         event.stopPropagation();
         console.log(cursoId)
         let a = document.createElement('a');
@@ -85,6 +96,7 @@ export class AppComponent {
             }
         
     }
+    
 }
 
 

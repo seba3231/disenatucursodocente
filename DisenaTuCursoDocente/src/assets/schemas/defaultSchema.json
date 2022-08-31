@@ -373,7 +373,7 @@
                                         },
                                         {
                                             "id":2,
-                                            "nombre":null,
+                                            "nombre":"Cupo",
                                             "ubicacion":{
                                                 "idEtapa":1,
                                                 "idGrupo":12,
