@@ -28,7 +28,7 @@ export class InitialSchemaLoaderService {
         xmlhttp.send();
     }
 
-    loadDataFile(fileName:string){
+    /*loadDataFile(fileName:string){
         //Leo información de archivo
         const xmlhttp = new XMLHttpRequest();
         const method = 'GET';
@@ -41,7 +41,7 @@ export class InitialSchemaLoaderService {
             }
         };
         xmlhttp.send();
-    }
+    }*/
 
     loadAllDataFile(fileName:string){
         //Leo información de archivo

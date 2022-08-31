@@ -41,3 +41,7 @@ export const MapTipoInput = new TwoWayMap(new Map([
     [TipoInput.date, 'date'],
     [TipoInput.dateLog, 'dateLog'],
 ]));
+
+export const MapTipoInputHTML = new Map([
+    [TipoInput.porcentaje, 'number'],
+]);

@@ -10,7 +10,7 @@ import { GrupoComponent } from './grupo/grupo.component';
 import { AtributoComponent } from './atributo/atributo.component';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalComponent } from './modal/modal.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
@@ -53,7 +53,8 @@ export function initConfig(loaderService : InitialSchemaLoaderService) {
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     {
