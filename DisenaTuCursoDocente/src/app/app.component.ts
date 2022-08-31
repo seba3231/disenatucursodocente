@@ -1,15 +1,20 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Directive } from '@angular/core';
 import { Router } from '@angular/router';
 import { InitialSchemaLoaderService } from './servicios/initial-schema-loader.service';
 
 
 declare function createGraph(graph : any): any;
 
+
 @Component({
-    selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    styleUrls: ['./app.component.css'],
+    selector: 'app-root',
+    host: {
+        '(document:click)': 'onClick($event)',
+    },
 })
+
 
 
 export class AppComponent {
@@ -50,11 +55,35 @@ export class AppComponent {
         reader.readAsText(file);
     }
 
-    descargarArchivo(){
+    @HostListener("click", ["$event"])
+    public onClick(event: any): void
+    {
+        event.stopPropagation();
+        var target = event.target;
+        if (!target.closest(".dropdown-menu") && !target.closest(".dropdown-toggle")) { 
+            // do whatever you want here
+            let dropdown = document.querySelectorAll(".dropdown-menu")
+            dropdown.forEach(div => {
+                console.log(div);
+                if (div.classList.contains("show"))
+                    div.classList.remove('show'); 
+
+            });
+        }
+        
+    }
+    public descargarCurso(event: any, cursoId: number):void{
+        event.stopPropagation();
+        console.log(cursoId)
         let a = document.createElement('a');
-        a.setAttribute('href', 'data:text/plain;charset=utf-u,'+encodeURIComponent(JSON.stringify(this.initialSchemaService.loadedData, null, 4)));
-        a.setAttribute('download', "file.json");
-        a.click();
+        if (cursoId && this.initialSchemaService.allData)
+            for (var i=0; i < this.initialSchemaService.allData.length; i++) {
+                if (this.initialSchemaService.allData[i].id == cursoId)
+                    a.setAttribute('href', 'data:text/plain;charset=utf-u,'+encodeURIComponent(JSON.stringify(this.initialSchemaService.allData[i], null, 4)));
+                    a.setAttribute('download', this.initialSchemaService.allData[i].nombreCurso + ".json");
+                    a.click();
+            }
+        
     }
 }
 
