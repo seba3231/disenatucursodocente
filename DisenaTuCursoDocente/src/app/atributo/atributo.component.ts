@@ -337,7 +337,7 @@ export class AtributoComponent {
                 }
             }
         }
-        return "null_fin";
+        return "";
     }
 
     addLinkHTML(string: string){

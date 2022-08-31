@@ -54,3 +54,7 @@
 .btn-outline-expand:hover > i{
     margin-right: 0.5rem!important;
 }
+
+.file-upload {
+    display: none;
+  }

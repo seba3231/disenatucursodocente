@@ -1,17 +1,3 @@
-<!-- zona del menu provisorio -->
-<!-- <p>-------------------- CARGAR ARCHIVO --------------------</p>
-<div class="row">
-  <div class="col">
-      <div class="mb-3">            
-          <label class="form-label">Archivo a cargar</label>
-          <input [(ngModel)]="nombreArchivo" placeholder="archivos en assets/schemasData/" class="form-control"/>
-      </div>
-      <button type="button" (click)="cargarArchivo()" class="btn btn-primary">Cargar Archivo</button>
-      <button *ngIf="this.initialSchemaService.loadedData" type="button" (click)="descargarArchivo()" class="btn btn-primary">Descargar Archivo</button>
-  </div>
-</div>
-<p>-------------------- END CARGAR ARCHIVO --------------------</p> -->
-
 <!-- cabezal -->
 <header *ngIf="this.initialSchemaService.loadedData" class="container d-flex flex-row border-bottom justify-content-between">
     <div class="d-flex flex-row align-items-center">
