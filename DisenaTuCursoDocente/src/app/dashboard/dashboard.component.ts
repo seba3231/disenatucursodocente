@@ -110,9 +110,9 @@ export class DashboardComponent implements OnInit {
         this.grupoCargado = grupo;
     }
 
-    cargarArchivo(){
+    /*cargarArchivo(){
         this.initialSchemaService.loadDataFile(this.nombreArchivo);
-    }
+    }*/
 
     descargarArchivo(){
         let a = document.createElement('a');

@@ -389,7 +389,7 @@
                                                     "idEtapa":1,
                                                     "idGrupo":12,
                                                     "idAtributo":3,
-                                                    "idDato":1
+                                                    "idDato":[1]
                                                 },
                                                 "valorSeleccionado":{
                                                     "idGrupoDatoFijo":5,
@@ -524,7 +524,7 @@
                                                     "idEtapa":1,
                                                     "idGrupo":12,
                                                     "idAtributo":4,
-                                                    "idDato":4
+                                                    "idDato":[4]
                                                 },
                                                 "valorSeleccionado":{
                                                     "idGrupoDatoFijo":6,
@@ -557,7 +557,7 @@
                                                     "idEtapa":1,
                                                     "idGrupo":12,
                                                     "idAtributo":4,
-                                                    "idDato":4
+                                                    "idDato":[4]
                                                 },
                                                 "valorSeleccionado":{
                                                     "idGrupoDatoFijo":6,
