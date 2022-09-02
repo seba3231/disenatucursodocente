@@ -1,0 +1,19 @@
+<input type="file" (change)="onFileSelected($event)" #fileUploader style="display:none">
+<div class="row align-items-center">
+    <div class="col">
+        <input class="form-control" type="text"
+            (keyup)="cambioEnTexto($event.target)"
+            [ngModel]="texto"
+        >
+    </div>
+    <div class="col-auto">
+        <button (click)="fileUploader.click()" type="button" class="btn btn-primary" style="padding-top:0;padding-bottom:0"><i class="bi bi-file-earmark-plus-fill fs-4"></i></button>
+    </div>
+    <div class="col-auto">
+        <button type="button"class="btn btn-primary" style="padding-top:0;padding-bottom:0"
+            [disabled]="!entrada.datosGuardados || !entrada.datosGuardados.fileName" 
+            (click)="downloadFile()">
+            <i class="bi bi-download fs-4"></i>
+        </button>
+    </div>
+</div>

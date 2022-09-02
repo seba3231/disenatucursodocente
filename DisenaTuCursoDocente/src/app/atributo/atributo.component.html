@@ -36,27 +36,18 @@
         <div *ngFor="let dato of fila.datos" class="col">
             <div class="mb-3">
                 <!--
-                    number,
-                    selectFijoUnico,
-                    text,
-                    selectFijoMultiple,
-                    radio,
-                    porcentaje,
-                    archivo,
-                    selectUsuarioMultiple,
                     date,
                     dateLog
                 -->
                 <label class="form-label">{{ dato.nombre ? dato.nombre : "&nbsp;" }}</label>
                 <!-- Codigo text,number-->
                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.text))
-                        || dato.tipo === (mapTipoInput.get(enumTiposInput.number))
-                    "
+                        || dato.tipo === (mapTipoInput.get(enumTiposInput.number))"
                 >
                     <input class="form-control"
                         [disabled]="estaDeshabilitado(dato.habilitadoSi)" 
-                        [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)" 
-                        (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" 
+                        [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
+                        (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)"
                         [type]="dato.tipo"
                         [placeholder]="dato.nombre || ''"
                     >
@@ -82,7 +73,11 @@
                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoMultiple))">
                     <mat-form-field appearance="fill">
                         <mat-label>{{ dato.nombre ? dato.nombre : "Seleccione" }}</mat-label>
-                        <mat-select multiple>
+                        <mat-select multiple
+                            (selectionChange)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event)"
+                            [compareWith]="compareObjects"
+                            [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
+                        >
                             <mat-option *ngFor="let opcion of obtenerOpciones(dato)" [value]="opcion.valor">{{opcion.string}}</mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -108,69 +103,32 @@
                         [type]="mapTipoInputHTML.get(enumTiposInput.porcentaje)"
                         [placeholder]="dato.nombre || ''"
                         [formControl]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
-                        [ngClass]="{ 'is-invalid': getControl(computoUbicacionAbsoluta(dato.ubicacion,dato.id))!.invalid }"
+                        [ngClass]="{ 'is-invalid': getFormControl(computoUbicacionAbsoluta(dato.ubicacion,dato.id))!.invalid }"
                     >
-                    <div *ngIf="getControl(computoUbicacionAbsoluta(dato.ubicacion,dato.id))!.invalid" class="invalid-feedback">
+                    <div *ngIf="getFormControl(computoUbicacionAbsoluta(dato.ubicacion,dato.id))!.invalid" class="invalid-feedback">
                         Porcentaje debe estar entre 0 y 100.
                     </div>
+                </ng-container>
+                <!-- Codigo archivo -->
+                <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.archivo))">
+                    <app-archivo 
+                        [entrada]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
+                        (changeDetected)="handleChange($event)"
+                    >
+                    </app-archivo>
+                </ng-container>
+                <!-- Codigo selectUsuarioMultiple -->
+                <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectUsuarioMultiple))">
+                    <mat-form-field appearance="fill">
+                        <mat-label>{{ dato.nombre ? dato.nombre : "Seleccione" }}</mat-label>
+                        <mat-select multiple (selectionChange)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event)">
+                            <mat-option *ngFor="let opcion of obtenerOpciones(dato)" [value]="opcion.valor">{{opcion.string}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
                 </ng-container>
             </div>
         </div>
     </div>
-
-    <!--
-    <div *ngFor="let fila of atributo.filasDatos" class="container">
-        <div class="row">
-            <div *ngFor="let dato of fila.datos" class="col-sm">
-                <p>{{ dato.nombre }}</p>
-                <div class="input-group mb-3">
-                    <input
-                        [type]="dato.tipo"
-                        class="form-control"
-                        [placeholder]="dato.nombre || ''"
-                        aria-label=""
-                        aria-describedby="basic-addon1"
-                        *ngIf="parsearTipo(dato.tipo)[0] == 0"
-                    />
-                    <div class="d-flex flex-column">
-                        <div *ngIf="parsearTipo(dato.tipo)[0] == 2">
-                            <div
-                                class="form-check"
-                                *ngFor="let opcion of obtenerOpcionesFijas(dato.opciones.idGrupoDatoFijo); index as radioIndex"
-                            >
-                                <input
-                                    class="form-check-input"
-                                    type="radio"
-                                    name="radio"
-                                    [id]="'radio' + radioIndex + dato.id"
-                                    [checked]="radioIndex === 0"
-                                />
-                                <label
-                                    class="form-check-label"
-                                    [for]="'radio' + radioIndex + dato.id"
-                                >
-                                    {{ opcion }}
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <select
-                        class="form-select"
-                        *ngIf="parsearTipo(dato.tipo)[0] === 1 
-                            && parsearTipo(dato.tipo)[1] === 'unico'"
-                    >
-                        <option
-                            *ngFor="let opcion of obtenerOpcionesFijas(dato.opciones.idGrupoDatoFijo);index as radioIndex"
-                            [selected]="radioIndex === 0"
-                        >
-                            {{ opcion }}
-                        </option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
 </div>
 <div *ngIf="atributo.multiInstanciable">
     <button type="button" class="btn btn-primary" (click)="agregarInstanciaAtributo()">

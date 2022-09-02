@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalComponent } from './modal/modal.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ArchivoComponent } from './datos/archivo/archivo.component';
 
 export function initConfig(loaderService : InitialSchemaLoaderService) {
     //return () => protesis.obtenerConfiguraciones();
@@ -46,7 +47,8 @@ export function initConfig(loaderService : InitialSchemaLoaderService) {
     GrupoComponent,
     AtributoComponent,
     ModalComponent,
-    DashboardComponent
+    DashboardComponent,
+    ArchivoComponent
   ],
   imports: [
     BrowserModule,

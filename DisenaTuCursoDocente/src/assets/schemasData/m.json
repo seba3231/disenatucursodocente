@@ -47,12 +47,7 @@
                         {
                             "string":null,
                             "number":null,
-                            "selectFijo":[
-                                {
-                                    "idGrupo":1,
-                                    "idOpcion":1
-                                }
-                            ],
+                            "selectFijo":[1],
                             "selectUsuario":null,
                             "archivo":null,
                             "date":null
@@ -60,12 +55,7 @@
                         {
                             "string":null,
                             "number":null,
-                            "selectFijo":[
-                                {
-                                    "idGrupo":1,
-                                    "idOpcion":0
-                                }
-                            ],
+                            "selectFijo":[0],
                             "selectUsuario":null,
                             "archivo":null,
                             "date":null
@@ -197,7 +187,7 @@
                         {
                             "string":null,
                             "number":null,
-                            "selectFijo":null,
+                            "selectFijo":[0,1],
                             "selectUsuario":null,
                             "archivo":null,
                             "date":null
@@ -421,6 +411,112 @@
             "ubicacionAtributo":{
                 "idEtapa":1,
                 "idGrupo":13,
+                "idAtributo":3,
+                "idDato":null
+            },
+            "cantidadInstancias":1,
+            "valoresAtributo":[
+                {
+                    "idDato":[1],
+                    "valoresDato":[
+                        {
+                            "string":null,
+                            "number":null,
+                            "selectFijo":null,
+                            "selectUsuario":null,
+                            "archivo":null,
+                            "date":null
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "ubicacionAtributo":{
+                "idEtapa":1,
+                "idGrupo":14,
+                "idAtributo":1,
+                "idDato":null
+            },
+            "cantidadInstancias":1,
+            "valoresAtributo":[
+                {
+                    "idDato":[1],
+                    "valoresDato":[
+                        {
+                            "string":null,
+                            "number":null,
+                            "selectFijo":null,
+                            "selectUsuario":null,
+                            "archivo":{
+                                "texto":"Una Bibliografia",
+                                "fileName":"FileName",
+                                "ruta":"una_ruta"
+                            },
+                            "date":null
+                        }
+                    ]
+                },
+                {
+                    "idDato":[2],
+                    "valoresDato":[
+                        {
+                            "string":null,
+                            "number":null,
+                            "selectFijo":null,
+                            "selectUsuario":null,
+                            "archivo":null,
+                            "date":null
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "ubicacionAtributo":{
+                "idEtapa":1,
+                "idGrupo":14,
+                "idAtributo":2,
+                "idDato":null
+            },
+            "cantidadInstancias":1,
+            "valoresAtributo":[
+                {
+                    "idDato":[1],
+                    "valoresDato":[
+                        {
+                            "string":null,
+                            "number":null,
+                            "selectFijo":null,
+                            "selectUsuario":null,
+                            "archivo":{
+                                "texto":"Un Recurso",
+                                "fileName":"FileName",
+                                "ruta":"una_ruta"
+                            },
+                            "date":null
+                        }
+                    ]
+                },
+                {
+                    "idDato":[2],
+                    "valoresDato":[
+                        {
+                            "string":null,
+                            "number":null,
+                            "selectFijo":null,
+                            "selectUsuario":null,
+                            "archivo":null,
+                            "date":null
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "ubicacionAtributo":{
+                "idEtapa":1,
+                "idGrupo":14,
                 "idAtributo":3,
                 "idDato":null
             },

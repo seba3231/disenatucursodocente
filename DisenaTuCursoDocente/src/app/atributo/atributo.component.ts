@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Atributo, Dato, DependenciaDeDatos, Ubicacion } from '../modelos/schema.model';
 import { DatosFijosService } from '../datos-fijos.service';
 import { MapTipoInput, MapTipoInputHTML, TipoInput, TwoWayMap } from '../enumerados/enums';
 import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.service';
 import { ValoresAtributo, ValoresDato } from '../modelos/schemaData.model';
-import { AnonymousSubject } from 'rxjs/internal/Subject';
 import { FormControl, Validators } from '@angular/forms';
+import { IntercambioArchivoComponent } from '../datos/archivo/archivo.component';
 
 @Component({
   selector: 'app-atributo',
@@ -20,13 +20,13 @@ export class AtributoComponent {
     enumTiposInput = TipoInput;
     cantidadInstancias:number = 1;
 
-    selectedObject:any;
-
     valoresAtributo:ValoresAtributo[] | undefined;
     
     mapOpcionesSelect : Map<string,any> = new Map();
     mapOpcionSeleccionada : Map<string,number> = new Map();
     mapControlesCampos : Map<string,FormControl> = new Map();
+
+    uploadTarget : string='default';
 
     constructor(private datosFijos: DatosFijosService,
         private initialSchemaService : InitialSchemaLoaderService) {
@@ -56,15 +56,78 @@ export class AtributoComponent {
             for(let dato of filaDatos.datos){
                 if(dato.opciones){
                     if(dato.opciones.referencia){
-                        //TODO: Proceso Datos de Usuario
+                        
+                        //Busco en los datos guardados la Ubicación dato.opciones.referencia
+                        if(this.initialSchemaService.loadedData && this.initialSchemaService.loadedData.datosGuardados){
+                            for(let datoGuardado of this.initialSchemaService.loadedData.datosGuardados){
+                                
+                                if (datoGuardado.ubicacionAtributo.idEtapa === dato.opciones.referencia.idEtapa
+                                    && datoGuardado.ubicacionAtributo.idGrupo === dato.opciones.referencia.idGrupo
+                                    && datoGuardado.ubicacionAtributo.idAtributo === dato.opciones.referencia.idAtributo
+                                ){
+                                    //Encontré el Atributo, busco el idDato
+                                    for(let valorAtributo of datoGuardado.valoresAtributo){
+                                        if(valorAtributo.idDato.length === dato.opciones.referencia.idDato.length && valorAtributo.idDato.every(function(value, index) { return value === dato.opciones.referencia.idDato[index]})){
+                                            
+                                            let ubicacionAbsoluta = this.computoUbicacionAbsoluta(dato.ubicacion,dato.id);
+                                            let claveMap = this.objectToString(ubicacionAbsoluta);
+
+                                            for(let [index,valorDato] of valorAtributo.valoresDato.entries()){
+                                                let stringOpcion = 'Nombre de tema no asignado';
+                                                if(valorDato.string){
+                                                    stringOpcion = valorDato.string;
+                                                }
+                                                let retrievedValue = this.mapOpcionesSelect.get(claveMap);
+                                                if(retrievedValue){
+                                                    //Si ya existe la key en el map, agrego una opción al array de opciones
+                                                    retrievedValue.push(
+                                                        {
+                                                            string:stringOpcion,
+                                                            muestroSi:null,
+                                                            valor:{
+                                                                valorUsuario:{
+                                                                    indiceInstancia: index
+                                                                },
+                                                                valorFijo:null
+                                                            }
+                                                        }
+                                                    )
+                                                }
+                                                else{
+                                                    //Si no existe la key en el map
+                                                    this.mapOpcionesSelect.set(
+                                                        claveMap,
+                                                        [
+                                                            {
+                                                                string:stringOpcion,
+                                                                muestroSi:null,
+                                                                valor:{
+                                                                    valorUsuario:{
+                                                                        indiceInstancia: index
+                                                                    },
+                                                                    valorFijo:null
+                                                                }
+                                                            }
+                                                        ]
+                                                    );
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                     else{
                         //Proceso Datos Fijos
                         const datosFijos = this.datosFijos.getDatosFijos();
                         const datoFijo = datosFijos?.find((datoFijo) => datoFijo.id === dato.opciones.idGrupoDatoFijo);
+                        let ubicacionAbsoluta = this.computoUbicacionAbsoluta(dato.ubicacion,dato.id);
+                        let claveMap = this.objectToString(ubicacionAbsoluta);
+
                         for (const opcion of datoFijo?.opciones!) {
-                            let ubicacionAbsoluta = this.computoUbicacionAbsoluta(dato.ubicacion,dato.id);
-                            let retrievedValue = this.mapOpcionesSelect.get(this.objectToString(ubicacionAbsoluta));
+                            
+                            let retrievedValue = this.mapOpcionesSelect.get(claveMap);
                             if(retrievedValue){
                                 //Si ya existe la key en el map, agrego una opción al array de opciones
                                 retrievedValue.push(
@@ -74,7 +137,6 @@ export class AtributoComponent {
                                         valor:{
                                             valorUsuario:null,
                                             valorFijo:{
-                                                idGrupo:datoFijo?.id,
                                                 idOpcion:opcion.id
                                             }
                                         }
@@ -84,7 +146,7 @@ export class AtributoComponent {
                             else{
                                 //Si no existe la key en el map
                                 this.mapOpcionesSelect.set(
-                                    this.objectToString(ubicacionAbsoluta),
+                                    claveMap,
                                     [
                                         {
                                             string:opcion.valor,
@@ -92,7 +154,6 @@ export class AtributoComponent {
                                             valor:{
                                                 valorUsuario:null,
                                                 valorFijo:{
-                                                    idGrupo:datoFijo?.id,
                                                     idOpcion:opcion.id
                                                 }
                                             }
@@ -164,7 +225,7 @@ export class AtributoComponent {
                             break;
                         }
                         case TipoInput.porcentaje:{
-                            let control = this.getControl(ubicacion);
+                            let control = this.getFormControl(ubicacion);
                             if(!control?.invalid){
                                 valoresDato.valoresDato[indice].number = Number(nuevoValor.value);
                             }
@@ -173,31 +234,9 @@ export class AtributoComponent {
                             }
                             break;
                         }
-                        /*case TipoInput.selectFijoUnico | TipoInput.radio:{
-                            //Actualizo control interno
-                            if(!this.atributo.multiInstanciable){
-                                let clave = this.objectToString(ubicacion);
-                                let valor = nuevoValor.selectedIndex;
-                                this.mapOpcionSeleccionada.set(
-                                    clave,
-                                    valor
-                                );
-                                
-                            }
-                            //Actualizo datos guardados en archivo
-                            let valueObject = this.stringToObject(nuevoValor.value);
-                            if(valoresDato.valoresDato[indice].selectFijo){
-                                valoresDato.valoresDato[indice].selectFijo![0].idOpcion = valueObject.valorFijo.idOpcion;
-                            }
-                            else{
-                                valoresDato.valoresDato[indice].selectFijo = [{
-                                    idGrupo:0,
-                                    idOpcion:valueObject.valorFijo.idOpcion
-                                }]
-                            }
-                            break;
-                        }*/
-                        case TipoInput.selectFijoUnico://
+                        case TipoInput.selectFijoUnico:
+                        //Una vez que matchea una opcion, ejecuta codigo hasta encontrar un break
+                        //Osea, selectFijoUnico ejecuta el mismo codigo que radio
                         case TipoInput.radio:{
                             let valueObject = this.stringToObject(nuevoValor.value);
                             //Actualizo control interno
@@ -211,13 +250,38 @@ export class AtributoComponent {
 
                             //Actualizo datos guardados en archivo
                             if(valoresDato.valoresDato[indice].selectFijo){
-                                valoresDato.valoresDato[indice].selectFijo![0].idOpcion = valueObject.valorFijo.idOpcion;
+                                valoresDato.valoresDato[indice].selectFijo![0] = valueObject.valorFijo.idOpcion;
                             }
                             else{
-                                valoresDato.valoresDato[indice].selectFijo = [{
-                                    idGrupo:0,
-                                    idOpcion:valueObject.valorFijo.idOpcion
-                                }]
+                                
+                                valoresDato.valoresDato[indice].selectFijo = [valueObject.valorFijo.idOpcion]
+                            }
+                            break;
+                        }
+                        case TipoInput.selectFijoMultiple:{
+                            if(nuevoValor.value.length === 0){
+                                valoresDato.valoresDato[indice].selectFijo = null;
+                            }
+                            else{
+                                let valoresAGuardar = [];
+                                for(let valor of nuevoValor.value){
+                                    valoresAGuardar.push(valor.valorFijo.idOpcion)
+                                }
+                                valoresDato.valoresDato[indice].selectFijo = valoresAGuardar;
+                            }
+                            break;
+                        }
+                        case TipoInput.selectUsuarioMultiple:{
+
+                            if(nuevoValor.value.length === 0){
+                                valoresDato.valoresDato[indice].selectUsuario = null;
+                            }
+                            else{
+                                let valoresAGuardar = [];
+                                for(let valor of nuevoValor.value){
+                                    valoresAGuardar.push(valor.valorUsuario.indiceInstancia)
+                                }
+                                valoresDato.valoresDato[indice].selectUsuario = valoresAGuardar;
                             }
                             break;
                         }
@@ -233,7 +297,7 @@ export class AtributoComponent {
         console.log(this.valoresAtributo);
     }
 
-    cargarInfoPrevia(ubicacion:Ubicacion, indice:number, tipoInput: TipoInput, posibleValor:any) : any{
+    cargarInfoPrevia(ubicacion:Ubicacion, indice:number, tipoInput: TipoInput, posibleValor:any) : any {
         if(this.valoresAtributo){
             for(let valoresDato of this.valoresAtributo){
 
@@ -251,7 +315,7 @@ export class AtributoComponent {
 
                             if(this.atributo.multiInstanciable){
                                 if(valoresDato.valoresDato[indice].selectFijo){
-                                    indiceRetorno = valoresDato.valoresDato[indice].selectFijo![0].idOpcion;
+                                    indiceRetorno = valoresDato.valoresDato[indice].selectFijo![0];
                                 }
                             }
                             else{
@@ -265,7 +329,7 @@ export class AtributoComponent {
                                 //Checkeo que solo se compute una vez este codigo
                                 if(value === undefined){
                                     if(valoresDato.valoresDato[indice].selectFijo){
-                                        indiceRetorno = valoresDato.valoresDato[indice].selectFijo![0].idOpcion;
+                                        indiceRetorno = valoresDato.valoresDato[indice].selectFijo![0];
                                     }
                                     this.mapOpcionSeleccionada.set(
                                         key,
@@ -279,11 +343,18 @@ export class AtributoComponent {
                             
                             return indiceRetorno;
                         }
+                        case TipoInput.selectFijoMultiple:{
+                            let retorno : number[] = [];
+                            if(valoresDato.valoresDato[indice].selectFijo){
+                                return valoresDato.valoresDato[indice].selectFijo;
+                            } 
+                            return retorno;
+                        }
                         case TipoInput.radio:{
 
                             let estaOpcionEstaSeleccionada = false;
                             if(valoresDato.valoresDato[indice].selectFijo){
-                                estaOpcionEstaSeleccionada = posibleValor.valorFijo.idOpcion === valoresDato.valoresDato[indice].selectFijo![0].idOpcion;
+                                estaOpcionEstaSeleccionada = posibleValor.valorFijo.idOpcion === valoresDato.valoresDato[indice].selectFijo![0];
                             }
                             if(estaOpcionEstaSeleccionada && !this.atributo.multiInstanciable){
                                 let key = this.objectToString({
@@ -302,7 +373,6 @@ export class AtributoComponent {
                             }
                             return estaOpcionEstaSeleccionada;
                         }
-                        
                         case TipoInput.porcentaje:{
                             let key = this.objectToString({
                                 idEtapa:this.atributo.ubicacion.idEtapa,
@@ -331,13 +401,22 @@ export class AtributoComponent {
                             }
                             return this.mapControlesCampos.get(key);
                         }
+                        case TipoInput.archivo:{
+                            let entradaArchivo: IntercambioArchivoComponent = {
+                                datosGuardados : valoresDato.valoresDato[indice].archivo,
+                                ubicacion : ubicacion,
+                                indiceInstancia : indice,
+                                tipoInput : tipoInput
+                            }
+                            return entradaArchivo;
+                        }
                         default:
-                            return "null";
+                            return "null_default";
                     }
                 }
             }
         }
-        return "";
+        return "null_fin";
     }
 
     addLinkHTML(string: string){
@@ -380,8 +459,31 @@ export class AtributoComponent {
         return JSON.parse(string);
     }
 
-    getControl(ubicacion:Ubicacion){
+    getFormControl(ubicacion:Ubicacion){
         let value = this.mapControlesCampos.get(this.objectToString(ubicacion));
         return value;
+    }
+
+    handleChange(cambio:any){
+        if(this.valoresAtributo){
+            for(let valoresDato of this.valoresAtributo){
+                if(valoresDato.idDato.length === cambio.ubicacion.idDato.length && valoresDato.idDato.every(function(value, index) { return value === cambio.ubicacion.idDato[index]})){
+                    switch (cambio.tipoInput) {
+                        case TipoInput.archivo:{
+                            valoresDato.valoresDato[cambio.indiceInstancia].archivo = cambio.datosGuardados;
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        console.log("Vals de Atrib");
+        console.log(this.valoresAtributo);
+    }
+
+    compareObjects(a:any,b:any) : boolean{
+        return a.valorFijo.idOpcion === b;
     }
 }
