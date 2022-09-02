@@ -55,7 +55,7 @@
                         {
                             "string":null,
                             "number":null,
-                            "selectFijo":[0],
+                            "selectFijo":[2],
                             "selectUsuario":null,
                             "archivo":null,
                             "date":null

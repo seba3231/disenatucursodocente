@@ -603,7 +603,7 @@
                                 {
                                     "datos":[
                                         {
-                                            "id":6,
+                                            "id":1,
                                             "nombre":"Modalidad de enseñanza",
                                             "ubicacion":{
                                                 "idEtapa":1,
@@ -2359,6 +2359,12 @@
                     "id":1,
                     "idGrupo":1,
                     "valor":"Competencia",
+                    "muestroSi":null
+                },
+                {
+                    "id":2,
+                    "idGrupo":1,
+                    "valor":"TercerOpcion",
                     "muestroSi":null
                 }
             ]

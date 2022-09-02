@@ -3,7 +3,7 @@ import { Atributo, Dato, DependenciaDeDatos, Ubicacion } from '../modelos/schema
 import { DatosFijosService } from '../datos-fijos.service';
 import { MapTipoInput, MapTipoInputHTML, TipoInput, TwoWayMap } from '../enumerados/enums';
 import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.service';
-import { ValoresAtributo, ValoresDato } from '../modelos/schemaData.model';
+import { InformacionGuardada, ValoresDato } from '../modelos/schemaData.model';
 import { FormControl, Validators } from '@angular/forms';
 import { IntercambioArchivoComponent } from '../datos/archivo/archivo.component';
 
@@ -20,13 +20,11 @@ export class AtributoComponent {
     enumTiposInput = TipoInput;
     cantidadInstancias:number = 1;
 
-    valoresAtributo:ValoresAtributo[] | undefined;
+    datoGuardado:InformacionGuardada | undefined;
     
     mapOpcionesSelect : Map<string,any> = new Map();
     mapOpcionSeleccionada : Map<string,number> = new Map();
     mapControlesCampos : Map<string,FormControl> = new Map();
-
-    uploadTarget : string='default';
 
     constructor(private datosFijos: DatosFijosService,
         private initialSchemaService : InitialSchemaLoaderService) {
@@ -45,8 +43,8 @@ export class AtributoComponent {
                     && datoGuardado.ubicacionAtributo.idGrupo === this.atributo.ubicacion.idGrupo
                     && datoGuardado.ubicacionAtributo.idAtributo === this.atributo.id
                 ){
+                    this.datoGuardado = datoGuardado;
                     this.cantidadInstancias = datoGuardado.cantidadInstancias;
-                    this.valoresAtributo = datoGuardado.valoresAtributo;
                 }
             }
         }
@@ -169,7 +167,7 @@ export class AtributoComponent {
     }
 
     agregarInstanciaAtributo() {        
-        for(let datoDentroAtributo of this.valoresAtributo!){
+        for(let datoDentroAtributo of this.datoGuardado!.valoresAtributo!){
             let nuevoValorDato : ValoresDato = {
                 string:null,
                 number:null,
@@ -181,6 +179,7 @@ export class AtributoComponent {
             datoDentroAtributo.valoresDato.push(nuevoValorDato);
         }
         this.cantidadInstancias++;
+        this.datoGuardado!.cantidadInstancias = this.cantidadInstancias;
     }
 
     muestroOpcion(muestroSi:DependenciaDeDatos){
@@ -211,8 +210,8 @@ export class AtributoComponent {
 
     guardarCambio(ubicacion:Ubicacion,indice:number,tipoInput:TipoInput,nuevoValor:any){
         
-        if(this.valoresAtributo){
-            for(let valoresDato of this.valoresAtributo){
+        if(this.datoGuardado!.valoresAtributo){
+            for(let valoresDato of this.datoGuardado!.valoresAtributo){
 
                 if(valoresDato.idDato.length === ubicacion.idDato.length && valoresDato.idDato.every(function(value, index) { return value === ubicacion.idDato[index]})){
                     switch (tipoInput) {
@@ -294,12 +293,12 @@ export class AtributoComponent {
         /*console.log("Todos los val");
         console.log(this.initialSchemaService.loadedData);*/
         console.log("Vals de Atrib");
-        console.log(this.valoresAtributo);
+        console.log(this.datoGuardado!.valoresAtributo);
     }
 
     cargarInfoPrevia(ubicacion:Ubicacion, indice:number, tipoInput: TipoInput, posibleValor:any) : any {
-        if(this.valoresAtributo){
-            for(let valoresDato of this.valoresAtributo){
+        if(this.datoGuardado!.valoresAtributo){
+            for(let valoresDato of this.datoGuardado!.valoresAtributo){
 
                 if(valoresDato.idDato.length === ubicacion.idDato.length && valoresDato.idDato.every(function(value, index) { return value === ubicacion.idDato[index]})){
                     switch (tipoInput) {
@@ -310,12 +309,12 @@ export class AtributoComponent {
                             return valoresDato.valoresDato[indice].number;
                         }
                         case TipoInput.selectFijoUnico:{
-                                                 
-                            let indiceRetorno=0;
+                            
+                            let estaOpcionEstaSeleccionada = false;
 
                             if(this.atributo.multiInstanciable){
                                 if(valoresDato.valoresDato[indice].selectFijo){
-                                    indiceRetorno = valoresDato.valoresDato[indice].selectFijo![0];
+                                    estaOpcionEstaSeleccionada = posibleValor.valorFijo.idOpcion === valoresDato.valoresDato[indice].selectFijo![0];
                                 }
                             }
                             else{
@@ -329,26 +328,32 @@ export class AtributoComponent {
                                 //Checkeo que solo se compute una vez este codigo
                                 if(value === undefined){
                                     if(valoresDato.valoresDato[indice].selectFijo){
-                                        indiceRetorno = valoresDato.valoresDato[indice].selectFijo![0];
+                                        estaOpcionEstaSeleccionada = posibleValor.valorFijo.idOpcion === valoresDato.valoresDato[indice].selectFijo![0];
+                                        if(estaOpcionEstaSeleccionada){
+                                            this.mapOpcionSeleccionada.set(
+                                                key,
+                                                posibleValor.valorFijo.idOpcion
+                                            );
+                                        }
                                     }
-                                    this.mapOpcionSeleccionada.set(
-                                        key,
-                                        indiceRetorno
-                                    );
-                                }
-                                else{
-                                    indiceRetorno = value;
+                                    else{
+                                        //Si nunca se guardó valor, guardo el primero y lo seteo como seleccionado
+                                        valoresDato.valoresDato[indice].selectFijo = [posibleValor.valorFijo.idOpcion];
+                                        this.mapOpcionSeleccionada.set(
+                                            key,
+                                            posibleValor.valorFijo.idOpcion
+                                        );
+                                    }
                                 }
                             }
                             
-                            return indiceRetorno;
+                            return estaOpcionEstaSeleccionada;
                         }
                         case TipoInput.selectFijoMultiple:{
-                            let retorno : number[] = [];
                             if(valoresDato.valoresDato[indice].selectFijo){
                                 return valoresDato.valoresDato[indice].selectFijo;
                             } 
-                            return retorno;
+                            return [];
                         }
                         case TipoInput.radio:{
 
@@ -465,8 +470,8 @@ export class AtributoComponent {
     }
 
     handleChange(cambio:any){
-        if(this.valoresAtributo){
-            for(let valoresDato of this.valoresAtributo){
+        if(this.datoGuardado!.valoresAtributo){
+            for(let valoresDato of this.datoGuardado!.valoresAtributo){
                 if(valoresDato.idDato.length === cambio.ubicacion.idDato.length && valoresDato.idDato.every(function(value, index) { return value === cambio.ubicacion.idDato[index]})){
                     switch (cambio.tipoInput) {
                         case TipoInput.archivo:{
@@ -480,7 +485,7 @@ export class AtributoComponent {
             }
         }
         console.log("Vals de Atrib");
-        console.log(this.valoresAtributo);
+        console.log(this.datoGuardado!.valoresAtributo);
     }
 
     compareObjects(a:any,b:any) : boolean{

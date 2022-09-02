@@ -61,7 +61,7 @@
                         <ng-container *ngFor="let opcion of obtenerOpciones(dato)">
                             <option 
                                 *ngIf="muestroOpcion(opcion.muestroSi)"
-                                [selected]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
+                                [selected]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,opcion.valor)"
                                 value={{objectToString(opcion.valor)}}
                             >
                                 {{ opcion.string }}
