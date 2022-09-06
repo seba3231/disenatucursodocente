@@ -33,7 +33,7 @@
                                 "aporteConceptual":null
                             },
                             "comentariosPrivados":null,
-                            "ayuda":null,
+                            "ayuda":"Ayuda Atributo sin nombre",
                             "obligatorio":false,
                             "filasDatos":[
                                 {
@@ -63,7 +63,7 @@
                         },
                         {
                             "id":2,
-                            "nombre":null,
+                            "nombre":"Nombre Atributo",
                             "ubicacion":{
                                 "idEtapa":1,
                                 "idGrupo":11,
@@ -74,7 +74,7 @@
                             "multiInstanciable":true,
                             "puntoCritico":null,
                             "comentariosPrivados":null,
-                            "ayuda":null,
+                            "ayuda":"Ayuda Atributo con nombre",
                             "obligatorio":false,
                             "filasDatos":[
                                 {
