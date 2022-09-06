@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Atributo, Dato, DependenciaDeDatos, Ubicacion } from '../modelos/schema.model';
 import { DatosFijosService } from '../datos-fijos.service';
 import { MapTipoInput, MapTipoInputHTML, TipoInput, TwoWayMap } from '../enumerados/enums';
@@ -14,6 +14,7 @@ declare var bootstrap: any;
   selector: 'app-atributo',
   templateUrl: './atributo.component.html',
   styleUrls: ['./atributo.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AtributoComponent {
     @Input() atributo!: Atributo;
@@ -37,8 +38,8 @@ export class AtributoComponent {
     }
 
     ngAfterViewInit(){
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
     }
 
     ngOnInit(){

@@ -839,9 +839,9 @@
                                             "opciones":{
                                                 "referencia":{
                                                     "idEtapa":1,
-                                                    "idGrupo":1,
+                                                    "idGrupo":11,
                                                     "idAtributo":2,
-                                                    "idDato":3
+                                                    "idDato":[2]
                                                 },
                                                 "idGrupoDatoFijo":null
                                             },

@@ -32,18 +32,31 @@
 </div>
 <div *ngFor="let _ of [].constructor(cantidadInstancias); index as indiceInstancia">
     <ng-container *ngIf="indiceInstancia === 0">
-        <h5>{{ atributo.nombre ? atributo.nombre+' ' : '' }}<i *ngIf="atributo.ayuda" class="bi bi-question-circle-fill" data-toggle="tooltip" [attr.title]="atributo.ayuda" data-bs-placement="right"></i></h5>
+        <h5>{{ atributo.nombre ? atributo.nombre+' ' : '' }}
+            <span *ngIf="atributo.ayuda" class="d-inline-block" data-bs-toggle="popover" data-bs-trigger="hover focus" [attr.data-bs-content]="atributo.ayuda">
+                <i class="bi bi-question-circle-fill"></i>
+            </span>
+        </h5>
     </ng-container>
     <div *ngFor="let fila of atributo.filasDatos" class="row">
         <div *ngFor="let dato of fila.datos" class="col">
             <div class="mb-3">
                 <!--
                     date,
-                    dateLog                    
+                    dateLog
                 -->
                 <ng-container *ngIf="indiceInstancia === 0">
-                    <label class="form-label">{{ dato.nombre ? dato.nombre+' ' : "&nbsp;" }}
-                        <i *ngIf="dato.ayuda" class="bi bi-question-circle-fill" data-toggle="tooltip" [attr.title]="dato.ayuda" data-bs-placement="right"></i>
+                    <label class="form-label">
+                        {{ dato.nombre ? dato.nombre+' ' : "&nbsp;" }}
+                        <span *ngIf="dato.ayuda" 
+                            class="d-inline-block" 
+                            data-bs-toggle="popover" 
+                            data-bs-trigger="hover focus" 
+                            [attr.data-bs-content]="dato.ayuda"
+                            data-bs-custom-class="custom-popover"
+                        >
+                            <i class="bi bi-question-circle-fill"></i>
+                        </span>
                     </label>
                 </ng-container>
                 

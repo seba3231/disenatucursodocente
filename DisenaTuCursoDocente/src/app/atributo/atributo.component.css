@@ -1,5 +1,9 @@
 .puntoCritico{
     border-left-style: solid;
-    border-color: blue;
-    border-width: 5px;
+    border-left-color: blue;
+    border-left-width: 5px;
 }
+
+/*.popover {
+    border: 5px dotted red;
+}*/
