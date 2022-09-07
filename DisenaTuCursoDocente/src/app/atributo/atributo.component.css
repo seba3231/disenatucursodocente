@@ -4,6 +4,7 @@
     border-left-width: 5px;
 }
 
-/*.popover {
-    border: 5px dotted red;
-}*/
+.custom-popover {
+    --bs-popover-border-color: black;
+    --bs-popover-border-width: 2px
+}

@@ -33,7 +33,12 @@
 <div *ngFor="let _ of [].constructor(cantidadInstancias); index as indiceInstancia">
     <ng-container *ngIf="indiceInstancia === 0">
         <h5>{{ atributo.nombre ? atributo.nombre+' ' : '' }}
-            <span *ngIf="atributo.ayuda" class="d-inline-block" data-bs-toggle="popover" data-bs-trigger="hover focus" [attr.data-bs-content]="atributo.ayuda">
+            <span *ngIf="atributo.ayuda" class="d-inline-block" 
+                data-bs-toggle="popover" 
+                data-bs-trigger="hover focus" 
+                [attr.data-bs-content]="atributo.ayuda"
+                data-bs-custom-class="custom-popover"
+            >
                 <i class="bi bi-question-circle-fill"></i>
             </span>
         </h5>
