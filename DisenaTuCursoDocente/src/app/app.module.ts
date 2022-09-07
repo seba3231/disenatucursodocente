@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalComponent } from './modal/modal.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ArchivoComponent } from './datos/archivo/archivo.component';
+import { ExportpdfComponent } from './exportpdf/exportpdf.component';
 
 export function initConfig(loaderService : InitialSchemaLoaderService) {
     //return () => protesis.obtenerConfiguraciones();
@@ -48,7 +49,8 @@ export function initConfig(loaderService : InitialSchemaLoaderService) {
     AtributoComponent,
     ModalComponent,
     DashboardComponent,
-    ArchivoComponent
+    ArchivoComponent,
+    ExportpdfComponent
   ],
   imports: [
     BrowserModule,
