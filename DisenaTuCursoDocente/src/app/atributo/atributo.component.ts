@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Atributo, Dato, DependenciaDeDatos, Ubicacion } from '../modelos/schema.model';
 import { DatosFijosService } from '../datos-fijos.service';
 import { MapTipoInput, MapTipoInputHTML, TipoInput, TwoWayMap } from '../enumerados/enums';
@@ -6,11 +6,15 @@ import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.s
 import { InformacionGuardada, ValoresDato } from '../modelos/schemaData.model';
 import { FormControl, Validators } from '@angular/forms';
 import { IntercambioArchivoComponent } from '../datos/archivo/archivo.component';
+import { IntercambioTextNumberComponent } from '../datos/textonumber/textonumber.component';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-atributo',
   templateUrl: './atributo.component.html',
   styleUrls: ['./atributo.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AtributoComponent {
     @Input() atributo!: Atributo;
@@ -33,8 +37,12 @@ export class AtributoComponent {
         this.mapTipoInputHTML = MapTipoInputHTML;
     }
 
-    ngOnInit(){
+    ngAfterViewInit(){
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+    }
 
+    ngOnInit(){
         //Veo cuantas instancias de este atributo hay y cargo los Datos guardados de este Atributo
         if(this.initialSchemaService.loadedData && this.initialSchemaService.loadedData.datosGuardados){
             for(let datoGuardado of this.initialSchemaService.loadedData.datosGuardados){
@@ -198,8 +206,7 @@ export class AtributoComponent {
         if(dependencia){
             let key = this.objectToString(dependencia.referencia);
             let value = this.mapOpcionSeleccionada.get(key);
-            
-            //Checkeo que solo se compute una vez este codigo
+
             if(value !== undefined){
                 return dependencia.valorSeleccionado.idOpcion !== value;
             }
@@ -303,10 +310,32 @@ export class AtributoComponent {
                 if(valoresDato.idDato.length === ubicacion.idDato.length && valoresDato.idDato.every(function(value, index) { return value === ubicacion.idDato[index]})){
                     switch (tipoInput) {
                         case TipoInput.text:{
-                            return valoresDato.valoresDato[indice].string;
+                            let entradaTextNumber : IntercambioTextNumberComponent = {
+                                datoGuardado : valoresDato.valoresDato[indice].string,
+                                ubicacion : ubicacion,
+                                indiceInstancia : indice,
+                                tipoInput : tipoInput,
+                                deshabilitado: this.estaDeshabilitado(posibleValor.habilitadoSi),
+                                dato: posibleValor
+                            }
+                            return entradaTextNumber;
+                            //return valoresDato.valoresDato[indice].string;
                         }
                         case TipoInput.number:{
-                            return valoresDato.valoresDato[indice].number;
+                            let valor = null;
+                            if(valoresDato.valoresDato[indice].number){
+                                valor = valoresDato.valoresDato[indice].number?.toString();
+                            }
+                            let entradaTextNumber : IntercambioTextNumberComponent = {
+                                datoGuardado : valor === undefined ? null : valor,
+                                ubicacion : ubicacion,
+                                indiceInstancia : indice,
+                                tipoInput : tipoInput,
+                                deshabilitado: this.estaDeshabilitado(posibleValor.habilitadoSi),
+                                dato: posibleValor
+                            }
+                            return entradaTextNumber;
+                            //return valoresDato.valoresDato[indice].number;
                         }
                         case TipoInput.selectFijoUnico:{
                             
@@ -408,7 +437,7 @@ export class AtributoComponent {
                         }
                         case TipoInput.archivo:{
                             let entradaArchivo: IntercambioArchivoComponent = {
-                                datosGuardados : valoresDato.valoresDato[indice].archivo,
+                                datoGuardado : valoresDato.valoresDato[indice].archivo,
                                 ubicacion : ubicacion,
                                 indiceInstancia : indice,
                                 tipoInput : tipoInput
@@ -474,8 +503,16 @@ export class AtributoComponent {
             for(let valoresDato of this.datoGuardado!.valoresAtributo){
                 if(valoresDato.idDato.length === cambio.ubicacion.idDato.length && valoresDato.idDato.every(function(value, index) { return value === cambio.ubicacion.idDato[index]})){
                     switch (cambio.tipoInput) {
+                        case TipoInput.text:{
+                            valoresDato.valoresDato[cambio.indiceInstancia].string = cambio.datoGuardado;
+                            break;
+                        }
+                        case TipoInput.number:{
+                            valoresDato.valoresDato[cambio.indiceInstancia].number = Number(cambio.datoGuardado);
+                            break;
+                        }
                         case TipoInput.archivo:{
-                            valoresDato.valoresDato[cambio.indiceInstancia].archivo = cambio.datosGuardados;
+                            valoresDato.valoresDato[cambio.indiceInstancia].archivo = cambio.datoGuardado;
                             break;
                         }
                         default:

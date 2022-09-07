@@ -1,0 +1,7 @@
+<input class="form-control"
+    [disabled]="entrada.deshabilitado" 
+    [ngModel]="valorDato"
+    [type]="entrada.dato.tipo"
+    [placeholder]="entrada.dato.nombre || ''"
+    (keyup)="cambioEnValor($event.target)"
+>

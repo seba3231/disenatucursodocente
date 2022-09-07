@@ -4,12 +4,11 @@ import { Ubicacion } from "src/app/modelos/schema.model";
 import { DatoArchivo } from "src/app/modelos/schemaData.model";
 
 export interface IntercambioArchivoComponent{
-    datosGuardados:DatoArchivo | null;
+    datoGuardado:DatoArchivo | null;
     ubicacion:Ubicacion;
     indiceInstancia:number;
     tipoInput:TipoInput;
 }
-
 
 @Component({
     selector: 'app-archivo',
@@ -24,8 +23,8 @@ export class ArchivoComponent {
     constructor() { }
 
     ngOnInit(){
-        if(this.entrada.datosGuardados?.texto){
-            this.texto = this.entrada.datosGuardados?.texto;
+        if(this.entrada.datoGuardado?.texto){
+            this.texto = this.entrada.datoGuardado?.texto;
         }
     }
 
@@ -35,17 +34,17 @@ export class ArchivoComponent {
 
         if (file) {
             let fileName = file.name;
-            if(!this.entrada.datosGuardados){
+            if(!this.entrada.datoGuardado){
                 let nuevoDato : DatoArchivo = {
                     texto : null,
                     fileName : fileName,
                     ruta : 'una_ruta'
                 }
-                this.entrada.datosGuardados = nuevoDato;
+                this.entrada.datoGuardado = nuevoDato;
             }
             else{
-                this.entrada.datosGuardados.fileName = fileName;
-                this.entrada.datosGuardados.ruta = 'una_ruta';
+                this.entrada.datoGuardado.fileName = fileName;
+                this.entrada.datoGuardado.ruta = 'una_ruta';
             }
             this.changeDetected.emit(this.entrada)
         }
@@ -56,16 +55,16 @@ export class ArchivoComponent {
     }
 
     cambioEnTexto(inputElement:any){
-        if(!this.entrada.datosGuardados){
+        if(!this.entrada.datoGuardado){
             let nuevoDato : DatoArchivo = {
                 texto : inputElement.value,
                 fileName : null,
                 ruta : null
             }
-            this.entrada.datosGuardados = nuevoDato;
+            this.entrada.datoGuardado = nuevoDato;
         }
         else{
-            this.entrada.datosGuardados.texto = inputElement.value;
+            this.entrada.datoGuardado.texto = inputElement.value;
         }
 
         this.changeDetected.emit(this.entrada)

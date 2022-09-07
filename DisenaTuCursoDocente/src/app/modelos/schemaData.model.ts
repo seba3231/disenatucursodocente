@@ -37,11 +37,3 @@ export interface DatoArchivo{
     fileName:string | null;
     ruta:string | null;
 }
-
-/*export interface InstanciasDeUbicacion{
-    ubicacion:Ubicacion;
-    indicesInstancias:number[];
-}*/
-/*export interface ValorSelectFijo{
-    idOpcion:number;
-}*/
