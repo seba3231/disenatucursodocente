@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
             let graph: any = {nodes:[],links:[]};
 
             console.log(schemaEtapas)
+            console.log(this.initialSchemaService)  
             if (schemaEtapas)
                 for (var i=0; i < schemaEtapas.length; i++) {
                     //recorrida de etapas -> nodos principales (grado 1)

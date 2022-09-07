@@ -1,9 +1,15 @@
 import { Component, OnInit, HostListener, Directive } from '@angular/core';
 import { Router } from '@angular/router';
 import { InitialSchemaLoaderService } from './servicios/initial-schema-loader.service';
+import {ExportpdfComponent} from   './exportpdf/exportpdf.component'
+import { DatosFijosService } from './datos-fijos.service';
+import { GrupoDatoFijo } from './modelos/schema.model';
 
-
-declare function createGraph(graph : any): any;
+const pdfMakeX = require('pdfmake/build/pdfmake.js');
+const pdfFontsX = require('pdfmake-unicode/dist/pdfmake-unicode.js');
+pdfMakeX.vfs = pdfFontsX.pdfMake.vfs;
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import { __values } from 'tslib';
 
 
 @Component({
@@ -18,12 +24,16 @@ declare function createGraph(graph : any): any;
 
 
 export class AppComponent {
+    pdf: any;
     title = 'DisenaTuCursoDocente';
     nombreArchivo:string='';
+    datosFijos: GrupoDatoFijo[] | undefined;
+
     constructor(private router: Router, public initialSchemaService : InitialSchemaLoaderService) {}
 
     ngOnInit(): void {
         this.initialSchemaService.loadAllDataFile('m.json');
+        this.datosFijos = this.initialSchemaService.defaultSchema?.gruposDatosFijos;
     }
     
     gotoHome(){
@@ -83,20 +93,14 @@ export class AppComponent {
             }
         
     }
+
+    
+
     public descargarPDF(event: any, cursoId: number):void{
         event.stopPropagation();
-        console.log(cursoId)
-        let a = document.createElement('a');
-        if (cursoId && this.initialSchemaService.allData)
-            for (var i=0; i < this.initialSchemaService.allData.length; i++) {
-                if (this.initialSchemaService.allData[i].id == cursoId)
-                    a.setAttribute('href', 'data:text/plain;charset=utf-u,'+encodeURIComponent(JSON.stringify(this.initialSchemaService.allData[i], null, 4)));
-                    a.setAttribute('download', this.initialSchemaService.allData[i].nombreCurso + ".json");
-                    a.click();
-            }
-        
+        const exportPdf = new ExportpdfComponent(this.initialSchemaService);
+        const pdf = exportPdf.generatePdf(cursoId)
+        pdf.open();
     }
-    
+                       
 }
-
-
