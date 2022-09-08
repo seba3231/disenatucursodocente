@@ -438,7 +438,7 @@
                 "idAtributo":1,
                 "idDato":null
             },
-            "cantidadInstancias":1,
+            "cantidadInstancias":2,
             "valoresAtributo":[
                 {
                     "idDato":[1],
@@ -454,6 +454,18 @@
                                 "ruta":"una_ruta"
                             },
                             "date":null
+                        },
+                        {
+                            "string":null,
+                            "number":null,
+                            "selectFijo":null,
+                            "selectUsuario":null,
+                            "archivo":{
+                                "texto":"Segunda Bibliografia",
+                                "fileName":"FileName",
+                                "ruta":"una_ruta"
+                            },
+                            "date":null
                         }
                     ]
                 },
@@ -464,6 +476,14 @@
                             "string":null,
                             "number":null,
                             "selectFijo":[1],
+                            "selectUsuario":null,
+                            "archivo":null,
+                            "date":null
+                        },
+                        {
+                            "string":null,
+                            "number":null,
+                            "selectFijo":[0],
                             "selectUsuario":null,
                             "archivo":null,
                             "date":null
@@ -504,7 +524,7 @@
                         {
                             "string":null,
                             "number":null,
-                            "selectFijo":null,
+                            "selectFijo":[0],
                             "selectUsuario":null,
                             "archivo":null,
                             "date":null
