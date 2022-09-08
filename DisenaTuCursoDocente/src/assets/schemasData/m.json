@@ -475,8 +475,8 @@
                         {
                             "string":null,
                             "number":null,
-                            "selectFijo":[1],
-                            "selectUsuario":null,
+                            "selectFijo":null,
+                            "selectUsuario":[1],
                             "archivo":null,
                             "date":null
                         },

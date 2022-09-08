@@ -178,6 +178,9 @@ export class ExportpdfComponent{
             // cargo la informacion de los atributos del curso que quiere exportar
             cursosDatos = cursos[i];
             this.pdf.content.push({text: cursosDatos.nombreCurso,style: 'header' });
+            this.pdf.content.push({text: "Autor: " + cursosDatos.autor,style: 'body' });
+            if (cursosDatos.intitucion)
+              this.pdf.content.push({text: "Institución: " + cursosDatos.intitucion,style: 'body' });
             this.pdf.content.push({text: '\n',style: 'body' });
             if (cursosDatos){  
               if (cursosDatos){
@@ -215,7 +218,7 @@ export class ExportpdfComponent{
 
                                 }else if(valorDato.selectUsuario){
                                   
-                                    valueString = valorDato.selectFijo.toString();
+                                    valueString = valorDato.selectUsuario.toString();
                                 }else if(valorDato.archivo){
                                   valueString = valorDato.archivo.texto
                                 }else{

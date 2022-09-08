@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Etapa, Grupo,Esquema } from '../modelos/schema.model';
 import { SchemaSavedData } from '../modelos/schemaData.model';
 import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.service';
+import {ExportpdfComponent} from   '../exportpdf/exportpdf.component'
 
 declare function createGraph(graph : any): any;
 
@@ -120,5 +121,26 @@ export class DashboardComponent implements OnInit {
         a.setAttribute('href', 'data:text/plain;charset=utf-u,'+encodeURIComponent(JSON.stringify(this.initialSchemaService.loadedData, null, 4)));
         a.setAttribute('download', "file.json");
         a.click();
+    }
+
+    public descargarCurso(event: any):void{
+        event.stopPropagation();
+        let a = document.createElement('a');
+        a.setAttribute('href', 'data:text/plain;charset=utf-u,'+encodeURIComponent(JSON.stringify(this.initialSchemaService.loadedData, null, 4)));
+        a.setAttribute('download', this.initialSchemaService.loadedData?.nombreCurso + ".json");
+        a.click();
+        
+    }
+
+    
+
+    public descargarPDF(event: any):void{
+        event.stopPropagation();
+        const exportPdf = new ExportpdfComponent(this.initialSchemaService);
+        var pdf;
+        if (this.initialSchemaService.loadedData?.id){
+            pdf = exportPdf.generatePdf(this.initialSchemaService.loadedData?.id)
+            pdf.open();
+        }
     }
 }
