@@ -476,14 +476,14 @@
                             "string":null,
                             "number":null,
                             "selectFijo":null,
-                            "selectUsuario":[1],
+                            "selectUsuario":[1,2],
                             "archivo":null,
                             "date":null
                         },
                         {
                             "string":null,
                             "number":null,
-                            "selectFijo":[0],
+                            "selectFijo":null,
                             "selectUsuario":null,
                             "archivo":null,
                             "date":null

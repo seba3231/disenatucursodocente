@@ -82,11 +82,11 @@
                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
                     <select class="form-select" 
                         (change)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)"
-                        [disabled]="estaDeshabilitado(dato.habilitadoSi)"
+                        [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)"
                     >
                         <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id)))">
                             <option 
-                                *ngIf="muestroOpcion(opcion.muestroSi)"
+                                *ngIf="muestroOpcion(opcion.muestroSi,indiceInstancia)"
                                 [selected]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,opcion.valor)"
                                 value={{opcion.valor}}
                             >
@@ -103,7 +103,9 @@
                             (selectionChange)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event)"
                             [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
                         >
-                            <mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id)))" [value]="opcion.valor">
+                            <mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id)))"
+                                [value]="opcion.valor"
+                            >
                                 {{opcion.string}}
                             </mat-option>
                         </mat-select>
@@ -130,9 +132,9 @@
                         [type]="mapTipoInputHTML.get(enumTiposInput.porcentaje)"
                         [placeholder]="dato.nombre || ''"
                         [formControl]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
-                        [ngClass]="{ 'is-invalid': mapControlesCampos.get(this.objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id)))!.invalid }"
+                        [ngClass]="{ 'is-invalid': mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid }"
                     >
-                    <div *ngIf="mapControlesCampos.get(this.objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id)))!.invalid" class="invalid-feedback">
+                    <div *ngIf="mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid" class="invalid-feedback">
                         Porcentaje debe estar entre 0 y 100.
                     </div>
                 </ng-container>
@@ -148,8 +150,15 @@
                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectUsuarioMultiple))">
                     <mat-form-field appearance="fill">
                         <mat-label>{{ dato.nombre ? dato.nombre : "Seleccione" }}</mat-label>
-                        <mat-select multiple (selectionChange)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event)">
-                            <mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id)))" [value]="opcion.valor">{{opcion.string}}</mat-option>
+                        <mat-select multiple 
+                            (selectionChange)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event)"
+                            [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
+                        >
+                            <mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id)))" 
+                                [value]="opcion.valor"
+                            >
+                                {{opcion.string}}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </ng-container>

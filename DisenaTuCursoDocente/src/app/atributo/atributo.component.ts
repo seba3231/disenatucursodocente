@@ -55,6 +55,7 @@ export class AtributoComponent {
     mapOpcionSeleccionada : Map<string,number> = new Map();
     //Para select múltilpes
     mapOpcionesSeleccionadas : Map<string,number[]> = new Map();
+
     mapControlesCampos : Map<string,FormControl> = new Map();
     mapValoresComputados: Map<string,ValorComputado> = new Map();
 
@@ -218,9 +219,9 @@ export class AtributoComponent {
         this.datoGuardado!.cantidadInstancias = this.cantidadInstancias;
     }
 
-    muestroOpcion(muestroSi:DependenciaDeDatos|null){
+    muestroOpcion(muestroSi:DependenciaDeDatos|null, indice:number){
         if(muestroSi){
-            let clave = this.objectToString(muestroSi.referencia);
+            let clave = this.objectToString(muestroSi.referencia)+indice;
             let opcionSeleccionada = this.mapOpcionSeleccionada.get(clave);
             if(opcionSeleccionada !== undefined){
 
@@ -230,9 +231,9 @@ export class AtributoComponent {
         return true;
     }
 
-    estaDeshabilitado(dependencia:DependenciaDeDatos){
+    estaDeshabilitado(dependencia:DependenciaDeDatos, indice:number){
         if(dependencia){
-            let key = this.objectToString(dependencia.referencia);
+            let key = this.objectToString(dependencia.referencia)+indice;
             let value = this.mapOpcionSeleccionada.get(key);
 
             if(value !== undefined){
@@ -246,72 +247,75 @@ export class AtributoComponent {
     guardarCambio(ubicacion:Ubicacion,indice:number,tipoInput:TipoInput,nuevoValor:any){
         
         let valoresDato = this.buscoDatoGuardadoDeAtributo(ubicacion);
-        switch (tipoInput) {
-            case TipoInput.porcentaje:{
-                let control = this.mapControlesCampos.get(this.objectToString(ubicacion));
-                if(!control?.invalid){
-                    valoresDato[indice].number = Number(nuevoValor.value);
-                }
-                else{
-                    valoresDato[indice].number = null;
-                }
-                break;
-            }
-            case TipoInput.selectFijoUnico:
-            //Una vez que matchea una opcion, ejecuta codigo hasta encontrar un break
-            //Osea, selectFijoUnico ejecuta el mismo codigo que radio
-            case TipoInput.radio:{
-                let valueObject = this.stringToObject(nuevoValor.value);
-                //Actualizo control interno
-                if(!this.atributo.multiInstanciable){
-                    let clave = this.objectToString(ubicacion);
-                    this.mapOpcionSeleccionada.set(
-                        clave,
-                        valueObject
-                    );
-                }
-
-                //Actualizo datos guardados en archivo
-                if(valoresDato[indice].selectFijo){
-                    valoresDato[indice].selectFijo![0] = valueObject;
-                }
-                else{
-                    
-                    valoresDato[indice].selectFijo = [valueObject];
-                }
-                break;
-            }
-            case TipoInput.selectFijoMultiple:{
-                if(nuevoValor.value.length === 0){
-                    valoresDato[indice].selectFijo = null;
-                }
-                else{
-                    let valoresAGuardar = [];
-                    for(let valor of nuevoValor.value){
-                        valoresAGuardar.push(valor);
+        if(valoresDato.length !== 0){
+            let claveMap = this.objectToString(ubicacion)+indice;
+            switch (tipoInput) {
+                case TipoInput.porcentaje:{
+                    //let control = this.mapControlesCampos.get(this.objectToString(ubicacion));
+                    let control = this.mapControlesCampos.get(claveMap);
+                    if(!control?.invalid){
+                        valoresDato[indice].number = Number(nuevoValor.value);
                     }
-                    valoresDato[indice].selectFijo = valoresAGuardar;
-                }
-                break;
-            }
-            case TipoInput.selectUsuarioMultiple:{
-
-                if(nuevoValor.value.length === 0){
-                    valoresDato[indice].selectUsuario = null;
-                }
-                else{
-                    let valoresAGuardar = [];
-                    for(let valor of nuevoValor.value){
-                        valoresAGuardar.push(valor.valor);
+                    else{
+                        valoresDato[indice].number = null;
                     }
-                    valoresDato[indice].selectUsuario = valoresAGuardar;
+                    break;
                 }
-                break;
+                case TipoInput.selectFijoUnico:
+                //Una vez que matchea una opcion, ejecuta codigo hasta encontrar un break
+                //Osea, selectFijoUnico ejecuta el mismo codigo que radio
+                case TipoInput.radio:{
+                    let valueObject = this.stringToObject(nuevoValor.value);
+                    //Actualizo control interno
+                    if(!this.atributo.multiInstanciable){
+                        this.mapOpcionSeleccionada.set(
+                            claveMap,
+                            valueObject
+                        );
+                    }
+
+                    //Actualizo datos guardados en archivo
+                    if(valoresDato[indice].selectFijo){
+                        valoresDato[indice].selectFijo![0] = valueObject;
+                    }
+                    else{
+                        
+                        valoresDato[indice].selectFijo = [valueObject];
+                    }
+                    break;
+                }
+                case TipoInput.selectFijoMultiple:{
+                    if(nuevoValor.value.length === 0){
+                        valoresDato[indice].selectFijo = null;
+                    }
+                    else{
+                        let valoresAGuardar = [];
+                        for(let valor of nuevoValor.value){
+                            valoresAGuardar.push(valor);
+                        }
+                        valoresDato[indice].selectFijo = valoresAGuardar;
+                    }
+                    break;
+                }
+                case TipoInput.selectUsuarioMultiple:{
+
+                    if(nuevoValor.value.length === 0){
+                        valoresDato[indice].selectUsuario = null;
+                    }
+                    else{
+                        let valoresAGuardar = [];
+                        for(let valor of nuevoValor.value){
+                            valoresAGuardar.push(valor);
+                        }
+                        valoresDato[indice].selectUsuario = valoresAGuardar;
+                    }
+                    break;
+                }
+                default:
+                    break;
             }
-            default:
-                break;
+            this.informarCambio.emit(ubicacion);
         }
-        this.informarCambio.emit(ubicacion);
         /*console.log("Todos los val");
         console.log(this.initialSchemaService.loadedData);*/
         console.log("Vals de Atrib");
@@ -321,7 +325,7 @@ export class AtributoComponent {
     cargarInfoPrevia(ubicacion:Ubicacion, indice:number, tipoInput: TipoInput, posibleValor:any) : any {
         let valoresDato = this.buscoDatoGuardadoDeAtributo(ubicacion);
         if(valoresDato.length !== 0){
-            let claveMap = this.objectToString(ubicacion);
+            let claveMap = this.objectToString(ubicacion)+indice;
             switch (tipoInput) {
                 case TipoInput.text:{
                     let entradaTextNumber : IntercambioTextNumberComponent = {
@@ -329,11 +333,10 @@ export class AtributoComponent {
                         ubicacion : ubicacion,
                         indiceInstancia : indice,
                         tipoInput : tipoInput,
-                        deshabilitado: this.estaDeshabilitado(posibleValor.habilitadoSi),
+                        deshabilitado: this.estaDeshabilitado(posibleValor.habilitadoSi,indice),
                         dato: posibleValor
                     }
                     return entradaTextNumber;
-                    //return valoresDato.valoresDato[indice].string;
                 }
                 case TipoInput.number:{
                     let valor = null;
@@ -345,11 +348,10 @@ export class AtributoComponent {
                         ubicacion : ubicacion,
                         indiceInstancia : indice,
                         tipoInput : tipoInput,
-                        deshabilitado: this.estaDeshabilitado(posibleValor.habilitadoSi),
+                        deshabilitado: this.estaDeshabilitado(posibleValor.habilitadoSi,indice),
                         dato: posibleValor
                     }
                     return entradaTextNumber;
-                    //return valoresDato.valoresDato[indice].number;
                 }
                 case TipoInput.selectFijoUnico:{
                     
@@ -447,6 +449,17 @@ export class AtributoComponent {
                         tipoInput : tipoInput
                     }
                     return entradaArchivo;
+                }
+                case TipoInput.selectUsuarioMultiple:{
+                    let valoresSeleccionados = this.mapOpcionesSeleccionadas.get(claveMap);
+                    if(valoresSeleccionados === undefined){
+                        let vuelta : number[] = [];
+                        if(valoresDato[indice].selectUsuario){
+                            vuelta = valoresDato[indice].selectUsuario!;
+                        }
+                        this.mapOpcionesSeleccionadas.set(claveMap,vuelta);
+                    }
+                    return this.mapOpcionesSeleccionadas.get(claveMap);
                 }
                 default:
                     return "null_default";
