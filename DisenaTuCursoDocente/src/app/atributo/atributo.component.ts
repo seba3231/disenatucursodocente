@@ -6,6 +6,8 @@ import { InformacionGuardada, ValoresDato } from '../modelos/schemaData.model';
 import { FormControl, Validators } from '@angular/forms';
 import { IntercambioArchivoComponent } from '../datos/archivo/archivo.component';
 import { IntercambioTextNumberComponent } from '../datos/textonumber/textonumber.component';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from '../modal/modal.component';
 
 declare var bootstrap: any;
 
@@ -61,7 +63,8 @@ export class AtributoComponent {
 
     mapManejadorEventos: Map<string,EventEmitter<any>> = new Map();
 
-    constructor(private initialSchemaService : InitialSchemaLoaderService) {
+    constructor(private initialSchemaService : InitialSchemaLoaderService
+        ,private modalService: NgbModal) {
         
         this.mapTipoInput = MapTipoInput;
         this.mapTipoInputHTML = MapTipoInputHTML;
@@ -705,6 +708,55 @@ export class AtributoComponent {
             let constanteSeleccionada = constantes?.find((constante) => constante.id === operandoObservado);
             resultado = constanteSeleccionada?.valor!;
             return resultado;
+        }
+    }
+
+    openModal(){
+        const modalRef = this.modalService.open(ModalComponent, {
+            scrollable: false,
+        });
+        modalRef.componentInstance.tittle = 'Titulo';
+        modalRef.componentInstance.body = 'Body';
+        //Whenever modal is closed (Reject or Resolve), this Observable gets written
+        modalRef.hidden.subscribe({
+            next: () => {
+                console.log('Hiden NEXT');
+            },
+            error: () => {
+                //Nunca se llama aca
+            },
+        });
+        //Control Resolve with Observable
+        modalRef.closed.subscribe({
+            next: (resp) => {
+                console.log('Closed NEXT');
+                console.log('Resolve: ' + resp);
+            },
+            error: () => {
+                //Nunca se llama aca
+            },
+        });
+        //Control Reject with Observable
+        modalRef.dismissed.subscribe({
+            next: (resp) => {
+                console.log('Dismissed NEXT');
+                console.log('Reject: ' + this.getDismissReason(resp));
+            },
+            error: () => {
+                //Nunca se llama aca
+            },
+        });
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+            return 'by pressing ESC';
+        }
+        else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+            return 'by clicking on a backdrop';
+        }
+        else {
+            return `by custom reason, ${reason}`;
         }
     }
 }

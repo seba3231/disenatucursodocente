@@ -31,7 +31,7 @@
     </div>
 </div>
 <div *ngFor="let _ of [].constructor(cantidadInstancias); index as indiceInstancia">
-    <ng-container *ngIf="indiceInstancia === 0">
+    <div *ngIf="indiceInstancia === 0" class="row">
         <h5>{{ atributo.nombre ? atributo.nombre+' ' : '' }}
             <span *ngIf="atributo.ayuda" class="d-inline-block" 
                 data-bs-toggle="popover" 
@@ -42,28 +42,38 @@
                 <i class="bi bi-question-circle-fill p-2" style="color: #616161; cursor: pointer;"></i>
             </span>
         </h5>
-    </ng-container>
+    </div>
     <div *ngFor="let fila of atributo.filasDatos" class="row">
+        <ng-container *ngIf="atributo.multiInstanciable">
+            <div class="col-auto align-self-center">
+                <button type="button"class="btn btn-danger" 
+                    style="padding-top:0;padding-bottom:0"
+                    (click)="openModal()"
+                >
+                    <i class="bi bi-trash-fill fs-4"></i>
+                </button>
+            </div>
+        </ng-container>
         <div *ngFor="let dato of fila.datos" class="col">
             <div class="mb-3">
                 <!--
                     date,
                     dateLog
                 -->
-                <ng-container *ngIf="indiceInstancia === 0">
-                    <label class="form-label">
-                        {{ dato.nombre ? dato.nombre+' ' : "&nbsp;" }}
-                        <span *ngIf="dato.ayuda" 
-                            class="d-inline-block" 
-                            data-bs-toggle="popover" 
-                            data-bs-trigger="hover focus" 
-                            [attr.data-bs-content]="dato.ayuda"
-                            data-bs-custom-class="custom-popover"
-                        >
-                            <i class="bi bi-question-circle-fill p-2" style="color: #616161; cursor: pointer;"></i>
-                        </span>
-                    </label>
-                </ng-container>
+                <!--<ng-container *ngIf="indiceInstancia === 0">-->
+                <label class="form-label">
+                    {{ dato.nombre ? dato.nombre+' ' : "&nbsp;" }}
+                    <span *ngIf="dato.ayuda" 
+                        class="d-inline-block" 
+                        data-bs-toggle="popover" 
+                        data-bs-trigger="hover focus" 
+                        [attr.data-bs-content]="dato.ayuda"
+                        data-bs-custom-class="custom-popover"
+                    >
+                        <i class="bi bi-question-circle-fill p-2" style="color: #616161; cursor: pointer;"></i>
+                    </span>
+                </label>
+                <!--</ng-container>-->
                 <!-- Codigo computo -->
                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.computo))">
                     <p>{{ mapValoresComputados.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id)))!.valor }}</p>
