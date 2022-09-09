@@ -1,8 +1,7 @@
-import { Component, OnInit, HostListener, Directive } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { InitialSchemaLoaderService } from './servicios/initial-schema-loader.service';
 import {ExportpdfComponent} from   './exportpdf/exportpdf.component'
-import { DatosFijosService } from './datos-fijos.service';
 import { GrupoDatoFijo } from './modelos/schema.model';
 
 const pdfMakeX = require('pdfmake/build/pdfmake.js');
