@@ -8,3 +8,7 @@
     --bs-popover-border-color: black;
     --bs-popover-border-width: 2px
 }
+
+.form-label-title{
+    font-weight: 600;
+}

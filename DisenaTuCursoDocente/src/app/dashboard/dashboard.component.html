@@ -2,7 +2,7 @@
 <header *ngIf="this.initialSchemaService.loadedData" class="container d-flex flex-row border-bottom justify-content-between">
     <div class="d-flex flex-row align-items-center">
       <i class="bi bi-mortarboard-fill p-2" style="font-size: 1.8rem;"></i>
-      <h1 class="p-2 fw-bolder">{{initialSchemaService.loadedData.nombreCurso }}</h1>
+      <h1 class="p-2 fw-bolder">{{initialSchemaService.loadedData?.nombreCurso }}</h1>
     </div>
     <div class="text-center d-flex align-items-center" *ngIf="this.initialSchemaService.allData">
       <div>

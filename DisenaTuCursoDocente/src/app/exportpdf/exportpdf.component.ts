@@ -217,8 +217,8 @@ export class ExportpdfComponent{
                               
 
                                 }else if(valorDato.selectUsuario){
+                                  valueString = this.getValueDatoFijoRef(dato.opciones.referencia,valorDato.selectUsuario, cursosDatos.datosGuardados);
                                   
-                                    valueString = valorDato.selectUsuario.toString();
                                 }else if(valorDato.archivo){
                                   valueString = valorDato.archivo.texto
                                 }else{
@@ -235,7 +235,10 @@ export class ExportpdfComponent{
                                     this.pdf.content.push({text: grupoInfo.nombre, style: 'subsubheader' });
                                   }
                                   console.log(dato)
-                                  this.pdf.content.push({text: dato.nombre + ": " + valueString,style: 'body' });
+                                  if (dato.nombre)
+                                    this.pdf.content.push({text: dato.nombre + ": " + valueString,style: 'body' });
+                                  else
+                                    this.pdf.content.push({text: valueString,style: 'body' });
                                   
                                   if (j == datoGuardado.valoresAtributo.length - 1)
                                     this.pdf.content.push({text: '\n',style: 'body' });

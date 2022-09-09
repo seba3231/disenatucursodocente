@@ -1,13 +1,12 @@
 <div class="modal-header">
     <h4 class="modal-title">{{tittle}}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     </button>
 </div>
 <div class="modal-body">
     <p>{{body}}</p>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="resolve()">Resolve</button>
-    <button type="button" class="btn btn-outline-dark" (click)="reject()">Reject</button>
+    <button type="button" class="btn btn-outline-gray" (click)="reject()">Cancelar</button>
+    <button type="button" class="btn btn-primary background-primary m-2" (click)="resolve()">Confirmar</button>
 </div>

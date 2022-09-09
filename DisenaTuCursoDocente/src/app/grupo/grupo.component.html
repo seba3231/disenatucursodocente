@@ -6,7 +6,18 @@
         </div>
         <div class="card border-secondary mb-3">
             <div class="card-body">
-                <i class="bi bi-chat-right-text-fill d-flex flex-column pb-2 align-items-end" style="color: #616161; cursor: pointer;"></i>
+                <ng-container>
+                    <div class="col-auto d-flex flex-column pb-2 align-items-end">
+                        <button type="button"class="btn " 
+                            style="border: none !important"
+                            (click)="openModal()"
+                            title="Agregar comentarios"
+                        >
+                        <i class="bi bi-chat-right-text-fill " style="color: #616161; cursor: pointer;"></i>
+                        </button>
+                    </div>
+                </ng-container>
+                
                 <div
                     *ngFor="let atributo of grupo.atributos"
                     class="card border-secondary mb-3"
