@@ -14,7 +14,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalComponent } from './modal/modal.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ArchivoComponent } from './datos/archivo/archivo.component';
+import { ExportpdfComponent } from './exportpdf/exportpdf.component';
 import { TextoNumberComponent } from './datos/textonumber/textonumber.component';
+
 
 export function initConfig(loaderService : InitialSchemaLoaderService) {
     //return () => protesis.obtenerConfiguraciones();
@@ -50,7 +52,8 @@ export function initConfig(loaderService : InitialSchemaLoaderService) {
     ModalComponent,
     DashboardComponent,
     ArchivoComponent,
-    TextoNumberComponent
+    TextoNumberComponent,
+    ExportpdfComponent
   ],
   imports: [
     BrowserModule,
