@@ -5,6 +5,13 @@ export interface Esquema{
     autor: string;
     gruposDatosFijos:GrupoDatoFijo[];
     contenidoCondicional:ContenidoCondicional[];
+    constantes:Constante[];
+}
+
+export interface Constante{
+    id:number;
+    valor:number;
+    descripcion:string;
 }
 
 export interface ContenidoCondicional{
@@ -75,16 +82,24 @@ export interface Dato{
     herencia:Ubicacion;
     ayuda:string;
     tipo:string;
-        //'selectFijoUnico'
-        //'selectFijoMultiple'
-        //'selectUsuarioUnico'
-        //'selectUsuarioMultiple'
+    computo:Computo;
     opciones:Opciones;
     habilitadoSi:DependenciaDeDatos;
     multiInstanciable:boolean;
     idContenidoCondicional:number[];
     tamaño:number;
     filasDatos:FilaDatos[];
+}
+
+export interface Computo{
+    //operacion puede ser: '+','-','*','/'
+    //la operacion a realizar es op1 {operacion} op2
+    operacion:string;
+    //Si Ubicacion es multiInstanciable, se suman los valores
+    //de todas sus instancias previo a realizar la operacion
+    op1:number | Ubicacion;
+    //number indica ID de Constante
+    op2:number | Ubicacion;
 }
 
 export interface Opciones{

@@ -50,6 +50,36 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"number",
+                                            "computo":null,
+                                            "opciones":null,
+                                            "habilitadoSi":null,
+                                            "multiInstanciable":false,
+                                            "idContenidoCondicional":null,
+                                            "tamaño":2,
+                                            "filasDatos":null
+                                        },
+                                        {
+                                            "id":2,
+                                            "nombre":"Créditos calculados",
+                                            "ubicacion":{
+                                                "idEtapa":1,
+                                                "idGrupo":11,
+                                                "idAtributo":1,
+                                                "idDato":null
+                                            },
+                                            "herencia":null,
+                                            "ayuda":null,
+                                            "tipo":"computo",
+                                            "computo":{
+                                                "operacion":"/",
+                                                "op1":{
+                                                    "idEtapa":1,
+                                                    "idGrupo":11,
+                                                    "idAtributo":2,
+                                                    "idDato":[4]
+                                                },
+                                                "op2":1
+                                            },
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -91,6 +121,7 @@
                                             "herencia":null,
                                             "ayuda":"Seleccione los temas y/o competencias del tipo Lorem Ipsum",
                                             "tipo":"selectFijoUnico",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":1
@@ -113,6 +144,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"text",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -132,6 +164,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"text",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -151,6 +184,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"number",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -205,6 +239,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"text",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -224,6 +259,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectFijoMultiple",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":2
@@ -268,6 +304,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectFijoUnico",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":3
@@ -294,6 +331,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectFijoUnico",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":4
@@ -320,6 +358,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"text",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -361,6 +400,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"radio",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":5
@@ -383,6 +423,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"number",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":{
                                                 "referencia":{
@@ -433,6 +474,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"radio",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":5
@@ -455,6 +497,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"porcentaje",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -474,6 +517,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"porcentaje",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -493,6 +537,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"radio",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":6
@@ -515,6 +560,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectFijoUnico",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":7
@@ -548,6 +594,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectFijoUnico",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":8
@@ -614,6 +661,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectFijoUnico",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":9
@@ -660,6 +708,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"text",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -699,6 +748,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"text",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -751,6 +801,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"archivo",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -770,6 +821,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectUsuarioMultiple",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":{
                                                     "idEtapa":1,
@@ -817,6 +869,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"archivo",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -836,6 +889,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectUsuarioMultiple",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":{
                                                     "idEtapa":1,
@@ -887,6 +941,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectFijoUnico",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":10
@@ -949,6 +1004,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"number",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -988,6 +1044,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"text",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -1007,6 +1064,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"text",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -1060,6 +1118,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"text",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -1079,6 +1138,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectFijoUnico",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":11
@@ -1101,6 +1161,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"number",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -1120,6 +1181,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"radio",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":5
@@ -1142,6 +1204,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectFijoMultiple",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":12
@@ -1184,6 +1247,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectFijoMultiple",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":13
@@ -1227,6 +1291,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"text",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -1267,6 +1332,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectFijoUnico",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":12
@@ -1289,6 +1355,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"text",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -1308,6 +1375,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"number",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -1404,6 +1472,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"archivo",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -1423,6 +1492,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectUsuarioMultiple",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":{
                                                     "idEtapa":1,
@@ -1483,6 +1553,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"date",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -1502,6 +1573,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"date",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -1545,6 +1617,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"date",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":14
@@ -1567,6 +1640,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectFijoUnico",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":15
@@ -1589,6 +1663,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"text",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -1632,6 +1707,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"text",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -1655,6 +1731,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"date",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -1674,6 +1751,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"date",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -1693,6 +1771,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectFijoUnico",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":9
@@ -1719,6 +1798,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectUsuarioMultiple",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":{
                                                     "idEtapa":2,
@@ -1746,6 +1826,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectFijoMultiple",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":13
@@ -1772,6 +1853,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":null,
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":true,
@@ -1792,6 +1874,7 @@
                                                             "herencia":null,
                                                             "ayuda":null,
                                                             "tipo":"selectFijoUnico",
+                                                            "computo":null,
                                                             "opciones":{
                                                                 "referencia":null,
                                                                 "idGrupoDatoFijo":16
@@ -1855,6 +1938,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"selectFijoUnico",
+                                            "computo":null,
                                             "opciones":{
                                                 "referencia":null,
                                                 "idGrupoDatoFijo":17
@@ -1881,6 +1965,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"text",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -1944,6 +2029,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"text",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -1983,6 +2069,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"text",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -2042,6 +2129,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"dateLog",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -2065,6 +2153,7 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":"text",
+                                            "computo":null,
                                             "opciones":null,
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
@@ -2175,6 +2264,9 @@
                                             },
                                             "ayuda":null,
                                             "tipo":null,
+                                            "computo":null,
+                                            "opciones":null,
+                                            "habilitadoSi":null,
                                             "multiInstanciable":true,
                                             "idContenidoCondicional":null,
                                             "tamaño":null,
@@ -2198,6 +2290,7 @@
                                                             },
                                                             "ayuda":null,
                                                             "tipo":"selectFijoUnico",
+                                                            "computo":null,
                                                             "opciones":{
                                                                 "referencia":null,
                                                                 "idGrupoDatoFijo":16
@@ -2262,6 +2355,9 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":null,
+                                            "computo":null,
+                                            "opciones":null,
+                                            "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
                                             "tamaño":1000,
@@ -2308,6 +2404,9 @@
                                             "herencia":null,
                                             "ayuda":null,
                                             "tipo":null,
+                                            "computo":null,
+                                            "opciones":null,
+                                            "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
                                             "tamaño":1000,
@@ -2817,6 +2916,7 @@
                             "herencia":null,
                             "ayuda":null,
                             "tipo":"number",
+                            "computo":null,
                             "opciones":null,
                             "habilitadoSi":null,
                             "multiInstanciable":false,
@@ -2836,6 +2936,7 @@
                             "herencia":null,
                             "ayuda":null,
                             "tipo":"selectUsuarioMultiple",
+                            "computo":null,
                             "opciones":{
                                 "referencia":{
                                     "idEtapa":1,
@@ -2863,6 +2964,7 @@
                             "herencia":null,
                             "ayuda":null,
                             "tipo":"selectUsuarioMultiple",
+                            "computo":null,
                             "opciones":{
                                 "referencia":{
                                     "idEtapa":2,
@@ -2890,6 +2992,7 @@
                             "herencia":null,
                             "ayuda":null,
                             "tipo":"selectUsuarioMultiple",
+                            "computo":null,
                             "opciones":{
                                 "referencia":{
                                     "idEtapa":2,
@@ -2921,6 +3024,7 @@
                             "herencia":null,
                             "ayuda":null,
                             "tipo":"text",
+                            "computo":null,
                             "opciones":null,
                             "habilitadoSi":null,
                             "multiInstanciable":false,
@@ -2962,6 +3066,7 @@
                             "herencia":null,
                             "ayuda":null,
                             "tipo":"number",
+                            "computo":null,
                             "opciones":null,
                             "habilitadoSi":null,
                             "multiInstanciable":false,
@@ -2981,6 +3086,7 @@
                             "herencia":null,
                             "ayuda":null,
                             "tipo":"selectUsuarioMultiple",
+                            "computo":null,
                             "opciones":{
                                 "referencia":{
                                     "idEtapa":2,
@@ -3008,6 +3114,7 @@
                             "herencia":null,
                             "ayuda":null,
                             "tipo":"selectUsuarioMultiple",
+                            "computo":null,
                             "opciones":{
                                 "referencia":{
                                     "idEtapa":2,
@@ -3039,6 +3146,7 @@
                             "herencia":null,
                             "ayuda":null,
                             "tipo":"text",
+                            "computo":null,
                             "opciones":null,
                             "habilitadoSi":null,
                             "multiInstanciable":false,
@@ -3080,6 +3188,7 @@
                             "herencia":null,
                             "ayuda":null,
                             "tipo":"date",
+                            "computo":null,
                             "opciones":null,
                             "habilitadoSi":null,
                             "multiInstanciable":false,
@@ -3099,6 +3208,7 @@
                             "herencia":null,
                             "ayuda":null,
                             "tipo":"date",
+                            "computo":null,
                             "opciones":null,
                             "habilitadoSi":null,
                             "multiInstanciable":false,
@@ -3118,6 +3228,7 @@
                             "herencia":null,
                             "ayuda":null,
                             "tipo":"selectUsuarioMultiple",
+                            "computo":null,
                             "opciones":{
                                 "referencia":{
                                     "idEtapa":2,
@@ -3149,6 +3260,7 @@
                             "herencia":null,
                             "ayuda":null,
                             "tipo":"text",
+                            "computo":null,
                             "opciones":null,
                             "habilitadoSi":null,
                             "multiInstanciable":false,
@@ -3207,6 +3319,7 @@
                             "herencia":null,
                             "ayuda":null,
                             "tipo":"archivo",
+                            "computo":null,
                             "opciones":null,
                             "habilitadoSi":null,
                             "multiInstanciable":false,
@@ -3248,6 +3361,7 @@
                             "herencia":null,
                             "ayuda":null,
                             "tipo":"archivo",
+                            "computo":null,
                             "opciones":null,
                             "habilitadoSi":null,
                             "multiInstanciable":false,
@@ -3258,6 +3372,13 @@
                     ]
                 }
             ]
+        }
+    ],
+    "constantes":[
+        {
+            "id":1,
+            "valor":10,
+            "descripcion":"Valor para calculo de creditos"
         }
     ]
 }

@@ -8,7 +8,8 @@ export enum TipoInput {
     archivo,
     selectUsuarioMultiple,
     date,
-    dateLog
+    dateLog,
+    computo
 }
 
 export class TwoWayMap<T, K> {
@@ -40,6 +41,7 @@ export const MapTipoInput = new TwoWayMap(new Map([
     [TipoInput.selectUsuarioMultiple, 'selectUsuarioMultiple'],
     [TipoInput.date, 'date'],
     [TipoInput.dateLog, 'dateLog'],
+    [TipoInput.computo, 'computo'],
 ]));
 
 export const MapTipoInputHTML = new Map([
