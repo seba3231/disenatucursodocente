@@ -14,19 +14,16 @@ export interface RegistrarDependencia{
     observado:Ubicacion;
     interesadoEscucha:EventEmitter<any>;
 }
-
 export interface ValorComputado{
     valor:number;
     op1:ComputoValorUbicacion|number;
     op2:ComputoValorUbicacion|number;
     operacion:string;
 }
-
 export interface ComputoValorUbicacion{
     claveUbicacion:string;
     valor:number;
 }
-
 export interface ValorSelect{
     string:string;
     muestroSi:DependenciaDeDatos|null;
@@ -34,23 +31,7 @@ export interface ValorSelect{
     //En caso de Select Fijo: indica el idOpcion
     valor:number|null;
 }
-/*export interface ValorSelect{
-    valorUsuario:number|null;
-    valorFijo:number|null;
-}*/
 
-/*
-{
-    string:stringOpcion,
-    muestroSi:null,
-    valor:{
-        valorUsuario:{
-            indiceInstancia: index
-        },
-        valorFijo:null
-    }
-}
-*/
 @Component({
   selector: 'app-atributo',
   templateUrl: './atributo.component.html',
@@ -201,6 +182,8 @@ export class AtributoComponent {
                                     retrievedEventEmitter.subscribe((registroDependencia:RegistrarDependencia) => {
                                         let claveIntesado = this.objectToString(registroDependencia.interesado);
 
+                                        //Reseteo el valor guardado y el mapOpcionSeleccionada
+                                        //cargarInfoPrevia se encarga de seleccionar la primer opcion by default
                                         let valoresDato = this.buscoDatoGuardadoDeAtributo(registroDependencia.interesado);
                                         valoresDato[0].selectFijo = null;
                                         this.mapOpcionSeleccionada.delete(claveIntesado);
@@ -608,14 +591,15 @@ export class AtributoComponent {
                     resultado = resultado + valorDato.number;
                 }
             }
-            //Cuando cambia el operando, checkea mapManejadorEventos
-            //y si encuentra que existe un EventEmitter para su Ubicacion, emite
+            //Si el operando son datos de una Ubicacion, se debe de saber
+            //cuando ese dato cambia para recomputar
             let claveInteresado = this.objectToString(ubicacionInteresado);
             let claveObservado = this.objectToString(operandoObservado);
             let claveEvento = claveInteresado+claveObservado;
 
             let retrievedEventEmitter = this.mapManejadorEventos.get(claveEvento);
             if(retrievedEventEmitter === undefined){
+                //Registro evento en Grupo
                 retrievedEventEmitter = new EventEmitter();
                 this.mapManejadorEventos.set(
                     claveEvento,
@@ -628,7 +612,7 @@ export class AtributoComponent {
                 }
                 this.registrarDependencia.emit(registroDependencia);
 
-                //Si cambia operando, se debe recomputar el valor
+                //Si cambia el dato observado, se llama esta funcion
                 retrievedEventEmitter.subscribe((registroDependencia:RegistrarDependencia) => {
                     let claveIntesado = this.objectToString(registroDependencia.interesado);
                     let claveObservado = this.objectToString(registroDependencia.observado);
