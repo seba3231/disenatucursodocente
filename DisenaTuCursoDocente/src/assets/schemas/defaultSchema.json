@@ -32,7 +32,15 @@
                                 "informacionAmpliatoria":null,
                                 "aporteConceptual":null
                             },
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[{
+                                "autor": "Sebastián Peláez",
+                                "fecha": 1662910765251,
+                                "valor": "No estoy seguro que los crèditos esten bien calculados"
+                            },{
+                                "autor": "Sebastián Peláez",
+                                "fecha": 1662910765451,
+                                "valor": "Los creditos deberian ser el doble, tengo que revisar esto luego"
+                            }],
                             "ayuda":null,
                             "obligatorio":false,
                             "filasDatos":[
@@ -103,7 +111,7 @@
                             "herencia":null,
                             "multiInstanciable":true,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "ayuda":null,
                             "obligatorio":false,
                             "filasDatos":[
@@ -221,7 +229,7 @@
                             "herencia":null,
                             "multiInstanciable":false,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "ayuda":null,
                             "obligatorio":false,
                             "filasDatos":[
@@ -286,7 +294,7 @@
                             "herencia":null,
                             "multiInstanciable":false,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "ayuda":null,
                             "obligatorio":false,
                             "filasDatos":[
@@ -382,7 +390,7 @@
                             "herencia":null,
                             "multiInstanciable":false,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "ayuda":null,
                             "obligatorio":false,
                             "filasDatos":[
@@ -458,7 +466,7 @@
                             "herencia":null,
                             "multiInstanciable":false,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -645,7 +653,7 @@
                             "herencia":null,
                             "multiInstanciable":false,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -692,7 +700,7 @@
                                 "informacionAmpliatoria":null,
                                 "aporteConceptual":"Lorem ipsum"
                             },
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -732,7 +740,7 @@
                             "herencia":null,
                             "multiInstanciable":false,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -785,7 +793,7 @@
                             "herencia":null,
                             "multiInstanciable":true,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -853,7 +861,7 @@
                             "herencia":null,
                             "multiInstanciable":true,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -925,7 +933,7 @@
                                 "informacionAmpliatoria":null,
                                 "aporteConceptual":"algo"
                             },
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -988,7 +996,7 @@
                             "herencia":null,
                             "multiInstanciable":false,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -1028,7 +1036,7 @@
                             "herencia":null,
                             "multiInstanciable":true,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -1102,7 +1110,7 @@
                             "herencia":null,
                             "multiInstanciable":true,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -1231,7 +1239,7 @@
                             "herencia":null,
                             "multiInstanciable":false,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -1274,7 +1282,7 @@
                             "herencia":null,
                             "multiInstanciable":false,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "ayuda":"Lorem ipsum",
                             "filasDatos":[
                                 {
@@ -1315,7 +1323,7 @@
                             "herencia":null,
                             "multiInstanciable":true,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "ayuda":null,
                             "filasDatos":[
                                 {
@@ -1417,7 +1425,7 @@
                             },
                             "multiInstanciable":true,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":null
                         },
                         {
@@ -1441,7 +1449,7 @@
                                 "informacionAmpliatoria":"un string",
                                 "aporteConceptual":"un string"
                             },
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":null
                         },
                         {
@@ -1456,7 +1464,7 @@
                             "herencia":null,
                             "multiInstanciable":true,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -1537,7 +1545,7 @@
                             "herencia":null,
                             "multiInstanciable":false,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -1601,7 +1609,7 @@
                                 "informacionAmpliatoria":"bbb",
                                 "normativa":null
                             },
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -1691,7 +1699,7 @@
                                 "informacionAmpliatoria":"bbb",
                                 "normativa":null
                             },
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -1922,7 +1930,7 @@
                                 "informacionAmpliatoria":"no null",
                                 "normativa":null
                             },
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -1994,7 +2002,7 @@
                             },
                             "multiInstanciable":false,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":null
                         },
                         {
@@ -2013,7 +2021,7 @@
                                 "informacionAmpliatoria":null,
                                 "normativa":null
                             },
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -2053,7 +2061,7 @@
                             "herencia":null,
                             "multiInstanciable":false,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -2113,7 +2121,7 @@
                             "herencia":null,
                             "multiInstanciable":true,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -2195,7 +2203,7 @@
                             },
                             "multiInstanciable":false,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":null
                         },
                         {
@@ -2219,7 +2227,7 @@
                                 "informacionAmpliatoria":"bbb",
                                 "normativa":null
                             },
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":null
                         },
                         {
@@ -2243,7 +2251,7 @@
                                 "informacionAmpliatoria":"bbb",
                                 "normativa":null
                             },
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -2339,7 +2347,7 @@
                             },
                             "multiInstanciable":true,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -2388,7 +2396,7 @@
                                 "informacionAmpliatoria":"un string",
                                 "aporteConceptual":"un string"
                             },
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":[
                                 {
                                     "datos":[
@@ -2433,7 +2441,7 @@
                             },
                             "multiInstanciable":true,
                             "puntoCritico":null,
-                            "comentariosPrivados":null,
+                            "comentariosPrivados":[],
                             "filasDatos":null
                         }
                     ]

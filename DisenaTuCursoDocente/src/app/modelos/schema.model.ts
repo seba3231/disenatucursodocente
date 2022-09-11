@@ -70,9 +70,9 @@ export interface Atributo{
 }
 
 export interface ComentarioPrivado{
-    autor:string;
-    fecha:Date;
-    valor:string;
+    autor:string| undefined;
+    fecha:number | null;
+    valor:string| null;
 }
 
 export interface Dato{
