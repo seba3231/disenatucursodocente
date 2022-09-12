@@ -62,6 +62,7 @@ export class InitialSchemaLoaderService {
     headers.append('Accept', 'application/json');
 
     try {
+      //levantar electron: cmd: node ElectronEntry.js
       const response = await fetch('http://localhost:8081/cursos', {
         method: 'GET',
         headers: headers,
