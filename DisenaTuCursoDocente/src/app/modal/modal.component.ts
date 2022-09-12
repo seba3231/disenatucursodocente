@@ -20,29 +20,25 @@ export class ModalComponent implements OnInit {
 
     ngOnInit(): void { 
         if(this.comentariosPrivados.length > 0){
-            // let list : any = {
-            //     // autor : this.initialSchemaService.loadedData?.autor;
-            //     autor : null,
-            //     fecha : null,
-            //     valor : null,
 
-            // }
-            
-            console.log(this.comentariosPrivados)
         }
         
     }
 
     resolve() {
         var inputValue = (<HTMLInputElement>document.getElementById("input-content")).value;
-        console.log(inputValue)
         if (inputValue)
             this.output = inputValue;
-        console.log(this.output)
         this.activeModal.close('Confirmar');
     }
     
     reject() {
         this.activeModal.dismiss('Cancelar');
+    }
+
+    quitarComentario(comentario: ComentarioPrivado){
+        var index = this.comentariosPrivados.indexOf(comentario)
+        // delete this.comentariosPrivados[index]
+        this.comentariosPrivados.splice(index,  1);
     }
 }
