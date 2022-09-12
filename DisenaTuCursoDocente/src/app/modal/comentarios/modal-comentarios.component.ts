@@ -19,16 +19,8 @@ export class ModalComentariosComponent implements OnInit {
 
     ngOnInit(): void { 
         if(this.comentariosPrivados.length > 0){
-            // let list : any = {
-            //     // autor : this.initialSchemaService.loadedData?.autor;
-            //     autor : null,
-            //     fecha : null,
-            //     valor : null,
-
-            //}
             console.log(this.comentariosPrivados)
         }
-        
     }
 
     resolve() {
@@ -47,5 +39,11 @@ export class ModalComentariosComponent implements OnInit {
     
     reject() {
         this.activeModal.dismiss('Cancelar');
+    }
+
+    quitarComentario(comentario: ComentarioPrivado){
+        var index = this.comentariosPrivados.indexOf(comentario)
+        // delete this.comentariosPrivados[index]
+        this.comentariosPrivados.splice(index,  1);
     }
 }

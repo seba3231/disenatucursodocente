@@ -78,12 +78,11 @@ export class GrupoComponent implements OnInit {
                         fecha : today.getTime(),
                         valor : resp
                     }
-                    // if (this.initialSchemaService.loadedData?.autor)
-                    //     comentarioPrivado.autor = this.initialSchemaService.loadedData?.autor;
-                    // comentarioPrivado.fecha.setDate(Date.now())
-                    // comentarioPrivado.valor = modalRef.componentInstance.output
-                    console.log(atributo)
                     atributo.comentariosPrivados.push(comentario)
+                    console.log(atributo)
+                }
+                if (modalRef.componentInstance.comentariosPrivados){
+                    atributo.comentariosPrivados = modalRef.componentInstance.comentariosPrivados
                     console.log(atributo)
                 }
             },
