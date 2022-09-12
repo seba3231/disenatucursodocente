@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { TipoInput } from "src/app/enumerados/enums";
 import { Ubicacion } from "src/app/modelos/schema.model";
-import { DatoArchivo } from "src/app/modelos/schemaData2.model";
+import { DatoArchivo } from "src/app/modelos/schemaData.model";
 
 export interface IntercambioArchivoComponent{
     datoGuardado:DatoArchivo | null;
