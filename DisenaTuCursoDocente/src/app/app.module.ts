@@ -11,11 +11,12 @@ import { AtributoComponent } from './atributo/atributo.component';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ModalComponent } from './modal/modal.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ArchivoComponent } from './datos/archivo/archivo.component';
 import { ExportpdfComponent } from './exportpdf/exportpdf.component';
 import { TextoNumberComponent } from './datos/textonumber/textonumber.component';
+import { ModalComentariosComponent } from './modal/comentarios/modal-comentarios.component';
+import { ModalConfirmacionComponent } from './modal/confirmacion/modal-confirmacion.component';
 
 
 export function initConfig(loaderService : InitialSchemaLoaderService) {
@@ -49,7 +50,8 @@ export function initConfig(loaderService : InitialSchemaLoaderService) {
     EtapaComponent,
     GrupoComponent,
     AtributoComponent,
-    ModalComponent,
+    ModalComentariosComponent,
+    ModalConfirmacionComponent,
     DashboardComponent,
     ArchivoComponent,
     TextoNumberComponent,
