@@ -11,7 +11,7 @@
             <span>‧ {{comentario.fecha | date:'yyyy-MM-dd hh:mm'}} ‧</span>
         </li>
     </ul>
-    <input *ngIf="inputDisclaimer"  type="text" class="form-control" id="input-content" placeholder='{{inputDisclaimer}}'>{{output}}
+    <input *ngIf="inputDisclaimer"  type="text" class="form-control" id="input-content" placeholder='{{inputDisclaimer}}'>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-outline-gray" (click)="reject()">Cancelar</button>

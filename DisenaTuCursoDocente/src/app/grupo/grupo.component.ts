@@ -1,11 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { RegistrarDependencia } from '../atributo/atributo.component';
 import { Atributo, Grupo, Ubicacion } from '../modelos/schema.model';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalComponent } from '../modal/modal.component';
-import { SchemaSavedData } from '../modelos/schemaData.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {ComentarioPrivado } from '../modelos/schema.model'
 import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.service';
+import { ModalComentariosComponent } from '../modal/comentarios/modal-comentarios.component';
 
 @Component({
   selector: 'app-grupo',
@@ -58,33 +57,26 @@ export class GrupoComponent implements OnInit {
 
     openModal(atributo: Atributo){
         // MODAL PARA AGREGAR COMENTARIOS
-        const modalRef = this.modalService.open(ModalComponent, {
+        const modalRef = this.modalService.open(ModalComentariosComponent, {
             scrollable: false,
         });
         modalRef.componentInstance.tittle = 'Agregar comentario';
-        modalRef.componentInstance.inputDisclaimer = '*Los comentarios que ingreses aquí solo tú los veras'
-        modalRef.componentInstance.comentariosPrivados = atributo.comentariosPrivados
-        //Whenever modal is closed (Reject or Resolve), this Observable gets written
-        modalRef.hidden.subscribe({
-            next: () => {
-                console.log('Hiden NEXT ');
-            },
-            error: () => {
-                //Nunca se llama aca
-            },
-        });
+        modalRef.componentInstance.inputDisclaimer = '*Los comentarios que ingreses aquí solo tú los veras';
+        modalRef.componentInstance.comentariosPrivados = atributo.comentariosPrivados;
+        //modalRef.componentInstance.resolveFunction = this.resolveModal;
+
         //Control Resolve with Observable
         modalRef.closed.subscribe({
             next: (resp) => {
-                if (modalRef.componentInstance.output.length > 0){
-                    console.log('comentario: ' + modalRef.componentInstance.output);
-                    console.log(this.initialSchemaService.loadedData)
-                   var today = new Date();
+                if (resp.length > 0){
+                    console.log('comentario: ' + resp);
+                    console.log(this.initialSchemaService.loadedData);
+                    var today = new Date();
                     let comentario : ComentarioPrivado = {
                         // autor : this.initialSchemaService.loadedData?.autor;
                         autor : this.initialSchemaService.loadedData?.autor?.toString(),
                         fecha : today.getTime(),
-                        valor : modalRef.componentInstance.output
+                        valor : resp
                     }
                     // if (this.initialSchemaService.loadedData?.autor)
                     //     comentarioPrivado.autor = this.initialSchemaService.loadedData?.autor;
@@ -99,27 +91,16 @@ export class GrupoComponent implements OnInit {
                 //Nunca se llama aca
             },
         });
-        //Control Reject with Observable
-        modalRef.dismissed.subscribe({
-            next: (resp) => {
-                console.log('Dismissed NEXT');
-                console.log('Reject: ' + this.getDismissReason(resp));
-            },
-            error: () => {
-                //Nunca se llama aca
-            },
-        });
     }
 
-    private getDismissReason(reason: any): string {
-        if (reason === ModalDismissReasons.ESC) {
-            return 'by pressing ESC';
+    /*resolveModal = (args: any): void => {
+        var inputValue = (<HTMLInputElement>document.getElementById("input-content")).value;
+        console.log(inputValue);
+        if (inputValue){
+            this.activeModal.close(inputValue);
         }
-        else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-            return 'by clicking on a backdrop';
+        else{
+            this.activeModal.close('');
         }
-        else {
-            return `by custom reason, ${reason}`;
-        }
-    }
+    }*/
 }
