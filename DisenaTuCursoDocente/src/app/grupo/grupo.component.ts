@@ -72,9 +72,10 @@ export class GrupoComponent implements OnInit {
                     console.log('comentario: ' + resp);
                     console.log(this.initialSchemaService.loadedData);
                     var today = new Date();
+                    let autor = this.initialSchemaService.loadedData?.versiones.at(-1)?.autor;
                     let comentario : ComentarioPrivado = {
                         // autor : this.initialSchemaService.loadedData?.autor;
-                        autor : this.initialSchemaService.loadedData?.autor?.toString(),
+                        autor : autor,
                         fecha : today.getTime(),
                         valor : resp
                     }
