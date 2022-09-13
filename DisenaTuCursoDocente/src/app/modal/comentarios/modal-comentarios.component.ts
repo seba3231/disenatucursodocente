@@ -12,12 +12,13 @@ export class ModalComentariosComponent implements OnInit {
     @Input() tittle: string='';
     @Input() body: string='';
     @Input() inputDisclaimer: string='';
-    @Input() comentariosPrivados!: [ComentarioPrivado];
+    @Input() comentariosPrivados!: ComentarioPrivado[];
     //@Input() resolveFunction: ((args: any) => void) | undefined;
 
     constructor(public activeModal: NgbActiveModal) { }
 
     ngOnInit(): void { 
+        console.log(this.comentariosPrivados)
         if(this.comentariosPrivados.length > 0){
             console.log(this.comentariosPrivados)
         }

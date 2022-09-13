@@ -1,6 +1,6 @@
 <div class="card container">
     <div class="card-body">
-        <div class="d-flex flex-row">
+        <div *ngIf="grupo.nombre" class="d-flex flex-row">
             <i class="bi bi-mortarboard-fill p-2"></i>
             <h4 class="p-2">{{ grupo.nombre }}</h4>
         </div>
@@ -9,14 +9,14 @@
                 <div
                     *ngFor="let atributo of grupo.atributos"
                     class="card border-secondary mb-3"
+                    style="padding-right: 2rem;"
                     [ngClass]="{'puntoCritico': atributo.puntoCritico}"
                     [ngStyle]="{'background-color': atributo.puntoCritico ? '#e6f1fc' : null}"
                 >
                     <div class="card-body">
                         <ng-container>
                             <div class="col-auto d-flex flex-column pb-2 align-items-end">
-                                <button type="button"class="btn " 
-                                    style="border: none !important"
+                                <button type="button"class="btn btn-comentario" 
                                     (click)="openModal(atributo)"
                                     title="Agregar comentarios"
                                 >

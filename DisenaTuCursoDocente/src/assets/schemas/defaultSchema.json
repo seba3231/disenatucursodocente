@@ -32,15 +32,6 @@
                                 "informacionAmpliatoria":null,
                                 "aporteConceptual":null
                             },
-                            "comentariosPrivados":[{
-                                "autor": "Sebastián Peláez",
-                                "fecha": 1662910765251,
-                                "valor": "No estoy seguro que los crèditos esten bien calculados"
-                            },{
-                                "autor": "Sebastián Peláez",
-                                "fecha": 1662910765451,
-                                "valor": "Los creditos deberian ser el doble, tengo que revisar esto luego"
-                            }],
                             "ayuda":null,
                             "obligatorio":false,
                             "filasDatos":[
