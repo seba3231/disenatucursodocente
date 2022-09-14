@@ -4,3 +4,15 @@
     border-left-width: 5px;
     border-radius: 5px;
 }
+
+.btn-comentario{
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none !important
+}
+
+.btn-comentario:hover{
+    background-color: rgb(224, 223, 223);
+    border-radius: 50%;
+}

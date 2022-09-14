@@ -31,7 +31,7 @@
     </div>
 </div>
 <div *ngFor="let _ of [].constructor(cantidadInstancias); index as indiceInstancia">
-    <div *ngIf="indiceInstancia === 0" class="row">
+    <div *ngIf="indiceInstancia === 0 && atributo.nombre" class="row">
         <h5>{{ atributo.nombre ? atributo.nombre+' ' : '' }}
             <span *ngIf="atributo.ayuda" class="d-inline-block" 
                 data-bs-toggle="popover" 
@@ -44,16 +44,6 @@
         </h5>
     </div>
     <div *ngFor="let fila of atributo.filasDatos" class="row">
-        <ng-container *ngIf="atributo.multiInstanciable">
-            <div class="col-auto align-self-center">
-                <button type="button"class="btn btn-danger" 
-                    style="padding-top:0;padding-bottom:0"
-                    (click)="modalConfirmacion(atributo.ubicacion,atributo.id,indiceInstancia)"
-                >
-                    <i class="bi bi-trash-fill fs-4"></i>
-                </button>
-            </div>
-        </ng-container>
         <div *ngFor="let dato of fila.datos" class="col">
             <div class="mb-3">
                 <!--
@@ -174,10 +164,20 @@
                 </ng-container>
             </div>
         </div>
+        <ng-container *ngIf="atributo.multiInstanciable">
+            <div class="col-auto align-self-center">
+                <button type="button"class="btn btn-outline-primary background-primary" 
+                    style="padding-top:0;padding-bottom:0"
+                    (click)="modalConfirmacion(atributo.ubicacion,atributo.id,indiceInstancia)"
+                >
+                    <i class="bi bi-trash-fill fs-4"></i>
+                </button>
+            </div>
+        </ng-container>
     </div>
 </div>
 <div *ngIf="atributo.multiInstanciable">
-    <button type="button" class="btn btn-primary" (click)="agregarInstanciaAtributo()">
+    <button type="button" class="btn btn-outline-primary background-primary m-2 w-100" (click)="agregarInstanciaAtributo()" style="font-weight:500;">
         <i _ngcontent-ofn-c89="" class="bi bi-plus-square-dotted me-2"></i>
         Agregar {{ atributo.nombre }}
     </button>

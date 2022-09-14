@@ -176,8 +176,10 @@ export class ExportpdfComponent{
         for (var i=0; i < cursos.length; i++) {
           if (cursos[i].id == cursoId){
             // cargo la informacion de los atributos del curso que quiere exportar
-            cursosDatos = cursos[i];
-            this.pdf.content.push({text: cursosDatos.nombreCurso,style: 'header' });
+            cursosDatos = cursos[i].versiones.at(-1);
+            console.log(cursos[i])
+            console.log(cursosDatos)
+            this.pdf.content.push({text: cursos[i].nombreCurso,style: 'header' });
             this.pdf.content.push({text: "Autor: " + cursosDatos.autor,style: 'body' });
             if (cursosDatos.intitucion)
               this.pdf.content.push({text: "Institución: " + cursosDatos.intitucion,style: 'body' });

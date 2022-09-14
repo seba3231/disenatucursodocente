@@ -14,6 +14,7 @@ import { ModalComentariosComponent } from '../modal/comentarios/modal-comentario
 export class GrupoComponent implements OnInit {
     @Input() grupo!: Grupo;
 
+    comentariosPrivados: ComentarioPrivado[] | undefined = undefined;
     mapObservadorCambios : Map<string,RegistrarDependencia[]> = new Map();
 
     constructor(private modalService: NgbModal,
@@ -57,20 +58,35 @@ export class GrupoComponent implements OnInit {
 
     openModal(atributo: Atributo){
         // MODAL PARA AGREGAR COMENTARIOS
+        console.log(atributo)
+        const InformacionGuardada = this.initialSchemaService.loadedData?.versiones.at(-1)?.datosGuardados
+        console.log(InformacionGuardada)
+        this.comentariosPrivados = []
+        if (InformacionGuardada)
+            for(let dato of InformacionGuardada){
+                if(dato.ubicacionAtributo.idEtapa == atributo.ubicacion.idEtapa &&
+                    dato.ubicacionAtributo.idGrupo == atributo.ubicacion.idGrupo){
+                        for(let comentario of dato.comentariosPrivados){
+                            this.comentariosPrivados.push(comentario)
+                        }
+                        
+                }
+            }
+        const ubiAtrr = atributo.ubicacion
         const modalRef = this.modalService.open(ModalComentariosComponent, {
             scrollable: false,
         });
         modalRef.componentInstance.tittle = 'Agregar comentario';
         modalRef.componentInstance.inputDisclaimer = '*Los comentarios que ingreses aquí solo tú los veras';
-        modalRef.componentInstance.comentariosPrivados = atributo.comentariosPrivados;
+        modalRef.componentInstance.comentariosPrivados = this.comentariosPrivados;
         //modalRef.componentInstance.resolveFunction = this.resolveModal;
 
         //Control Resolve with Observable
         modalRef.closed.subscribe({
             next: (resp) => {
+                console.log(this.comentariosPrivados);
                 if (resp.length > 0){
                     console.log('comentario: ' + resp);
-                    console.log(this.initialSchemaService.loadedData);
                     var today = new Date();
                     let autor = this.initialSchemaService.loadedData?.versiones.at(-1)?.autor;
                     let comentario : ComentarioPrivado = {
@@ -79,11 +95,18 @@ export class GrupoComponent implements OnInit {
                         fecha : today.getTime(),
                         valor : resp
                     }
-                    atributo.comentariosPrivados.push(comentario)
-                    console.log(atributo)
+                    if (InformacionGuardada)
+                        for(let dato of InformacionGuardada){
+                            if(dato.ubicacionAtributo.idEtapa == atributo.ubicacion.idEtapa &&
+                                dato.ubicacionAtributo.idGrupo == atributo.ubicacion.idGrupo){
+                                    dato.comentariosPrivados.push(comentario)
+                                    
+                            }
+                        }
+                        
                 }
                 if (modalRef.componentInstance.comentariosPrivados){
-                    atributo.comentariosPrivados = modalRef.componentInstance.comentariosPrivados
+                    this.comentariosPrivados = modalRef.componentInstance.comentariosPrivados
                     console.log(atributo)
                 }
             },
@@ -92,6 +115,32 @@ export class GrupoComponent implements OnInit {
             },
         });
     }
+
+    async modificarCurso() {
+        const curso = this.initialSchemaService.loadedData
+        // busco version actualizada y la agrego como nueva cuando es el 1er cambio, falta definir esa logica
+        // const nuevaVersion = curso?.versiones.at(-1); 
+        // if (nuevaVersion !== undefined) curso?.versiones?.push(nuevaVersion);
+        let headers = new Headers();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json');
+        try {
+          // no hay convencion sobre los nombres aun asi que paso id para que busque archivo curso_id 
+          const response = await fetch(`http://localhost:8081/cursos/${curso?.id}`, {
+            method: 'PUT',
+            headers: headers,
+            mode: 'cors',
+            body: JSON.stringify({
+              curso: { ...curso, fechaModificacion: new Date() },
+            }),
+          });
+          if (response.status === 200)
+            console.log('Curso actualizado exitosamente');
+          else console.log('Ha ocurrido un error, ', response.status);
+        } catch (e) {
+          console.error(e);
+        }
+      }
 
     /*resolveModal = (args: any): void => {
         var inputValue = (<HTMLInputElement>document.getElementById("input-content")).value;
