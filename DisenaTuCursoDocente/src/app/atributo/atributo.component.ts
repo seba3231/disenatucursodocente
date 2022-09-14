@@ -6,8 +6,9 @@ import { InformacionGuardada, ValoresDato, Version } from '../modelos/schemaData
 import { FormControl, Validators } from '@angular/forms';
 import { IntercambioArchivoComponent } from '../datos/archivo/archivo.component';
 import { IntercambioTextNumberComponent } from '../datos/textonumber/textonumber.component';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalConfirmacionComponent } from '../modal/confirmacion/modal-confirmacion.component';
+import { _countGroupLabelsBeforeOption } from '@angular/material/core';
 
 declare var bootstrap: any;
 
@@ -331,6 +332,10 @@ export class AtributoComponent {
         let valoresDato = this.buscoDatoGuardadoDeAtributo(ubicacion);
         if(valoresDato.length !== 0){
             let claveMap = this.objectToString(ubicacion)+indice;
+            /*if(claveMap === '{"idEtapa":1,"idGrupo":11,"idAtributo":2,"idDato":[2]}0'){
+                let dato = valoresDato[indice].string;
+                console.log("cargando Dato");
+            }*/
             switch (tipoInput) {
                 case TipoInput.text:{
                     let entradaTextNumber : IntercambioTextNumberComponent = {
@@ -713,7 +718,7 @@ export class AtributoComponent {
         }
     }
 
-    modalConfirmacion(){
+    modalConfirmacion(ubicacionAtributo:Ubicacion, idAtributo:number, indice:number){
         const modalRef = this.modalService.open(ModalConfirmacionComponent, {
             scrollable: false,
         });
@@ -723,11 +728,86 @@ export class AtributoComponent {
         //Control Resolve with Observable
         modalRef.closed.subscribe({
             next: () => {
-                console.log('Recorrer y corregir');
+                //Elimino instancia de Atributo
+                if(this.cantidadInstancias !== 1){
+                    
+                    for(let datoDentroAtributo of this.datoGuardado!.valoresAtributo!){
+                        datoDentroAtributo.valoresDato.splice(indice,1);
+                    }
+                    this.datoGuardado!.cantidadInstancias = this.cantidadInstancias;
+                    this.cantidadInstancias--;
+                }
+                else{
+                    //Reseteo los datos de la única instancia
+                    this.cantidadInstancias--;
+                    for(let datoDentroAtributo of this.datoGuardado!.valoresAtributo!){
+                        datoDentroAtributo.valoresDato = [];
+                        let nuevoValorDato : ValoresDato = {
+                            string:null,
+                            number:null,
+                            selectFijo:null,
+                            selectUsuario:null,
+                            archivo:null,
+                            date:null
+                        }
+                        datoDentroAtributo.valoresDato.push(nuevoValorDato);
+                    }
+                    this.cantidadInstancias++;
+                }
+
+                //Busco en el schema los datos que dependen del Atributo eliminado
+                for(let etapa of this.initialSchemaService.defaultSchema?.etapas!){
+                    for(let grupo of etapa.grupos){
+                        for(let atrib of grupo.atributos){
+                            if(atrib.filasDatos != null){
+                                for(let filaDatos of atrib.filasDatos){
+                                    for(let dato of filaDatos.datos){
+                                        if(TipoInput.selectUsuarioMultiple === this.mapTipoInput.revGet(dato.tipo)){
+                                            let referencia = dato.opciones.referencia;
+                                            if(referencia.idEtapa === ubicacionAtributo.idEtapa
+                                                && referencia.idGrupo === ubicacionAtributo.idGrupo
+                                                && referencia.idAtributo === idAtributo)
+                                            {
+
+                                                let ubicacionDato = this.computoUbicacionAbsoluta(dato.ubicacion,dato.id);
+                                                let datosGuardados = this.buscoDatoGuardadoDeAtributo(ubicacionDato);
+                                                for(let datoGuardado of datosGuardados){
+                                                    if(datoGuardado.selectUsuario != null){
+                                                        datoGuardado.selectUsuario = this.corregirIndicesGuardados(indice,datoGuardado.selectUsuario);
+                                                        if(datoGuardado.selectUsuario.length === 0){
+                                                            datoGuardado.selectUsuario = null;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }   
+                        }
+                    }
+                }
             },
             error: () => {
                 //Nunca se llama aca
             },
         });
+    }
+
+    corregirIndicesGuardados(indiceEliminado:number, indicesGuardados:number[]){
+        let vuelta:number[] = [];
+        for(let indiceGuardado of indicesGuardados){
+            //Los indices menores los dejo
+            if(indiceGuardado !== indiceEliminado && indiceGuardado<indiceEliminado){
+                vuelta.push(indiceGuardado);
+            }
+            //Los indices mayores les resto 1
+            if(indiceGuardado !== indiceEliminado && indiceGuardado>indiceEliminado){
+                let nuevoIndice = indiceGuardado - 1;
+                vuelta.push(nuevoIndice);
+            }
+            //El indice igual, no lo agrego al array vuelta
+        }
+        return vuelta;
     }
 }

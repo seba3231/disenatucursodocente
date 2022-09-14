@@ -1,14 +1,18 @@
 {
   "name": "disena-tu-curso-docente",
   "version": "0.0.0",
+  "description": "Standalone para docentes",
+  "author": "Nosotros",
   "main": "ElectronEntry.js",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "electron-forge start",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "start:electron": "ng build --base-href ./ && electron ."
+    "start:electron": "ng build --base-href ./ && electron .",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "private": true,
   "dependencies": {
@@ -26,6 +30,7 @@
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.0",
     "bootstrap-icons": "^1.9.1",
+    "electron-squirrel-startup": "^1.0.0",
     "html-to-pdfmake": "^2.4.5",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.25",
@@ -40,6 +45,11 @@
     "@angular-devkit/build-angular": "^14.1.1",
     "@angular/cli": "~14.1.1",
     "@angular/compiler-cli": "^14.1.0",
+    "@electron-forge/cli": "^6.0.0-beta.66",
+    "@electron-forge/maker-deb": "^6.0.0-beta.66",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.66",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.66",
+    "@electron-forge/maker-zip": "^6.0.0-beta.66",
     "@types/jasmine": "~4.0.0",
     "@types/pdfmake": "^0.2.1",
     "electron": "^20.0.1",
@@ -50,5 +60,32 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "typescript": "~4.7.2"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "disena_tu_curso_docente"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }
