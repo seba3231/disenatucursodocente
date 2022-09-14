@@ -19,7 +19,7 @@
       </div>
       <div class="text-center d-flex align-items-center" *ngIf="this.initialSchemaService.allData">
         <div>
-            <a class="btn btn-primary btn-rounded background-primary m-2" href="#!" role="button" (click)="crearCurso()">
+            <a class="btn btn-primary btn-rounded background-primary m-2" href="#!" role="button" (click)="openModal()">
               <i class="bi bi-plus-circle-dotted me-2"></i>CREAR CURSO</a>
             <button class="btn btn-primary btn-rounded background-primary m-2" type="button" 
               (click)="fileUpload.click()">
@@ -39,7 +39,7 @@
     <div class="container">
       <h3 class="pb-4 opacity-75">Mis cursos</h3>
       <div class="row">
-        <div class="col-md-4" *ngFor="let cursos of initialSchemaService.allData" (click)="cardClick(cursos.id)"> 
+        <div class="col-md-4 mt-4" *ngFor="let cursos of initialSchemaService.allData" (click)="cardClick(cursos.id)"> 
           <!-- (click)="cardClick(cursos.id)" -->
           <div class="card cursor-pointer">
             <div class="card-title">
@@ -91,7 +91,7 @@
         <div class="text-center d-block align-items-center m-auto">
             <a class="btn btn-primary btn-rounded background-primary m-2" href="#!" role="button" (click)="crearCurso()">
               <i class="bi bi-plus-circle-dotted me-2"></i>CREAR CURSO</a>
-            <a class="btn btn-primary btn-rounded background-primary m-2" href="#!" role="button">
+            <a class="btn btn-primary btn-rounded background-primary m-2" href="#!" role="button" (change)="cargarArchivo($event)">
               <i class="bi bi-box-arrow-in-up me-2"></i>IMPORTAR DISEÑO</a>
         </div>
     </div>

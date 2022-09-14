@@ -8,6 +8,8 @@ import {
 import { InitialSchemaLoaderService } from './servicios/initial-schema-loader.service';
 import {ExportpdfComponent} from   './exportpdf/exportpdf.component'
 import { GrupoDatoFijo } from './modelos/schema.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComentariosComponent } from './modal/comentarios/modal-comentarios.component';
 
 const pdfMakeX = require('pdfmake/build/pdfmake.js');
 const pdfFontsX = require('pdfmake-unicode/dist/pdfmake-unicode.js');
@@ -28,9 +30,11 @@ export class AppComponent {
   pdf: any;
   title = 'DisenaTuCursoDocente';
   nombreArchivo:string='';
+  autor:string='';
   datosFijos: GrupoDatoFijo[] | undefined;
 
-  constructor(private router: Router, public initialSchemaService : InitialSchemaLoaderService) {}
+  constructor(private modalService: NgbModal, private router: Router, 
+    public initialSchemaService : InitialSchemaLoaderService) {}
 
   ngOnInit(): void {
     this.initialSchemaService.loadAllDataFile2();
@@ -142,7 +146,7 @@ export class AppComponent {
           schemaVersion: 1,
           version: 0,
           datosGuardados,
-          autor: '', //tomar el autor del nombre
+          autor: this.autor, //tomar el autor del nombre
           fechaModificacion: new Date(),
           fechaCreacion: new Date(),
         },
@@ -238,13 +242,36 @@ export class AppComponent {
         
     }
 
-    
-
     public descargarPDF(event: any, cursoId: number):void{
         event.stopPropagation();
         const exportPdf = new ExportpdfComponent(this.initialSchemaService);
         const pdf = exportPdf.generatePdf(cursoId)
         pdf.open();
     }
+
+    openModal(){
+      // MODAL PARA AGREGAR COMENTARIOS
+      const modalRef = this.modalService.open(ModalComentariosComponent, {
+          scrollable: false,
+      });
+      modalRef.componentInstance.tittle = 'Nuevo curso';
+      modalRef.componentInstance.inputDisclaimer[0] = 'Nombre del curso';
+      modalRef.componentInstance.inputDisclaimer[1] = 'Ingrese su nombre';
+
+      //Control Resolve with Observable
+      modalRef.closed.subscribe({
+          next: (resp) => {
+              if (resp.length > 0){
+                  console.log(resp);
+                  this.nombreArchivo = resp[0]
+                  this.autor = resp[1]
+                  this.crearCurso()
+              }
+          },
+          error: () => {
+              //Nunca se llama aca
+          },
+      });
+  }
                        
 }

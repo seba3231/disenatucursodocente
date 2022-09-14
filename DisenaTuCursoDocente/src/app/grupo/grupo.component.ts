@@ -66,9 +66,10 @@ export class GrupoComponent implements OnInit {
             for(let dato of InformacionGuardada){
                 if(dato.ubicacionAtributo.idEtapa == atributo.ubicacion.idEtapa &&
                     dato.ubicacionAtributo.idGrupo == atributo.ubicacion.idGrupo){
-                        for(let comentario of dato.comentariosPrivados){
-                            this.comentariosPrivados.push(comentario)
-                        }
+                        if (dato.comentariosPrivados)
+                            for(let comentario of dato.comentariosPrivados){
+                                this.comentariosPrivados.push(comentario)
+                            }
                         
                 }
             }
@@ -77,7 +78,7 @@ export class GrupoComponent implements OnInit {
             scrollable: false,
         });
         modalRef.componentInstance.tittle = 'Agregar comentario';
-        modalRef.componentInstance.inputDisclaimer = '*Los comentarios que ingreses aquí solo tú los veras';
+        modalRef.componentInstance.inputDisclaimer[0] = '*Los comentarios que ingreses aquí solo tú los veras';
         modalRef.componentInstance.comentariosPrivados = this.comentariosPrivados;
         //modalRef.componentInstance.resolveFunction = this.resolveModal;
 
@@ -85,8 +86,9 @@ export class GrupoComponent implements OnInit {
         modalRef.closed.subscribe({
             next: (resp) => {
                 console.log(this.comentariosPrivados);
+                console.log('comentario: ' + resp);
+                console.log(modalRef.componentInstance);
                 if (resp.length > 0){
-                    console.log('comentario: ' + resp);
                     var today = new Date();
                     let autor = this.initialSchemaService.loadedData?.versiones.at(-1)?.autor;
                     let comentario : ComentarioPrivado = {
