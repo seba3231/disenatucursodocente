@@ -55,6 +55,36 @@ export class AppComponent {
       }
   }
 
+  editarNombre(curso: SchemaSavedData,event: any){
+    event.stopPropagation();
+    console.log(curso)
+    const modalRef = this.modalService.open(ModalComentariosComponent, {
+      scrollable: false,
+  });
+  modalRef.componentInstance.tittle = 'Editar nombre del curso';
+  modalRef.componentInstance.inputDisclaimer[0] = curso.nombreCurso;
+
+  //Control Resolve with Observable
+  modalRef.closed.subscribe({
+      next: (resp) => {
+          if (resp.length > 0){
+              console.log(resp);
+              curso.nombreCurso = resp[0]
+              const ver : Version | undefined = curso.versiones.at(-1);
+              if (ver){
+                ver.fechaModificacion = new Date()
+                ver.version = ver.version + 1
+                curso.versiones.push(ver)
+              }
+              this.modificarCurso(curso)
+          }
+      },
+      error: () => {
+          //Nunca se llama aca
+      },
+  });
+  }
+
   cargarArchivo(event: any) {
     let files = event.srcElement.files;
     let file: File;
@@ -188,6 +218,32 @@ export class AppComponent {
       const curso = await response.json();
       if (response.status === 200)
         console.log('Curso obtenido exitosamente', curso);
+      else console.log('Ha ocurrido un error, ', response.status);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async modificarCurso(curso: SchemaSavedData) {
+    // const curso = this.initialSchemaService.loadedData
+    // busco version actualizada y la agrego como nueva cuando es el 1er cambio, falta definir esa logica
+    // const nuevaVersion = curso?.versiones.at(-1); 
+    // if (nuevaVersion !== undefined) curso?.versiones?.push(nuevaVersion);
+    let headers = new Headers();
+    headers.append('Accept', 'application/json');
+    headers.append('Content-Type', 'application/json');
+    try {
+      // no hay convencion sobre los nombres aun asi que paso id para que busque archivo curso_id 
+      const response = await fetch(`http://localhost:8081/cursos/${curso?.id}`, {
+        method: 'PUT',
+        headers: headers,
+        mode: 'cors',
+        body: JSON.stringify({
+          curso: { ...curso, fechaModificacion: new Date() },
+        }),
+      });
+      if (response.status === 200)
+        console.log('Curso actualizado exitosamente');
       else console.log('Ha ocurrido un error, ', response.status);
     } catch (e) {
       console.error(e);

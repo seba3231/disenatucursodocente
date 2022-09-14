@@ -43,7 +43,10 @@
           <!-- (click)="cardClick(cursos.id)" -->
           <div class="card cursor-pointer">
             <div class="card-title">
-              <h5>{{cursos.nombreCurso}}</h5>
+              <div class="d-flex align-items-center">
+                <h5>{{cursos.nombreCurso}}</h5> 
+                <i class="bi bi-pencil-fill p-2" style="font-size: 10px; opacity: .6;" title="Editar nombre" (click)="editarNombre(cursos,$event)"></i>
+              </div>
               <small class="m-0">Autor: {{cursos.versiones.at(-1)?.autor}}</small>
             </div>  
             <div class="card-img-containter">
