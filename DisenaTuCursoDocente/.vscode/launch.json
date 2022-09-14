@@ -6,7 +6,7 @@
         //Para que esto funcione, no debe de haber ninguna instancia de Edge corriendo
         "type": "pwa-msedge",
         "request": "launch",
-        "preLaunchTask": "npm: start",
+        "preLaunchTask": "npm: start_dev",
         "name": "Debug DiseñaTuCurso",
         "url": "http://localhost:4200",
         "webRoot": "${workspaceFolder}",

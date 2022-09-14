@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output, SimpleChanges } from "@angular/core";
 import { TipoInput } from "src/app/enumerados/enums";
 import { Dato, Ubicacion } from "src/app/modelos/schema.model";
 
@@ -22,11 +22,16 @@ export class TextoNumberComponent {
     valorDato : string = '';
 
     constructor() { }
-    
-    ngOnInit(){
-        if(this.entrada.datoGuardado){
-            this.valorDato = this.entrada.datoGuardado;
+
+    ngOnChanges(changes: SimpleChanges) {
+        if(changes?.['entrada'].currentValue.datoGuardado !== null){
+            this.valorDato = changes?.['entrada'].currentValue.datoGuardado;
+            this.changeDetected.emit(this.entrada);
         }
+        else{
+            this.valorDato = '';
+        }
+        
     }
 
     cambioEnValor(nuevoValor:any){
