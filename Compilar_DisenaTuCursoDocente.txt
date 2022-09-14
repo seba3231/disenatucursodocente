@@ -1,0 +1,7 @@
+Ejecutar comandos parado en DisenaTuCursoDocente
+
+Comando 1: Compila la solución Angular en DisenaTuCursoDocente\dist\disena-tu-curso-docente\
+ng build --prod --base-href ./
+
+Comando 2: Compila la solución Electron en DisenaTuCursoDocente\out\
+npm run make
