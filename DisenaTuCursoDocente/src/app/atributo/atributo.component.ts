@@ -334,7 +334,7 @@ export class AtributoComponent {
             switch (tipoInput) {
                 case TipoInput.text:{
                     let entradaTextNumber : IntercambioTextNumberComponent = {
-                        datoGuardado : valoresDato[indice].string,
+                        datoGuardado : valoresDato[indice]?.string,
                         ubicacion : ubicacion,
                         indiceInstancia : indice,
                         tipoInput : tipoInput,
@@ -345,7 +345,7 @@ export class AtributoComponent {
                 }
                 case TipoInput.number:{
                     let valor = null;
-                    if(valoresDato[indice].number){
+                    if(valoresDato[indice]?.number){
                         valor = valoresDato[indice].number?.toString();
                     }
                     let entradaTextNumber : IntercambioTextNumberComponent = {
@@ -362,7 +362,7 @@ export class AtributoComponent {
                     
                     let estaOpcionEstaSeleccionada = false;
                     if(this.atributo.multiInstanciable){
-                        if(valoresDato[indice].selectFijo){
+                        if(valoresDato[indice]?.selectFijo){
                             estaOpcionEstaSeleccionada = posibleValor === valoresDato[indice].selectFijo![0];
                         }
                     }
@@ -370,7 +370,7 @@ export class AtributoComponent {
                         let value = this.mapOpcionSeleccionada.get(claveMap);
                         //Checkeo que solo se compute una vez este codigo
                         if(value === undefined){
-                            if(valoresDato[indice].selectFijo){
+                            if(valoresDato[indice]?.selectFijo){
                                 estaOpcionEstaSeleccionada = posibleValor === valoresDato[indice].selectFijo![0];
                                 if(estaOpcionEstaSeleccionada){
                                     this.mapOpcionSeleccionada.set(
@@ -400,7 +400,7 @@ export class AtributoComponent {
                     let valoresSeleccionados = this.mapOpcionesSeleccionadas.get(claveMap);
                     if(valoresSeleccionados === undefined){
                         let vuelta : number[] = [];
-                        if(valoresDato[indice].selectFijo){
+                        if(valoresDato[indice]?.selectFijo){
                             vuelta = valoresDato[indice].selectFijo!;
                         }
                         this.mapOpcionesSeleccionadas.set(claveMap,vuelta);
@@ -410,7 +410,7 @@ export class AtributoComponent {
                 case TipoInput.radio:{
 
                     let estaOpcionEstaSeleccionada = false;
-                    if(valoresDato[indice].selectFijo){
+                    if(valoresDato[indice]?.selectFijo){
                         estaOpcionEstaSeleccionada = posibleValor === valoresDato[indice].selectFijo![0];
                     }
                     if(estaOpcionEstaSeleccionada && !this.atributo.multiInstanciable){
@@ -448,7 +448,7 @@ export class AtributoComponent {
                 }
                 case TipoInput.archivo:{
                     let entradaArchivo: IntercambioArchivoComponent = {
-                        datoGuardado : valoresDato[indice].archivo,
+                        datoGuardado : valoresDato[indice]?.archivo,
                         ubicacion : ubicacion,
                         indiceInstancia : indice,
                         tipoInput : tipoInput
@@ -459,7 +459,7 @@ export class AtributoComponent {
                     let valoresSeleccionados = this.mapOpcionesSeleccionadas.get(claveMap);
                     if(valoresSeleccionados === undefined){
                         let vuelta : number[] = [];
-                        if(valoresDato[indice].selectUsuario){
+                        if(valoresDato[indice]?.selectUsuario){
                             vuelta = valoresDato[indice].selectUsuario!;
                         }
                         this.mapOpcionesSeleccionadas.set(claveMap,vuelta);

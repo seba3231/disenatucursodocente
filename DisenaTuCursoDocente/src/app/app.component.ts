@@ -209,30 +209,6 @@ export class AppComponent {
     }
   }
 
-  async modificarCurso(id: number, nuevaVersion: Version | undefined) {
-    const curso = this.initialSchemaService.allData?.find(
-      (curso) => curso.id == id
-    );
-    if (nuevaVersion !== undefined) curso?.versiones?.push(nuevaVersion);
-    let headers = new Headers();
-    headers.append('Accept', 'application/json');
-    headers.append('Content-Type', 'application/json');
-    try {
-      const response = await fetch(`http://localhost:8081/cursos/${id}`, {
-        method: 'PUT',
-        headers: headers,
-        mode: 'cors',
-        body: JSON.stringify({
-          curso: { ...curso, fechaModificacion: new Date() },
-        }),
-      });
-      if (response.status === 200)
-        console.log('Curso actualizado exitosamente');
-      else console.log('Ha ocurrido un error, ', response.status);
-    } catch (e) {
-      console.error(e);
-    }
-  }
     @HostListener("click", ["$event"])
     public onClick(event: any): void
     {

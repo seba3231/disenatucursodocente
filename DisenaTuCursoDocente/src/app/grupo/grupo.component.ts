@@ -116,6 +116,32 @@ export class GrupoComponent implements OnInit {
         });
     }
 
+    async modificarCurso() {
+        const curso = this.initialSchemaService.loadedData
+        // busco version actualizada y la agrego como nueva cuando es el 1er cambio, falta definir esa logica
+        // const nuevaVersion = curso?.versiones.at(-1); 
+        // if (nuevaVersion !== undefined) curso?.versiones?.push(nuevaVersion);
+        let headers = new Headers();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json');
+        try {
+          // no hay convencion sobre los nombres aun asi que paso id para que busque archivo curso_id 
+          const response = await fetch(`http://localhost:8081/cursos/${curso?.id}`, {
+            method: 'PUT',
+            headers: headers,
+            mode: 'cors',
+            body: JSON.stringify({
+              curso: { ...curso, fechaModificacion: new Date() },
+            }),
+          });
+          if (response.status === 200)
+            console.log('Curso actualizado exitosamente');
+          else console.log('Ha ocurrido un error, ', response.status);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
     /*resolveModal = (args: any): void => {
         var inputValue = (<HTMLInputElement>document.getElementById("input-content")).value;
         console.log(inputValue);
