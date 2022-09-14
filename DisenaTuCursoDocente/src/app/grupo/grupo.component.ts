@@ -14,7 +14,7 @@ import { ModalComentariosComponent } from '../modal/comentarios/modal-comentario
 export class GrupoComponent implements OnInit {
     @Input() grupo!: Grupo;
 
-    comentariosPrivados: ComentarioPrivado[] | undefined = undefined;
+    comentariosPrivados: ComentarioPrivado[] = [];
     mapObservadorCambios : Map<string,RegistrarDependencia[]> = new Map();
 
     constructor(private modalService: NgbModal,
@@ -65,7 +65,8 @@ export class GrupoComponent implements OnInit {
         if (InformacionGuardada)
             for(let dato of InformacionGuardada){
                 if(dato.ubicacionAtributo.idEtapa == atributo.ubicacion.idEtapa &&
-                    dato.ubicacionAtributo.idGrupo == atributo.ubicacion.idGrupo){
+                    dato.ubicacionAtributo.idGrupo == atributo.ubicacion.idGrupo &&
+                    dato.ubicacionAtributo.idAtributo == atributo.id){
                         if (dato.comentariosPrivados)
                             for(let comentario of dato.comentariosPrivados){
                                 this.comentariosPrivados.push(comentario)
@@ -88,28 +89,40 @@ export class GrupoComponent implements OnInit {
                 console.log(this.comentariosPrivados);
                 console.log('comentario: ' + resp);
                 console.log(modalRef.componentInstance);
-                if (resp.length > 0){
+                if (resp.length > 0 && resp[0].length > 0){
                     var today = new Date();
                     let autor = this.initialSchemaService.loadedData?.versiones.at(-1)?.autor;
                     let comentario : ComentarioPrivado = {
                         // autor : this.initialSchemaService.loadedData?.autor;
                         autor : autor,
                         fecha : today.getTime(),
-                        valor : resp
+                        valor : resp[0]
                     }
+                    const InformacionGuardada = this.initialSchemaService.loadedData?.versiones.at(-1)?.datosGuardados
                     if (InformacionGuardada)
                         for(let dato of InformacionGuardada){
                             if(dato.ubicacionAtributo.idEtapa == atributo.ubicacion.idEtapa &&
-                                dato.ubicacionAtributo.idGrupo == atributo.ubicacion.idGrupo){
+                                dato.ubicacionAtributo.idGrupo == atributo.ubicacion.idGrupo &&
+                                dato.ubicacionAtributo.idAtributo == atributo.id){
                                     dato.comentariosPrivados.push(comentario)
-                                    
+                                    this.comentariosPrivados.push(comentario)
+                            
                             }
                         }
                         
                 }
                 if (modalRef.componentInstance.comentariosPrivados){
-                    this.comentariosPrivados = modalRef.componentInstance.comentariosPrivados
-                    console.log(atributo)
+                    // this.comentariosPrivados = modalRef.componentInstance.comentariosPrivados
+                    const InformacionGuardada = this.initialSchemaService.loadedData?.versiones.at(-1)?.datosGuardados
+                    if (InformacionGuardada)
+                        for(let dato of InformacionGuardada){
+                            if(dato.ubicacionAtributo.idEtapa == atributo.ubicacion.idEtapa &&
+                                dato.ubicacionAtributo.idGrupo == atributo.ubicacion.idGrupo &&
+                                dato.ubicacionAtributo.idAtributo == atributo.id){
+                                    dato.comentariosPrivados = this.comentariosPrivados
+                                    
+                            }
+                        }
                 }
             },
             error: () => {

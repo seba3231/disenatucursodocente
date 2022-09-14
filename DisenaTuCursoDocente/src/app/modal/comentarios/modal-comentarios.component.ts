@@ -19,7 +19,7 @@ export class ModalComentariosComponent implements OnInit {
     constructor(public activeModal: NgbActiveModal) { }
 
     ngOnInit(): void { 
-        console.log(this.inputDisclaimer)
+        console.log(this.comentariosPrivados)
     }
 
     resolve() {
