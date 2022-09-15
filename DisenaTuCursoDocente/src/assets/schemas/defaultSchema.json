@@ -961,7 +961,7 @@
         },
         {
             "id":2,
-            "nombre":"Implementación",
+            "nombre":"Contextualización",
             "descripcion": "En esta etapa existen algunas definiciones que estarán dadas por las circunstancias de la cursada y otras que estarán definidas por el/la docente. Una vez el curso se ofrece se deberán tener los siguientes datos",
             "grupos":[
                 {
