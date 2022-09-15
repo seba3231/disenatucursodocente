@@ -69,13 +69,8 @@ export class InitialSchemaLoaderService {
         mode: 'cors',
       });
       const cursos = await response.json();
-      if (response.status === 200){
-        if (cursos.length > 0)
-          this.allData = cursos;
-        else
-          this.allData = undefined;
-      }
-        
+      if (response.status === 200) 
+        this.allData = cursos;
     
       else console.log('Ha ocurrido un error, ', response.status);
     } catch (e) {

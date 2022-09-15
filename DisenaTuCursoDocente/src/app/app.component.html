@@ -27,7 +27,7 @@
 </header>
 
 
-<section class="container d-flex align-items-center row m-auto" *ngIf="!this.initialSchemaService.allData">
+<section class="container d-flex align-items-center row m-auto" *ngIf="!this.initialSchemaService.allData || this.initialSchemaService.allData.length == 0">
   <div class="p-4">
       <h2 class="p-2 fw-bolder text-center opacity-75 p-4 m-auto" style="max-width: 50ch;">¡Hola!</h2>
       <img src="../assets/img/empty_home.svg" alt="Bienvenido/a" class="d-block m-auto img-empty">
@@ -45,7 +45,7 @@
 
 
 <!-- Mis cursos -->
-<section class="container border-bottom" *ngIf="this.initialSchemaService.allData && !this.initialSchemaService.loadedData">
+<section class="container border-bottom" *ngIf="this.initialSchemaService.allData && !this.initialSchemaService.loadedData && this.initialSchemaService.allData.length> 0 ">
   <div class="container-card">
     <div class="container">
       <h3 class="opacity-75">Mis cursos</h3>
