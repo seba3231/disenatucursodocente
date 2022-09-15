@@ -1,10 +1,10 @@
-<!-- <p>-------------------- ALERTAS --------------------</p> 
+<!-- <p>-------------------- ALERTAS --------------------</p> -->
 <ngb-alert [dismissible]="true" 
              type='danger'>
     <strong>Ups! Ha ocurrido un error</strong>
-</ngb-alert>-->
+</ngb-alert>
 <!-- cabezal -->
-<header class="ps-4 pt-2 container" *ngIf="muestroHeader()">
+<header class="ps-4 pt-2 container" *ngIf="!this.initialSchemaService.loadedData">
   <div class="d-flex flex-row border-bottom justify-content-between">
       <div class="d-flex flex-row align-items-center">
         <i class="bi bi-mortarboard-fill p-2" style="font-size: 1.8rem;"></i>
@@ -26,8 +26,26 @@
   </div>
 </header>
 
+
+<section class="container d-flex align-items-center row m-auto" *ngIf="!this.initialSchemaService.allData || this.initialSchemaService.allData.length == 0">
+  <div class="p-4">
+      <h2 class="p-2 fw-bolder text-center opacity-75 p-4 m-auto" style="max-width: 50ch;">¡Hola!</h2>
+      <img src="../assets/img/empty_home.svg" alt="Bienvenido/a" class="d-block m-auto img-empty">
+      <h2 class="p-2 fw-bolder text-center opacity-75 p-4 m-auto" style="max-width: 50ch;">Aquí veras tus cursos, ¿Comenzamos?</h2>
+      <div class="text-center d-block align-items-center m-auto">
+          <a class="btn btn-primary btn-rounded background-primary m-2" href="#!" role="button" (click)="openModal()">
+            <i class="bi bi-plus-circle-dotted me-2"></i>CREAR CURSO</a>
+      <button class="btn btn-primary btn-rounded background-primary m-2" type="button" (click)="fileUpload.click()">
+          <i class="bi bi-box-arrow-in-up me-2"></i>IMPORTAR DISEÑO</button>
+          <input type="file" class="file-upload" onclick="this.value = null" (change)="cargarArchivo($event)" 
+          accept=".json" #fileUpload>
+      </div>
+  </div>
+</section>
+
+
 <!-- Mis cursos -->
-<section class="container border-bottom" *ngIf="muestroMisCursos()">
+<section class="container border-bottom" *ngIf="this.initialSchemaService.allData && !this.initialSchemaService.loadedData && this.initialSchemaService.allData.length> 0 ">
   <div class="container-card">
     <div class="container">
       <h3 class="opacity-75">Mis cursos</h3>
@@ -75,22 +93,6 @@
 </section>
 
 <!-- cursos compartidos conmigo -->
-<section class="container" *ngIf="muestroCursosCompartidosConmigo()">
+<section class="container" *ngIf="this.initialSchemaService.allData && !this.initialSchemaService.loadedData">
   
-</section>
-
-<section class="container d-flex align-items-center row m-auto" *ngIf="muestroNoExistenCursos()">
-    <div class="p-4">
-        <h2 class="p-2 fw-bolder text-center opacity-75 p-4 m-auto" style="max-width: 50ch;">¡Hola!</h2>
-        <img src="../assets/img/empty_home.svg" alt="Bienvenido/a" class="d-block m-auto img-empty">
-        <h2 class="p-2 fw-bolder text-center opacity-75 p-4 m-auto" style="max-width: 50ch;">Aquí veras tus cursos, ¿Comenzamos?</h2>
-        <div class="text-center d-block align-items-center m-auto">
-            <a class="btn btn-primary btn-rounded background-primary m-2" href="#!" role="button" (click)="openModal()">
-              <i class="bi bi-plus-circle-dotted me-2"></i>CREAR CURSO</a>
-        <button class="btn btn-primary btn-rounded background-primary m-2" type="button" (click)="fileUpload.click()">
-            <i class="bi bi-box-arrow-in-up me-2"></i>IMPORTAR DISEÑO</button>
-            <input type="file" class="file-upload" onclick="this.value = null" (change)="cargarArchivo($event)" 
-            accept=".json" #fileUpload>
-        </div>
-    </div>
 </section>
