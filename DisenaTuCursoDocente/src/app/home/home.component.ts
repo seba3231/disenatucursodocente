@@ -330,6 +330,21 @@ export class HomeComponent {
         modalRef.componentInstance.tittle = 'Nuevo curso';
         modalRef.componentInstance.inputDisclaimer[0] = 'Nombre del curso';
         modalRef.componentInstance.inputDisclaimer[1] = 'Ingrese su nombre';
+        
+        //Control Resolve with Observable
+        modalRef.closed.subscribe({
+            next: (resp) => {
+                if (resp.length > 0){
+                    console.log(resp);
+                    this.nombreArchivo = resp[0]
+                    this.autor = resp[1]
+                    this.crearCurso()
+                }
+            },
+            error: () => {
+                //Nunca se llama aca
+            },
+        });
     }
 
     muestroHeader(){
