@@ -26,6 +26,24 @@
   </div>
 </header>
 
+
+<section class="container d-flex align-items-center row m-auto" *ngIf="!this.initialSchemaService.allData">
+  <div class="p-4">
+      <h2 class="p-2 fw-bolder text-center opacity-75 p-4 m-auto" style="max-width: 50ch;">¡Hola!</h2>
+      <img src="../assets/img/empty_home.svg" alt="Bienvenido/a" class="d-block m-auto img-empty">
+      <h2 class="p-2 fw-bolder text-center opacity-75 p-4 m-auto" style="max-width: 50ch;">Aquí veras tus cursos, ¿Comenzamos?</h2>
+      <div class="text-center d-block align-items-center m-auto">
+          <a class="btn btn-primary btn-rounded background-primary m-2" href="#!" role="button" (click)="openModal()">
+            <i class="bi bi-plus-circle-dotted me-2"></i>CREAR CURSO</a>
+      <button class="btn btn-primary btn-rounded background-primary m-2" type="button" (click)="fileUpload.click()">
+          <i class="bi bi-box-arrow-in-up me-2"></i>IMPORTAR DISEÑO</button>
+          <input type="file" class="file-upload" onclick="this.value = null" (change)="cargarArchivo($event)" 
+          accept=".json" #fileUpload>
+      </div>
+  </div>
+</section>
+
+
 <!-- Mis cursos -->
 <section class="container border-bottom" *ngIf="this.initialSchemaService.allData && !this.initialSchemaService.loadedData">
   <div class="container-card">
@@ -77,22 +95,6 @@
 <!-- cursos compartidos conmigo -->
 <section class="container" *ngIf="this.initialSchemaService.allData && !this.initialSchemaService.loadedData">
   
-</section>
-
-<section class="container d-flex align-items-center row m-auto" *ngIf="!this.initialSchemaService.allData">
-    <div class="p-4">
-        <h2 class="p-2 fw-bolder text-center opacity-75 p-4 m-auto" style="max-width: 50ch;">¡Hola!</h2>
-        <img src="../assets/img/empty_home.svg" alt="Bienvenido/a" class="d-block m-auto img-empty">
-        <h2 class="p-2 fw-bolder text-center opacity-75 p-4 m-auto" style="max-width: 50ch;">Aquí veras tus cursos, ¿Comenzamos?</h2>
-        <div class="text-center d-block align-items-center m-auto">
-            <a class="btn btn-primary btn-rounded background-primary m-2" href="#!" role="button" (click)="openModal()">
-              <i class="bi bi-plus-circle-dotted me-2"></i>CREAR CURSO</a>
-        <button class="btn btn-primary btn-rounded background-primary m-2" type="button" (click)="fileUpload.click()">
-            <i class="bi bi-box-arrow-in-up me-2"></i>IMPORTAR DISEÑO</button>
-            <input type="file" class="file-upload" onclick="this.value = null" (change)="cargarArchivo($event)" 
-            accept=".json" #fileUpload>
-        </div>
-    </div>
 </section>
 
 <router-outlet></router-outlet>

@@ -49,6 +49,7 @@ export class AppComponent {
     //
 
     this.initialSchemaService.loadAllDataFile2();
+    console.log(this.initialSchemaService.allData)
     this.datosFijos = this.initialSchemaService.defaultSchema?.gruposDatosFijos;
   }
 
