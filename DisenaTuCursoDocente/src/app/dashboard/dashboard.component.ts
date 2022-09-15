@@ -3,11 +3,12 @@ import { Etapa, Grupo,Esquema } from '../modelos/schema.model';
 import { SchemaSavedData } from '../modelos/schemaData.model';
 import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.service';
 import {ExportpdfComponent} from   '../exportpdf/exportpdf.component'
+import { Router } from '@angular/router';
 
 declare function createGraph(graph : any): any;
 
 @Component({
-    selector: 'app-root',
+    selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css']
 })
@@ -20,7 +21,8 @@ export class DashboardComponent implements OnInit {
     defaultSchema : Esquema | undefined = undefined;
 
     nombreArchivo:string='';
-    constructor(public initialSchemaService : InitialSchemaLoaderService){ }
+    constructor(public initialSchemaService : InitialSchemaLoaderService,
+        private router: Router){ }
 
 
     ngOnInit() {
@@ -143,5 +145,9 @@ export class DashboardComponent implements OnInit {
             pdf = exportPdf.generatePdf(this.initialSchemaService.loadedData?.id)
             pdf.open();
         }
+    }
+
+    goHome(){
+        this.router.navigate(['/']);
     }
 }

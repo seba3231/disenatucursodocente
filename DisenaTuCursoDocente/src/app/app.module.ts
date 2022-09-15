@@ -18,6 +18,7 @@ import { TextoNumberComponent } from './datos/textonumber/textonumber.component'
 import { ModalComentariosComponent } from './modal/comentarios/modal-comentarios.component';
 import { ModalConfirmacionComponent } from './modal/confirmacion/modal-confirmacion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HomeComponent } from './home/home.component';
 
 
 export function initConfig(loaderService : InitialSchemaLoaderService) {
@@ -48,6 +49,7 @@ export function initConfig(loaderService : InitialSchemaLoaderService) {
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     EtapaComponent,
     GrupoComponent,
     AtributoComponent,

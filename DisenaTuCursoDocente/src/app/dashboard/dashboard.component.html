@@ -6,8 +6,8 @@
     </div>
     <div class="text-center d-flex align-items-center" *ngIf="this.initialSchemaService.allData">
       <div>
-          <a class="btn btn-primary btn-rounded background-primary m-2" href="#!" role="button" title="Ir al inicio">
-            <i class="bi bi-house me-2"></i>INICIO</a>
+          <button class="btn btn-primary btn-rounded background-primary m-2" (click)="goHome()" role="button" title="Ir al inicio">
+            <i class="bi bi-house me-2"></i>INICIO</button>
       </div>
     </div>
 </header>
