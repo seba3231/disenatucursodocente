@@ -1,7 +1,15 @@
-Ejecutar comandos parado en DisenaTuCursoDocente
+Paso 1: Copiar carpeta del proyecto a C:
+Esto se debe a que si se compila desde una ruta mas "adentro", el Comando 2 falla porque intenta por código
+crear archivos con una ruta absoluta que tiene más de 238 caracteres (limitante de Windows).
 
-Comando 1: Compila la solución Angular en DisenaTuCursoDocente\dist\disena-tu-curso-docente\
-ng build --prod --base-href ./
+Comando 1: Compila la solución Angular y la guarda en DisenaTuCursoDocente\dist\
+ng build --configuration production --base-href ./
 
-Comando 2: Compila la solución Electron en DisenaTuCursoDocente\out\
+Comando 2: Compila la solución Electron y la guarda en DisenaTuCursoDocente\out\
 npm run make
+
+Paso 2: Eliminar archivos no necesarios para el funcionamiento del compilado
+En DisenaTuCursoDocente\out\disena-tu-curso-docente-win32-x64\resources\app\ dejar solo:
+    dist
+    ElectronEntry.js
+    package.json
