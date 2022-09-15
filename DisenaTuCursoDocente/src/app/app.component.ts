@@ -10,6 +10,11 @@ import {ExportpdfComponent} from   './exportpdf/exportpdf.component'
 import { GrupoDatoFijo } from './modelos/schema.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComentariosComponent } from './modal/comentarios/modal-comentarios.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+imports: [
+  NgbModule
+]
 
 const pdfMakeX = require('pdfmake/build/pdfmake.js');
 const pdfFontsX = require('pdfmake-unicode/dist/pdfmake-unicode.js');
@@ -37,6 +42,11 @@ export class AppComponent {
     public initialSchemaService : InitialSchemaLoaderService) {}
 
   ngOnInit(): void {
+    //remuevo el mensaje de error que se carga por defecto, se muestra poniendole la clase .show
+    const alert = document.querySelector('ngb-alert')
+    if(alert)
+      alert.classList.remove('show')
+    
     this.initialSchemaService.loadAllDataFile2();
     this.datosFijos = this.initialSchemaService.defaultSchema?.gruposDatosFijos;
   }

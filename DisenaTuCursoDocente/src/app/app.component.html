@@ -1,15 +1,8 @@
-<!-- <p>-------------------- CARGAR ARCHIVO --------------------</p>
-<div class="row">
-  <div class="col">
-      <div class="mb-3">            
-          <label class="form-label">Archivo a cargar</label>
-          <input [(ngModel)]="nombreArchivo" placeholder="archivos en assets/schemasData/" class="form-control"/>
-      </div>
-      <button type="button" (click)="cargarArchivo()" class="btn btn-primary">Cargar Archivo</button>
-      <button *ngIf="this.initialSchemaService.loadedData" type="button" (click)="descargarArchivo()" class="btn btn-primary">Descargar Archivo</button>
-  </div>
-</div>
-<p>-------------------- END CARGAR ARCHIVO --------------------</p> -->
+<!-- <p>-------------------- ALERTAS --------------------</p> -->
+<ngb-alert [dismissible]="true" 
+             type='danger'>
+    <strong>Ups! Ha ocurrido un error</strong>
+</ngb-alert>
 <!-- cabezal -->
 <header class="ps-4 pt-2 container" *ngIf="!this.initialSchemaService.loadedData">
   <div class="d-flex flex-row border-bottom justify-content-between">
@@ -94,8 +87,10 @@
         <div class="text-center d-block align-items-center m-auto">
             <a class="btn btn-primary btn-rounded background-primary m-2" href="#!" role="button" (click)="crearCurso()">
               <i class="bi bi-plus-circle-dotted me-2"></i>CREAR CURSO</a>
-            <a class="btn btn-primary btn-rounded background-primary m-2" href="#!" role="button" (change)="cargarArchivo($event)">
-              <i class="bi bi-box-arrow-in-up me-2"></i>IMPORTAR DISEÑO</a>
+        <button class="btn btn-primary btn-rounded background-primary m-2" type="button" (click)="fileUpload.click()">
+            <i class="bi bi-box-arrow-in-up me-2"></i>IMPORTAR DISEÑO</button>
+            <input type="file" class="file-upload" onclick="this.value = null" (change)="cargarArchivo($event)" 
+            accept=".json" #fileUpload>
         </div>
     </div>
 </section>

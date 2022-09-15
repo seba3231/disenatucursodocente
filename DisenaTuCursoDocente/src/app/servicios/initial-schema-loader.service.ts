@@ -72,6 +72,9 @@ export class InitialSchemaLoaderService {
       if (response.status === 200) this.allData = cursos;
       else console.log('Ha ocurrido un error, ', response.status);
     } catch (e) {
+      const alert = document.querySelector('ngb-alert')
+      if(alert)
+        alert.classList.add('show')
       console.error(e);
     }
   }
