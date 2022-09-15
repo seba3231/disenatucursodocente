@@ -46,7 +46,8 @@ export class AppComponent {
     const alert = document.querySelector('ngb-alert')
     if(alert)
       alert.classList.remove('show')
-    
+    //
+
     this.initialSchemaService.loadAllDataFile2();
     this.datosFijos = this.initialSchemaService.defaultSchema?.gruposDatosFijos;
   }
@@ -119,6 +120,9 @@ export class AppComponent {
           this.initialSchemaService.allData?.push(nuevoCurso);
         } else console.log('Ha ocurrido un error, ', response.status);
       } catch (e) {
+        const alert = document.querySelector('ngb-alert')
+        if(alert)
+          alert.classList.add('show')
         console.error(e);
       }
     };
@@ -211,6 +215,9 @@ export class AppComponent {
         this.router.navigate(['/dashboard']);
       } else console.log('Ha ocurrido un error, ', response.status);
     } catch (e) {
+      const alert = document.querySelector('ngb-alert')
+      if(alert)
+        alert.classList.add('show')
       console.error(e);
     }
   }
@@ -230,6 +237,9 @@ export class AppComponent {
         console.log('Curso obtenido exitosamente', curso);
       else console.log('Ha ocurrido un error, ', response.status);
     } catch (e) {
+      const alert = document.querySelector('ngb-alert')
+      if(alert)
+        alert.classList.add('show')
       console.error(e);
     }
   }
@@ -256,6 +266,9 @@ export class AppComponent {
         console.log('Curso actualizado exitosamente');
       else console.log('Ha ocurrido un error, ', response.status);
     } catch (e) {
+      const alert = document.querySelector('ngb-alert')
+      if(alert)
+        alert.classList.add('show')
       console.error(e);
     }
   }
@@ -275,6 +288,9 @@ export class AppComponent {
         console.log('Cursos obtenidos exitosamente', cursos);
       else console.log('Ha ocurrido un error, ', response.status);
     } catch (e) {
+      const alert = document.querySelector('ngb-alert')
+      if(alert)
+        alert.classList.add('show')
       console.error(e);
     }
   }
