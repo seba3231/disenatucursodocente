@@ -324,8 +324,8 @@ export class AtributoComponent {
         }
         /*console.log("Todos los val");
         console.log(this.initialSchemaService.loadedData);*/
-        console.log("Vals de Atrib");
-        console.log(this.datoGuardado!.valoresAtributo);
+        // console.log("Vals de Atrib");
+        // console.log(this.datoGuardado!.valoresAtributo);
     }
 
     cargarInfoPrevia(ubicacion:Ubicacion, indice:number, tipoInput: TipoInput, posibleValor:any) : any {

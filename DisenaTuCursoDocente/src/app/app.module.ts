@@ -17,6 +17,7 @@ import { ExportpdfComponent } from './exportpdf/exportpdf.component';
 import { TextoNumberComponent } from './datos/textonumber/textonumber.component';
 import { ModalComentariosComponent } from './modal/comentarios/modal-comentarios.component';
 import { ModalConfirmacionComponent } from './modal/confirmacion/modal-confirmacion.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 export function initConfig(loaderService : InitialSchemaLoaderService) {
@@ -63,7 +64,8 @@ export function initConfig(loaderService : InitialSchemaLoaderService) {
     BrowserAnimationsModule,
     MatSelectModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule
   ],
   providers: [
     {

@@ -10,6 +10,11 @@ import {ExportpdfComponent} from   './exportpdf/exportpdf.component'
 import { GrupoDatoFijo } from './modelos/schema.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComentariosComponent } from './modal/comentarios/modal-comentarios.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+imports: [
+  NgbModule
+]
 
 const pdfMakeX = require('pdfmake/build/pdfmake.js');
 const pdfFontsX = require('pdfmake-unicode/dist/pdfmake-unicode.js');
@@ -37,6 +42,12 @@ export class AppComponent {
     public initialSchemaService : InitialSchemaLoaderService) {}
 
   ngOnInit(): void {
+    //remuevo el mensaje de error que se carga por defecto, se muestra poniendole la clase .show
+    const alert = document.querySelector('ngb-alert')
+    if(alert)
+      alert.classList.remove('show')
+    //
+
     this.initialSchemaService.loadAllDataFile2();
     this.datosFijos = this.initialSchemaService.defaultSchema?.gruposDatosFijos;
   }
@@ -53,6 +64,36 @@ export class AppComponent {
           this.initialSchemaService.loadedData = cursos[i];
         this.router.navigate(['/dashboard']);
       }
+  }
+
+  editarNombre(curso: SchemaSavedData,event: any){
+    event.stopPropagation();
+    console.log(curso)
+    const modalRef = this.modalService.open(ModalComentariosComponent, {
+      scrollable: false,
+  });
+  modalRef.componentInstance.tittle = 'Editar nombre del curso';
+  modalRef.componentInstance.inputDisclaimer[0] = curso.nombreCurso;
+
+  //Control Resolve with Observable
+  modalRef.closed.subscribe({
+      next: (resp) => {
+          if (resp.length > 0){
+              console.log(resp);
+              curso.nombreCurso = resp[0]
+              const ver : Version | undefined = curso.versiones.at(-1);
+              if (ver){
+                ver.fechaModificacion = new Date()
+                ver.version = ver.version + 1
+                curso.versiones.push(ver)
+              }
+              this.modificarCurso(curso)
+          }
+      },
+      error: () => {
+          //Nunca se llama aca
+      },
+  });
   }
 
   cargarArchivo(event: any) {
@@ -79,6 +120,9 @@ export class AppComponent {
           this.initialSchemaService.allData?.push(nuevoCurso);
         } else console.log('Ha ocurrido un error, ', response.status);
       } catch (e) {
+        const alert = document.querySelector('ngb-alert')
+        if(alert)
+          alert.classList.add('show')
         console.error(e);
       }
     };
@@ -171,6 +215,9 @@ export class AppComponent {
         this.router.navigate(['/dashboard']);
       } else console.log('Ha ocurrido un error, ', response.status);
     } catch (e) {
+      const alert = document.querySelector('ngb-alert')
+      if(alert)
+        alert.classList.add('show')
       console.error(e);
     }
   }
@@ -190,6 +237,38 @@ export class AppComponent {
         console.log('Curso obtenido exitosamente', curso);
       else console.log('Ha ocurrido un error, ', response.status);
     } catch (e) {
+      const alert = document.querySelector('ngb-alert')
+      if(alert)
+        alert.classList.add('show')
+      console.error(e);
+    }
+  }
+
+  async modificarCurso(curso: SchemaSavedData) {
+    // const curso = this.initialSchemaService.loadedData
+    // busco version actualizada y la agrego como nueva cuando es el 1er cambio, falta definir esa logica
+    // const nuevaVersion = curso?.versiones.at(-1); 
+    // if (nuevaVersion !== undefined) curso?.versiones?.push(nuevaVersion);
+    let headers = new Headers();
+    headers.append('Accept', 'application/json');
+    headers.append('Content-Type', 'application/json');
+    try {
+      // no hay convencion sobre los nombres aun asi que paso id para que busque archivo curso_id 
+      const response = await fetch(`http://localhost:8081/cursos/${curso?.id}`, {
+        method: 'PUT',
+        headers: headers,
+        mode: 'cors',
+        body: JSON.stringify({
+          curso: { ...curso, fechaModificacion: new Date() },
+        }),
+      });
+      if (response.status === 200)
+        console.log('Curso actualizado exitosamente');
+      else console.log('Ha ocurrido un error, ', response.status);
+    } catch (e) {
+      const alert = document.querySelector('ngb-alert')
+      if(alert)
+        alert.classList.add('show')
       console.error(e);
     }
   }
@@ -209,6 +288,9 @@ export class AppComponent {
         console.log('Cursos obtenidos exitosamente', cursos);
       else console.log('Ha ocurrido un error, ', response.status);
     } catch (e) {
+      const alert = document.querySelector('ngb-alert')
+      if(alert)
+        alert.classList.add('show')
       console.error(e);
     }
   }

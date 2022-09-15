@@ -69,3 +69,12 @@
 .file-upload {
     display: none;
   }
+
+.fade.show{
+    display: block;
+    transition: display .15s linear;
+}
+
+.fade:not(.show){
+    display: none;
+}

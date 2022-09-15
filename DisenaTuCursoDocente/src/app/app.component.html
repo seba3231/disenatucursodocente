@@ -1,15 +1,8 @@
-<!-- <p>-------------------- CARGAR ARCHIVO --------------------</p>
-<div class="row">
-  <div class="col">
-      <div class="mb-3">            
-          <label class="form-label">Archivo a cargar</label>
-          <input [(ngModel)]="nombreArchivo" placeholder="archivos en assets/schemasData/" class="form-control"/>
-      </div>
-      <button type="button" (click)="cargarArchivo()" class="btn btn-primary">Cargar Archivo</button>
-      <button *ngIf="this.initialSchemaService.loadedData" type="button" (click)="descargarArchivo()" class="btn btn-primary">Descargar Archivo</button>
-  </div>
-</div>
-<p>-------------------- END CARGAR ARCHIVO --------------------</p> -->
+<!-- <p>-------------------- ALERTAS --------------------</p> -->
+<ngb-alert [dismissible]="true" 
+             type='danger'>
+    <strong>Ups! Ha ocurrido un error</strong>
+</ngb-alert>
 <!-- cabezal -->
 <header class="ps-4 pt-2 container" *ngIf="!this.initialSchemaService.loadedData">
   <div class="d-flex flex-row border-bottom justify-content-between">
@@ -37,13 +30,16 @@
 <section class="container border-bottom" *ngIf="this.initialSchemaService.allData && !this.initialSchemaService.loadedData">
   <div class="container-card">
     <div class="container">
-      <h3 class="pb-4 opacity-75">Mis cursos</h3>
+      <h3 class="opacity-75">Mis cursos</h3>
       <div class="row">
         <div class="col-md-4 mt-4" *ngFor="let cursos of initialSchemaService.allData" (click)="cardClick(cursos.id)"> 
           <!-- (click)="cardClick(cursos.id)" -->
           <div class="card cursor-pointer">
             <div class="card-title">
-              <h5>{{cursos.nombreCurso}}</h5>
+              <div class="d-flex align-items-center">
+                <h5>{{cursos.nombreCurso}}</h5> 
+                <i class="bi bi-pencil-fill p-2" style="font-size: 10px; opacity: .6;" title="Editar nombre" (click)="editarNombre(cursos,$event)"></i>
+              </div>
               <small class="m-0">Autor: {{cursos.versiones.at(-1)?.autor}}</small>
             </div>  
             <div class="card-img-containter">
@@ -89,10 +85,12 @@
         <img src="../assets/img/empty_home.svg" alt="Bienvenido/a" class="d-block m-auto img-empty">
         <h2 class="p-2 fw-bolder text-center opacity-75 p-4 m-auto" style="max-width: 50ch;">Aquí veras tus cursos, ¿Comenzamos?</h2>
         <div class="text-center d-block align-items-center m-auto">
-            <a class="btn btn-primary btn-rounded background-primary m-2" href="#!" role="button" (click)="crearCurso()">
+            <a class="btn btn-primary btn-rounded background-primary m-2" href="#!" role="button" (click)="openModal()">
               <i class="bi bi-plus-circle-dotted me-2"></i>CREAR CURSO</a>
-            <a class="btn btn-primary btn-rounded background-primary m-2" href="#!" role="button" (change)="cargarArchivo($event)">
-              <i class="bi bi-box-arrow-in-up me-2"></i>IMPORTAR DISEÑO</a>
+        <button class="btn btn-primary btn-rounded background-primary m-2" type="button" (click)="fileUpload.click()">
+            <i class="bi bi-box-arrow-in-up me-2"></i>IMPORTAR DISEÑO</button>
+            <input type="file" class="file-upload" onclick="this.value = null" (change)="cargarArchivo($event)" 
+            accept=".json" #fileUpload>
         </div>
     </div>
 </section>
