@@ -227,24 +227,20 @@ export class ExportpdfComponent{
                                     valueString = ''
                                 }
 
-                                if (valueString && valueString != ''){
-                                  console.log("valueString " +valueString)
-                                  console.log(valorDato)
-                                  console.log(datoGuardado.ubicacionAtributo)
-                                  if (ultimoGrupo === undefined || ultimoGrupo !== datoGuardado.ubicacionAtributo.idGrupo){
-                                    ultimoGrupo = datoGuardado.ubicacionAtributo.idGrupo
-                                    grupoInfo = this.getDatoInfoAtributo(datoGuardado.ubicacionAtributo)
-                                    this.pdf.content.push({text: grupoInfo.nombre, style: 'subsubheader' });
-                                  }
-                                  console.log(dato)
-                                  if (dato.nombre)
-                                    this.pdf.content.push({text: dato.nombre + ": " + valueString,style: 'body' });
-                                  else
-                                    this.pdf.content.push({text: valueString,style: 'body' });
-                                  
-                                  if (j == datoGuardado.valoresAtributo.length - 1)
-                                    this.pdf.content.push({text: '\n',style: 'body' });
+                                
+                                if (ultimoGrupo === undefined || ultimoGrupo !== datoGuardado.ubicacionAtributo.idGrupo){
+                                  ultimoGrupo = datoGuardado.ubicacionAtributo.idGrupo
+                                  grupoInfo = this.getDatoInfoAtributo(datoGuardado.ubicacionAtributo)
+                                  this.pdf.content.push({text: grupoInfo.nombre, style: 'subsubheader' });
                                 }
+                                
+                                if (dato.nombre)
+                                  this.pdf.content.push({text: dato.nombre + ": " + valueString,style: 'body' });
+                                else
+                                  this.pdf.content.push({text: valueString,style: 'body' });
+                                
+                                if (j == datoGuardado.valoresAtributo.length - 1)
+                                  this.pdf.content.push({text: '\n',style: 'body' });
                             }
                           }
                       }
