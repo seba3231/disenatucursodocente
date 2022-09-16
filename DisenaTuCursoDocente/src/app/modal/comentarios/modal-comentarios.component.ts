@@ -27,20 +27,15 @@ export class ModalComentariosComponent implements OnInit {
         /*if(this.resolveFunction){
             this.resolveFunction(null);
         }*/
-        var isok = 0;
+        // var isok = 0;
         for(let i = 0; i < this.inputDisclaimer.length; i++){
             let inputValue: HTMLInputElement | null;
             inputValue = document.querySelector("#input-content_"+i);
             if (inputValue && inputValue.value){
                 this.salida.push(inputValue.value)
-                isok += 1
-                inputValue?.classList.add("is-valid")
-            }else{
-                inputValue?.classList.add("is-invalid")
             }
         }
-        if (isok == this.inputDisclaimer.length)
-            this.activeModal.close(this.salida);
+        this.activeModal.close(this.salida);
     }
     
     reject() {

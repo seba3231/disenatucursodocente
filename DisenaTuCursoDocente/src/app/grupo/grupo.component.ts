@@ -104,6 +104,9 @@ export class GrupoComponent implements OnInit {
                             if(dato.ubicacionAtributo.idEtapa == atributo.ubicacion.idEtapa &&
                                 dato.ubicacionAtributo.idGrupo == atributo.ubicacion.idGrupo &&
                                 dato.ubicacionAtributo.idAtributo == atributo.id){
+                                    if (dato.comentariosPrivados == undefined){
+                                        dato.comentariosPrivados = []
+                                    }
                                     dato.comentariosPrivados.push(comentario)
                                     this.comentariosPrivados.push(comentario)
                             

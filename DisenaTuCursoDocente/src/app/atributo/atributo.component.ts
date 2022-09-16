@@ -526,8 +526,8 @@ export class AtributoComponent {
                 break;
         }
         this.informarCambio.emit(cambio.ubicacion);
-        console.log("Vals de Atrib");
-        console.log(this.datoGuardado!.valoresAtributo);
+        // console.log("Vals de Atrib");
+        // console.log(this.datoGuardado!.valoresAtributo);
     }
 
     buscoDatoGuardadoDeAtributo(ubicacion:Ubicacion) : ValoresDato[]{
