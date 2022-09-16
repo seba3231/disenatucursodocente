@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { TipoInput } from "src/app/enumerados/enums";
 import { Ubicacion } from "src/app/modelos/schema.model";
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatoArchivo } from "src/app/modelos/schemaData.model";
+import { ModalComentariosComponent } from 'src/app/modal/comentarios/modal-comentarios.component';
 
 export interface IntercambioArchivoComponent{
     datoGuardado:DatoArchivo | null;
@@ -20,7 +22,7 @@ export class ArchivoComponent {
 
     texto : string = '';
 
-    constructor() { }
+    constructor(private modalService: NgbModal) { }
 
     ngOnInit(){
         if(this.entrada.datoGuardado?.texto){
@@ -51,6 +53,8 @@ export class ArchivoComponent {
     }
 
     downloadFile(){
+        if (this.entrada?.datoGuardado?.ruta)
+            window.open(this.entrada.datoGuardado.ruta, "_blank");
         console.log("TODO: Download File");
     }
 
@@ -69,4 +73,39 @@ export class ArchivoComponent {
 
         this.changeDetected.emit(this.entrada)
     }
+
+    openModal(){
+        // MODAL PARA AGREGAR COMENTARIOS
+        const modalRef = this.modalService.open(ModalComentariosComponent, {
+            scrollable: false,
+        });
+        modalRef.componentInstance.tittle = 'Agregar un link a otro sitio';
+        modalRef.componentInstance.inputDisclaimer[0] = 'Enlace';
+        
+        //Control Resolve with Observable
+        modalRef.closed.subscribe({
+            next: (resp) => {
+                if (resp.length > 0){
+                    console.log(resp);
+                    if(!this.entrada.datoGuardado){
+                        let nuevoDato : DatoArchivo = {
+                            texto : null,
+                            fileName : resp[0],
+                            ruta : 'una_ruta'
+                        }
+                        this.entrada.datoGuardado = nuevoDato;
+                    }
+                    else{
+                        this.entrada.datoGuardado.fileName = resp[0];
+                        this.entrada.datoGuardado.ruta = resp[0];
+                    }
+                    this.changeDetected.emit(this.entrada)
+                }
+            },
+            error: () => {
+                //Nunca se llama aca
+            },
+        });
+    }
+
 }
