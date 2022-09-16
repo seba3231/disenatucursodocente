@@ -54,7 +54,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":2,
+                                            "tamanio":2,
                                             "filasDatos":null
                                         },
                                         {
@@ -83,7 +83,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":2,
+                                            "tamanio":2,
                                             "filasDatos":null
                                         }
                                     ]
@@ -128,7 +128,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         },
                                         {
@@ -148,7 +148,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":40,
+                                            "tamanio":40,
                                             "filasDatos":null
                                         },
                                         {
@@ -168,7 +168,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":200,
+                                            "tamanio":200,
                                             "filasDatos":null
                                         },
                                         {
@@ -188,7 +188,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":3,
+                                            "tamanio":3,
                                             "filasDatos":null
                                         }
                                     ]
@@ -243,7 +243,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":40,
+                                            "tamanio":40,
                                             "filasDatos":null
                                         },
                                         {
@@ -266,7 +266,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         }
                                     ]
@@ -311,7 +311,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         }
                                     ]
@@ -338,7 +338,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         }
                                     ]
@@ -362,7 +362,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":30,
+                                            "tamanio":30,
                                             "filasDatos":null
                                         }
                                     ]
@@ -407,7 +407,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         },
                                         {
@@ -438,7 +438,7 @@
                                             },
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":4,
+                                            "tamanio":4,
                                             "filasDatos":null
                                         }
                                     ]
@@ -481,7 +481,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         },
                                         {
@@ -501,7 +501,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":3,
+                                            "tamanio":3,
                                             "filasDatos":null
                                         },
                                         {
@@ -521,7 +521,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":3,
+                                            "tamanio":3,
                                             "filasDatos":null
                                         },
                                         {
@@ -544,7 +544,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         },
                                         {
@@ -578,7 +578,7 @@
                                             },
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         },
                                         {
@@ -612,7 +612,7 @@
                                             },
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         }
                                     ]
@@ -668,7 +668,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         }
                                     ]
@@ -712,7 +712,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":1000,
+                                            "tamanio":1000,
                                             "filasDatos":null
                                         }
                                     ]
@@ -752,7 +752,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":1000,
+                                            "tamanio":1000,
                                             "filasDatos":null
                                         }
                                     ]
@@ -805,7 +805,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":10,
+                                            "tamanio":10,
                                             "filasDatos":null
                                         },
                                         {
@@ -833,7 +833,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         }
                                     ]
@@ -873,7 +873,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":10,
+                                            "tamanio":10,
                                             "filasDatos":null
                                         },
                                         {
@@ -901,7 +901,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         }
                                     ]
@@ -948,7 +948,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         }
                                     ]
@@ -1008,7 +1008,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":4,
+                                            "tamanio":4,
                                             "filasDatos":null
                                         }
                                     ]
@@ -1048,7 +1048,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":40,
+                                            "tamanio":40,
                                             "filasDatos":null
                                         },
                                         {
@@ -1068,7 +1068,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":40,
+                                            "tamanio":40,
                                             "filasDatos":null
                                         }
                                         
@@ -1122,7 +1122,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":40,
+                                            "tamanio":40,
                                             "filasDatos":null
                                         },
                                         {
@@ -1145,7 +1145,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         },
                                         {
@@ -1165,7 +1165,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":4,
+                                            "tamanio":4,
                                             "filasDatos":null
                                         },
                                         {
@@ -1188,7 +1188,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         },
                                         {
@@ -1211,7 +1211,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         }
                                     ]
@@ -1254,7 +1254,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         }
                                     ]
@@ -1295,7 +1295,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":500,
+                                            "tamanio":500,
                                             "filasDatos":null
                                         }
                                     ]
@@ -1339,7 +1339,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         },
                                         {
@@ -1359,7 +1359,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":200,
+                                            "tamanio":200,
                                             "filasDatos":null
                                         },
                                         {
@@ -1379,7 +1379,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":4,
+                                            "tamanio":4,
                                             "filasDatos":null
                                         }
                                     ]
@@ -1476,7 +1476,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":10,
+                                            "tamanio":10,
                                             "filasDatos":null
                                         },
                                         {
@@ -1504,7 +1504,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         }
                                     ]
@@ -1557,7 +1557,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         },
                                         {
@@ -1577,7 +1577,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         }
                                     ]
@@ -1624,7 +1624,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         },
                                         {
@@ -1647,7 +1647,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         },
                                         {
@@ -1667,7 +1667,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":200,
+                                            "tamanio":200,
                                             "filasDatos":null
                                         }
                                     ]
@@ -1711,7 +1711,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":50,
+                                            "tamanio":50,
                                             "filasDatos":null
                                         }
                                     ]
@@ -1735,7 +1735,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         },
                                         {
@@ -1755,7 +1755,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         },
                                         {
@@ -1778,7 +1778,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         }
                                     ]
@@ -1810,7 +1810,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         },
                                         {
@@ -1833,7 +1833,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         }
                                     ]
@@ -1857,7 +1857,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":true,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":[
                                                 {
                                                     "datos":[
@@ -1881,7 +1881,7 @@
                                                             "habilitadoSi":null,
                                                             "multiInstanciable":false,
                                                             "idContenidoCondicional":[1,2,3],
-                                                            "tamaño":null,
+                                                            "tamanio":null,
                                                             "filasDatos":null
                                                         }
                                                     ]
@@ -1945,7 +1945,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         }
                                     ]
@@ -1969,7 +1969,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":200,
+                                            "tamanio":200,
                                             "filasDatos":null
                                         }
                                     ]
@@ -2033,7 +2033,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":2000,
+                                            "tamanio":2000,
                                             "filasDatos":null
                                         }
                                     ]
@@ -2073,7 +2073,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":2000,
+                                            "tamanio":2000,
                                             "filasDatos":null
                                         }
                                     ]
@@ -2133,7 +2133,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":null
                                         }
                                     ]
@@ -2157,7 +2157,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":1000,
+                                            "tamanio":1000,
                                             "filasDatos":null
                                         }
                                     ]
@@ -2268,7 +2268,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":true,
                                             "idContenidoCondicional":null,
-                                            "tamaño":null,
+                                            "tamanio":null,
                                             "filasDatos":[
                                                 {
                                                     "datos":[
@@ -2297,7 +2297,7 @@
                                                             "habilitadoSi":null,
                                                             "multiInstanciable":false,
                                                             "idContenidoCondicional":[4,5,6],
-                                                            "tamaño":null,
+                                                            "tamanio":null,
                                                             "filasDatos":null
                                                         }
                                                     ]
@@ -2359,7 +2359,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":1000,
+                                            "tamanio":1000,
                                             "filasDatos":null
                                         }
                                     ]
@@ -2408,7 +2408,7 @@
                                             "habilitadoSi":null,
                                             "multiInstanciable":false,
                                             "idContenidoCondicional":null,
-                                            "tamaño":1000,
+                                            "tamanio":1000,
                                             "filasDatos":null
                                         }
                                     ]
@@ -2920,7 +2920,7 @@
                             "habilitadoSi":null,
                             "multiInstanciable":false,
                             "idContenidoCondicional":null,
-                            "tamaño":3,
+                            "tamanio":3,
                             "filasDatos":null
                         },
                         {
@@ -2948,7 +2948,7 @@
                             "habilitadoSi":null,
                             "multiInstanciable":false,
                             "idContenidoCondicional":null,
-                            "tamaño":null,
+                            "tamanio":null,
                             "filasDatos":null
                         },
                         {
@@ -2976,7 +2976,7 @@
                             "habilitadoSi":null,
                             "multiInstanciable":false,
                             "idContenidoCondicional":null,
-                            "tamaño":null,
+                            "tamanio":null,
                             "filasDatos":null
                         },
                         {
@@ -3004,7 +3004,7 @@
                             "habilitadoSi":null,
                             "multiInstanciable":false,
                             "idContenidoCondicional":null,
-                            "tamaño":null,
+                            "tamanio":null,
                             "filasDatos":null
                         }
                     ]
@@ -3028,7 +3028,7 @@
                             "habilitadoSi":null,
                             "multiInstanciable":false,
                             "idContenidoCondicional":null,
-                            "tamaño":1000,
+                            "tamanio":1000,
                             "filasDatos":null
                         }
                     ]
@@ -3070,7 +3070,7 @@
                             "habilitadoSi":null,
                             "multiInstanciable":false,
                             "idContenidoCondicional":null,
-                            "tamaño":3,
+                            "tamanio":3,
                             "filasDatos":null
                         },
                         {
@@ -3098,7 +3098,7 @@
                             "habilitadoSi":null,
                             "multiInstanciable":false,
                             "idContenidoCondicional":null,
-                            "tamaño":null,
+                            "tamanio":null,
                             "filasDatos":null
                         },
                         {
@@ -3126,7 +3126,7 @@
                             "habilitadoSi":null,
                             "multiInstanciable":false,
                             "idContenidoCondicional":null,
-                            "tamaño":null,
+                            "tamanio":null,
                             "filasDatos":null
                         }
                     ]
@@ -3150,7 +3150,7 @@
                             "habilitadoSi":null,
                             "multiInstanciable":false,
                             "idContenidoCondicional":null,
-                            "tamaño":1000,
+                            "tamanio":1000,
                             "filasDatos":null
                         }
                     ]
@@ -3192,7 +3192,7 @@
                             "habilitadoSi":null,
                             "multiInstanciable":false,
                             "idContenidoCondicional":null,
-                            "tamaño":null,
+                            "tamanio":null,
                             "filasDatos":null
                         },
                         {
@@ -3212,7 +3212,7 @@
                             "habilitadoSi":null,
                             "multiInstanciable":false,
                             "idContenidoCondicional":null,
-                            "tamaño":null,
+                            "tamanio":null,
                             "filasDatos":null
                         },
                         {
@@ -3240,7 +3240,7 @@
                             "habilitadoSi":null,
                             "multiInstanciable":false,
                             "idContenidoCondicional":null,
-                            "tamaño":null,
+                            "tamanio":null,
                             "filasDatos":null
                         }
                     ]
@@ -3264,7 +3264,7 @@
                             "habilitadoSi":null,
                             "multiInstanciable":false,
                             "idContenidoCondicional":null,
-                            "tamaño":1000,
+                            "tamanio":1000,
                             "filasDatos":null
                         }
                     ]
@@ -3323,7 +3323,7 @@
                             "habilitadoSi":null,
                             "multiInstanciable":false,
                             "idContenidoCondicional":null,
-                            "tamaño":3,
+                            "tamanio":3,
                             "filasDatos":null
                         }
                     ]
@@ -3365,7 +3365,7 @@
                             "habilitadoSi":null,
                             "multiInstanciable":false,
                             "idContenidoCondicional":null,
-                            "tamaño":3,
+                            "tamanio":3,
                             "filasDatos":null
                         }
                     ]

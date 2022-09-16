@@ -87,7 +87,7 @@ export interface Dato{
     habilitadoSi:DependenciaDeDatos;
     multiInstanciable:boolean;
     idContenidoCondicional:number[];
-    tamaño:number;
+    tamanio:number;
     filasDatos:FilaDatos[];
 }
 
