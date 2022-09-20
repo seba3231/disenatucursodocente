@@ -148,6 +148,7 @@ export class DashboardComponent implements OnInit {
     }
 
     goHome(){
+        this.initialSchemaService.loadedData = undefined
         this.router.navigate(['/']);
     }
 }

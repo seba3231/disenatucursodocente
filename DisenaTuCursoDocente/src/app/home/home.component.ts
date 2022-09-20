@@ -43,10 +43,6 @@ export class HomeComponent {
       this.datosFijos = this.initialSchemaService.defaultSchema?.gruposDatosFijos;
     }
   
-    gotoHome() {
-      this.router.navigate(['/dashboard']); // define your component where you want to go
-    }
-  
     cardClick(idCurso: any) {
       var cursos = this.initialSchemaService.allData;
       if (cursos)
