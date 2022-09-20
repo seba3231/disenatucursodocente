@@ -22,28 +22,15 @@ import { HomeComponent } from './home/home.component';
 
 
 export function initConfig(loaderService : InitialSchemaLoaderService) {
-    //return () => protesis.obtenerConfiguraciones();
     return function(){
         return new Observable(
             (subscriber) => {
                 loaderService.loadInitialSchema();
                 console.log("Inicialización completa");
                 subscriber.complete();
-                // HTTP Get call
-                /*this.http.get<ConfiguracionDTO>(url).subscribe(
-                    (res) => {
-                        this.configuration = res;
-                        subscriber.complete();
-                    },
-                    (error) => {
-                        subscriber.error(error);
-                    }
-                );*/
             }
         );
     }
-    /*let observableInicial = () => { return protesis.obtenerConfiguraciones() };
-    return observableInicial;*/
 }
 
 @NgModule({

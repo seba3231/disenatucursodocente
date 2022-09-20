@@ -98,7 +98,7 @@ export class HomeComponent {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         try {
-          const response = await fetch('http://localhost:8081/cursos', {
+          const response = await fetch('http://localhost:'+this.initialSchemaService.puertoBackend+'/cursos', {
             method: 'POST',
             headers: headers,
             mode: 'cors',
@@ -191,7 +191,7 @@ export class HomeComponent {
       headers.append('Content-Type', 'application/json');
   
       try {
-        const response = await fetch('http://localhost:8081/cursos', {
+        const response = await fetch('http://localhost:'+this.initialSchemaService.puertoBackend+'/cursos', {
           method: 'POST',
           headers: headers,
           mode: 'cors',
@@ -218,7 +218,7 @@ export class HomeComponent {
       headers.append('Accept', 'application/json');
   
       try {
-        const response = await fetch(`http://localhost:8081/cursos/${id}`, {
+        const response = await fetch(`http://localhost:${this.initialSchemaService.puertoBackend}+'/cursos/${id}`, {
           method: 'GET',
           headers: headers,
           mode: 'cors',
@@ -245,7 +245,7 @@ export class HomeComponent {
       headers.append('Content-Type', 'application/json');
       try {
         // no hay convencion sobre los nombres aun asi que paso id para que busque archivo curso_id 
-        const response = await fetch(`http://localhost:8081/cursos/${curso?.id}`, {
+        const response = await fetch(`http://localhost:${this.initialSchemaService.puertoBackend}/cursos/${curso?.id}`, {
           method: 'PUT',
           headers: headers,
           mode: 'cors',
@@ -269,7 +269,7 @@ export class HomeComponent {
       headers.append('Accept', 'application/json');
   
       try {
-        const response = await fetch('http://localhost:8081/cursos', {
+        const response = await fetch('http://localhost:'+this.initialSchemaService.puertoBackend+'/cursos', {
           method: 'GET',
           headers: headers,
           mode: 'cors',

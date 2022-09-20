@@ -144,7 +144,7 @@ export class GrupoComponent implements OnInit {
         headers.append('Content-Type', 'application/json');
         try {
           // no hay convencion sobre los nombres aun asi que paso id para que busque archivo curso_id 
-          const response = await fetch(`http://localhost:8081/cursos/${curso?.id}`, {
+          const response = await fetch(`http://localhost:${this.initialSchemaService.puertoBackend}/cursos/${curso?.id}`, {
             method: 'PUT',
             headers: headers,
             mode: 'cors',

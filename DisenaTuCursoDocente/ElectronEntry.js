@@ -1,8 +1,10 @@
 const { app, BrowserWindow } = require("electron");
 const url = require("url");
 const path = require("path");
+const { fork } = require("child_process");
 
 let appWindow;
+let ps;
 
 function initWindow() {
   appWindow = new BrowserWindow({
@@ -12,7 +14,14 @@ function initWindow() {
       nodeIntegration: true,
     },
   });
-  console.log("se ejecuta el nodeIntegration: true");
+    //Inicia en Backend en otro thread
+    ps = fork(
+        `${__dirname}/Backend.js`
+        , []
+        , {
+            cwd: `${__dirname}`,
+        }
+    );
 
   appWindow.loadURL(
     url.format({

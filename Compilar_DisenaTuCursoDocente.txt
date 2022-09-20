@@ -12,4 +12,5 @@ Paso 2: Eliminar archivos no necesarios para el funcionamiento del compilado
 En DisenaTuCursoDocente\out\disena-tu-curso-docente-win32-x64\resources\app\ dejar solo:
     dist
     ElectronEntry.js
+    Backend.js
     package.json

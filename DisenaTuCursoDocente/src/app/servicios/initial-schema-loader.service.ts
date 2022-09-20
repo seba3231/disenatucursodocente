@@ -6,25 +6,40 @@ import { SchemaSavedData } from '../modelos/schemaData.model';
   providedIn: 'root',
 })
 export class InitialSchemaLoaderService {
-  defaultSchema?: Esquema;
-  loadedData?: SchemaSavedData = undefined;
-  allData?: SchemaSavedData[] = undefined;
-  constructor() {}
+  
+    defaultSchema?: Esquema;
+    loadedData?: SchemaSavedData = undefined;
+    allData?: SchemaSavedData[] = undefined;
+    puertoBackend?:string = undefined;
 
-  loadInitialSchema() {
-    //Leo default Schema
-    const xmlhttp = new XMLHttpRequest();
-    const method = 'GET';
-    const url = 'assets/schemas/defaultSchema.json';
-    xmlhttp.open(method, url, true);
-    xmlhttp.onload = () => {
-      if (xmlhttp.status === 200) {
-        let parsedJson = JSON.parse(xmlhttp.responseText);
-        this.defaultSchema = parsedJson;
-        console.log(this.defaultSchema);
-      }
-    };
-    xmlhttp.send();
+    constructor() {}
+
+    loadInitialSchema() {
+        //Leo default Schema SYNCRONICO
+        {
+            let xmlhttp = new XMLHttpRequest();
+            let method = 'GET';
+            let url = 'assets/schemas/defaultSchema.json';
+            xmlhttp.open(method, url, false);
+            xmlhttp.send();
+            if (xmlhttp.status === 200) {
+                let parsedJson = JSON.parse(xmlhttp.responseText);
+                this.defaultSchema = parsedJson;
+                console.log(this.defaultSchema);
+            }
+        }
+        //Leo puerto del Backend SYNCRONICO
+        {
+            let xmlhttp = new XMLHttpRequest();
+            const method = 'GET';
+            const url = 'assets/puerto';
+            xmlhttp.open(method, url, false);
+            xmlhttp.send();
+            if (xmlhttp.status === 200) {
+                this.puertoBackend = xmlhttp.responseText;
+                console.log(this.puertoBackend);
+            }
+        }
   }
 
   // loadDataFile(fileName: string) {
@@ -63,7 +78,7 @@ export class InitialSchemaLoaderService {
 
     try {
       //levantar electron: cmd: node ElectronEntry.js
-      const response = await fetch('http://localhost:8081/cursos', {
+      const response = await fetch('http://localhost:'+this.puertoBackend+'/cursos', {
         method: 'GET',
         headers: headers,
         mode: 'cors',
