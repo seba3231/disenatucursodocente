@@ -255,6 +255,7 @@ export class AtributoComponent {
 
     guardarCambio(ubicacion:Ubicacion,indice:number,tipoInput:TipoInput,nuevoValor:any){
         // this.versionActual = this.initialSchemaService.loadedData?.versiones.at(-1);
+        this.versionActual = this.versionSeleccionada;
         let valoresDato = this.buscoDatoGuardadoDeAtributo(ubicacion);
         if(valoresDato.length !== 0){
             let claveMap = this.objectToString(ubicacion)+indice;
@@ -516,6 +517,7 @@ export class AtributoComponent {
         // console.log(this.versionSeleccionada)
         // console.log('cambio')
         // this.versionActual = this.initialSchemaService.loadedData?.versiones.at(-1);
+        this.versionActual = this.versionSeleccionada;
         let valoresDato = this.buscoDatoGuardadoDeAtributo(cambio.ubicacion);
         switch (cambio.tipoInput) {
             case TipoInput.text:{
