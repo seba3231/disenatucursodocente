@@ -5,6 +5,11 @@ import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.s
 import { AccionesCursosService } from '../servicios/acciones-cursos.service';
 import {ExportpdfComponent} from   '../exportpdf/exportpdf.component'
 import { Router } from '@angular/router';
+import { ModalComentariosComponent } from '../modal/comentarios/modal-comentarios.component';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+imports: [
+  NgbModule
+]
 
 declare function createGraph(graph : any): any;
 
@@ -21,11 +26,13 @@ export class DashboardComponent implements OnInit {
     savedData : SchemaSavedData | undefined = undefined;
     defaultSchema : Esquema | undefined = undefined;
     mostrarVersiones: boolean = false
+    nombreVersion: string = '';
     versionSeleccionada: Version | undefined = this.initialSchemaService.loadedData?.versiones.at(-1);
 
     nombreArchivo:string='';
     constructor(public initialSchemaService : InitialSchemaLoaderService,
         private router: Router,
+        private modalService: NgbModal,
         public accionesCursosService: AccionesCursosService){ }
 
 
@@ -108,19 +115,45 @@ export class DashboardComponent implements OnInit {
                     }
             }
         this.grupoCargado = grupoSeleccionado; 
+        this.mostrarVersiones = false
         // setTimeout(() => this.accionesCursosService.setImpactarCambios(true), 5000);
     }
     
     mostrarGruposDeEtapa(etapa: Etapa){
         console.log(etapa.grupos)
         this.gruposDeEtapa = etapa.grupos;
+        this.mostrarVersiones = false
     }
 
     cargarGrupo(grupo:Grupo){
         console.log(grupo)
         this.grupoCargado = grupo;
+        this.mostrarVersiones = false
     }
 
+    openModal(){
+        
+        // MODAL PARA AGREGAR COMENTARIOS
+        const modalRef = this.modalService.open(ModalComentariosComponent, {
+            scrollable: false,
+        });
+        modalRef.componentInstance.tittle = 'Nueva version';
+        modalRef.componentInstance.inputDisclaimer[0] = 'Nombre de la nueva versión';
+        
+        //Control Resolve with Observable
+        modalRef.closed.subscribe({
+            next: (resp) => {
+                if (resp.length > 0){
+                    console.log(resp);
+                    this.nombreVersion = resp[0]
+                    this.nuevaVersion()
+                }
+            },
+            error: () => {
+                //Nunca se llama aca
+            },
+        });
+    }
     /*cargarArchivo(){
         this.initialSchemaService.loadDataFile(this.nombreArchivo);
     }*/
@@ -159,16 +192,17 @@ export class DashboardComponent implements OnInit {
 
     invertirMostrarVersiones(){
         this.mostrarVersiones = !this.mostrarVersiones;
+        console.log(this.initialSchemaService)
     }
 
-    nuevaVersion(e:any){
+    nuevaVersion(){
         // console.log('prevengo')
         // e.preventDefault();
         const curso = this.initialSchemaService.loadedData;
         const ultimaVersionActual = structuredClone(curso?.versiones.at(-1));
         if(ultimaVersionActual){
             const nuevaVersion = {...ultimaVersionActual,
-                nombre: "nombre hardcodeado",
+                nombre: this.nombreVersion,
                 version: ultimaVersionActual.version+1,
                 fechaCreacion: new Date()
             }
@@ -185,7 +219,7 @@ export class DashboardComponent implements OnInit {
         console.log(versionSeleccionada?.datosGuardados?.[0].valoresAtributo?.[0].valoresDato?.[0]);
         if(versionSeleccionada && ultimoIdentificador){
             const nuevaVersion = {...versionSeleccionada,
-                nombre: "nombre hardcodeado",
+                nombre: "nombre " + ultimoIdentificador +1,
                 version: ultimoIdentificador+1,
                 fechaCreacion: new Date()
             };
