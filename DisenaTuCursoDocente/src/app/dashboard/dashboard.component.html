@@ -41,9 +41,6 @@
             <a class="btn btn-primary background-primary m-2" role="button" (click)="openModal()">
                 <i class="bi bi-plus-circle me-2"></i>NUEVA VERSIÓN
             </a>
-            <a class="btn btn-primary background-primary m-2" role="button" (click)="printLoaded()">
-                <i class="bi bi-plus-circle me-2"></i>Print
-            </a>
         </div>
     </div>
 </div>
@@ -51,16 +48,17 @@
 <!-- -------------------- ZONA VERSIONES -------------------- -->
 <div class="'container p-4" *ngIf="this.mostrarVersiones">
     <div class="card container p-4 mb-4">
-        <h3>Versiones anteriores</h3>
+        <h3 class="mb-4">Versiones anteriores</h3>
         <ul class="list-group">
             <li *ngFor="let version of this.initialSchemaService.loadedData?.versiones" class="list-group-item d-flex align-items-center justify-content-between">
                 <div>
                     <span style="margin-right: 8px;">{{ version.nombre }}</span>
-                    <span style="opacity: .6; font-size: 10px;">{{ version.fechaCreacion| date:'yyyy-MM-dd' }}</span>
+                    <span style="opacity: .6; font-size: 11px;">‧ {{ version.fechaCreacion| date:'yyyy-MM-dd' }} ‧</span>
                 </div>
                 <button class="btn btn-outline-primary background-primary m-2" (click)="seleccionarVersion(version.version, $event)" style="font-size: 10px;">RESTAURAR VERSIÓN</button>
             </li>
         </ul>
+        <button class="btn btn-primary background-primary mt-4" style="width: fit-content;" (click)="cancelarVersion($event)">CANCELAR</button>
     </div>
 </div>
 
