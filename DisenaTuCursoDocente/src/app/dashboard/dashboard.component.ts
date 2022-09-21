@@ -195,6 +195,10 @@ export class DashboardComponent implements OnInit {
         console.log(this.initialSchemaService)
     }
 
+    cancelarVersion(event: any){
+        this.mostrarVersiones = false
+    }
+
     nuevaVersion(){
         // console.log('prevengo')
         // e.preventDefault();
@@ -208,8 +212,9 @@ export class DashboardComponent implements OnInit {
             }
             curso?.versiones.push(nuevaVersion);
             this.versionSeleccionada = nuevaVersion;
+            this.accionesCursosService.modificarCurso();
         }
-        // this.accionesCursosService.modificarCurso();
+        
     }
 
     seleccionarVersion(version: number, e:any){
@@ -217,16 +222,19 @@ export class DashboardComponent implements OnInit {
         const versionSeleccionada = structuredClone(curso?.versiones.find(v => v.version === version));
         const ultimoIdentificador = curso?.versiones.at(-1)?.version;
         console.log(versionSeleccionada?.datosGuardados?.[0].valoresAtributo?.[0].valoresDato?.[0]);
+        if (curso?.versiones.at(-1)?.nombre)
+            this.nombreVersion = versionSeleccionada?.nombre || '';
         if(versionSeleccionada && ultimoIdentificador){
             const nuevaVersion = {...versionSeleccionada,
-                nombre: "nombre " + ultimoIdentificador +1,
+                nombre: this.nombreVersion,
                 version: ultimoIdentificador+1,
                 fechaCreacion: new Date()
             };
             curso?.versiones.push(nuevaVersion);
             this.versionSeleccionada = nuevaVersion;
+            this.accionesCursosService.modificarCurso();
         }
-        // this.accionesCursosService.modificarCurso();
+        
     }
 
     printLoaded(){
