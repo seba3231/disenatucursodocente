@@ -9,6 +9,7 @@
             "autor": "Sebastián Peláez",
             "version": 1,
             "fechaCreacion": "2022-08-24T14:18:41.525Z",
+            "nombre": "1era version",
             "datosGuardados": [
                 {
                     "ubicacionAtributo": { "idEtapa": 1, "idGrupo": 11, "idAtributo": 1, "idDato": null },

@@ -35,16 +35,28 @@
             <a class="btn btn-primary background-primary m-2" href="#!" role="button">
                 <i class="bi bi-share-fill me-2"></i>COMPARTIR
             </a>
-            <a class="btn btn-primary background-primary m-2" href="#!" role="button">
+            <a class="btn btn-primary background-primary m-2" role="button" (click)="invertirMostrarVersiones()">
                 <i class="bi bi-clock-history me-2"></i>VER HISTORIAL
+            </a>
+            <a class="btn btn-primary background-primary m-2" role="button" (click)="nuevaVersion($event)">
+              <i class="bi bi-plus-circle me-2"></i>NUEVA VERSIÓN
+            </a>
+            <a class="btn btn-primary background-primary m-2" role="button" (click)="printLoaded()">
+              <i class="bi bi-plus-circle me-2"></i>Print
             </a>
         </div>
     </div>
 </div>
 
+<ul class="list-group" *ngIf="this.mostrarVersiones">
+  <li  *ngFor="let version of this.initialSchemaService.loadedData?.versiones" class="list-group-item" (click)="seleccionarVersion(version.version, $event)">
+    {{ version.nombre }}
+  </li>
+</ul>
+
 <!-- -------------------- ZONA CONTENIDO GRUPO -------------------- -->
 <div class="'container p-4" *ngIf="grupoCargado">
-  <app-grupo [grupo]="grupoCargado"></app-grupo>
+  <app-grupo [grupo]="grupoCargado" [versionSeleccionada]="versionSeleccionada"></app-grupo>
 </div>
 <div class="'container" *ngIf="!grupoCargado">
   <div class="card container p-4 mb-4">

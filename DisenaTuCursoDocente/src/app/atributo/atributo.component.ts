@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angu
 import { Atributo, Computo, DependenciaDeDatos, Ubicacion } from '../modelos/schema.model';
 import { MapTipoInput, MapTipoInputHTML, TipoInput, TwoWayMap } from '../enumerados/enums';
 import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.service';
+import { AccionesCursosService } from '../servicios/acciones-cursos.service';
 import { InformacionGuardada, ValoresDato, Version } from '../modelos/schemaData.model';
 import { FormControl, Validators } from '@angular/forms';
 import { IntercambioArchivoComponent } from '../datos/archivo/archivo.component';
@@ -43,6 +44,7 @@ export interface ValorSelect{
 })
 export class AtributoComponent {
     @Input() atributo!: Atributo;
+    @Input() versionSeleccionada!: Version | undefined;
     @Output() registrarDependencia = new EventEmitter<RegistrarDependencia>();
     @Output() informarCambio = new EventEmitter<Ubicacion>();
     
@@ -66,7 +68,8 @@ export class AtributoComponent {
     mapManejadorEventos: Map<string,EventEmitter<any>> = new Map();
 
     constructor(private initialSchemaService : InitialSchemaLoaderService
-        ,private modalService: NgbModal) {
+        ,private modalService: NgbModal,
+        private accionesCursosService: AccionesCursosService) {
         
         this.mapTipoInput = MapTipoInput;
         this.mapTipoInputHTML = MapTipoInputHTML;
@@ -80,7 +83,7 @@ export class AtributoComponent {
 
     ngOnInit(){
         //Veo cuantas instancias de este atributo hay y cargo los Datos guardados de este Atributo
-        this.versionActual = this.initialSchemaService.loadedData?.versiones.at(-1);
+        this.versionActual = this.versionSeleccionada;
         if(this.versionActual !== undefined){
             for(let datoGuardado of this.versionActual.datosGuardados!){
                 
@@ -251,7 +254,7 @@ export class AtributoComponent {
     }
 
     guardarCambio(ubicacion:Ubicacion,indice:number,tipoInput:TipoInput,nuevoValor:any){
-        
+        // this.versionActual = this.initialSchemaService.loadedData?.versiones.at(-1);
         let valoresDato = this.buscoDatoGuardadoDeAtributo(ubicacion);
         if(valoresDato.length !== 0){
             let claveMap = this.objectToString(ubicacion)+indice;
@@ -326,6 +329,8 @@ export class AtributoComponent {
         console.log(this.initialSchemaService.loadedData);*/
         // console.log("Vals de Atrib");
         // console.log(this.datoGuardado!.valoresAtributo);
+        // if(this.accionesCursosService.impactarCambios)
+            // this.accionesCursosService.modificarCurso();
     }
 
     cargarInfoPrevia(ubicacion:Ubicacion, indice:number, tipoInput: TipoInput, posibleValor:any) : any {
@@ -508,6 +513,9 @@ export class AtributoComponent {
     }
 
     handleChange(cambio:any){
+        console.log(this.versionSeleccionada)
+        // console.log('cambio')
+        // this.versionActual = this.initialSchemaService.loadedData?.versiones.at(-1);
         let valoresDato = this.buscoDatoGuardadoDeAtributo(cambio.ubicacion);
         switch (cambio.tipoInput) {
             case TipoInput.text:{
@@ -528,6 +536,8 @@ export class AtributoComponent {
         this.informarCambio.emit(cambio.ubicacion);
         // console.log("Vals de Atrib");
         // console.log(this.datoGuardado!.valoresAtributo);
+        // if(this.accionesCursosService.impactarCambios)
+            // this.accionesCursosService.modificarCurso();
     }
 
     buscoDatoGuardadoDeAtributo(ubicacion:Ubicacion) : ValoresDato[]{

@@ -38,7 +38,7 @@ export class HomeComponent {
         alert.classList.remove('show')
       //
   
-      this.initialSchemaService.loadAllDataFile2();
+      this.initialSchemaService.loadAllDataFile();
       console.log(this.initialSchemaService.allData)
       this.datosFijos = this.initialSchemaService.defaultSchema?.gruposDatosFijos;
     }
@@ -184,6 +184,7 @@ export class HomeComponent {
             autor: this.autor, //tomar el autor del nombre
             fechaModificacion: new Date(),
             fechaCreacion: new Date(),
+            nombre: 'Primera versión'
           },
         ],
       };
@@ -213,28 +214,6 @@ export class HomeComponent {
       }
     }
   
-    async obtenerCurso(id: number) {
-      let headers = new Headers();
-      headers.append('Accept', 'application/json');
-  
-      try {
-        const response = await fetch(`http://localhost:8081/cursos/${id}`, {
-          method: 'GET',
-          headers: headers,
-          mode: 'cors',
-        });
-        const curso = await response.json();
-        if (response.status === 200)
-          console.log('Curso obtenido exitosamente', curso);
-        else console.log('Ha ocurrido un error, ', response.status);
-      } catch (e) {
-        const alert = document.querySelector('ngb-alert')
-        if(alert)
-          alert.classList.add('show')
-        console.error(e);
-      }
-    }
-  
     async modificarCurso(curso: SchemaSavedData) {
       // const curso = this.initialSchemaService.loadedData
       // busco version actualizada y la agrego como nueva cuando es el 1er cambio, falta definir esa logica
@@ -255,28 +234,6 @@ export class HomeComponent {
         });
         if (response.status === 200)
           console.log('Curso actualizado exitosamente');
-        else console.log('Ha ocurrido un error, ', response.status);
-      } catch (e) {
-        const alert = document.querySelector('ngb-alert')
-        if(alert)
-          alert.classList.add('show')
-        console.error(e);
-      }
-    }
-  
-    async listarCursos() {
-      let headers = new Headers();
-      headers.append('Accept', 'application/json');
-  
-      try {
-        const response = await fetch('http://localhost:8081/cursos', {
-          method: 'GET',
-          headers: headers,
-          mode: 'cors',
-        });
-        const cursos = await response.json();
-        if (response.status === 200)
-          console.log('Cursos obtenidos exitosamente', cursos);
         else console.log('Ha ocurrido un error, ', response.status);
       } catch (e) {
         const alert = document.querySelector('ngb-alert')

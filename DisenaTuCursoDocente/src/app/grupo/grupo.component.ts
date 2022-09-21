@@ -4,7 +4,9 @@ import { Atributo, Grupo, Ubicacion } from '../modelos/schema.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {ComentarioPrivado } from '../modelos/schema.model'
 import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.service';
+import { AccionesCursosService } from '../servicios/acciones-cursos.service';
 import { ModalComentariosComponent } from '../modal/comentarios/modal-comentarios.component';
+import { Version } from '../modelos/schemaData.model'
 
 @Component({
   selector: 'app-grupo',
@@ -13,12 +15,14 @@ import { ModalComentariosComponent } from '../modal/comentarios/modal-comentario
 })
 export class GrupoComponent implements OnInit {
     @Input() grupo!: Grupo;
+    @Input() versionSeleccionada!: Version | undefined;
 
     comentariosPrivados: ComentarioPrivado[] = [];
     mapObservadorCambios : Map<string,RegistrarDependencia[]> = new Map();
 
     constructor(private modalService: NgbModal,
-        public initialSchemaService : InitialSchemaLoaderService) {}
+        public initialSchemaService : InitialSchemaLoaderService,
+        public accionesCursosService: AccionesCursosService) {}
 
     ngOnInit(): void {}
 
@@ -134,32 +138,6 @@ export class GrupoComponent implements OnInit {
         });
     }
 
-    async modificarCurso() {
-        const curso = this.initialSchemaService.loadedData
-        // busco version actualizada y la agrego como nueva cuando es el 1er cambio, falta definir esa logica
-        // const nuevaVersion = curso?.versiones.at(-1); 
-        // if (nuevaVersion !== undefined) curso?.versiones?.push(nuevaVersion);
-        let headers = new Headers();
-        headers.append('Accept', 'application/json');
-        headers.append('Content-Type', 'application/json');
-        try {
-          // no hay convencion sobre los nombres aun asi que paso id para que busque archivo curso_id 
-          const response = await fetch(`http://localhost:8081/cursos/${curso?.id}`, {
-            method: 'PUT',
-            headers: headers,
-            mode: 'cors',
-            body: JSON.stringify({
-              curso: { ...curso, fechaModificacion: new Date() },
-            }),
-          });
-          if (response.status === 200)
-            console.log('Curso actualizado exitosamente');
-          else console.log('Ha ocurrido un error, ', response.status);
-        } catch (e) {
-          console.error(e);
-        }
-      }
-
     /*resolveModal = (args: any): void => {
         var inputValue = (<HTMLInputElement>document.getElementById("input-content")).value;
         console.log(inputValue);
@@ -170,4 +148,8 @@ export class GrupoComponent implements OnInit {
             this.activeModal.close('');
         }
     }*/
+
+    onModify(){
+        console.log(this.grupo.atributos);
+    }
 }

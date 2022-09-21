@@ -1,7 +1,8 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Etapa, Grupo,Esquema } from '../modelos/schema.model';
-import { SchemaSavedData } from '../modelos/schemaData.model';
+import { SchemaSavedData, Version } from '../modelos/schemaData.model';
 import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.service';
+import { AccionesCursosService } from '../servicios/acciones-cursos.service';
 import {ExportpdfComponent} from   '../exportpdf/exportpdf.component'
 import { Router } from '@angular/router';
 
@@ -19,10 +20,13 @@ export class DashboardComponent implements OnInit {
     grupoCargado : Grupo | undefined = undefined;
     savedData : SchemaSavedData | undefined = undefined;
     defaultSchema : Esquema | undefined = undefined;
+    mostrarVersiones: boolean = false
+    versionSeleccionada: Version | undefined = this.initialSchemaService.loadedData?.versiones.at(-1);
 
     nombreArchivo:string='';
     constructor(public initialSchemaService : InitialSchemaLoaderService,
-        private router: Router){ }
+        private router: Router,
+        public accionesCursosService: AccionesCursosService){ }
 
 
     ngOnInit() {
@@ -90,6 +94,7 @@ export class DashboardComponent implements OnInit {
 
     @HostListener('window:grupoOnClick', ['$event.detail.grupoId'])
     grupoOnClick(grupoId:number){
+        // this.accionesCursosService.setImpactarCambios(false);
         var schemaEtapas = this.initialSchemaService.defaultSchema?.etapas;
         console.log(schemaEtapas)
         var grupoSeleccionado;
@@ -102,7 +107,8 @@ export class DashboardComponent implements OnInit {
                             grupoSeleccionado = schemaEtapas[i].grupos[j]
                     }
             }
-        this.grupoCargado = grupoSeleccionado;    
+        this.grupoCargado = grupoSeleccionado; 
+        // setTimeout(() => this.accionesCursosService.setImpactarCambios(true), 5000);
     }
     
     mostrarGruposDeEtapa(etapa: Etapa){
@@ -149,5 +155,52 @@ export class DashboardComponent implements OnInit {
 
     goHome(){
         this.router.navigate(['/']);
+    }
+
+    invertirMostrarVersiones(){
+        this.mostrarVersiones = !this.mostrarVersiones;
+    }
+
+    nuevaVersion(e:any){
+        // console.log('prevengo')
+        // e.preventDefault();
+        const curso = this.initialSchemaService.loadedData;
+        const ultimaVersionActual = structuredClone(curso?.versiones.at(-1));
+        if(ultimaVersionActual){
+            const nuevaVersion = {...ultimaVersionActual,
+                nombre: "nombre hardcodeado",
+                version: ultimaVersionActual.version+1,
+                fechaCreacion: new Date()
+            }
+            curso?.versiones.push(nuevaVersion);
+            this.versionSeleccionada = nuevaVersion;
+        }
+        // this.accionesCursosService.modificarCurso();
+    }
+
+    seleccionarVersion(version: number, e:any){
+        const curso = this.initialSchemaService.loadedData;
+        const versionSeleccionada = structuredClone(curso?.versiones.find(v => v.version === version));
+        const ultimoIdentificador = curso?.versiones.at(-1)?.version;
+        console.log(versionSeleccionada?.datosGuardados?.[0].valoresAtributo?.[0].valoresDato?.[0]);
+        if(versionSeleccionada && ultimoIdentificador){
+            const nuevaVersion = {...versionSeleccionada,
+                nombre: "nombre hardcodeado",
+                version: ultimoIdentificador+1,
+                fechaCreacion: new Date()
+            };
+            curso?.versiones.push(nuevaVersion);
+            this.versionSeleccionada = nuevaVersion;
+        }
+        // this.accionesCursosService.modificarCurso();
+    }
+
+    printLoaded(){
+        console.log(this.initialSchemaService.loadedData?.versiones?.[0]?.datosGuardados?.[0].valoresAtributo?.[0].valoresDato?.[0], this.initialSchemaService.loadedData?.versiones?.[0]?.version);
+        console.log(this.initialSchemaService.loadedData?.versiones?.[1]?.datosGuardados?.[0].valoresAtributo?.[0].valoresDato?.[0], this.initialSchemaService.loadedData?.versiones?.[1]?.version);
+        console.log(this.initialSchemaService.loadedData?.versiones?.[2]?.datosGuardados?.[0].valoresAtributo?.[0].valoresDato?.[0], this.initialSchemaService.loadedData?.versiones?.[2]?.version);
+        console.log(this.initialSchemaService.loadedData?.versiones?.[3]?.datosGuardados?.[0].valoresAtributo?.[0].valoresDato?.[0], this.initialSchemaService.loadedData?.versiones?.[3]?.version);
+        console.log(this.initialSchemaService.loadedData?.versiones);
+        console.log(this.versionSeleccionada);
     }
 }
