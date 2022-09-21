@@ -513,7 +513,7 @@ export class AtributoComponent {
     }
 
     handleChange(cambio:any){
-        console.log(this.versionSeleccionada)
+        // console.log(this.versionSeleccionada)
         // console.log('cambio')
         // this.versionActual = this.initialSchemaService.loadedData?.versiones.at(-1);
         let valoresDato = this.buscoDatoGuardadoDeAtributo(cambio.ubicacion);
