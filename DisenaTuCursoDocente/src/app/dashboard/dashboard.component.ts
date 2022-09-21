@@ -138,6 +138,7 @@ export class DashboardComponent implements OnInit {
             scrollable: false,
         });
         modalRef.componentInstance.tittle = 'Nueva version';
+        modalRef.componentInstance.body = "Se creará una nueva versión del curso a partir de la version actual."
         modalRef.componentInstance.inputDisclaimer[0] = 'Nombre de la nueva versión';
         
         //Control Resolve with Observable

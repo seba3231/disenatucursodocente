@@ -1,80 +1,80 @@
-
-.background-primary{
+.background-primary {
     background-color: var(--bs-btn-bg);
 }
 
-
-.btn-rounded{
+.btn-rounded {
     border-radius: 1.75rem;
     padding: 0.35rem 1rem;
 }
 
-.img-empty{
+.img-empty {
     max-height: 280px;
 }
 
-.card{
+.card {
     cursor: pointer;
 }
-.card-title{
+
+.card-title {
     padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
     color: var(--bs-card-color);
     margin: 0;
 }
 
-.container-card{
+.container-card {
     padding: 24px;
 }
 
-.card-img{
+.card-img {
     max-height: inherit;
     padding: 24px;
     opacity: .3;
 }
 
-.card-img-containter{
+.card-img-containter {
     background: #0b5dd770;
     max-height: 230px;
     position: relative;
 }
 
-.btn-outline-expand{
+.btn-outline-expand {
     font-size: 0px;
     display: flex;
     transition: font-size 0.2s;
 }
 
-.btn-outline-expand{
+.btn-outline-expand {
     color: #0b5dd7;
 }
 
 .btn-outline-expand:focus,
-.btn-outline-expand:hover{
+.btn-outline-expand:hover {
     font-size: 12px;
-    color: #0b5dd7;
+    /* color: #0b5dd7; */
 }
 
-.btn-outline-expand > i{
+.btn-outline-expand>i {
     font-size: 12px;
 }
-.btn-outline-expand:focus > i,
-.btn-outline-expand:hover > i{
+
+.btn-outline-expand:focus>i,
+.btn-outline-expand:hover>i {
     margin-right: 0.5rem!important;
 }
 
-.dropdown-toggle::after{
+.dropdown-toggle::after {
     margin: .5em 0 0 .5em;
 }
 
 .file-upload {
     display: none;
-  }
+}
 
-.fade.show{
+.fade.show {
     display: block;
     transition: display .15s linear;
 }
 
-.fade:not(.show){
+.fade:not(.show) {
     display: none;
 }

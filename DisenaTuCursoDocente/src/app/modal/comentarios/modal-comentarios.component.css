@@ -3,25 +3,24 @@ ul.lista-comentarios {
     padding: 0 1rem 0 1rem;
 }
 
-ul.lista-comentarios > li{
+ul.lista-comentarios>li {
     padding: .5rem 1.2rem .5rem 1rem;
     display: block;
     margin-bottom: 0.5rem;
-    
 }
 
-ul.lista-comentarios > li > i{
+ul.lista-comentarios>li>i {
     padding-right: 0.75rem;
-    color: #616161; 
+    color: #616161;
     cursor: pointer;
 }
 
-ul.lista-comentarios > li > span{
+ul.lista-comentarios>li>.comentario-fecha {
     font-size: 11px;
     opacity: .60;
 }
 
-ul.lista-comentarios > li > button{
+ul.lista-comentarios>li>button {
     border: none;
     background: transparent;
     font-size: 10px;
@@ -32,7 +31,7 @@ ul.lista-comentarios > li > button{
     width: 24px;
 }
 
-ul.lista-comentarios > li > button:hover{
+ul.lista-comentarios>li>button:hover {
     background-color: lightgray;
     border-radius: 50%;
 }

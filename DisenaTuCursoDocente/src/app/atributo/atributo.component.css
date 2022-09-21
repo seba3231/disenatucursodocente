@@ -1,4 +1,4 @@
-.puntoCritico{
+.puntoCritico {
     border-left-style: solid;
     border-left-color: blue;
     border-left-width: 5px;
@@ -9,6 +9,10 @@
     --bs-popover-border-width: 2px
 }
 
-.form-label-title{
+.form-label {
+    display: inline-flex;
+}
+
+.form-label-title {
     font-weight: 600;
 }

@@ -7,15 +7,20 @@
     <p>{{body}}</p>
     <ul class="lista-comentarios">
         <li *ngFor="let comentario of comentariosPrivados" class="card">
-            <i class="bi bi-chat-right-text-fill"></i>{{comentario.valor}}
-            <span>‧ {{comentario.fecha | date:'yyyy-MM-dd hh:mm'}} ‧</span>
+            <header style="opacity: .8;">
+                <i class="bi bi-chat-right-text-fill"></i>
+                <span class="p-2" style="font-weight: 600;">{{comentario.autor}}</span>
+                <span class="comentario-fecha">‧ {{comentario.fecha | date:'yyyy-MM-dd hh:mm'}} ‧</span>
+            </header>
+            <span>{{comentario.valor}}</span>
+
             <button title="Quitar" (click)="quitarComentario(comentario)"><i class="bi bi-x-lg"></i></button>
         </li>
     </ul>
     <div *ngFor="let datoInput of inputDisclaimer; let i = index">
-        <input type="text" class="form-control" id="input-content_{{i}}"  placeholder='{{datoInput}}' style="margin: 0.5rem 0;">
+        <input type="text" class="form-control" id="input-content_{{i}}" placeholder='{{datoInput}}' style="margin: 0.5rem 0;">
     </div>
-    
+
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-outline-gray" (click)="reject()">Cancelar</button>
