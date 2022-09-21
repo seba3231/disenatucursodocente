@@ -57,22 +57,7 @@ export class InitialSchemaLoaderService {
   //   xmlhttp.send();
   // }
 
-  loadAllDataFile(fileName: string) {
-    //Leo información de archivo
-    const xmlhttp = new XMLHttpRequest();
-    const method = 'GET';
-    const url = 'assets/schemasData/' + fileName;
-    xmlhttp.open(method, url, true);
-    xmlhttp.onload = () => {
-      if (xmlhttp.status === 200) {
-        this.allData = JSON.parse(xmlhttp.responseText);
-        console.log(this.allData);
-      }
-    };
-    xmlhttp.send();
-  }
-
-  async loadAllDataFile2() {
+  async loadAllDataFile() {
     let headers = new Headers();
     headers.append('Accept', 'application/json');
 

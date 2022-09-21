@@ -4,7 +4,9 @@ import { Atributo, Grupo, Ubicacion } from '../modelos/schema.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {ComentarioPrivado } from '../modelos/schema.model'
 import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.service';
+import { AccionesCursosService } from '../servicios/acciones-cursos.service';
 import { ModalComentariosComponent } from '../modal/comentarios/modal-comentarios.component';
+import { Version } from '../modelos/schemaData.model'
 
 @Component({
   selector: 'app-grupo',
@@ -13,12 +15,14 @@ import { ModalComentariosComponent } from '../modal/comentarios/modal-comentario
 })
 export class GrupoComponent implements OnInit {
     @Input() grupo!: Grupo;
+    @Input() versionSeleccionada!: Version | undefined;
 
     comentariosPrivados: ComentarioPrivado[] = [];
     mapObservadorCambios : Map<string,RegistrarDependencia[]> = new Map();
 
     constructor(private modalService: NgbModal,
-        public initialSchemaService : InitialSchemaLoaderService) {}
+        public initialSchemaService : InitialSchemaLoaderService,
+        public accionesCursosService: AccionesCursosService) {}
 
     ngOnInit(): void {}
 
@@ -170,4 +174,8 @@ export class GrupoComponent implements OnInit {
             this.activeModal.close('');
         }
     }*/
+
+    onModify(){
+        console.log(this.grupo.atributos);
+    }
 }

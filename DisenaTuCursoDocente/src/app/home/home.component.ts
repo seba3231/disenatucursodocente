@@ -38,7 +38,7 @@ export class HomeComponent {
         alert.classList.remove('show')
       //
   
-      this.initialSchemaService.loadAllDataFile2();
+      this.initialSchemaService.loadAllDataFile();
       console.log(this.initialSchemaService.allData)
       this.datosFijos = this.initialSchemaService.defaultSchema?.gruposDatosFijos;
     }
@@ -180,6 +180,7 @@ export class HomeComponent {
             autor: this.autor, //tomar el autor del nombre
             fechaModificacion: new Date(),
             fechaCreacion: new Date(),
+            nombre: 'Primera versión'
           },
         ],
       };

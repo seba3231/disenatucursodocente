@@ -1,4 +1,4 @@
-<div class="card container">
+<div class="card container" (click)="onModify()">
     <div class="card-body">
         <div *ngIf="grupo.nombre" class="d-flex flex-row">
             <i class="bi bi-mortarboard-fill p-2"></i>
@@ -25,6 +25,7 @@
                         </ng-container>
                         <app-atributo 
                             [atributo]="atributo"
+                            [versionSeleccionada]="versionSeleccionada"
                             (registrarDependencia)="registrarDependencia($event)"
                             (informarCambio)="informarCambio($event)"
                         >
@@ -34,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <a class="btn btn-primary btn-rounded background-primary m-2 float-end" role="button" (click)="modificarCurso()">
+        <a class="btn btn-primary btn-rounded background-primary m-2 float-end" role="button" (click)="this.accionesCursosService.modificarCurso()">
          Guardar</a>
     </div>
 </div>

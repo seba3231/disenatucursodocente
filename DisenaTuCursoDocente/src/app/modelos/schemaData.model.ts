@@ -10,6 +10,7 @@ export interface SchemaSavedData {
 export interface Version {
   schemaVersion: number;
   autor?: string;
+  nombre: string;
   version: number;
   fechaCreacion: Date;
   fechaModificacion: Date;
