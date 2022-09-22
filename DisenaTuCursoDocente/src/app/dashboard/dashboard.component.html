@@ -54,6 +54,7 @@
             <li *ngFor="let version of this.initialSchemaService.loadedData?.versiones" class="list-group-item d-flex align-items-center justify-content-between">
                 <div>
                     <span style="margin-right: 8px;">{{ version.nombre }}</span>
+                    <span class="badge bg-primary m-2" *ngIf="version.version == this.initialSchemaService.loadedData?.versiones?.at(-1)?.version">Version actual</span>
                     <span style="opacity: .6; font-size: 11px;">‧ {{ version.fechaCreacion| date:'yyyy-MM-dd' }} ‧</span>
                 </div>
                 <button class="btn btn-outline-primary background-primary m-2" (click)="seleccionarVersion(version.version, $event)" style="font-size: 10px;">RESTAURAR VERSIÓN</button>
