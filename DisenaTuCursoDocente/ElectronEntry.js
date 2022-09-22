@@ -7,14 +7,20 @@ let appWindow;
 let ps;
 
 function initWindow() {
-  appWindow = new BrowserWindow({
-    width: 1000,
-    height: 800,
-    webPreferences: {
-      nodeIntegration: true,
-    },
-  });
-    //Inicia en Backend en otro thread
+    //Documentación opciones de BrowserWindow
+    //https://www.electronjs.org/docs/latest/api/browser-window
+    appWindow = new BrowserWindow(
+        {
+            show:false,
+            webPreferences: {
+                nodeIntegration: true,
+            },
+        }
+    );
+    appWindow.setMenu(null);
+    appWindow.maximize();
+    appWindow.show();
+    //Inicia el Backend en otro thread
     ps = fork(
         `${__dirname}/Backend.js`
         , []
