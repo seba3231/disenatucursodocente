@@ -225,7 +225,7 @@ export class AtributoComponent {
             datoDentroAtributo.valoresDato.push(nuevoValorDato);
         }
         this.datoGuardado!.cantidadInstancias++;
-        //¿No llamo a persist?
+        this.accionesCursosService.modificarCurso();
     }
 
     openSelectFileDialog(ubicacion:Ubicacion,indice:number){
@@ -273,18 +273,19 @@ export class AtributoComponent {
             let indice = fileUploader.getAttribute('indice');
             let claveMap = this.objectToString(ubicacion)+indice;
             let archivoCargado = this.mapDatoArchivo.get(claveMap);
+            let insideThis = this;
             if(archivoCargado !== undefined){
-                let fileName = file.name;
                 let reader = new FileReader();
                 reader.readAsDataURL(file);
                 reader.onload = function () {
+                    let fileName = file.name;
                     let base64 = reader.result;
                     //Invoco Backend, le mando nombre:string,b64:string
-                    //Me devuelve una ruta relativa al archivo en assets/
+                    //Me devuelve una ruta relativa al archivo en dist\disena-tu-curso-docente\assets\files\
                     let respuestaBackend="rutaAFile";
-                    archivoCargado!.fileName=respuestaBackend;
-                    console.log(archivoCargado!.fileName);
-                    //¿No llamo a persist?
+
+                    archivoCargado!.fileName=respuestaBackend;                                        
+                    insideThis.accionesCursosService.modificarCurso();
                 };
                 reader.onerror = function (error) {
                     console.log('Error: ', error);
@@ -403,15 +404,8 @@ export class AtributoComponent {
             }
             this.informarCambio.emit(ubicacion);
             //console.log(valoresDato);
-            //¿No llamo a persist?
+            this.accionesCursosService.modificarCurso();
         }
-        
-        /*console.log("Todos los val");
-        console.log(this.initialSchemaService.loadedData);*/
-        // console.log("Vals de Atrib");
-        // console.log(this.datoGuardado!.valoresAtributo);
-        // if(this.accionesCursosService.impactarCambios)
-            // this.accionesCursosService.modificarCurso();
     }
 
     cargarInfoPrevia(ubicacion:Ubicacion, indice:number, tipoInput: TipoInput, posibleValor:any) : any {
@@ -540,13 +534,6 @@ export class AtributoComponent {
                         }
                     }
                     break;
-                    /*let entradaArchivo: IntercambioArchivoComponent = {
-                        datoGuardado : valoresDato[indice]?.archivo,
-                        ubicacion : ubicacion,
-                        indiceInstancia : indice,
-                        tipoInput : tipoInput
-                    }
-                    return entradaArchivo;*/
                 }
                 case TipoInput.selectUsuarioMultiple:{
                     let valoresSeleccionados = this.mapOpcionesSeleccionadas.get(claveMap);
@@ -602,7 +589,7 @@ export class AtributoComponent {
                         console.log(resp);
                         archivoCargado!.ruta = resp[0];
                     }
-                    //¿No llamo a persist?
+                    this.accionesCursosService.modificarCurso();
                     console.log(archivoCargado);
                 },
                 error: () => {
@@ -632,34 +619,6 @@ export class AtributoComponent {
 
     stringToObject(string:string){
         return JSON.parse(string);
-    }
-
-    handleChange(cambio:any){
-
-        let valoresDato = this.buscoDatoGuardadoDeAtributo(cambio.ubicacion);
-        switch (cambio.tipoInput) {
-            case TipoInput.text:{
-                valoresDato[cambio.indiceInstancia].string = cambio.datoGuardado;
-                break;
-            }
-            case TipoInput.number:{
-                valoresDato[cambio.indiceInstancia].number = Number(cambio.datoGuardado);
-                break;
-            }
-            case TipoInput.archivo:{
-                valoresDato[cambio.indiceInstancia].archivo = cambio.datoGuardado;
-                break;
-            }
-            default:
-                break;
-        }
-        this.informarCambio.emit(cambio.ubicacion);
-        //¿No llamo a persist?
-
-        // console.log("Vals de Atrib");
-        // console.log(this.datoGuardado!.valoresAtributo);
-        // if(this.accionesCursosService.impactarCambios)
-        //    this.accionesCursosService.modificarCurso();
     }
 
     buscoDatoGuardadoDeAtributo(ubicacion:Ubicacion) : ValoresDato[]{
@@ -916,7 +875,7 @@ export class AtributoComponent {
                 
                 //Invalido map de archivos
                 this.mapDatoArchivo = new Map();
-                //¿No llamo a persist?
+                this.accionesCursosService.modificarCurso();
             },
             error: () => {
                 //Nunca se llama aca

@@ -11,9 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ArchivoComponent } from './datos/archivo/archivo.component';
 import { ExportpdfComponent } from './exportpdf/exportpdf.component';
-import { TextoNumberComponent } from './datos/textonumber/textonumber.component';
 import { ModalComentariosComponent } from './modal/comentarios/modal-comentarios.component';
 import { ModalConfirmacionComponent } from './modal/confirmacion/modal-confirmacion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -41,8 +39,6 @@ export function initConfig(loaderService : InitialSchemaLoaderService) {
     ModalComentariosComponent,
     ModalConfirmacionComponent,
     DashboardComponent,
-    ArchivoComponent,
-    TextoNumberComponent,
     ExportpdfComponent
   ],
   imports: [
