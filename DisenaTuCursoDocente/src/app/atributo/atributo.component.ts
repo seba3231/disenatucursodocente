@@ -1,15 +1,14 @@
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Atributo, Computo, DependenciaDeDatos, Ubicacion } from '../modelos/schema.model';
 import { MapTipoInput, MapTipoInputHTML, TipoInput, TwoWayMap } from '../enumerados/enums';
 import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.service';
 import { AccionesCursosService } from '../servicios/acciones-cursos.service';
-import { InformacionGuardada, ValoresDato, Version } from '../modelos/schemaData.model';
+import { DatoArchivo, InformacionGuardada, ValoresDato, Version } from '../modelos/schemaData.model';
 import { FormControl, Validators } from '@angular/forms';
-import { IntercambioArchivoComponent } from '../datos/archivo/archivo.component';
-import { IntercambioTextNumberComponent } from '../datos/textonumber/textonumber.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalConfirmacionComponent } from '../modal/confirmacion/modal-confirmacion.component';
 import { _countGroupLabelsBeforeOption } from '@angular/material/core';
+import { ModalComentariosComponent } from '../modal/comentarios/modal-comentarios.component';
 
 declare var bootstrap: any;
 
@@ -47,11 +46,11 @@ export class AtributoComponent {
     @Input() versionSeleccionada!: Version | undefined;
     @Output() registrarDependencia = new EventEmitter<RegistrarDependencia>();
     @Output() informarCambio = new EventEmitter<Ubicacion>();
+    @ViewChild('fileUploader', { static: false }) fileUploader!: ElementRef;
     
     mapTipoInput : TwoWayMap<TipoInput, string>;
     mapTipoInputHTML : Map<TipoInput, string>;
     enumTiposInput = TipoInput;
-    cantidadInstancias:number = 1;
 
     datoGuardado:InformacionGuardada | undefined;
     versionActual:Version | undefined;
@@ -67,9 +66,11 @@ export class AtributoComponent {
 
     mapManejadorEventos: Map<string,EventEmitter<any>> = new Map();
 
+    mapDatoArchivo : Map<string, DatoArchivo> = new Map();
+
     constructor(private initialSchemaService : InitialSchemaLoaderService
-        ,private modalService: NgbModal,
-        private accionesCursosService: AccionesCursosService) {
+        ,private modalService: NgbModal
+        ,private accionesCursosService: AccionesCursosService) {
         
         this.mapTipoInput = MapTipoInput;
         this.mapTipoInputHTML = MapTipoInputHTML;
@@ -92,7 +93,6 @@ export class AtributoComponent {
                     && datoGuardado.ubicacionAtributo.idAtributo === this.atributo.id
                 ){
                     this.datoGuardado = datoGuardado;
-                    this.cantidadInstancias = datoGuardado.cantidadInstancias;
                 }
             }
         }
@@ -224,8 +224,73 @@ export class AtributoComponent {
             }
             datoDentroAtributo.valoresDato.push(nuevoValorDato);
         }
-        this.cantidadInstancias++;
-        this.datoGuardado!.cantidadInstancias = this.cantidadInstancias;
+        this.datoGuardado!.cantidadInstancias++;
+        //¿No llamo a persist?
+    }
+
+    openSelectFileDialog(ubicacion:Ubicacion,indice:number){
+        //Varios Datos usan el FileUploader, se setean las coordenadas para
+        //para saber donde guardar lo que se seleccione
+        let fileUploader = this.fileUploader.nativeElement;
+        fileUploader.setAttribute('idEtapa',ubicacion.idEtapa.toString());
+        fileUploader.setAttribute('idGrupo',ubicacion.idGrupo.toString());
+        fileUploader.setAttribute('idAtributo',ubicacion.idAtributo.toString());
+        let acumuladorIDDato=null;
+        for(let idDato of ubicacion.idDato){
+            if(acumuladorIDDato === null){
+                acumuladorIDDato=idDato.toString();
+            }
+            else{
+                acumuladorIDDato=acumuladorIDDato+","+idDato.toString();
+            }
+        }
+        fileUploader.setAttribute('idDato',acumuladorIDDato);
+        fileUploader.setAttribute('indice',indice.toString());
+        fileUploader.click();
+    }
+
+    onFileSelected(event:any){
+        //https://blog.angular-university.io/angular-file-upload/
+        const file:File = event.target.files[0];
+        if (file) {
+            //Reconstruyo coordenadas
+            let fileUploader = this.fileUploader.nativeElement;
+            let idEtapa = Number(fileUploader.getAttribute('idEtapa'));
+            let idGrupo = Number(fileUploader.getAttribute('idGrupo'));
+            let idAtributo = Number(fileUploader.getAttribute('idAtributo'));
+            let attDato = fileUploader.getAttribute('idDato');
+            const arrayDato = attDato.split(",");
+            let idDato :number[] = [];
+            for(let sDato of arrayDato){
+                idDato.push(Number(sDato));
+            }
+            let ubicacion : Ubicacion = {
+                idEtapa:idEtapa,
+                idGrupo:idGrupo,
+                idAtributo:idAtributo,
+                idDato:idDato
+            }
+            let indice = fileUploader.getAttribute('indice');
+            let claveMap = this.objectToString(ubicacion)+indice;
+            let archivoCargado = this.mapDatoArchivo.get(claveMap);
+            if(archivoCargado !== undefined){
+                let fileName = file.name;
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    let base64 = reader.result;
+                    //Invoco Backend, le mando nombre:string,b64:string
+                    //Me devuelve una ruta relativa al archivo en assets/
+                    let respuestaBackend="rutaAFile";
+                    archivoCargado!.fileName=respuestaBackend;
+                    console.log(archivoCargado!.fileName);
+                    //¿No llamo a persist?
+                };
+                reader.onerror = function (error) {
+                    console.log('Error: ', error);
+                };
+            }
+        }
     }
 
     muestroOpcion(muestroSi:DependenciaDeDatos|null, indice:number){
@@ -254,14 +319,20 @@ export class AtributoComponent {
     }
 
     guardarCambio(ubicacion:Ubicacion,indice:number,tipoInput:TipoInput,nuevoValor:any){
-        // this.versionActual = this.initialSchemaService.loadedData?.versiones.at(-1);
-        this.versionActual = this.versionSeleccionada;
+
         let valoresDato = this.buscoDatoGuardadoDeAtributo(ubicacion);
         if(valoresDato.length !== 0){
             let claveMap = this.objectToString(ubicacion)+indice;
             switch (tipoInput) {
+                case TipoInput.text:{
+                    valoresDato[indice].string = nuevoValor.value;
+                    break;
+                }
+                case TipoInput.number:{
+                    valoresDato[indice].number = Number(nuevoValor.value);
+                    break;
+                }
                 case TipoInput.porcentaje:{
-                    //let control = this.mapControlesCampos.get(this.objectToString(ubicacion));
                     let control = this.mapControlesCampos.get(claveMap);
                     if(!control?.invalid){
                         valoresDato[indice].number = Number(nuevoValor.value);
@@ -289,7 +360,6 @@ export class AtributoComponent {
                         valoresDato[indice].selectFijo![0] = valueObject;
                     }
                     else{
-                        
                         valoresDato[indice].selectFijo = [valueObject];
                     }
                     break;
@@ -321,11 +391,21 @@ export class AtributoComponent {
                     }
                     break;
                 }
+                case TipoInput.archivo:{
+                    let archivoCargado = this.mapDatoArchivo.get(claveMap);
+                    if(archivoCargado !== undefined){
+                        archivoCargado.texto = nuevoValor.value;
+                    }
+                    break;
+                }
                 default:
                     break;
             }
             this.informarCambio.emit(ubicacion);
+            //console.log(valoresDato);
+            //¿No llamo a persist?
         }
+        
         /*console.log("Todos los val");
         console.log(this.initialSchemaService.loadedData);*/
         // console.log("Vals de Atrib");
@@ -338,41 +418,21 @@ export class AtributoComponent {
         let valoresDato = this.buscoDatoGuardadoDeAtributo(ubicacion);
         if(valoresDato.length !== 0){
             let claveMap = this.objectToString(ubicacion)+indice;
-            /*if(claveMap === '{"idEtapa":1,"idGrupo":11,"idAtributo":2,"idDato":[2]}0'){
-                let dato = valoresDato[indice].string;
-                console.log("cargando Dato");
-            }*/
+
             switch (tipoInput) {
                 case TipoInput.text:{
-                    let entradaTextNumber : IntercambioTextNumberComponent = {
-                        datoGuardado : valoresDato[indice]?.string,
-                        ubicacion : ubicacion,
-                        indiceInstancia : indice,
-                        tipoInput : tipoInput,
-                        deshabilitado: this.estaDeshabilitado(posibleValor.habilitadoSi,indice),
-                        dato: posibleValor
-                    }
-                    return entradaTextNumber;
+                    return valoresDato[indice].string;
                 }
                 case TipoInput.number:{
-                    let valor = null;
-                    if(valoresDato[indice]?.number){
-                        valor = valoresDato[indice].number?.toString();
-                    }
-                    let entradaTextNumber : IntercambioTextNumberComponent = {
-                        datoGuardado : valor === undefined ? null : valor,
-                        ubicacion : ubicacion,
-                        indiceInstancia : indice,
-                        tipoInput : tipoInput,
-                        deshabilitado: this.estaDeshabilitado(posibleValor.habilitadoSi,indice),
-                        dato: posibleValor
-                    }
-                    return entradaTextNumber;
+                    return valoresDato[indice].number;
                 }
                 case TipoInput.selectFijoUnico:{
                     
                     let estaOpcionEstaSeleccionada = false;
                     if(this.atributo.multiInstanciable){
+                        //No se guarda en this.mapOpcionSeleccionada porque nada de este atributo
+                        //(sucede en todos, pero nos interesa este)
+                        //depende del valor seleccionado en un selectFijoUnico multiinstanciable
                         if(valoresDato[indice]?.selectFijo){
                             estaOpcionEstaSeleccionada = posibleValor === valoresDato[indice].selectFijo![0];
                         }
@@ -458,13 +518,35 @@ export class AtributoComponent {
                     return this.mapControlesCampos.get(claveMap);
                 }
                 case TipoInput.archivo:{
-                    let entradaArchivo: IntercambioArchivoComponent = {
+                    let archivoCargado = this.mapDatoArchivo.get(claveMap);
+                    if(archivoCargado === undefined){
+                        if(valoresDato[indice]?.archivo == null){
+                            let nuevoDatoArchivo : DatoArchivo= {
+                                texto:null,
+                                fileName:null,
+                                ruta:null
+                            }
+                            valoresDato[indice]!.archivo = nuevoDatoArchivo;
+                        }
+                        this.mapDatoArchivo.set(claveMap,valoresDato[indice]?.archivo!);
+                    }
+                    archivoCargado = this.mapDatoArchivo.get(claveMap);
+                    switch(posibleValor){
+                        case 0:{
+                            return archivoCargado?.texto;
+                        }
+                        case 1:{
+                            return archivoCargado?.fileName !== null;
+                        }
+                    }
+                    break;
+                    /*let entradaArchivo: IntercambioArchivoComponent = {
                         datoGuardado : valoresDato[indice]?.archivo,
                         ubicacion : ubicacion,
                         indiceInstancia : indice,
                         tipoInput : tipoInput
                     }
-                    return entradaArchivo;
+                    return entradaArchivo;*/
                 }
                 case TipoInput.selectUsuarioMultiple:{
                     let valoresSeleccionados = this.mapOpcionesSeleccionadas.get(claveMap);
@@ -490,6 +572,45 @@ export class AtributoComponent {
             return '<a href="javascript:void">' + url + '</a>';
         })
     }
+
+    downloadUserFile(ubicacion:Ubicacion,indice:number){
+        let claveMap = this.objectToString(ubicacion)+indice;
+        let archivoCargado = this.mapDatoArchivo.get(claveMap);
+        if(archivoCargado !== undefined){
+            if(archivoCargado?.fileName !== null){
+                console.log("Invoco la ruta fileName para descargar archivo");
+            }
+        }
+    }
+
+    openModalAgrergoLinkArchivo(ubicacion:Ubicacion,indice:number){
+        let claveMap = this.objectToString(ubicacion)+indice;
+        let archivoCargado = this.mapDatoArchivo.get(claveMap);
+        if(archivoCargado !== undefined){
+
+            // MODAL PARA AGREGAR COMENTARIOS
+            const modalRef = this.modalService.open(ModalComentariosComponent, {
+                scrollable: false,
+            });
+            modalRef.componentInstance.tittle = 'Agregar un link a otro sitio';
+            modalRef.componentInstance.inputDisclaimer[0] = 'Enlace';
+            
+            //Control Resolve with Observable
+            modalRef.closed.subscribe({
+                next: (resp) => {
+                    if (resp.length > 0){
+                        console.log(resp);
+                        archivoCargado!.ruta = resp[0];
+                    }
+                    //¿No llamo a persist?
+                    console.log(archivoCargado);
+                },
+                error: () => {
+                    //Nunca se llama aca
+                },
+            });
+        }
+    }
     
     computoUbicacionAbsoluta(ubicacion:Ubicacion,id:number) : Ubicacion {
         let idDatoAbsoluto:number[] = [];
@@ -514,10 +635,7 @@ export class AtributoComponent {
     }
 
     handleChange(cambio:any){
-        // console.log(this.versionSeleccionada)
-        // console.log('cambio')
-        // this.versionActual = this.initialSchemaService.loadedData?.versiones.at(-1);
-        this.versionActual = this.versionSeleccionada;
+
         let valoresDato = this.buscoDatoGuardadoDeAtributo(cambio.ubicacion);
         switch (cambio.tipoInput) {
             case TipoInput.text:{
@@ -536,10 +654,12 @@ export class AtributoComponent {
                 break;
         }
         this.informarCambio.emit(cambio.ubicacion);
+        //¿No llamo a persist?
+
         // console.log("Vals de Atrib");
         // console.log(this.datoGuardado!.valoresAtributo);
         // if(this.accionesCursosService.impactarCambios)
-            // this.accionesCursosService.modificarCurso();
+        //    this.accionesCursosService.modificarCurso();
     }
 
     buscoDatoGuardadoDeAtributo(ubicacion:Ubicacion) : ValoresDato[]{
@@ -741,30 +861,23 @@ export class AtributoComponent {
         modalRef.closed.subscribe({
             next: () => {
                 //Elimino instancia de Atributo
-                if(this.cantidadInstancias !== 1){
+                if(this.datoGuardado!.cantidadInstancias !== 1){
                     
                     for(let datoDentroAtributo of this.datoGuardado!.valoresAtributo!){
                         datoDentroAtributo.valoresDato.splice(indice,1);
                     }
-                    this.datoGuardado!.cantidadInstancias = this.cantidadInstancias;
-                    this.cantidadInstancias--;
+                    this.datoGuardado!.cantidadInstancias--;
                 }
                 else{
                     //Reseteo los datos de la única instancia
-                    this.cantidadInstancias--;
                     for(let datoDentroAtributo of this.datoGuardado!.valoresAtributo!){
-                        datoDentroAtributo.valoresDato = [];
-                        let nuevoValorDato : ValoresDato = {
-                            string:null,
-                            number:null,
-                            selectFijo:null,
-                            selectUsuario:null,
-                            archivo:null,
-                            date:null
-                        }
-                        datoDentroAtributo.valoresDato.push(nuevoValorDato);
+                        datoDentroAtributo.valoresDato[0].string = null;
+                        datoDentroAtributo.valoresDato[0].number = null;
+                        datoDentroAtributo.valoresDato[0].selectFijo = null;
+                        datoDentroAtributo.valoresDato[0].selectUsuario = null;
+                        datoDentroAtributo.valoresDato[0].archivo = null;
+                        datoDentroAtributo.valoresDato[0].date = null;
                     }
-                    this.cantidadInstancias++;
                 }
 
                 //Busco en el schema los datos que dependen del Atributo eliminado
@@ -785,7 +898,7 @@ export class AtributoComponent {
                                                 let datosGuardados = this.buscoDatoGuardadoDeAtributo(ubicacionDato);
                                                 for(let datoGuardado of datosGuardados){
                                                     if(datoGuardado.selectUsuario != null){
-                                                        datoGuardado.selectUsuario = this.corregirIndicesGuardados(indice,datoGuardado.selectUsuario);
+                                                        this.corregirIndicesGuardados(indice,datoGuardado.selectUsuario);
                                                         if(datoGuardado.selectUsuario.length === 0){
                                                             datoGuardado.selectUsuario = null;
                                                         }
@@ -799,6 +912,11 @@ export class AtributoComponent {
                         }
                     }
                 }
+                //console.log(this.datoGuardado!.valoresAtributo);
+                
+                //Invalido map de archivos
+                this.mapDatoArchivo = new Map();
+                //¿No llamo a persist?
             },
             error: () => {
                 //Nunca se llama aca
@@ -807,19 +925,21 @@ export class AtributoComponent {
     }
 
     corregirIndicesGuardados(indiceEliminado:number, indicesGuardados:number[]){
-        let vuelta:number[] = [];
-        for(let indiceGuardado of indicesGuardados){
-            //Los indices menores los dejo
-            if(indiceGuardado !== indiceEliminado && indiceGuardado<indiceEliminado){
-                vuelta.push(indiceGuardado);
+        
+        //Primera recorrida: el indice igual lo remuevo del array
+        for(const [i, indiceGuardado]  of indicesGuardados.entries()){    
+            if(indiceGuardado === indiceEliminado){
+                indicesGuardados.splice(i,1);
+                break;
             }
+        }
+        //Segunda recorrida, modifico indices
+        for(const [i, indiceGuardado]  of indicesGuardados.entries()){
+            //Los indices menores no los cambio
             //Los indices mayores les resto 1
             if(indiceGuardado !== indiceEliminado && indiceGuardado>indiceEliminado){
-                let nuevoIndice = indiceGuardado - 1;
-                vuelta.push(nuevoIndice);
+                indicesGuardados[i]--;
             }
-            //El indice igual, no lo agrego al array vuelta
         }
-        return vuelta;
     }
 }

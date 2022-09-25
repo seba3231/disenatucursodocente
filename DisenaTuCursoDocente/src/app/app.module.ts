@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InitialSchemaLoaderService } from './servicios/initial-schema-loader.service';
-import { EtapaComponent } from './etapa/etapa.component';
 import { GrupoComponent } from './grupo/grupo.component';
 import { AtributoComponent } from './atributo/atributo.component';
 import { MatSelectModule } from '@angular/material/select';
@@ -37,7 +36,6 @@ export function initConfig(loaderService : InitialSchemaLoaderService) {
   declarations: [
     AppComponent,
     HomeComponent,
-    EtapaComponent,
     GrupoComponent,
     AtributoComponent,
     ModalComentariosComponent,
