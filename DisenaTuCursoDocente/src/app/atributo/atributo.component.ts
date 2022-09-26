@@ -279,7 +279,10 @@ export class AtributoComponent {
                 reader.readAsDataURL(file);
                 reader.onload = function () {
                     let fileName = file.name;
-                    let base64 = reader.result;
+                    let base64 = "";
+                    if (typeof reader.result === 'string') {
+                        base64 = reader.result.split(',')[1];
+                    }
                     //Invoco Backend, le mando nombre:string,b64:string
                     //Me devuelve una ruta relativa al archivo en dist\disena-tu-curso-docente\assets\files\
                     let respuestaBackend="rutaAFile";
