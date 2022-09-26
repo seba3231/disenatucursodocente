@@ -105,4 +105,11 @@ let server = appp.listen(0, function () {
         );
     }
     console.log("Example app listening at http://%s:%s", host, port);
+    //Pausa de prueba
+    //setTimeout(continueExecution, 10000);
+    process.send('Termino de levantar el Backend');
 });
+
+/*function continueExecution(){
+    process.send('Termine de levantar el server');
+}*/

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Disena Tu Curso - Docente</title>
+        <base href="/">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <style>
+            .loading {
+                display: flex;
+                justify-content: center;
+            }
+
+            /*https://colorswall.com/palette/3*/
+            .loading::after {
+                content: "";
+                width: 50px;
+                height: 50px;
+                border: 10px solid #dddddd;
+                border-top-color: #0275d8;
+                border-radius: 50%;
+                animation: loading 1s ease infinite;
+            }
+
+            @keyframes loading {
+                to {
+                    transform: rotate(1turn);
+                }
+            }
+
+            #divToCenter{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-top: -50px;
+                margin-left: -50px;
+                width: 100px;
+                height: 100px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="divToCenter" style="width: 150px; height: 150px;">
+            <div class="loading loading--full-height"></div>
+        </div>
+    </body>
+</html>

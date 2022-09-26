@@ -14,3 +14,4 @@ En DisenaTuCursoDocente\out\disena-tu-curso-docente-win32-x64\resources\app\ dej
     ElectronEntry.js
     Backend.js
     package.json
+    loading.html

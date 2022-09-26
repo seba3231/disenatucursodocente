@@ -17,6 +17,8 @@ function initWindow() {
             },
         }
     );
+    //Mientras levanta el Backend, muestro Loading
+    appWindow.loadFile('loading.html');
     appWindow.setMenu(null);
     appWindow.maximize();
     appWindow.show();
@@ -29,20 +31,16 @@ function initWindow() {
         }
     );
 
-  appWindow.loadURL(
-    url.format({
-      pathname: path.join(
-        __dirname,
-        `/dist/disena-tu-curso-docente/index.html`
-      ),
-      protocol: "file:",
-      slashes: true,
-    })
-  );
+    ps.on('message', function (message) {
+        //Backend levantó y escribió el archivo port para el Frontend
+        console.log('Message from Child process : ' + message);
+        //Se carga el Frontend Angular en la ventana
+        appWindow.loadFile('dist/disena-tu-curso-docente/index.html');
 
-  appWindow.on("closed", function () {
-    appWindow = null;
-  });
+        appWindow.on("closed", function () {
+          appWindow = null;
+        });
+    });
 }
 
 app?.on("ready", initWindow);

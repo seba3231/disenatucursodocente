@@ -12,7 +12,7 @@ write-host "COMPILANDO ELECTRON"
 npm run make
 
 write-host "ELIMINANDO ARCHIVOS INNECESARIOS"
-Get-ChildItem "$dirCompiladoAngular" -Exclude dist,ElectronEntry.js,Backend.js,package.json | Remove-Item -Recurse -Force
+Get-ChildItem "$dirCompiladoAngular" -Exclude dist,ElectronEntry.js,Backend.js,package.json,loading.html | Remove-Item -Recurse -Force
 
 write-host "MOVIENDO CARPETA IMG"
 if(!(Test-Path -Path "$imgDestino")){
