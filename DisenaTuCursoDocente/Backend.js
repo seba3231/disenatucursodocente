@@ -1,7 +1,8 @@
 let express = require("express");
 let appp = express();
 let fs = require("fs");
-appp.use(express.json());
+appp.use(express.json({limit: '50mb'}));
+appp.use(express.urlencoded({limit: '50mb', extended: true, parameterLimit: 50000}));
 
 const cors = require("cors");
 const { arch } = require("os");
@@ -48,7 +49,7 @@ appp.get("/cursos", function (req, res) {
   const cursos = [];
   fs.readdir(__dirname + "/dist/disena-tu-curso-docente/assets/schemasData", (err, archivoCursos) => {
     if (err) console.log(err);
-    archivoCursos.forEach((archivoCurso, i) =>
+    archivoCursos?.forEach((archivoCurso, i) =>
       fs.readFile(
         __dirname + "/dist/disena-tu-curso-docente/assets/schemasData/" + `${archivoCurso}`,
         "utf8",
@@ -84,6 +85,38 @@ appp.put("/cursos/:id", function (req, res) {
   );
 });
 
+appp.post("/archivos", function (req, res) {
+  const base64 = req.body.file;
+  const file = Buffer.from(base64, 'base64');
+  const split = req.body.nombre.split('.');
+  let ext = split.pop();
+  let nombreArchivo = split.join('.');
+  let nombreDefinido = false;
+  let indice = 0;
+  let append = '';
+  while(!nombreDefinido){
+    append = indice !== 0 ? `_(${indice})` : '';
+    if(fs.existsSync(__dirname + "/dist/disena-tu-curso-docente/assets/files/" + nombreArchivo + append + '.' + ext))
+      indice++;
+    else{
+      nombreDefinido = true;
+      nombreArchivo = nombreArchivo + append;
+    }
+  }
+  fs.writeFile(
+    __dirname + "/dist/disena-tu-curso-docente/assets/files/" + nombreArchivo + '.' + ext,
+    file,
+    (err) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      } else {
+        res.status(200).send({rutaRelativa: "dist/disena-tu-curso-docente/assets/files/" + nombreArchivo + '.' + ext});
+      }
+    }
+  );
+});
+
 let server = appp.listen(0, function () {
     let host = server.address().address;
     let port = server.address().port;
@@ -107,7 +140,7 @@ let server = appp.listen(0, function () {
     console.log("Example app listening at http://%s:%s", host, port);
     //Pausa de prueba
     //setTimeout(continueExecution, 10000);
-    process.send('Termino de levantar el Backend');
+    // process.send('Termino de levantar el Backend');
 });
 
 /*function continueExecution(){

@@ -275,19 +275,38 @@ export class AtributoComponent {
             let archivoCargado = this.mapDatoArchivo.get(claveMap);
             let insideThis = this;
             if(archivoCargado !== undefined){
+                const puerto = this.initialSchemaService.puertoBackend;
                 let reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = function () {
+                reader.onload = async function () {
                     let fileName = file.name;
                     let base64 = "";
                     if (typeof reader.result === 'string') {
                         base64 = reader.result.split(',')[1];
                     }
-                    //Invoco Backend, le mando nombre:string,b64:string
-                    //Me devuelve una ruta relativa al archivo en dist\disena-tu-curso-docente\assets\files\
-                    let respuestaBackend="rutaAFile";
-
-                    archivoCargado!.fileName=respuestaBackend;                                        
+                    let headers = new Headers();
+                    headers.append('Accept', 'application/json');
+                    headers.append('Content-Type', 'application/json');
+                    try {
+                        //Invoco Backend, le mando nombre:string,b64:string
+                        const response = await fetch('http://localhost:'+puerto+'/archivos', {
+                          method: 'POST',
+                          headers: headers,
+                          mode: 'cors',
+                          body: JSON.stringify({nombre: fileName, file: base64}),
+                        });
+                        if (response.status === 200) {
+                          //Me devuelve una ruta relativa al archivo en dist\disena-tu-curso-docente\assets\files\  
+                          const { rutaRelativa } = await response.json();
+                          console.log('Archivo subido exitosamente, se guardó en: ', rutaRelativa);
+                          archivoCargado!.fileName=rutaRelativa;
+                        } else console.log('Ha ocurrido un error, ', response.status);
+                      } catch (e) {
+                        const alert = document.querySelector('ngb-alert')
+                        if(alert)
+                          alert.classList.add('show')
+                        console.error(e);
+                      }                
                     insideThis.accionesCursosService.modificarCurso();
                 };
                 reader.onerror = function (error) {
@@ -569,6 +588,7 @@ export class AtributoComponent {
         if(archivoCargado !== undefined){
             if(archivoCargado?.fileName !== null){
                 console.log("Invoco la ruta fileName para descargar archivo");
+                console.log(archivoCargado);
             }
         }
     }
