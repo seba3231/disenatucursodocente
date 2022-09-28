@@ -589,6 +589,7 @@ export class AtributoComponent {
             if(archivoCargado?.fileName !== null){
                 console.log("Invoco la ruta fileName para descargar archivo");
                 console.log(archivoCargado);
+                window.open("../"+archivoCargado.fileName)
             }
         }
     }
