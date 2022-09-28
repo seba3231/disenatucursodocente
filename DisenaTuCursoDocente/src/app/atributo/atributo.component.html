@@ -34,12 +34,7 @@
 <div *ngFor="let _ of [].constructor(datoGuardado!.cantidadInstancias); index as indiceInstancia">
     <div *ngIf="indiceInstancia === 0 && atributo.nombre" class="row">
         <h5>{{ atributo.nombre ? atributo.nombre+' ' : '' }}
-            <span *ngIf="atributo.ayuda" class="d-inline-block" 
-                data-bs-toggle="popover" 
-                data-bs-trigger="hover focus" 
-                [attr.data-bs-content]="atributo.ayuda"
-                data-bs-custom-class="custom-popover"
-            >
+            <span *ngIf="atributo.ayuda" class="d-inline-block" data-bs-toggle="popover" data-bs-trigger="hover focus" [attr.data-bs-content]="atributo.ayuda" data-bs-custom-class="custom-popover">
                 <i class="bi bi-question-circle-fill p-2" style="color: #616161; cursor: pointer;"></i>
             </span>
         </h5>
@@ -51,7 +46,7 @@
                     date,
                     dateLog
                 -->
-                <label class="form-label">
+                <label class="form-label pt-2">
                     {{ dato.nombre ? dato.nombre+' ' : "&nbsp;" }}
                     <span *ngIf="dato.ayuda" 
                         class="d-inline-block" 
@@ -69,37 +64,19 @@
                 </ng-container>
                 <!-- Codigo text -->
                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.text))">
-                    <input *ngIf="dato.tamanio < 200" class="form-control"
-                        [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)" 
-                        [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
-                        [type]="dato.tipo"
-                        [placeholder]="dato.nombre || ''"
-                        (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)"
-                    >
-                    <textarea *ngIf="dato.tamanio > 199" class="form-control"
-                        [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)" 
-                        [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
-                        [rows] = "(dato.tamanio/100)"
-                        [placeholder]="dato.nombre || ''"
-                        (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)"
-                    ></textarea>
+                    <input *ngIf="dato.tamanio < 200" class="form-control" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)" [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
+                        [type]="dato.tipo" [placeholder]="dato.nombre || ''" (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)">
+                    <textarea *ngIf="dato.tamanio > 199" class="form-control" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)" [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
+                        [rows]="(dato.tamanio/100)" [placeholder]="dato.nombre || ''" (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)"></textarea>
                 </ng-container>
                 <!-- Codigo number -->
                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.number))">
-                    <input class="form-control"
-                        [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)" 
-                        [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
-                        (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)"
-                        [type]="dato.tipo"
-                        [placeholder]="dato.nombre || ''"
-                    >
+                    <input class="form-control" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)" [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)" (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)"
+                        [type]="dato.tipo" [placeholder]="dato.nombre || ''">
                 </ng-container>
                 <!-- Codigo selectFijoUnico -->
                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
-                    <select class="form-select" 
-                        (change)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)"
-                        [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)"
-                    >
+                    <select class="form-select" (change)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)">
                         <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id)))">
                             <option 
                                 *ngIf="muestroOpcion(opcion.muestroSi,indiceInstancia)"
@@ -115,13 +92,8 @@
                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoMultiple))">
                     <mat-form-field appearance="fill">
                         <mat-label>{{ dato.nombre ? dato.nombre : "Seleccione" }}</mat-label>
-                        <mat-select multiple
-                            (selectionChange)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event)"
-                            [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
-                        >
-                            <mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id)))"
-                                [value]="opcion.valor"
-                            >
+                        <mat-select multiple (selectionChange)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event)" [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)">
+                            <mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id)))" [value]="opcion.valor">
                                 {{opcion.string}}
                             </mat-option>
                         </mat-select>
@@ -131,25 +103,16 @@
                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.radio))">
                     <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id)))">
                         <div class="form-check">
-                            <input type="radio"
-                                (click)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" 
-                                [attr.checked]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,opcion.valor) ? '' : null" 
-                                value={{objectToString(opcion.valor)}} class="form-check-input" 
-                                [name]="objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))"
-                            >
+                            <input type="radio" (click)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [attr.checked]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,opcion.valor) ? '' : null"
+                                value={{objectToString(opcion.valor)}} class="form-check-input" [name]="objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))">
                             <label class="form-check-label">{{opcion.string}}</label>
                         </div>
                     </ng-container>
                 </ng-container>
                 <!-- Codigo porcentaje -->
                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.porcentaje))">
-                    <input class="form-control"
-                        (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)"
-                        [type]="mapTipoInputHTML.get(enumTiposInput.porcentaje)"
-                        [placeholder]="dato.nombre || ''"
-                        [formControl]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
-                        [ngClass]="{ 'is-invalid': mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid }"
-                    >
+                    <input class="form-control" (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [type]="mapTipoInputHTML.get(enumTiposInput.porcentaje)" [placeholder]="dato.nombre || ''"
+                        [formControl]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)" [ngClass]="{ 'is-invalid': mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid }">
                     <div *ngIf="mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid" class="invalid-feedback">
                         Porcentaje debe estar entre 0 y 100.
                     </div>
@@ -163,21 +126,16 @@
                     </app-archivo>-->
                     <div class="row align-items-center">
                         <div class="col">
-                            <input class="form-control" type="text" style="padding-right: 40px;"
-                                [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,0)"
-                                [placeholder]="dato.nombre || ''"
-                                (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)"
-                            >
+                            <input class="form-control" type="text" style="padding-right: 40px;" [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,0)" [placeholder]="dato.nombre || ''" (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)">
                         </div>
                         <div class="col-auto d-block p-0" *ngIf="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,1)" style="width: 0px;">
-                            <i title="Ver archivo" (click)="downloadUserFile(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia)"
-                                class="bi bi-file-earmark-check fs-5 position-relative " style="right: 44px; color: #0d6efd;cursor: pointer;"></i>
+                            <i title="Ver archivo" (click)="downloadUserFile(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia)" class="bi bi-file-earmark-check fs-5 position-relative " style="right: 44px; color: #0d6efd;cursor: pointer;"></i>
                         </div>
-                    
+
                         <div class="col-auto">
                             <button (click)="openSelectFileDialog(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar archivo"><i class="bi bi-file-earmark-plus-fill fs-5"></i></button>
                         </div>
-                    
+
                         <div class="col-auto">
                             <button (click)="openModalAgrergoLinkArchivo(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar enlace a sitio"><i class="bi bi-link fs-5"></i></button>
                         </div>
@@ -187,13 +145,8 @@
                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectUsuarioMultiple))">
                     <mat-form-field appearance="fill">
                         <mat-label>{{ dato.nombre ? dato.nombre : "Seleccione" }}</mat-label>
-                        <mat-select multiple 
-                            (selectionChange)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event)"
-                            [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
-                        >
-                            <mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id)))" 
-                                [value]="opcion.valor"
-                            >
+                        <mat-select multiple (selectionChange)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event)" [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)">
+                            <mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id)))" [value]="opcion.valor">
                                 {{opcion.string}}
                             </mat-option>
                         </mat-select>
@@ -203,10 +156,7 @@
         </div>
         <ng-container *ngIf="atributo.multiInstanciable">
             <div class="col-auto align-self-center">
-                <button type="button"class="btn btn-outline-primary background-primary" 
-                    style="padding-top:3px;padding-bottom:3px;"
-                    (click)="modalConfirmacion(atributo.ubicacion,atributo.id,indiceInstancia)"
-                >
+                <button type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" (click)="modalConfirmacion(atributo.ubicacion,atributo.id,indiceInstancia)">
                     <i class="bi bi-trash-fill fs-5"></i>
                 </button>
             </div>
