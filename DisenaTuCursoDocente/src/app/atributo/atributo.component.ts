@@ -589,8 +589,15 @@ export class AtributoComponent {
             if(archivoCargado?.fileName !== null){
                 console.log("Invoco la ruta fileName para descargar archivo");
                 console.log(archivoCargado);
-                window.open("../"+archivoCargado.fileName)
+                window.open("file:///"+archivoCargado.fileName,'_blank', 'fullscreen=yes')
+            }else{
+                if(archivoCargado?.ruta !== null){
+                    console.log("Invoco la ruta fileName para descargar archivo");
+                    console.log(archivoCargado);
+                    window.open(archivoCargado.ruta,'_blank', 'fullscreen=yes')
+                }
             }
+            
         }
     }
 
@@ -603,8 +610,10 @@ export class AtributoComponent {
             const modalRef = this.modalService.open(ModalComentariosComponent, {
                 scrollable: false,
             });
-            modalRef.componentInstance.tittle = 'Agregar un link a otro sitio';
-            modalRef.componentInstance.inputDisclaimer[0] = 'Enlace';
+            modalRef.componentInstance.tittle = 'Agregar o modificar un enlace a otro sitio';
+            if (archivoCargado.ruta)
+                modalRef.componentInstance.body = "Enlace actual: " + archivoCargado.ruta
+            modalRef.componentInstance.inputDisclaimer[0] = 'Ingrese un enlace aquí';
             
             //Control Resolve with Observable
             modalRef.closed.subscribe({
