@@ -7,6 +7,8 @@
 /bazel-out
 /out
 /src/assets/puerto
+/src/assets/files/*
+!/src/assets/files/.gitkeep
 
 # Node
 /node_modules

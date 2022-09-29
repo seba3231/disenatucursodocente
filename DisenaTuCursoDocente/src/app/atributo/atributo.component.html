@@ -31,6 +31,7 @@
     </div>
 </div>
 <input type="file" (change)="onFileSelected($event)" #fileUploader style="display:none">
+<a #fileDownloader style="display:none"></a>
 <div *ngFor="let _ of [].constructor(datoGuardado!.cantidadInstancias); index as indiceInstancia">
     <div *ngIf="indiceInstancia === 0 && atributo.nombre" class="row">
         <h5>{{ atributo.nombre ? atributo.nombre+' ' : '' }}

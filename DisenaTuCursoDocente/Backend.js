@@ -13,6 +13,9 @@ const corsOptions = {
 };
 appp.use(cors(corsOptions));
 
+var ambienteDesarrollo = fs.existsSync('BanderaDesarrollo');
+console.log("¿Es ambiente de Desarrollo? : "+ambienteDesarrollo);
+
 appp.post("/cursos", function (req, res) {
   fs.writeFile(
     __dirname + "/dist/disena-tu-curso-docente/assets/schemasData/" + `curso_${req.body.curso.id}.json`,
@@ -86,61 +89,68 @@ appp.put("/cursos/:id", function (req, res) {
 });
 
 appp.post("/archivos", function (req, res) {
-  const base64 = req.body.file;
-  const file = Buffer.from(base64, 'base64');
-  const split = req.body.nombre.split('.');
-  let ext = split.pop();
-  let nombreArchivo = split.join('.');
-  let nombreDefinido = false;
-  let indice = 0;
-  let append = '';
-  while(!nombreDefinido){
-    append = indice !== 0 ? `_(${indice})` : '';
-    if(fs.existsSync(__dirname + "/dist/disena-tu-curso-docente/assets/files/" + nombreArchivo + append + '.' + ext))
-      indice++;
+    const base64 = req.body.file;
+    const file = Buffer.from(base64, 'base64');
+    const split = req.body.nombre.split('.');
+    let ext = split.pop();
+    let nombreArchivo = split.join('.');
+    let indice = 0;
+    let append = '';
+    
+    let writeRoute = null;
+    if(ambienteDesarrollo){
+        writeRoute = __dirname + "/src/assets/files/";
+    }
     else{
-      nombreDefinido = true;
-      nombreArchivo = nombreArchivo + append;
+        writeRoute = __dirname + "/dist/disena-tu-curso-docente/assets/files/";
     }
-  }
-  fs.writeFile(
-    __dirname + "/dist/disena-tu-curso-docente/assets/files/" + nombreArchivo + '.' + ext,
-    file,
-    (err) => {
-      if (err) {
-        console.log(err);
-        res.status(400).send(err);
-      } else {
-        res.status(200).send({rutaRelativa: "dist/disena-tu-curso-docente/assets/files/" + nombreArchivo + '.' + ext});
-      }
+
+    while(true){
+        append = indice !== 0 ? `_(${indice})` : '';
+        if(fs.existsSync(writeRoute + nombreArchivo + append + '.' + ext))
+            indice++;
+        else{
+            nombreArchivo = nombreArchivo + append;
+            break;
+        }
     }
-  );
+    fs.writeFile(
+        writeRoute + nombreArchivo + '.' + ext,
+        file,
+        (err) => {
+            if (err) {
+                console.log(err);
+                res.status(400).send(err);
+            }
+            else {
+                res.status(200).send({rutaRelativa: "assets/files/" + nombreArchivo + '.' + ext});
+            }
+        }
+    );
 });
 
 let server = appp.listen(0, function () {
     let host = server.address().address;
     let port = server.address().port;
     //Escribo puerto en archivo de texto para el Frontend
-    let devPath = __dirname + "/src/assets";
-    let prodPath = __dirname + "/dist/disena-tu-curso-docente/assets";
-    if(fs.existsSync(devPath)) {
-        fs.writeFile(
-            devPath+"/puerto",
-            port.toString(),
-            (err) => { }
-        );
+    let writeRoute = null;
+    if(ambienteDesarrollo){
+        writeRoute = __dirname + "/src/assets/";
     }
-    if(fs.existsSync(prodPath)){
-        fs.writeFile(
-            prodPath+"/puerto",
-            port.toString(),
-            (err) => { }
-        );
+    else{
+        writeRoute = __dirname + "/dist/disena-tu-curso-docente/assets/";
     }
+    fs.writeFileSync(
+        writeRoute+"puerto",
+        port.toString(),
+        (err) => { }
+    );
     console.log("Example app listening at http://%s:%s", host, port);
     //Pausa de prueba
     //setTimeout(continueExecution, 10000);
-    // process.send('Termino de levantar el Backend');
+    if(!ambienteDesarrollo){
+        process.send('Termino de levantar el Backend');
+    }
 });
 
 /*function continueExecution(){

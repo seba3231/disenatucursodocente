@@ -4,6 +4,7 @@ $dirCompiladoAngular = "$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-d
 $imgOrigen="$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-win32-x64\resources\app\dist\disena-tu-curso-docente\assets\img"
 $imgDestino="$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-win32-x64\resources\app\dist\assets"
 $cursosDeDesarrollo="$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-win32-x64\resources\app\dist\disena-tu-curso-docente\assets\schemasData\*"
+$filesDeDesarrollo="$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-win32-x64\resources\app\dist\disena-tu-curso-docente\assets\files\*"
 
 cd "$PSScriptRoot\DisenaTuCursoDocente"
 write-host "COMPILANDO ANGULAR"
@@ -26,3 +27,6 @@ if(Test-Path -Path "$imgOrigen"){
 
 write-host "ELIMINO CURSOS QUE HAYAN VENIDO DESDE DESARROLLO"
 rm "$cursosDeDesarrollo"
+
+write-host "ELIMINO FILES DE USUARIO QUE HAYAN VENIDO DESDE DESARROLLO"
+rm "$filesDeDesarrollo"

@@ -47,6 +47,7 @@ export class AtributoComponent {
     @Output() registrarDependencia = new EventEmitter<RegistrarDependencia>();
     @Output() informarCambio = new EventEmitter<Ubicacion>();
     @ViewChild('fileUploader', { static: false }) fileUploader!: ElementRef;
+    @ViewChild('fileDownloader', { static: false }) fileDownloader!: ElementRef;
     
     mapTipoInput : TwoWayMap<TipoInput, string>;
     mapTipoInputHTML : Map<TipoInput, string>;
@@ -587,17 +588,18 @@ export class AtributoComponent {
         let archivoCargado = this.mapDatoArchivo.get(claveMap);
         if(archivoCargado !== undefined){
             if(archivoCargado?.fileName !== null){
-                console.log("Invoco la ruta fileName para descargar archivo");
-                console.log(archivoCargado);
-                window.open("file:///"+archivoCargado.fileName,'_blank', 'fullscreen=yes')
-            }else{
+                let fileDownloader = this.fileDownloader.nativeElement;
+                fileDownloader.setAttribute('href',archivoCargado.fileName);
+                fileDownloader.setAttribute('download',archivoCargado.fileName.split('/').pop());
+                fileDownloader.click();
+            }
+            /*else{
                 if(archivoCargado?.ruta !== null){
                     console.log("Invoco la ruta fileName para descargar archivo");
                     console.log(archivoCargado);
                     window.open(archivoCargado.ruta,'_blank', 'fullscreen=yes')
                 }
-            }
-            
+            }*/
         }
     }
 
