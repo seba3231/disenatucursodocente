@@ -289,12 +289,17 @@ export class AtributoComponent {
                     headers.append('Accept', 'application/json');
                     headers.append('Content-Type', 'application/json');
                     try {
-                        //Invoco Backend, le mando nombre:string,b64:string
+                        //Invoco Backend, le mando nombre:string,b64:string, nombreAnterior:string
+                        let oldFileName = null;
+                        if(archivoCargado?.fileName !== null){
+                            oldFileName = archivoCargado!.fileName.split('/').pop()!;
+                        }
+                        oldFileName='NoSeUsaAhora';
                         const response = await fetch('http://localhost:'+puerto+'/archivos', {
                           method: 'POST',
                           headers: headers,
                           mode: 'cors',
-                          body: JSON.stringify({nombre: fileName, file: base64}),
+                          body: JSON.stringify({nombre: fileName, file: base64, nombreAnterior: oldFileName}),
                         });
                         if (response.status === 200) {
                           //Me devuelve una ruta relativa al archivo en dist\disena-tu-curso-docente\assets\files\  
@@ -589,8 +594,9 @@ export class AtributoComponent {
         if(archivoCargado !== undefined){
             if(archivoCargado?.fileName !== null){
                 let fileDownloader = this.fileDownloader.nativeElement;
+                let fileNameToDownload = archivoCargado.fileName.split('/').pop();
                 fileDownloader.setAttribute('href',archivoCargado.fileName);
-                fileDownloader.setAttribute('download',archivoCargado.fileName.split('/').pop());
+                fileDownloader.setAttribute('download',fileNameToDownload);
                 fileDownloader.click();
             }
             /*else{

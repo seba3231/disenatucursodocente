@@ -90,12 +90,7 @@ appp.put("/cursos/:id", function (req, res) {
 
 appp.post("/archivos", function (req, res) {
     const base64 = req.body.file;
-    const file = Buffer.from(base64, 'base64');
-    const split = req.body.nombre.split('.');
-    let ext = split.pop();
-    let nombreArchivo = split.join('.');
-    let indice = 0;
-    let append = '';
+    const fileBinary = Buffer.from(base64, 'base64');
     
     let writeRoute = null;
     if(ambienteDesarrollo){
@@ -104,26 +99,36 @@ appp.post("/archivos", function (req, res) {
     else{
         writeRoute = __dirname + "/dist/disena-tu-curso-docente/assets/files/";
     }
-
-    while(true){
-        append = indice !== 0 ? `_(${indice})` : '';
-        if(fs.existsSync(writeRoute + nombreArchivo + append + '.' + ext))
-            indice++;
-        else{
-            nombreArchivo = nombreArchivo + append;
-            break;
+    //Elimino archivo anterior
+    /*let archivoAnterior = req.body.archivoAnterior;
+    if(archivoAnterior !== null){
+        if(fs.existsSync(writeRoute+archivoAnterior)){
+            fs.unlinkSync(writeRoute+archivoAnterior);
         }
+    }*/
+
+    //Guardo archivo nuevo
+    let fileNameOriginal = req.body.nombre;
+    let fileNameIterador = req.body.nombre;
+    let indice = 1;
+    while(fs.existsSync(writeRoute+fileNameIterador)){
+        
+        const split = fileNameOriginal.split('.');
+        let ext = split.pop();
+        fileNameIterador = split.join('.')+'_('+indice+').'+ext;
+        indice++;
     }
+
     fs.writeFile(
-        writeRoute + nombreArchivo + '.' + ext,
-        file,
+        writeRoute + fileNameIterador,
+        fileBinary,
         (err) => {
             if (err) {
                 console.log(err);
                 res.status(400).send(err);
             }
             else {
-                res.status(200).send({rutaRelativa: "assets/files/" + nombreArchivo + '.' + ext});
+                res.status(200).send({rutaRelativa: "assets/files/" + fileNameIterador});
             }
         }
     );

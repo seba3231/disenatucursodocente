@@ -17,14 +17,6 @@ write-host "ELIMINANDO ARCHIVOS INNECESARIOS"
 Get-ChildItem "$dirCompiladoAngular" -Exclude dist,ElectronEntry.js,Backend.js,package.json,loading.html,node_modules | Remove-Item -Recurse -Force
 Get-ChildItem "$dirCompiladoAngular\node_modules" -Exclude accepts,body-parser,call-bind,content-disposition,content-type,cookie,cookie-signature,cors,depd,destroy,ee-first,encodeurl,escape-html,etag,express,finalhandler,forwarded,fresh,function-bind,get-intrinsic,has,has-symbols,http-errors,iconv-lite,inherits,media-typer,merge-descriptors,methods,mime,mime-db,mime-types,negotiator,object-assign,object-inspect,on-finished,parseurl,path-to-regexp,proxy-addr,qs,range-parser,raw-body,safer-buffer,send,serve-static,setprototypeof,side-channel,statuses,toidentifier,type-is,unpipe,utils-merge,vary | Remove-Item -Recurse -Force
 
-write-host "MOVIENDO CARPETA IMG"
-if(!(Test-Path -Path "$imgDestino")){
-    mkdir "$imgDestino" > $null
-}
-if(Test-Path -Path "$imgOrigen"){
-    mv "$imgOrigen" "$imgDestino"
-}
-
 write-host "ELIMINO CURSOS QUE HAYAN VENIDO DESDE DESARROLLO"
 rm "$cursosDeDesarrollo"
 
