@@ -39,8 +39,11 @@
             <a class="btn btn-primary background-primary m-2" role="button" (click)="invertirMostrarVersiones()">
                 <i class="bi bi-clock-history me-2"></i>VER HISTORIAL
             </a>
-            <a class="btn btn-primary background-primary m-2" role="button" (click)="openModal()">
+            <a class="btn btn-primary background-primary m-2" role="button" (click)="openModal('nuevo')">
                 <i class="bi bi-plus-circle me-2"></i>NUEVA VERSIÓN
+            </a>
+            <a class="btn btn-outline-primary background-primary m-2" role="button" (click)="openModal('eliminar')">
+                <i class="bi bi-trash-fill  me-2"></i>ELIMINAR CURSO
             </a>
         </div>
     </div>

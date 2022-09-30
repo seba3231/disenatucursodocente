@@ -109,8 +109,10 @@ export class DashboardComponent implements OnInit {
             for (var i=0; i < schemaEtapas.length; i++) {
                 if (schemaEtapas[i].grupos)
                     for (var j=0; j < schemaEtapas[i].grupos.length; j++) {
-                        if (schemaEtapas[i].grupos[j].id == grupoId &&
-                            schemaEtapas[i].grupos[j].ubicacion.idEtapa == 1) // HARDCORE PARA VER SOLO PROGRAMA
+                        if (schemaEtapas[i].grupos[j].id == grupoId 
+                             &&
+                             schemaEtapas[i].grupos[j].ubicacion.idEtapa == 1
+                            ) // HARDCORE PARA VER SOLO PROGRAMA
                             grupoSeleccionado = schemaEtapas[i].grupos[j]
                     }
             }
@@ -131,29 +133,52 @@ export class DashboardComponent implements OnInit {
         this.mostrarVersiones = false
     }
 
-    openModal(){
+    openModal(opcion: string){
+        if (opcion == 'nuevo'){
+            // MODAL PARA CREAR NUEVA VERSION
+            const modalRef = this.modalService.open(ModalComentariosComponent, {
+                scrollable: false,
+            });
+            modalRef.componentInstance.tittle = 'Nueva version';
+            modalRef.componentInstance.body = "Se creará una nueva versión del curso a partir de la version actual."
+            modalRef.componentInstance.inputDisclaimer[0] = 'Nombre de la nueva versión';
+            
+            //Control Resolve with Observable
+            modalRef.closed.subscribe({
+                next: (resp) => {
+                    if (resp.length > 0){
+                        console.log(resp);
+                        this.nombreVersion = resp[0]
+                        this.nuevaVersion()
+                    }
+                },
+                error: () => {
+                    //Nunca se llama aca
+                },
+            });
+        }else{
+            if (opcion == 'eliminar'){
+                // MODAL PARA CREAR NUEVA VERSION
+                const modalRef = this.modalService.open(ModalComentariosComponent, {
+                    scrollable: false,
+                });
+                modalRef.componentInstance.tittle = 'Eliminar curso';
+                modalRef.componentInstance.body = "¿Confirma que desea eliminar éste curso?"
+                
+                //Control Resolve with Observable
+                modalRef.closed.subscribe({
+                    next: (resp) => {
+                        console.log("eliminar curso")
+                        this.accionesCursosService.eliminarCurso()
+
+                    },
+                    error: () => {
+                        //Nunca se llama aca
+                    },
+                });
+            }
+        }
         
-        // MODAL PARA AGREGAR COMENTARIOS
-        const modalRef = this.modalService.open(ModalComentariosComponent, {
-            scrollable: false,
-        });
-        modalRef.componentInstance.tittle = 'Nueva version';
-        modalRef.componentInstance.body = "Se creará una nueva versión del curso a partir de la version actual."
-        modalRef.componentInstance.inputDisclaimer[0] = 'Nombre de la nueva versión';
-        
-        //Control Resolve with Observable
-        modalRef.closed.subscribe({
-            next: (resp) => {
-                if (resp.length > 0){
-                    console.log(resp);
-                    this.nombreVersion = resp[0]
-                    this.nuevaVersion()
-                }
-            },
-            error: () => {
-                //Nunca se llama aca
-            },
-        });
     }
     /*cargarArchivo(){
         this.initialSchemaService.loadDataFile(this.nombreArchivo);

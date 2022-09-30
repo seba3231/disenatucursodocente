@@ -96,6 +96,29 @@ export class AccionesCursosService {
           console.error(e);
         }
     }
+
+    async eliminarCurso() {
+      const curso : SchemaSavedData | undefined = this.initialSchemaService.loadedData;
+      let headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Content-Type', 'application/json');
+      try {
+        // no hay convencion sobre los nombres aun asi que paso id para que busque archivo curso_id 
+        const response = await fetch(`http://localhost:`+this.initialSchemaService.puertoBackend+`/cursos/${curso?.id}`, {
+          method: 'DELETE',
+          headers: headers,
+          mode: 'cors'
+        });
+        if (response.status === 200){
+          console.log('Curso eliminado exitosamente');
+          this.initialSchemaService.loadedData = undefined
+          this.router.navigate(['/']);
+        }
+        else console.log('Ha ocurrido un error, ', response.status);
+      } catch (e) {
+        console.error(e);
+      }
+  }
     
     async listarCursos() {
         let headers = new Headers();
