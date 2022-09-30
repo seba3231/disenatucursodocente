@@ -131,37 +131,34 @@ export class HomeComponent {
   
     initDatosGuardados(): any[] | undefined {
       const datos = this.initialSchemaService.defaultSchema?.etapas[0].grupos
-        // .map((etapa) => etapa.grupos)
-        // .flat()
         .map((grupo) => grupo.atributos)
         .flat()
-        .map((atributo) => atributo.filasDatos)
-        .flat()
-        .map((fd) => fd?.datos)
-        .flat();
-      return datos?.map((dato) =>
-        dato
-          ? new Object({
-              ubicacionAtributo: dato.ubicacion,
-              cantidadInstancias: 1,
-              valoresAtributo: [
-                {
-                  idDato: [dato.id],
-                  valoresDato: [
-                    {
-                      string: null,
-                      number: null,
-                      selectFijo: null,
-                      selectUsuario: null,
-                      archivo: null,
-                      date: null,
-                    },
-                  ],
-                },
-              ],
-            })
-          : null
-      );
+        .map(atributo =>
+              new Object({
+                ubicacionAtributo: {...atributo.ubicacion, idAtributo: atributo.id},
+                cantidadInstancias: 1,
+                valoresAtributo: atributo.filasDatos
+                .flat()
+                .map((fd) => fd?.datos)
+                .flat()
+                .map((dato) =>
+                  new Object({
+                        idDato: [dato.id],
+                        valoresDato: [
+                          {
+                            string: null,
+                            number: null,
+                            selectFijo: null,
+                            selectUsuario: null,
+                            archivo: null,
+                            date: null,
+                          },
+                        ],
+                      })
+                )
+              })
+            );
+      return datos;
     }
   
     async crearCurso() {
