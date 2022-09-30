@@ -120,23 +120,33 @@
                 </ng-container>
                 <!-- Codigo archivo -->
                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.archivo))">
-                    <!--<app-archivo 
-                        [entrada]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
-                        (changeDetected)="handleChange($event)"
-                    >
-                    </app-archivo>-->
                     <div class="row align-items-center">
+                        <!-- Texto -->
                         <div class="col">
-                            <input class="form-control" type="text" style="padding-right: 40px;" [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,0)" [placeholder]="dato.nombre || ''" (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)">
+                            <input class="form-control" type="text" style="padding-right: 40px;" [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,'Texto')" [placeholder]="dato.nombre || ''" (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)">
                         </div>
-                        <div class="col-auto d-block p-0" *ngIf="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,1)" style="width: 0px;">
-                            <i title="Ver archivo" (click)="downloadUserFile(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia)" class="bi bi-file-earmark-check fs-5 position-relative " style="right: 44px; color: #0d6efd;cursor: pointer;"></i>
-                        </div>
+                        
+                        <!-- Si existe archivo -->
+                        <ng-container *ngIf="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,'ExisteFile')">
+                            <!-- Descargar archivo -->
+                            <div class="col-auto d-block p-0" style="width: 0px;">
+                                <i title="Descargar archivo" (click)="downloadUserFile(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia)" class="bi bi-file-earmark-check fs-5 position-relative " style="right: 44px; color: #0d6efd;cursor: pointer;"></i>
+                            </div>
+                            <!-- Eliminar archivo -->
+                            <div class="col-auto">
+                                <button (click)="eliminarArchivo(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Desvincular archivo"><i class="bi bi-trash-fill fs-5"></i></button>
+                            </div>
+                        </ng-container>
 
-                        <div class="col-auto">
-                            <button (click)="openSelectFileDialog(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar archivo"><i class="bi bi-file-earmark-plus-fill fs-5"></i></button>
-                        </div>
+                        <!-- Si NO existe archivo -->
+                        <ng-container *ngIf="!cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,'ExisteFile')">
+                            <!-- Subir archivo archivo -->
+                            <div class="col-auto">
+                                <button (click)="openSelectFileDialog(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar archivo"><i class="bi bi-file-earmark-plus-fill fs-5"></i></button>
+                            </div>
+                        </ng-container>
 
+                        <!-- Agrego link a Dato tipo archivo -->
                         <div class="col-auto">
                             <button (click)="openModalAgrergoLinkArchivo(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar enlace a sitio"><i class="bi bi-link fs-5"></i></button>
                         </div>

@@ -41,6 +41,7 @@ export interface ValoresDato {
 export interface DatoArchivo{
     texto:string | null;
     fileName:string | null;
+    fileBinary:string | null;
     ruta:string | null;
 }
 

@@ -276,49 +276,34 @@ export class AtributoComponent {
             let archivoCargado = this.mapDatoArchivo.get(claveMap);
             let insideThis = this;
             if(archivoCargado !== undefined){
-                const puerto = this.initialSchemaService.puertoBackend;
+
                 let reader = new FileReader();
                 reader.readAsDataURL(file);
                 reader.onload = async function () {
-                    let fileName = file.name;
-                    let base64 = "";
                     if (typeof reader.result === 'string') {
-                        base64 = reader.result.split(',')[1];
+                        archivoCargado!.fileName = file.name;
+                        archivoCargado!.fileBinary = reader.result;
                     }
-                    let headers = new Headers();
-                    headers.append('Accept', 'application/json');
-                    headers.append('Content-Type', 'application/json');
-                    try {
-                        //Invoco Backend, le mando nombre:string,b64:string, nombreAnterior:string
-                        let oldFileName = null;
-                        if(archivoCargado?.fileName !== null){
-                            oldFileName = archivoCargado!.fileName.split('/').pop()!;
-                        }
-                        oldFileName='NoSeUsaAhora';
-                        const response = await fetch('http://localhost:'+puerto+'/archivos', {
-                          method: 'POST',
-                          headers: headers,
-                          mode: 'cors',
-                          body: JSON.stringify({nombre: fileName, file: base64, nombreAnterior: oldFileName}),
-                        });
-                        if (response.status === 200) {
-                          //Me devuelve una ruta relativa al archivo en dist\disena-tu-curso-docente\assets\files\  
-                          const { rutaRelativa } = await response.json();
-                          console.log('Archivo subido exitosamente, se guardó en: ', rutaRelativa);
-                          archivoCargado!.fileName=rutaRelativa;
-                        } else console.log('Ha ocurrido un error, ', response.status);
-                      } catch (e) {
-                        const alert = document.querySelector('ngb-alert')
-                        if(alert)
-                          alert.classList.add('show')
-                        console.error(e);
-                      }                
                     insideThis.accionesCursosService.modificarCurso();
                 };
                 reader.onerror = function (error) {
+                    const alert = document.querySelector('ngb-alert')
+                    if(alert){
+                        alert.classList.add('show')
+                    }
                     console.log('Error: ', error);
                 };
             }
+        }
+    }
+
+    eliminarArchivo(ubicacion:Ubicacion,indice:number){
+        let claveMap = this.objectToString(ubicacion)+indice;
+        let archivoCargado = this.mapDatoArchivo.get(claveMap);
+        if(archivoCargado !== undefined){
+            archivoCargado!.fileName = null;
+            archivoCargado!.fileBinary = null;
+            this.accionesCursosService.modificarCurso();
         }
     }
 
@@ -546,6 +531,7 @@ export class AtributoComponent {
                             let nuevoDatoArchivo : DatoArchivo= {
                                 texto:null,
                                 fileName:null,
+                                fileBinary:null,
                                 ruta:null
                             }
                             valoresDato[indice]!.archivo = nuevoDatoArchivo;
@@ -554,10 +540,10 @@ export class AtributoComponent {
                     }
                     archivoCargado = this.mapDatoArchivo.get(claveMap);
                     switch(posibleValor){
-                        case 0:{
+                        case 'Texto':{
                             return archivoCargado?.texto;
                         }
-                        case 1:{
+                        case 'ExisteFile':{
                             return archivoCargado?.fileName !== null;
                         }
                     }
@@ -593,19 +579,12 @@ export class AtributoComponent {
         let archivoCargado = this.mapDatoArchivo.get(claveMap);
         if(archivoCargado !== undefined){
             if(archivoCargado?.fileName !== null){
+                
                 let fileDownloader = this.fileDownloader.nativeElement;
-                let fileNameToDownload = archivoCargado.fileName.split('/').pop();
-                fileDownloader.setAttribute('href',archivoCargado.fileName);
-                fileDownloader.setAttribute('download',fileNameToDownload);
+                fileDownloader.setAttribute('href',archivoCargado.fileBinary);
+                fileDownloader.setAttribute('download',archivoCargado.fileName);
                 fileDownloader.click();
             }
-            /*else{
-                if(archivoCargado?.ruta !== null){
-                    console.log("Invoco la ruta fileName para descargar archivo");
-                    console.log(archivoCargado);
-                    window.open(archivoCargado.ruta,'_blank', 'fullscreen=yes')
-                }
-            }*/
         }
     }
 
@@ -887,6 +866,7 @@ export class AtributoComponent {
                             if(atrib.filasDatos != null){
                                 for(let filaDatos of atrib.filasDatos){
                                     for(let dato of filaDatos.datos){
+
                                         if(TipoInput.selectUsuarioMultiple === this.mapTipoInput.revGet(dato.tipo)){
                                             let referencia = dato.opciones.referencia;
                                             if(referencia.idEtapa === ubicacionAtributo.idEtapa
@@ -906,6 +886,26 @@ export class AtributoComponent {
                                                 }
                                             }
                                         }
+                                        if(TipoInput.computo === this.mapTipoInput.revGet(dato.tipo)){
+                                            if(typeof dato.computo.op1 === "object"){
+                                                let referencia = dato.computo.op1;
+                                                if(referencia.idEtapa === ubicacionAtributo.idEtapa
+                                                    && referencia.idGrupo === ubicacionAtributo.idGrupo
+                                                    && referencia.idAtributo === idAtributo)
+                                                {
+                                                    this.informarCambio.emit(referencia);
+                                                }
+                                            }
+                                            if(typeof dato.computo.op2 === "object"){
+                                                let referencia = dato.computo.op2;
+                                                if(referencia.idEtapa === ubicacionAtributo.idEtapa
+                                                    && referencia.idGrupo === ubicacionAtributo.idGrupo
+                                                    && referencia.idAtributo === idAtributo)
+                                                {
+                                                    this.informarCambio.emit(referencia);
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }   
@@ -916,6 +916,10 @@ export class AtributoComponent {
                 
                 //Invalido map de archivos
                 this.mapDatoArchivo = new Map();
+                //Invalido map de opcionesSeleccionadas
+                this.mapOpcionSeleccionada = new Map();
+                this.mapOpcionesSeleccionadas = new Map();
+
                 this.accionesCursosService.modificarCurso();
             },
             error: () => {

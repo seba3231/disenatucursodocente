@@ -2,7 +2,7 @@
   "name": "disena-tu-curso-docente",
   "version": "0.0.0",
   "description": "Standalone para docentes",
-  "author": "Nosotros",
+  "author": "TesisFIngenieria",
   "main": "ElectronEntry.js",
   "scripts": {
     "ng": "ng",
