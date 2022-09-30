@@ -65,6 +65,8 @@ export class ExportpdfComponent{
   getValueDatoFijo(idGrupoDatoFijo: number, datofijoIn: []): string{
     var grupoDatosFijos = this.initialSchemaService.defaultSchema?.gruposDatosFijos;
     var nombre = '';
+    console.log("grupoDatosFijos")
+    console.log(grupoDatosFijos)
     if (grupoDatosFijos)
       for (let grupoDatofijo of grupoDatosFijos){
         if (grupoDatofijo.id == idGrupoDatoFijo)
@@ -212,7 +214,7 @@ export class ExportpdfComponent{
                                   if (dato.opciones.idGrupoDatoFijo)
                                     valueString = this.getValueDatoFijo(dato.opciones.idGrupoDatoFijo,valorDato.selectFijo);
                                   else{
-                                    console.log(cursosDatos!.datosGuardados)
+                                    
                                     if(dato.opciones.referencia)
                                       valueString = this.getValueDatoFijoRef(dato.opciones.referencia,valorDato.selectFijo, cursosDatos.datosGuardados);
                                   }
@@ -222,7 +224,10 @@ export class ExportpdfComponent{
                                   valueString = this.getValueDatoFijoRef(dato.opciones.referencia,valorDato.selectUsuario, cursosDatos.datosGuardados);
                                   
                                 }else if(valorDato.archivo){
+                                  console.log(valorDato)
                                   valueString = valorDato.archivo.texto
+                                  if (valorDato.archivo.ruta)
+                                  valueString += ' [' +  valorDato.archivo.ruta + ']'
                                 }else{
                                     valueString = ''
                                 }
