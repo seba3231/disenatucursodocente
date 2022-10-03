@@ -39,10 +39,10 @@
             <a class="btn btn-primary background-primary m-2" role="button" (click)="invertirMostrarVersiones()">
                 <i class="bi bi-clock-history me-2"></i>VER HISTORIAL
             </a>
-            <a class="btn btn-primary background-primary m-2" role="button" (click)="openModal('nuevo')">
+            <a title="Crea una nueva versión a partir de la version actual" class="btn btn-primary background-primary m-2" role="button" (click)="openModal('nuevo')">
                 <i class="bi bi-plus-circle me-2"></i>NUEVA VERSIÓN
             </a>
-            <a class="btn btn-outline-primary background-primary m-2" role="button" (click)="openModal('eliminar')">
+            <a class="btn btn-outline-primary m-2" role="button" (click)="openModal('eliminar')">
                 <i class="bi bi-trash-fill  me-2"></i>ELIMINAR CURSO
             </a>
         </div>
@@ -60,7 +60,7 @@
                     <span class="badge bg-primary m-2" *ngIf="version.version == this.initialSchemaService.loadedData?.versiones?.at(-1)?.version">Version actual</span>
                     <span style="opacity: .6; font-size: 11px;">‧ {{ version.fechaCreacion| date:'yyyy-MM-dd' }} ‧</span>
                 </div>
-                <button class="btn btn-outline-primary background-primary m-2" (click)="seleccionarVersion(version.version, $event)" style="font-size: 10px;">RESTAURAR VERSIÓN</button>
+                <button *ngIf="!(version.version == this.initialSchemaService.loadedData?.versiones?.at(-1)?.version)" class="btn btn-outline-primary m-2" (click)="seleccionarVersion(version.version, $event)" style="font-size: 10px;">RESTAURAR VERSIÓN</button>
             </li>
         </ul>
         <button class="btn btn-primary background-primary mt-4" style="width: fit-content;" (click)="cancelarVersion($event)">CANCELAR</button>

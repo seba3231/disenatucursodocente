@@ -506,11 +506,15 @@ export class AtributoComponent {
                     let value = this.mapControlesCampos.get(claveMap);
                     //Checkeo que solo se compute una vez este codigo
                     if(value === undefined){
+                        let valorParaControl = 0;
+                        if(valoresDato[indice].number !== null){
+                            valorParaControl = valoresDato[indice].number!;
+                        }
                         this.mapControlesCampos.set(
                             claveMap,
                             new FormControl(
                                 {
-                                    value: 0,
+                                    value: valorParaControl,
                                     disabled: false
                                 },
                                 { 

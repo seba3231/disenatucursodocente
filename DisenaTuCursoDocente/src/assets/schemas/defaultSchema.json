@@ -216,7 +216,7 @@
                             "filasDatos": [{
                                 "datos": [{
                                         "id": 1,
-                                        "nombre": "Nombre de le unidad curricular",
+                                        "nombre": "Nombre de la unidad curricular",
                                         "ubicacion": {
                                             "idEtapa": 1,
                                             "idGrupo": 12,

@@ -1,6 +1,7 @@
 let express = require("express");
 let appp = express();
-let fs = require("fs");
+const fs = require("fs");
+const path = require('path');
 appp.use(express.json({ limit: '50mb' }));
 appp.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 
@@ -50,25 +51,21 @@ appp.get("/cursos/:id", function(req, res) {
 
 appp.get("/cursos", function(req, res) {
     const cursos = [];
-    fs.readdir(__dirname + "/dist/disena-tu-curso-docente/assets/schemasData", (err, archivoCursos) => {
-        if (err) console.log(err);
-        archivoCursos?.forEach((archivoCurso, i) =>
-            fs.readFile(
-                __dirname + "/dist/disena-tu-curso-docente/assets/schemasData/" + `${archivoCurso}`,
-                "utf8",
-                (err, data) => {
-                    if (err) {
-                        console.log(err);
-                        res.status(400).send(err);
-                    } else {
-                        const json = JSON.parse(data);
-                        cursos.push(json);
-                    }
-                }
-            )
-        );
-    });
-    setTimeout(() => res.status(200).send(cursos), 100);
+    let rutaLectura = __dirname + "/dist/disena-tu-curso-docente/assets/schemasData/";
+    let files = fs.readdirSync(rutaLectura);
+    for(let file of files){
+        if (path.extname(file).toLowerCase() == ".json"){
+            try{
+                let dataCurso = fs.readFileSync(rutaLectura + `${file}`,{encoding:'utf8', flag:'r'});
+                cursos.push(JSON.parse(dataCurso));
+            }
+            catch(err){
+                console.log(err.message);
+                res.status(400).send(err.message);
+            }
+        }
+    }
+    res.status(200).send(cursos);
 });
 
 appp.put("/cursos/:id", function(req, res) {
