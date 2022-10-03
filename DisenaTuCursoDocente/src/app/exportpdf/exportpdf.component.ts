@@ -253,8 +253,13 @@ export class ExportpdfComponent{
                                   }else if(valorDato.archivo){
                                     console.log(valorDato)
                                     valueString = valorDato.archivo.texto
-                                    if (valorDato.archivo.ruta)
-                                    valueString += ' [' +  valorDato.archivo.ruta + ']'
+                                    if (valorDato.archivo.ruta){
+                                      valueString += ' [' +  valorDato.archivo.ruta + ']'
+                                    }else{
+                                      if(valorDato.archivo.fileName)
+                                        valueString += ' [' +  valorDato.archivo.fileName + ']'
+                                    }
+                                    
                                   }else{
                                       valueString = ''
                                   }
