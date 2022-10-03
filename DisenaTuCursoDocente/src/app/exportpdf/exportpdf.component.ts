@@ -8,6 +8,7 @@ const pdfFontsX = require('pdfmake-unicode/dist/pdfmake-unicode.js');
 pdfMakeX.vfs = pdfFontsX.pdfMake.vfs;
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import { __values } from 'tslib';
+import { InformacionGuardada } from '../modelos/schemaData.model';
 
 @Component({
   selector: 'app-exportpdf',
@@ -46,6 +47,7 @@ export class ExportpdfComponent{
         }
     // return  undefined;
   }
+
   getDatoInfoAtributo(ubicacion: Ubicacion): any{ //retorna un Dato completo
     if (this.initialSchemaService.defaultSchema)
         for(let etapa of this.initialSchemaService.defaultSchema?.etapas){
@@ -62,6 +64,21 @@ export class ExportpdfComponent{
         }
     // return  undefined;
   }
+
+  getDatoGuardadoInfo(ubicacion: Ubicacion, datosGuardados: [InformacionGuardada]): any{
+    for (let dato of datosGuardados ){
+      if (dato.ubicacionAtributo.idEtapa== ubicacion.idEtapa && 
+        dato.ubicacionAtributo.idGrupo == ubicacion.idGrupo &&
+        dato.ubicacionAtributo.idAtributo == ubicacion.idAtributo){
+          for (let valoresAtributo of dato.valoresAtributo){
+            if(valoresAtributo.idDato[0] == ubicacion.idDato[0]){
+              return valoresAtributo;
+            }
+          }
+      }
+    }
+  }
+
   getValueDatoFijo(idGrupoDatoFijo: number, datofijoIn: []): string{
     var grupoDatosFijos = this.initialSchemaService.defaultSchema?.gruposDatosFijos;
     var nombre = '';
@@ -179,8 +196,7 @@ export class ExportpdfComponent{
           if (cursos[i].id == cursoId){
             // cargo la informacion de los atributos del curso que quiere exportar
             cursosDatos = cursos[i].versiones.at(-1);
-            console.log(cursos[i])
-            console.log(cursosDatos)
+
             this.pdf.content.push({text: cursos[i].nombreCurso,style: 'header' });
             this.pdf.content.push({text: "Autor: " + cursosDatos.autor,style: 'body' });
             if (cursosDatos.intitucion)
@@ -192,8 +208,6 @@ export class ExportpdfComponent{
                   var ultimoGrupo;
                   for(let datoGuardado of cursosDatos!.datosGuardados){
                     var cantidadInstancias = datoGuardado.cantidadInstancias;
-                    // datoGuardado.
-                    var grupoInfo = this.getDatoInfoAtributo(datoGuardado.ubicacionAtributo)
                     
                     for (var cant=0; cant < cantidadInstancias; cant++) {
                       for (var j=0; j < datoGuardado.valoresAtributo.length; j++) { //array 4
@@ -204,48 +218,63 @@ export class ExportpdfComponent{
                                 let valorDato = columna.valoresDato[m]
                                 var dato = this.getDatoInfo(datoGuardado.ubicacionAtributo, columna.idDato[0])
 
-                                if (valorDato.string){
-                                    valueString = valorDato.string;
-                                }else if(valorDato.number){
-                                    valueString = valorDato.number.toString() ;
-                                }else if(valorDato.date){
-                                    valueString = valorDato.date.toString();
-                                }else if(valorDato.selectFijo){
-                                  if (dato.opciones.idGrupoDatoFijo)
-                                    valueString = this.getValueDatoFijo(dato.opciones.idGrupoDatoFijo,valorDato.selectFijo);
-                                  else{
-                                    
-                                    if(dato.opciones.referencia)
-                                      valueString = this.getValueDatoFijoRef(dato.opciones.referencia,valorDato.selectFijo, cursosDatos.datosGuardados);
+                                var cumpleHabilitado = false;
+                                if (dato.habilitadoSi){
+                                  var datoHabilitadoSi = this.getDatoGuardadoInfo(dato.habilitadoSi.referencia,cursosDatos!.datosGuardados)
+                                  if (datoHabilitadoSi.valoresDato[0].selectFijo && datoHabilitadoSi.valoresDato[0].selectFijo[0] == dato.habilitadoSi.valorSeleccionado.idOpcion){
+                                    cumpleHabilitado = true
+                                  }else{
+                                    cumpleHabilitado = false
                                   }
-                              
-
-                                }else if(valorDato.selectUsuario){
-                                  valueString = this.getValueDatoFijoRef(dato.opciones.referencia,valorDato.selectUsuario, cursosDatos.datosGuardados);
-                                  
-                                }else if(valorDato.archivo){
-                                  console.log(valorDato)
-                                  valueString = valorDato.archivo.texto
-                                  if (valorDato.archivo.ruta)
-                                  valueString += ' [' +  valorDato.archivo.ruta + ']'
                                 }else{
-                                    valueString = ''
+                                  cumpleHabilitado = true
                                 }
 
+                                if (cumpleHabilitado){
+                                  if (valorDato.string){
+                                    valueString = valorDato.string;
+                                  }else if(valorDato.number){
+                                      valueString = valorDato.number.toString() ;
+                                  }else if(valorDato.date){
+                                      valueString = valorDato.date.toString();
+                                  }else if(valorDato.selectFijo){
+                                    if (dato.opciones.idGrupoDatoFijo)
+                                      valueString = this.getValueDatoFijo(dato.opciones.idGrupoDatoFijo,valorDato.selectFijo);
+                                    else{
+                                      
+                                      if(dato.opciones.referencia)
+                                        valueString = this.getValueDatoFijoRef(dato.opciones.referencia,valorDato.selectFijo, cursosDatos.datosGuardados);
+                                    }
                                 
-                                if (ultimoGrupo === undefined || ultimoGrupo !== datoGuardado.ubicacionAtributo.idGrupo){
-                                  ultimoGrupo = datoGuardado.ubicacionAtributo.idGrupo
-                                  grupoInfo = this.getDatoInfoAtributo(datoGuardado.ubicacionAtributo)
-                                  this.pdf.content.push({text: grupoInfo.nombre, style: 'subsubheader' });
+
+                                  }else if(valorDato.selectUsuario){
+                                    valueString = this.getValueDatoFijoRef(dato.opciones.referencia,valorDato.selectUsuario, cursosDatos.datosGuardados);
+                                    
+                                  }else if(valorDato.archivo){
+                                    console.log(valorDato)
+                                    valueString = valorDato.archivo.texto
+                                    if (valorDato.archivo.ruta)
+                                    valueString += ' [' +  valorDato.archivo.ruta + ']'
+                                  }else{
+                                      valueString = ''
+                                  }
+
+                                
+                                  if (ultimoGrupo === undefined || ultimoGrupo !== datoGuardado.ubicacionAtributo.idGrupo){
+                                    ultimoGrupo = datoGuardado.ubicacionAtributo.idGrupo
+                                    var grupoInfo = this.getDatoInfoAtributo(datoGuardado.ubicacionAtributo)
+                                    this.pdf.content.push({text: grupoInfo.nombre, style: 'subsubheader' });
+                                  }
+                                  
+                                  if (dato.nombre)
+                                    this.pdf.content.push({text: dato.nombre + ": " + valueString,style: 'body' });
+                                  else
+                                    this.pdf.content.push({text: valueString,style: 'body' });
+                                  
+                                  if (j == datoGuardado.valoresAtributo.length - 1)
+                                    this.pdf.content.push({text: '\n',style: 'body' });
                                 }
                                 
-                                if (dato.nombre)
-                                  this.pdf.content.push({text: dato.nombre + ": " + valueString,style: 'body' });
-                                else
-                                  this.pdf.content.push({text: valueString,style: 'body' });
-                                
-                                if (j == datoGuardado.valoresAtributo.length - 1)
-                                  this.pdf.content.push({text: '\n',style: 'body' });
                             }
                           }
                       }
