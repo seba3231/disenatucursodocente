@@ -2,8 +2,8 @@ let express = require("express");
 let appp = express();
 const fs = require("fs");
 const path = require('path');
-appp.use(express.json({ limit: '50mb' }));
-appp.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
+appp.use(express.json({ limit: '5000mb' }));
+appp.use(express.urlencoded({ limit: '5000mb', extended: true, parameterLimit: 50000 }));
 
 const cors = require("cors");
 const { arch } = require("os");
@@ -18,9 +18,14 @@ var ambienteDesarrollo = fs.existsSync('BanderaDesarrollo');
 console.log("¿Es ambiente de Desarrollo? : " + ambienteDesarrollo);
 
 appp.post("/cursos", function(req, res) {
+    const curso = req.body.curso;
+    if(fs.existsSync(__dirname + "/dist/disena-tu-curso-docente/assets/schemasData/" + `curso_${req.body.curso.id}.json`)){
+        const idNueva = fs.readdirSync(__dirname + "/dist/disena-tu-curso-docente/assets/schemasData").length+1;
+        curso.id = idNueva;
+    }
     fs.writeFile(
-        __dirname + "/dist/disena-tu-curso-docente/assets/schemasData/" + `curso_${req.body.curso.id}.json`,
-        JSON.stringify(req.body.curso),
+        __dirname + "/dist/disena-tu-curso-docente/assets/schemasData/" + `curso_${curso.id}.json`,
+        JSON.stringify(curso),
         (err) => {
             if (err) {
                 console.log(err);
