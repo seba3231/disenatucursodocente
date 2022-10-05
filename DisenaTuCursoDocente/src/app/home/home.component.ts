@@ -130,7 +130,10 @@ export class HomeComponent {
     }
   
     initDatosGuardados(): any[] | undefined {
-      const datos = this.initialSchemaService.defaultSchema?.etapas[0].grupos
+      const datos = this.initialSchemaService.defaultSchema?.
+        // .etapas[0].grupos        
+        etapas.map((etapa) => etapa.grupos)
+        .flat()
         .map((grupo) => grupo.atributos)
         .flat()
         .map(atributo =>
@@ -138,7 +141,7 @@ export class HomeComponent {
                 ubicacionAtributo: {...atributo.ubicacion, idAtributo: atributo.id},
                 cantidadInstancias: 1,
                 valoresAtributo: atributo.filasDatos
-                .flat()
+                ?.flat()
                 .map((fd) => fd?.datos)
                 .flat()
                 .map((dato) =>
