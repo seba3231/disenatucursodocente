@@ -1272,26 +1272,6 @@
                                     },
                                     {
                                         "id": 2,
-                                        "nombre": null,
-                                        "ubicacion": {
-                                            "idEtapa": 2,
-                                            "idGrupo": 22,
-                                            "idAtributo": 4,
-                                            "idDato": null
-                                        },
-                                        "herencia": null,
-                                        "ayuda": null,
-                                        "tipo": "text",
-                                        "computo": null,
-                                        "opciones": null,
-                                        "habilitadoSi": null,
-                                        "multiInstanciable": false,
-                                        "idContenidoCondicional": null,
-                                        "tamanio": 200,
-                                        "filasDatos": null
-                                    },
-                                    {
-                                        "id": 3,
                                         "nombre": "Cantidad",
                                         "ubicacion": {
                                             "idEtapa": 2,

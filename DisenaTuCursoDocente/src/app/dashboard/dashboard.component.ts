@@ -110,8 +110,8 @@ export class DashboardComponent implements OnInit {
                 if (schemaEtapas[i].grupos)
                     for (var j=0; j < schemaEtapas[i].grupos.length; j++) {
                         if (schemaEtapas[i].grupos[j].id == grupoId 
-                             &&
-                             schemaEtapas[i].grupos[j].ubicacion.idEtapa == 1
+                            //  &&
+                            //  schemaEtapas[i].grupos[j].ubicacion.idEtapa == 1
                             ) // HARDCORE PARA VER SOLO PROGRAMA
                             grupoSeleccionado = schemaEtapas[i].grupos[j]
                     }
