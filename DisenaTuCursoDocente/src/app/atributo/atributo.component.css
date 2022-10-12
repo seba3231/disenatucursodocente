@@ -16,3 +16,7 @@
 .form-label-title {
     font-weight: 600;
 }
+
+::-webkit-calendar-picker-indicator {
+    filter: invert(0.2);
+}

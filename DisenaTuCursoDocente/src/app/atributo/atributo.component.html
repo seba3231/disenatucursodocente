@@ -56,8 +56,20 @@
                         date,
                         dateLog
                     -->
-                    <label class="form-label pt-2">
-                        {{ dato.nombre ? dato.nombre+' ' : "&nbsp;" }}
+                    <label *ngIf="dato.nombre != '' " class="form-label pt-2">
+                        {{ dato.nombre }}
+                        <span *ngIf="dato.ayuda" 
+                            class="d-inline-block" 
+                            data-bs-toggle="popover" 
+                            data-bs-trigger="hover focus" 
+                            [attr.data-bs-content]="dato.ayuda"
+                            data-bs-custom-class="custom-popover"
+                        >
+                            <i class="bi bi-question-circle-fill p-2" style="color: #616161; cursor: pointer;"></i>
+                        </span>
+                    </label>
+                    <label *ngIf="dato.nombre == '' && atributo.filasDatos.length > 1" class="form-label pt-2">
+                        {{ "&nbsp;" }}
                         <span *ngIf="dato.ayuda" 
                             class="d-inline-block" 
                             data-bs-toggle="popover" 
@@ -191,8 +203,20 @@
                     date,
                     dateLog
                 -->
-                <label class="form-label pt-2">
-                    {{ dato.nombre ? dato.nombre+' ' : "&nbsp;" }}
+                <label *ngIf="dato.nombre != '' " class="form-label pt-2">
+                    {{ dato.nombre }}
+                    <span *ngIf="dato.ayuda" 
+                        class="d-inline-block" 
+                        data-bs-toggle="popover" 
+                        data-bs-trigger="hover focus" 
+                        [attr.data-bs-content]="dato.ayuda"
+                        data-bs-custom-class="custom-popover"
+                    >
+                        <i class="bi bi-question-circle-fill p-2" style="color: #616161; cursor: pointer;"></i>
+                    </span>
+                </label>
+                <label *ngIf="dato.nombre == '' && atributo.filasDatos.length > 1" class="form-label pt-2">
+                    {{ "&nbsp;" }}
                     <span *ngIf="dato.ayuda" 
                         class="d-inline-block" 
                         data-bs-toggle="popover" 
@@ -257,10 +281,7 @@
                 <!-- Codigo date -->
                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.date))">
                     <div class="input-group">
-
-                        <input class="form-control" type="date" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)" [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null) | date:'yyyy-mm-dd'"
-                            (click)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)">
-                        <!-- <button class="btn btn-outline-primary bi bi-calendar-event" (click)="d.toggle()" type="button"></button> -->
+                        <input class="form-control" type="date" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)" [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)" (change)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)">
                     </div>
                 </ng-container>
                 <!-- Codigo porcentaje -->
