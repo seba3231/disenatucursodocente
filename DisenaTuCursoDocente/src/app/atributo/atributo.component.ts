@@ -103,7 +103,6 @@ export class AtributoComponent {
 
         //Realizo el precomputo de los elementos de la herencia
         if (this.atributo.herencia){
-            console.log(this.atributo.herencia)
             const [atributoHerencia, grupoHerencia, etapaHerencia] = this.getAtributoHerencia(this.atributo.herencia)
             
             atributoHerencia.ubicacion = this.atributo?.ubicacion
@@ -117,7 +116,6 @@ export class AtributoComponent {
             this.atributoHerencia = atributoHerencia
             this.grupoHerencia = grupoHerencia
             this.etapaHerencia = etapaHerencia
-            console.log(this.atributoHerencia)
         }
 
         //Realizo precomputo de los elementos dinámicos
@@ -377,7 +375,6 @@ export class AtributoComponent {
 
     guardarCambio(ubicacion:Ubicacion,indice:number,tipoInput:TipoInput,nuevoValor:any){
         let valoresDato = this.buscoDatoGuardadoDeAtributo(ubicacion);
-        console.log(nuevoValor.value)
         if(valoresDato.length !== 0){
             let claveMap = this.objectToString(ubicacion)+indice;
             switch (tipoInput) {
@@ -478,7 +475,6 @@ export class AtributoComponent {
                     return valoresDato[indice].string;
                 }
                 case TipoInput.date:{
-                    console.log(valoresDato[indice].date)
                     return valoresDato[indice].date;
                 }
                 case TipoInput.number:{
