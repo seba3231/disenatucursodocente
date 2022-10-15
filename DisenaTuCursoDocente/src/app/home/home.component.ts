@@ -136,16 +136,30 @@ export class HomeComponent {
         .flat()
         .map((grupo) => grupo.atributos)
         .flat()
-        .map(atributo =>
-              new Object({
+        .map(atributo => {
+              let atributoHerencia = structuredClone(
+                      this.initialSchemaService.defaultSchema?.
+                      etapas.map((etapaFilter) => etapaFilter.grupos)
+                      .flat()
+                      .map((grupoFilter) => grupoFilter.atributos)
+                      .flat()
+                      .find(atributoFilter => JSON.stringify(atributoFilter.ubicacion) === JSON.stringify(atributo.herencia))
+                      );
+              atributoHerencia?.filasDatos
+              ?.flat()
+              .map(fila => fila?.datos)
+              .map((dato, index) => new Object({
+                ...dato, id: atributo.filasDatos?.flat().map((fd) => fd?.datos).flat().length+index
+                })
+              )
+              return new Object({
                 ubicacionAtributo: {...atributo.ubicacion, idAtributo: atributo.id},
                 cantidadInstancias: 1,
-                valoresAtributo: atributo.filasDatos
+                valoresAtributo: atributo.filasDatos.concat(atributoHerencia?.filasDatos || [])
                 ?.flat()
                 .map((fd) => fd?.datos)
                 .flat()
-                .map((dato) =>
-                  new Object({
+                .map((dato) => new Object({
                         idDato: [dato.id],
                         valoresDato: [
                           {
@@ -158,9 +172,9 @@ export class HomeComponent {
                           },
                         ],
                       })
-                )
+                    )
               })
-            );
+    });
       return datos;
     }
   
