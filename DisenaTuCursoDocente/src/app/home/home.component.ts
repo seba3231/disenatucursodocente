@@ -137,28 +137,33 @@ export class HomeComponent {
         .map((grupo) => grupo.atributos)
         .flat()
         .map(atributo => {
-              let atributoHerencia = structuredClone(
+              const atributoHerencia = structuredClone(
                       this.initialSchemaService.defaultSchema?.
                       etapas.map((etapaFilter) => etapaFilter.grupos)
                       .flat()
                       .map((grupoFilter) => grupoFilter.atributos)
                       .flat()
-                      .find(atributoFilter => JSON.stringify(atributoFilter.ubicacion) === JSON.stringify(atributo.herencia))
+                      .find(atributoFilter =>
+                        atributoFilter.id === atributo?.herencia?.idAtributo &&
+                        atributoFilter.ubicacion.idEtapa === atributo.herencia?.idEtapa &&
+                        atributoFilter.ubicacion.idGrupo === atributo.herencia?.idGrupo)
                       );
-              atributoHerencia?.filasDatos
+              const datosHerencia : any = atributoHerencia?.filasDatos
               ?.flat()
               .map(fila => fila?.datos)
               .map((dato, index) => new Object({
-                ...dato, id: atributo.filasDatos?.flat().map((fd) => fd?.datos).flat().length+index
+                ...dato, id: (atributo.filasDatos?.flat().map((fd) => fd?.datos)?.flat().length || 0) + index
                 })
               )
+              .flat();
               return new Object({
                 ubicacionAtributo: {...atributo.ubicacion, idAtributo: atributo.id},
                 cantidadInstancias: 1,
-                valoresAtributo: atributo.filasDatos.concat(atributoHerencia?.filasDatos || [])
+                valoresAtributo: atributo.filasDatos
                 ?.flat()
                 .map((fd) => fd?.datos)
                 .flat()
+                .concat(datosHerencia || [])
                 .map((dato) => new Object({
                         idDato: [dato.id],
                         valoresDato: [
