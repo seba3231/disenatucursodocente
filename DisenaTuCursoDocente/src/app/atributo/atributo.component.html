@@ -41,7 +41,7 @@
         </h5>
     </div>
     <!-- Primero muestro los atributos que son HERENCIA -->
-    <div *ngIf="atributo.herencia && atributoHerencia!.filasDatos">
+    <div *ngIf="atributo.herencia && atributoHerencia && atributoHerencia!.filasDatos">
         <div class="d-flex flex-column pb-2 pt-2 align-items-end">
             <a class="btn btn-outline-primary" role="button" style="font-size: 12px; border: none;" data-bs-toggle="popover" data-bs-trigger="hover focus" [attr.data-bs-content]="'Podras cargar este dato con la información cargada en la sección ' + grupoHerencia!.nombre + ' de ' + etapaHerencia!.nombre"
                 data-bs-custom-class="custom-popover">

@@ -6,29 +6,18 @@
         </div>
         <div class="card border-secondary mb-3">
             <div class="card-body">
-                <div
-                    *ngFor="let atributo of grupo.atributos"
-                    class="card border-secondary mb-3"
-                    style="padding-right: 2rem;"
-                    [ngClass]="{'puntoCritico': atributo.puntoCritico}"
-                    [ngStyle]="{'background-color': atributo.puntoCritico ? '#e6f1fc' : null}"
-                >
+                <!-- este input es para que cuando se selecciona un grupo se haga foco en esta tabla -->
+                <input id="myInputFocus" type="text" autofocus style="opacity: 0;height: 0px;" />
+
+                <div *ngFor="let atributo of grupo.atributos" class="card border-secondary mb-3" style="padding-right: 2rem;" [ngClass]="{'puntoCritico': atributo.puntoCritico}" [ngStyle]="{'background-color': atributo.puntoCritico ? '#e6f1fc' : null}">
                     <div class="card-body">
                         <ng-container>
                             <div class="col-auto d-flex flex-column pb-2 align-items-end">
-                                <button type="button"class="btn btn-comentario" 
-                                    (click)="openModal(atributo)"
-                                    title="Agregar comentarios"
-                                >
+                                <button type="button" class="btn btn-comentario" (click)="openModal(atributo)" title="Agregar comentarios">
                                 <i class="bi bi-chat-right-text-fill " style="color: #616161; cursor: pointer;"></i>                            </button>
                             </div>
                         </ng-container>
-                        <app-atributo 
-                            [atributo]="atributo"
-                            [versionSeleccionada]="versionSeleccionada"
-                            (registrarDependencia)="registrarDependencia($event)"
-                            (informarCambio)="informarCambio($event)"
-                        >
+                        <app-atributo [atributo]="atributo" [versionSeleccionada]="versionSeleccionada" (registrarDependencia)="registrarDependencia($event)" (informarCambio)="informarCambio($event)">
                         </app-atributo>
                     </div>
                 </div>
