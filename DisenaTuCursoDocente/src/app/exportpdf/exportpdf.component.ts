@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.service';
-import { Ubicacion } from '../modelos/schema.model';
+import { Ubicacion,Atributo } from '../modelos/schema.model';
 
 
 const pdfMakeX = require('pdfmake/build/pdfmake.js');
@@ -26,21 +26,57 @@ export class ExportpdfComponent{
     
   }
 
+  getAtributoHerencia(ubicacion: Ubicacion): any{ //retorna un Dato completo
+    if (this.initialSchemaService.defaultSchema){
+        for(let etapa of this.initialSchemaService.defaultSchema?.etapas){
+            for(let grupo of etapa.grupos){
+                for(let atributo of grupo.atributos){
+                    
+                    if (atributo.ubicacion.idEtapa == ubicacion.idEtapa
+                        && atributo.ubicacion.idGrupo == ubicacion.idGrupo
+                        && atributo.id == ubicacion.idAtributo){
+                        if (atributo.herencia){
+                          return this.getAtributoHerencia(atributo.ubicacion)
+                        }else{
+                          return atributo
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
   getDatoInfo(ubicacion: Ubicacion, idDato: number): any{ //retorna un Dato completo
     if (this.initialSchemaService.defaultSchema)
         for(let etapa of this.initialSchemaService.defaultSchema?.etapas){
             for(let grupo of etapa.grupos){
                 for(let atributo of grupo.atributos){
-                    for(let filaDato of atributo.filasDatos){
-                        for(let dato of filaDato.datos){
-                           if (dato.id == idDato)
-                              if (dato.ubicacion.idEtapa == ubicacion.idEtapa
-                                  && dato.ubicacion.idGrupo == ubicacion.idGrupo
-                                  && dato.ubicacion.idAtributo == ubicacion.idAtributo){
-                                    
-                                  return dato;
+                    console.log(atributo)
+                    if (atributo.herencia){
+                      var atributoHerencia : Atributo | undefined;
+                      atributoHerencia = this.getAtributoHerencia(atributo.herencia)
+                      if (atributoHerencia){
+                          atributoHerencia.ubicacion = atributo.ubicacion
+                          for(let filaDatos of atributoHerencia.filasDatos){
+                              for(let dato of filaDatos.datos){
+                                return dato;
                               }
-                        }
+                          }
+                      }
+                    }
+                    if (atributo.filasDatos){
+                      for(let filaDato of atributo.filasDatos){
+                          for(let dato of filaDato.datos){
+                            if (dato.id == idDato)
+                                if (dato.ubicacion.idEtapa == ubicacion.idEtapa
+                                    && dato.ubicacion.idGrupo == ubicacion.idGrupo
+                                    && dato.ubicacion.idAtributo == ubicacion.idAtributo){
+                                      
+                                    return dato;
+                                }
+                          }
+                      }
                     }
                 }
             }
@@ -82,8 +118,6 @@ export class ExportpdfComponent{
   getValueDatoFijo(idGrupoDatoFijo: number, datofijoIn: []): string{
     var grupoDatosFijos = this.initialSchemaService.defaultSchema?.gruposDatosFijos;
     var nombre = '';
-    console.log("grupoDatosFijos")
-    console.log(grupoDatosFijos)
     if (grupoDatosFijos)
       for (let grupoDatofijo of grupoDatosFijos){
         if (grupoDatofijo.id == idGrupoDatoFijo)
@@ -167,16 +201,22 @@ export class ExportpdfComponent{
       ],
       styles: {
         header: {
-          fontSize: 22,
-          bold: true
+          fontSize: 24,
+          bold: true,
+          lineHeight: 1.2
         },
         subheader: {
-          fontSize: 18,
-          bold: true
+          fontSize: 20,
+          bold: true,
+          lineHeight: 1.2
         },
         subsubheader: {
-          fontSize: 14,
-          bold: true
+          fontSize: 16,
+          bold: true,
+          lineHeight: 1.2
+        },
+        title_body: {
+          fontSize: 12
         },
         body: {
           fontSize: 12
@@ -219,7 +259,7 @@ export class ExportpdfComponent{
                                 var dato = this.getDatoInfo(datoGuardado.ubicacionAtributo, columna.idDato[0])
 
                                 var cumpleHabilitado = false;
-                                if (dato.habilitadoSi){
+                                if (dato && dato.habilitadoSi){
                                   var datoHabilitadoSi = this.getDatoGuardadoInfo(dato.habilitadoSi.referencia,cursosDatos!.datosGuardados)
                                   if (datoHabilitadoSi.valoresDato[0].selectFijo && datoHabilitadoSi.valoresDato[0].selectFijo[0] == dato.habilitadoSi.valorSeleccionado.idOpcion){
                                     cumpleHabilitado = true
@@ -268,13 +308,15 @@ export class ExportpdfComponent{
                                   if (ultimoGrupo === undefined || ultimoGrupo !== datoGuardado.ubicacionAtributo.idGrupo){
                                     ultimoGrupo = datoGuardado.ubicacionAtributo.idGrupo
                                     var grupoInfo = this.getDatoInfoAtributo(datoGuardado.ubicacionAtributo)
-                                    this.pdf.content.push({text: grupoInfo.nombre, style: 'subsubheader' });
+                                    if (grupoInfo.nombre)
+                                      this.pdf.content.push({text: grupoInfo.nombre, style: 'subsubheader',margin: [ 0, 10, 0, 5 ] });
                                   }
                                   
-                                  if (dato.nombre)
+                                  if (dato && dato.nombre)
                                     this.pdf.content.push({text: dato.nombre + ": " + valueString,style: 'body' });
                                   else
-                                    this.pdf.content.push({text: valueString,style: 'body' });
+                                    if (valueString)
+                                      this.pdf.content.push({text: valueString,style: 'body' });
                                   
                                   if (j == datoGuardado.valoresAtributo.length - 1)
                                     this.pdf.content.push({text: '\n',style: 'body' });
