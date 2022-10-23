@@ -32,6 +32,13 @@
 </div>
 <input type="file" (change)="onFileSelected($event)" #fileUploader style="display:none">
 <a #fileDownloader style="display:none"></a>
+<div *ngIf="atributo.herencia && atributoHerencia && atributoHerencia!.filasDatos" class="d-flex flex-column pb-2 pt-2 align-items-end">
+    <button class="btn btn-outline-primary" role="button" style="font-size: 12px; border: none;" data-bs-toggle="popover" data-bs-trigger="hover focus" [attr.data-bs-content]="'Podras cargar este dato con la información cargada en la sección ' + grupoHerencia!.nombre + ' de ' + etapaHerencia!.nombre"
+        data-bs-custom-class="custom-popover" (click)="cargarDatosDesdeHerencia(atributo)">
+        <!-- (click)="openModal('eliminar')" -->
+        <i class="bi bi-arrow-bar-down pe-2"></i>CARGAR DATOS DESDE {{grupoHerencia!.nombre | uppercase}} DE {{etapaHerencia!.nombre | uppercase}}
+    </button>
+</div>
 <div *ngFor="let _ of [].constructor(datoGuardado!.cantidadInstancias); index as indiceInstancia">
     <div *ngIf="indiceInstancia === 0 && atributo.nombre" class="row">
         <h5>{{ atributo.nombre ? atributo.nombre+' ' : '' }}
@@ -42,13 +49,6 @@
     </div>
     <!-- Primero muestro los atributos que son HERENCIA -->
     <div *ngIf="atributo.herencia && atributoHerencia && atributoHerencia!.filasDatos">
-        <div class="d-flex flex-column pb-2 pt-2 align-items-end">
-            <button class="btn btn-outline-primary" role="button" style="font-size: 12px; border: none;" data-bs-toggle="popover" data-bs-trigger="hover focus" [attr.data-bs-content]="'Podras cargar este dato con la información cargada en la sección ' + grupoHerencia!.nombre + ' de ' + etapaHerencia!.nombre"
-                data-bs-custom-class="custom-popover" (click)="cargarDatosDesdeHerencia(atributo)">
-                <!-- (click)="openModal('eliminar')" -->
-                <i class="bi bi-arrow-bar-down pe-2"></i>CARGAR DATOS DESDE {{grupoHerencia!.nombre | uppercase}} DE {{etapaHerencia!.nombre | uppercase}}
-            </button>
-        </div>
         <div *ngFor="let fila of atributoHerencia!.filasDatos" class="row">
             <div *ngFor="let dato of fila.datos" class="col">
                 <div class="mb-3">
