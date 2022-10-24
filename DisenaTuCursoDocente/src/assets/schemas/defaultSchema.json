@@ -2005,31 +2005,9 @@
                         "puntoCritico": null,
                         "comentariosPrivados": [],
                         "filasDatos": [{
-                                "datos": [{
-                                    "id": 1,
-                                    "nombre": "Fecha",
-                                    "ubicacion": {
-                                        "idEtapa": 3,
-                                        "idGrupo": 31,
-                                        "idAtributo": 1,
-                                        "idDato": null
-                                    },
-                                    "herencia": null,
-                                    "ayuda": null,
-                                    "tipo": "dateLog",
-                                    "computo": null,
-                                    "opciones": null,
-                                    "habilitadoSi": null,
-                                    "multiInstanciable": false,
-                                    "idContenidoCondicional": null,
-                                    "tamanio": null,
-                                    "filasDatos": null
-                                }]
-                            },
-                            {
-                                "datos": [{
+                            "datos": [{
                                     "id": 2,
-                                    "nombre": null,
+                                    "nombre": "Comentario",
                                     "ubicacion": {
                                         "idEtapa": 3,
                                         "idGrupo": 31,
@@ -2046,9 +2024,29 @@
                                     "idContenidoCondicional": null,
                                     "tamanio": 1000,
                                     "filasDatos": null
-                                }]
-                            }
-                        ]
+                                },
+                                {
+                                    "id": 1,
+                                    "nombre": "Fecha",
+                                    "ubicacion": {
+                                        "idEtapa": 3,
+                                        "idGrupo": 31,
+                                        "idAtributo": 1,
+                                        "idDato": null
+                                    },
+                                    "herencia": null,
+                                    "ayuda": null,
+                                    "tipo": "date",
+                                    "computo": null,
+                                    "opciones": null,
+                                    "habilitadoSi": null,
+                                    "multiInstanciable": false,
+                                    "idContenidoCondicional": null,
+                                    "tamanio": null,
+                                    "filasDatos": null
+                                }
+                            ]
+                        }]
                     }]
                 },
                 {
@@ -2226,7 +2224,7 @@
                                     },
                                     "herencia": null,
                                     "ayuda": null,
-                                    "tipo": null,
+                                    "tipo": "text",
                                     "computo": null,
                                     "opciones": null,
                                     "habilitadoSi": null,
@@ -2271,7 +2269,7 @@
                                     },
                                     "herencia": null,
                                     "ayuda": null,
-                                    "tipo": null,
+                                    "tipo": "text",
                                     "computo": null,
                                     "opciones": null,
                                     "habilitadoSi": null,
