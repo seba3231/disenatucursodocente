@@ -121,11 +121,13 @@
                     </ng-container>
                     <!-- Codigo porcentaje -->
                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.porcentaje))">
-                        <input class="form-control" (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [type]="mapTipoInputHTML.get(enumTiposInput.porcentaje)" [placeholder]="dato.nombre || ''"
-                            [formControl]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)" [ngClass]="{ 'is-invalid': mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid }">
-                        <div *ngIf="mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid" class="invalid-feedback">
-                            Porcentaje debe estar entre 0 y 100.
-                        </div>
+                        <fieldset [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)">
+                            <input class="form-control" (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [type]="mapTipoInputHTML.get(enumTiposInput.porcentaje)" [placeholder]="dato.nombre || ''"
+                                [formControl]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)" [ngClass]="{ 'is-invalid': mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid }">
+                            <div *ngIf="mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid" class="invalid-feedback">
+                                Porcentaje debe estar entre 0 y 100.
+                            </div>
+                        </fieldset>
                     </ng-container>
                     <!-- Codigo archivo -->
                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.archivo))">
@@ -265,11 +267,13 @@
                 </ng-container>
                 <!-- Codigo porcentaje -->
                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.porcentaje))">
-                    <input class="form-control" (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [type]="mapTipoInputHTML.get(enumTiposInput.porcentaje)" [placeholder]="dato.nombre || ''"
-                        [formControl]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)" [ngClass]="{ 'is-invalid': mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid }">
-                    <div *ngIf="mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid" class="invalid-feedback">
-                        Porcentaje debe estar entre 0 y 100.
-                    </div>
+                    <fieldset [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)">
+                        <input class="form-control" (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [type]="mapTipoInputHTML.get(enumTiposInput.porcentaje)" [placeholder]="dato.nombre || ''"
+                            [formControl]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)" [ngClass]="{ 'is-invalid': mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid }">
+                        <div *ngIf="mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid" class="invalid-feedback">
+                            Porcentaje debe estar entre 0 y 100.
+                        </div>
+                    </fieldset>
                 </ng-container>
                 <!-- Codigo archivo -->
                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.archivo))">

@@ -798,7 +798,7 @@ export class AtributoComponent {
     addLinkHTML(string: string){
         var urlRegex = /(https?:\/\/[^\s]+)/g;
         return string.replace(urlRegex, function(url) {
-            return '<a href="javascript:void">' + url + '</a>';
+            return `<a href=${url} target=_blank>` + url + '</a>';
         })
     }
 

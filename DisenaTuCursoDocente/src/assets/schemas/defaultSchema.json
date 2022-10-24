@@ -474,7 +474,18 @@
                                         "tipo": "porcentaje",
                                         "computo": null,
                                         "opciones": null,
-                                        "habilitadoSi": null,
+                                        "habilitadoSi": {
+                                            "referencia": {
+                                                "idEtapa": 1,
+                                                "idGrupo": 12,
+                                                "idAtributo": 4,
+                                                "idDato": [1]
+                                            },
+                                            "valorSeleccionado": {
+                                                "idGrupoDatoFijo": 5,
+                                                "idOpcion": 0
+                                            }
+                                        },
                                         "multiInstanciable": false,
                                         "idContenidoCondicional": null,
                                         "tamanio": 3,
@@ -494,7 +505,18 @@
                                         "tipo": "porcentaje",
                                         "computo": null,
                                         "opciones": null,
-                                        "habilitadoSi": null,
+                                        "habilitadoSi": {
+                                            "referencia": {
+                                                "idEtapa": 1,
+                                                "idGrupo": 12,
+                                                "idAtributo": 4,
+                                                "idDato": [1]
+                                            },
+                                            "valorSeleccionado": {
+                                                "idGrupoDatoFijo": 5,
+                                                "idOpcion": 0
+                                            }
+                                        },
                                         "multiInstanciable": false,
                                         "idContenidoCondicional": null,
                                         "tamanio": 3,
@@ -1401,7 +1423,7 @@
                                                 "idEtapa": 1,
                                                 "idGrupo": 11,
                                                 "idAtributo": 2,
-                                                "idDato": 3
+                                                "idDato": [3]
                                             },
                                             "idGrupoDatoFijo": null
                                         },
@@ -1694,7 +1716,7 @@
                                                     "idEtapa": 2,
                                                     "idGrupo": 22,
                                                     "idAtributo": 1,
-                                                    "idDato": 1
+                                                    "idDato": [1]
                                                 },
                                                 "idGrupoDatoFijo": null
                                             },
