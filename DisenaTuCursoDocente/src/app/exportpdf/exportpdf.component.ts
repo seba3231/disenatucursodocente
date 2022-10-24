@@ -36,7 +36,7 @@ export class ExportpdfComponent{
                         && atributo.ubicacion.idGrupo == ubicacion.idGrupo
                         && atributo.id == ubicacion.idAtributo){
                         if (atributo.herencia){
-                          return this.getAtributoHerencia(atributo.ubicacion)
+                          return this.getAtributoHerencia(atributo.herencia)
                         }else{
                           return atributo
                         }
@@ -52,30 +52,36 @@ export class ExportpdfComponent{
         for(let etapa of this.initialSchemaService.defaultSchema?.etapas){
             for(let grupo of etapa.grupos){
                 for(let atributo of grupo.atributos){
-                    console.log(atributo)
-                    if (atributo.herencia){
-                      var atributoHerencia : Atributo | undefined;
-                      atributoHerencia = this.getAtributoHerencia(atributo.herencia)
-                      if (atributoHerencia){
-                          atributoHerencia.ubicacion = atributo.ubicacion
-                          for(let filaDatos of atributoHerencia.filasDatos){
-                              for(let dato of filaDatos.datos){
-                                return dato;
-                              }
-                          }
-                      }
-                    }
-                    if (atributo.filasDatos){
-                      for(let filaDato of atributo.filasDatos){
-                          for(let dato of filaDato.datos){
-                            if (dato.id == idDato)
-                                if (dato.ubicacion.idEtapa == ubicacion.idEtapa
-                                    && dato.ubicacion.idGrupo == ubicacion.idGrupo
-                                    && dato.ubicacion.idAtributo == ubicacion.idAtributo){
-                                      
+                  if (atributo.ubicacion.idEtapa == ubicacion.idEtapa
+                    && atributo.ubicacion.idGrupo == ubicacion.idGrupo
+                    && atributo.id == ubicacion.idAtributo){
+
+                      console.log(atributo)
+                      if (atributo.herencia){
+                        var atributoHerencia : Atributo | undefined;
+                        atributoHerencia = this.getAtributoHerencia(atributo.herencia)
+                        if (atributoHerencia){
+                            // atributoHerencia.ubicacion = atributo.ubicacion
+                            for(let filaDatos of atributoHerencia.filasDatos){
+                                for(let dato of filaDatos.datos){
+                                  if (dato.id == idDato)
                                     return dato;
                                 }
-                          }
+                            }
+                        }
+                      }
+                      if (atributo.filasDatos){
+                        for(let filaDato of atributo.filasDatos){
+                            for(let dato of filaDato.datos){
+                              if (dato.id == idDato)
+                                  if (dato.ubicacion.idEtapa == ubicacion.idEtapa
+                                      && dato.ubicacion.idGrupo == ubicacion.idGrupo
+                                      && dato.ubicacion.idAtributo == ubicacion.idAtributo){
+                                        
+                                      return dato;
+                                  }
+                            }
+                        }
                       }
                     }
                 }
@@ -93,7 +99,7 @@ export class ExportpdfComponent{
                     if (atributo.ubicacion.idEtapa == ubicacion.idEtapa
                         && atributo.ubicacion.idGrupo == ubicacion.idGrupo){
                           
-                        return grupo;
+                        return [grupo,etapa];
                     }
                 }
             }
@@ -246,6 +252,7 @@ export class ExportpdfComponent{
               if (cursosDatos){
                   var valueString = null;
                   var ultimoGrupo;
+                  var ultimaEtapa;
                   for(let datoGuardado of cursosDatos!.datosGuardados){
                     var cantidadInstancias = datoGuardado.cantidadInstancias;
                     
@@ -304,10 +311,17 @@ export class ExportpdfComponent{
                                       valueString = ''
                                   }
 
+                                  var [grupoInfo, etapaInfo] = this.getDatoInfoAtributo(datoGuardado.ubicacionAtributo)
+                                  if (ultimaEtapa === undefined || ultimaEtapa !== datoGuardado.ubicacionAtributo.idEtapa){
+                                    ultimaEtapa = datoGuardado.ubicacionAtributo.idEtapa
+                                    
+                                    if (etapaInfo.nombre)
+                                      this.pdf.content.push({text: '__________________________________________________________________________________', style: 'body'});
+                                      this.pdf.content.push({text: etapaInfo.nombre, style: 'subheader',margin: [ 0, 15, 0, 5 ] });
+                                  }
                                 
                                   if (ultimoGrupo === undefined || ultimoGrupo !== datoGuardado.ubicacionAtributo.idGrupo){
                                     ultimoGrupo = datoGuardado.ubicacionAtributo.idGrupo
-                                    var grupoInfo = this.getDatoInfoAtributo(datoGuardado.ubicacionAtributo)
                                     if (grupoInfo.nombre)
                                       this.pdf.content.push({text: grupoInfo.nombre, style: 'subsubheader',margin: [ 0, 10, 0, 5 ] });
                                   }
