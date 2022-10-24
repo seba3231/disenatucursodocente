@@ -630,7 +630,7 @@ export class AtributoComponent {
                     break;
                 }
                 case TipoInput.date:{
-                    valoresDato[indice].date = new Date(nuevoValor.value);
+                    valoresDato[indice].date = nuevoValor.value
                     break;
                 }
                 default:

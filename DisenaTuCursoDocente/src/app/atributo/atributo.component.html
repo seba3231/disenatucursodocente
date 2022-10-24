@@ -260,8 +260,7 @@
                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.date))">
                     <div class="input-group">
 
-                        <input class="form-control" datetime="yyyy-mm-dd" [type]="dato.tipo" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)" [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
-                            (click)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)">
+                        <input class="form-control" type="date" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)" [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)" (change)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)">
                         <!-- <button class="btn btn-outline-primary bi bi-calendar-event" (click)="d.toggle()" type="button"></button> -->
                     </div>
                 </ng-container>
