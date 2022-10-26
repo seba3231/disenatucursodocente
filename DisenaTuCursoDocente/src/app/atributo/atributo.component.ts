@@ -275,7 +275,7 @@ export class AtributoComponent {
                         let contenidosMatchean = contenidoCondicional?.filter((contMacth) => this.objectToString(contMacth.muestroSi.referencia) === this.objectToString(ubicacionAbsInterior));
                         
                         //Cantidad de instancias de Modulo
-                        let cantidadInstanciasAtributo = this.cuentoInstanciasGuardadasDeAtributo(ubicacionAbsInterior);
+                        let cantidadInstanciasAtributo = this.cuentoInstanciasGuardadasDeAtributo(dato.ubicacion);
                         //Copio array: arrayDato = [7,1]
                         let arrayDato = [...ubicacionAbsInterior.idDato];
 
@@ -431,15 +431,19 @@ export class AtributoComponent {
         if (this.atributo.herencia){
             // esto esta mal porque es el schema, yo tengo que traer los datos guardados para poder llamar al valoresDato
             var [atributoHerencia, grupoHerencia, etapaHerencia] = this.getAtributoHerencia(this.atributo.herencia)
-            atributoHerencia = JSON.parse(JSON.stringify(atributoHerencia));
+            var atributoHerencia = JSON.parse(JSON.stringify(atributoHerencia));
             if (atributoHerencia){
-                atributoHerencia.ubicacion = this.atributo.ubicacion
+                // atributoHerencia.ubicacion = this.atributo.ubicacion
                 for(let filaDatos of atributoHerencia.filasDatos){
                     for(let dato of filaDatos.datos){
-                        dato.ubicacion.idDato = []
-                        dato.ubicacion.idDato.push(dato.id)
-                       var valoresAtributo : ValoresAtributo[] | undefined
-                       if(this.versionActual !== undefined){
+
+                        var datoUbicacion = JSON.parse(JSON.stringify(this.atributo.ubicacion));
+                        datoUbicacion.idAtributo = this.atributo.id
+                        datoUbicacion.idDato = []
+                        datoUbicacion.idDato.push(dato.id)
+                        var valoresAtributo : ValoresAtributo[] | undefined
+                        var cantidadInstancias = 0
+                        if(this.versionActual !== undefined){
                             for(let datoGuardado of this.versionActual.datosGuardados!){
                                 
                                 if (datoGuardado.ubicacionAtributo.idEtapa === dato.ubicacion.idEtapa
@@ -447,12 +451,13 @@ export class AtributoComponent {
                                     && datoGuardado.ubicacionAtributo.idAtributo === dato.ubicacion.idAtributo
                                 ){
                                     valoresAtributo = datoGuardado.valoresAtributo
+                                    cantidadInstancias = datoGuardado.cantidadInstancias
                                     console.log(valoresAtributo)
                                 }
                             }
                         }    
 
-                       if(this.versionActual !== undefined){
+                        if(this.versionActual !== undefined){
                             for(let datoGuardado of this.versionActual.datosGuardados!){
                                 
                                 if (datoGuardado.ubicacionAtributo.idEtapa === this.atributo.ubicacion.idEtapa
@@ -461,19 +466,21 @@ export class AtributoComponent {
                                 ){
                                     //Encontré el Atributo, le piso los valores atributo con el nuevo
                                     if (valoresAtributo){
-                                        datoGuardado.cantidadInstancias = valoresAtributo.length
+                                        datoGuardado.cantidadInstancias = cantidadInstancias
                                         datoGuardado.valoresAtributo = valoresAtributo
                                     }
                                 }
                             }
                         }
-                        this.informarCambio.emit(dato.ubicacion);
-                        this.accionesCursosService.modificarCurso();
+
+                        this.informarCambio.emit(datoUbicacion);
                         break
                     }
                     break  
                 }
-           
+                this.accionesCursosService.modificarCurso();
+                this.atributoHerencia =  atributoHerencia
+                // this.ngOnInit()
             }
         }
     }
@@ -700,7 +707,7 @@ export class AtributoComponent {
                     break;
                 }
                 case TipoInput.date:{
-                    valoresDato[indice].date = new Date(nuevoValor.value);
+                    valoresDato[indice].date = nuevoValor.value
                     break;
                 }
                 default:
@@ -713,10 +720,10 @@ export class AtributoComponent {
     }
 
     cargarInfoPrevia(ubicacion:Ubicacion, indice:number, tipoInput: TipoInput, posibleValor:any) : any {
-        // console.log(ubicacion)
-        if(ubicacion.idDato.length === 2){
+        
+        /*if(ubicacion.idDato.length === 2){
             console.log("aquiqui");
-        }
+        }*/
         let valoresDato = this.buscoDatoGuardadoDeAtributo(ubicacion);
         if(valoresDato.length !== 0){
             let claveMap = this.objectToString(ubicacion)+indice;
@@ -899,7 +906,7 @@ export class AtributoComponent {
     addLinkHTML(string: string){
         var urlRegex = /(https?:\/\/[^\s]+)/g;
         return string.replace(urlRegex, function(url) {
-            return '<a href="javascript:void">' + url + '</a>';
+            return `<a href=${url} target=_blank>` + url + '</a>';
         })
     }
 

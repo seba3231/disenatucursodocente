@@ -32,6 +32,13 @@
 </div>
 <input type="file" (change)="onFileSelected($event)" #fileUploader style="display:none">
 <a #fileDownloader style="display:none"></a>
+<div *ngIf="atributo.herencia && atributoHerencia && atributoHerencia!.filasDatos" class="d-flex flex-column pb-2 pt-2 align-items-end">
+    <button class="btn btn-outline-primary" role="button" style="font-size: 12px; border: none;" data-bs-toggle="popover" data-bs-trigger="hover focus" [attr.data-bs-content]="'Podras cargar este dato con la información cargada en la sección ' + grupoHerencia!.nombre + ' de ' + etapaHerencia!.nombre"
+        data-bs-custom-class="custom-popover" (click)="cargarDatosDesdeHerencia(atributo)">
+        <!-- (click)="openModal('eliminar')" -->
+        <i class="bi bi-arrow-bar-down pe-2"></i>CARGAR DATOS DESDE {{grupoHerencia!.nombre | uppercase}} DE {{etapaHerencia!.nombre | uppercase}}
+    </button>
+</div>
 <div *ngFor="let _ of [].constructor(datoGuardado!.cantidadInstancias); index as indiceInstancia">
     <div *ngIf="indiceInstancia === 0 && atributo.nombre" class="row">
         <h5>{{ atributo.nombre ? atributo.nombre+' ' : '' }}
@@ -42,13 +49,6 @@
     </div>
     <!-- Primero muestro los atributos que son HERENCIA -->
     <div *ngIf="atributo.herencia && atributoHerencia && atributoHerencia!.filasDatos">
-        <div class="d-flex flex-column pb-2 pt-2 align-items-end">
-            <button class="btn btn-outline-primary" role="button" style="font-size: 12px; border: none;" data-bs-toggle="popover" data-bs-trigger="hover focus" [attr.data-bs-content]="'Podras cargar este dato con la información cargada en la sección ' + grupoHerencia!.nombre + ' de ' + etapaHerencia!.nombre"
-                data-bs-custom-class="custom-popover" (click)="cargarDatosDesdeHerencia(atributo)">
-                <!-- (click)="openModal('eliminar')" -->
-                <i class="bi bi-arrow-bar-down pe-2"></i>CARGAR DATOS DESDE {{grupoHerencia!.nombre | uppercase}} DE {{etapaHerencia!.nombre | uppercase}}
-            </button>
-        </div>
         <div *ngFor="let fila of atributoHerencia!.filasDatos" class="row">
             <div *ngFor="let dato of fila.datos" class="col">
                 <div class="mb-3">
@@ -119,13 +119,22 @@
                             </div>
                         </ng-container>
                     </ng-container>
+                    <!-- Codigo date -->
+                    <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.date))">
+                        <div class="input-group">
+                            <input class="form-control" type="date" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)" [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)" (change)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)">
+                            <!-- <button class="btn btn-outline-primary bi bi-calendar-event" (click)="d.toggle()" type="button"></button> -->
+                        </div>
+                    </ng-container>
                     <!-- Codigo porcentaje -->
                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.porcentaje))">
-                        <input class="form-control" (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [type]="mapTipoInputHTML.get(enumTiposInput.porcentaje)" [placeholder]="dato.nombre || ''"
-                            [formControl]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)" [ngClass]="{ 'is-invalid': mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid }">
-                        <div *ngIf="mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid" class="invalid-feedback">
-                            Porcentaje debe estar entre 0 y 100.
-                        </div>
+                        <fieldset [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)">
+                            <input class="form-control" (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [type]="mapTipoInputHTML.get(enumTiposInput.porcentaje)" [placeholder]="dato.nombre || ''"
+                                [formControl]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)" [ngClass]="{ 'is-invalid': mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid }">
+                            <div *ngIf="mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid" class="invalid-feedback">
+                                Porcentaje debe estar entre 0 y 100.
+                            </div>
+                        </fieldset>
                     </ng-container>
                     <!-- Codigo archivo -->
                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.archivo))">
@@ -184,8 +193,6 @@
         </div>
     </div>
     <!-- Muestro las filas de datos propias del atributo -->
-    <p>Instancia: {{indiceInstancia}}</p>
-    <p>Instancias Totales: {{datoGuardado!.cantidadInstancias}}</p>
     <div class="card border-secondary">
         <div class="card-body">
             <div class="row">
@@ -199,10 +206,10 @@
                                 -->
                                 <label class="form-label pt-2">
                                     {{ dato.nombre ? dato.nombre+' ' : "&nbsp;" }}
-                                    <span *ngIf="dato.ayuda" 
-                                        class="d-inline-block" 
-                                        data-bs-toggle="popover" 
-                                        data-bs-trigger="hover focus" 
+                                    <span *ngIf="dato.ayuda"
+                                        class="d-inline-block"
+                                        data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus"
                                         [attr.data-bs-content]="dato.ayuda"
                                         data-bs-custom-class="custom-popover"
                                     >
@@ -211,7 +218,7 @@
                                 </label>
                                 <!-- Codigo contenidoCondicional -->
                                 <ng-container *ngIf="dato.filasDatos !== null && mapContenidoCondicional.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,indiceInstancia)))">
-                                    <!-- REPITO SEGUN CANTIDAD DE INSTANCIAS DE ESTE DATO 
+                                    <!-- REPITO SEGUN CANTIDAD DE INSTANCIAS DE ESTE DATO
                                     <div *ngFor="let item of testObject | keyvalue">
                                         Key: <b>{{item.key}}</b> and Value: <b>{{item.value}}</b>
                                     </div>-->
@@ -229,10 +236,10 @@
                                                                 <div class="mb-3">
                                                                     <label class="form-label pt-2">
                                                                         {{ datoInterior.nombre ? datoInterior.nombre+' ' : "&nbsp;" }}
-                                                                        <span *ngIf="datoInterior.ayuda" 
-                                                                            class="d-inline-block" 
-                                                                            data-bs-toggle="popover" 
-                                                                            data-bs-trigger="hover focus" 
+                                                                        <span *ngIf="datoInterior.ayuda"
+                                                                            class="d-inline-block"
+                                                                            data-bs-toggle="popover"
+                                                                            data-bs-trigger="hover focus"
                                                                             [attr.data-bs-content]="datoInterior.ayuda"
                                                                             data-bs-custom-class="custom-popover"
                                                                         >
@@ -243,7 +250,7 @@
                                                                     <ng-container *ngIf="datoInterior.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
                                                                         <select class="form-select" (change)="guardarCambio(computoUbicacionAbsoluta(datoInterior.ubicacion,datoInterior.id),indiceInstancia,mapTipoInput.revGet(datoInterior.tipo)!,$event.target)" [disabled]="estaDeshabilitado(datoInterior.habilitadoSi,indiceInstancia)">
                                                                             <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(computoUbicacionAbsoluta(datoInterior.ubicacion,datoInterior.id)))">
-                                                                                <option 
+                                                                                <option
                                                                                     *ngIf="muestroOpcion(opcion.muestroSi,indiceInstancia)"
                                                                                     [selected]="cargarInfoPrevia(computoUbicacionAbsoluta(datoInterior.ubicacion,datoInterior.id),indiceInstancia,mapTipoInput.revGet(datoInterior.tipo)!,opcion.valor)"
                                                                                     value={{opcion.valor}}
@@ -261,16 +268,6 @@
                                                                 <p>Dato: {{contCondicional[0]}}</p>
                                                             </div>
                                                         </div>
-                                                        <!--<p>{{objectToString(computoUbicacionAbsoluta(dato.ubicacion,indiceInstancia))}}</p>
-                                                        <ng-container *ngIf="mapContenidoCondicional.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,indiceInstancia)))">
-                                                            <div *ngFor="let _ of [].constructor(mapContenidoCondicional.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,indiceInstancia)))!.cantInstancias); index as indiceInstanciaContCondicional">
-                                                                <div *ngFor="let filaContCond of mapContenidoCondicional.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,indiceInstancia)))!.filaDatos" class="row">
-                                                                    <div *ngFor="let datoContCond of filaContCond.datos" class="col">
-                                                                        <p>Dato: {{indiceInstanciaContCondicional}}</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </ng-container>-->
                                                     </div>
                                                     <div *ngIf="dato.multiInstanciable" class="col-auto align-self-center">
                                                         <button type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" (click)="modalConfirmacion(atributo.ubicacion,atributo.id,indiceInstancia)">
@@ -302,7 +299,7 @@
                                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
                                     <select class="form-select" (change)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)">
                                         <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id)))">
-                                            <option 
+                                            <option
                                                 *ngIf="muestroOpcion(opcion.muestroSi,indiceInstancia)"
                                                 [selected]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,opcion.valor)"
                                                 value={{opcion.valor}}
@@ -336,19 +333,20 @@
                                 <!-- Codigo date -->
                                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.date))">
                                     <div class="input-group">
-                
-                                        <input class="form-control" datetime="yyyy-mm-dd" [type]="dato.tipo" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)" [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
-                                            (click)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)">
+
+                                        <input class="form-control" type="date" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)" [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)" (change)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)">
                                         <!-- <button class="btn btn-outline-primary bi bi-calendar-event" (click)="d.toggle()" type="button"></button> -->
                                     </div>
                                 </ng-container>
                                 <!-- Codigo porcentaje -->
                                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.porcentaje))">
-                                    <input class="form-control" (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [type]="mapTipoInputHTML.get(enumTiposInput.porcentaje)" [placeholder]="dato.nombre || ''"
-                                        [formControl]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)" [ngClass]="{ 'is-invalid': mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid }">
-                                    <div *ngIf="mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid" class="invalid-feedback">
-                                        Porcentaje debe estar entre 0 y 100.
-                                    </div>
+                                    <fieldset [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)">
+                                        <input class="form-control" (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [type]="mapTipoInputHTML.get(enumTiposInput.porcentaje)" [placeholder]="dato.nombre || ''"
+                                            [formControl]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)" [ngClass]="{ 'is-invalid': mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid }">
+                                        <div *ngIf="mapControlesCampos.get(objectToString(computoUbicacionAbsoluta(dato.ubicacion,dato.id))+indiceInstancia)!.invalid" class="invalid-feedback">
+                                            Porcentaje debe estar entre 0 y 100.
+                                        </div>
+                                    </fieldset>
                                 </ng-container>
                                 <!-- Codigo archivo -->
                                 <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.archivo))">
@@ -357,7 +355,7 @@
                                         <div class="col">
                                             <input class="form-control" type="text" style="padding-right: 40px;" [ngModel]="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,'Texto')" [placeholder]="dato.nombre || ''" (keyup)="guardarCambio(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)">
                                         </div>
-                
+
                                         <!-- Si existe archivo -->
                                         <ng-container *ngIf="cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,'ExisteFile')">
                                             <!-- Descargar archivo -->
@@ -369,7 +367,7 @@
                                                 <button (click)="eliminarArchivo(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Desvincular archivo"><i class="bi bi-trash-fill fs-5"></i></button>
                                             </div>
                                         </ng-container>
-                
+
                                         <!-- Si NO existe archivo -->
                                         <ng-container *ngIf="!cargarInfoPrevia(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia,mapTipoInput.revGet(dato.tipo)!,'ExisteFile')">
                                             <!-- Subir archivo archivo -->
@@ -377,7 +375,7 @@
                                                 <button (click)="openSelectFileDialog(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar archivo"><i class="bi bi-file-earmark-plus-fill fs-5"></i></button>
                                             </div>
                                         </ng-container>
-                
+
                                         <!-- Agrego link a Dato tipo archivo -->
                                         <div class="col-auto">
                                             <button (click)="openModalAgrergoLinkArchivo(computoUbicacionAbsoluta(dato.ubicacion,dato.id),indiceInstancia)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar enlace a sitio"><i class="bi bi-link fs-5"></i></button>
