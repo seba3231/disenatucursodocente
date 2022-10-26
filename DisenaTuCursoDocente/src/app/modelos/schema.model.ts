@@ -18,7 +18,7 @@ export interface ContenidoCondicional{
     id:number;
     herencia:number;
     muestroSi:DependenciaDeDatos;
-    filaDatos:FilaDatos[];
+    filasDatos:FilaDatos[];
 }
 
 export interface Etapa {

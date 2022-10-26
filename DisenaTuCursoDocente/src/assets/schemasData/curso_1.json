@@ -1,4 +1,4 @@
-{
+  {
     "id": 1,
     "fechaModificacion": "2022-08-24T14:18:41.525Z",
     "nombreCurso": "Matemática",
@@ -145,6 +145,48 @@
                     "ubicacionAtributo": { "idEtapa": 1, "idGrupo": 14, "idAtributo": 3, "idDato": null },
                     "cantidadInstancias": 1,
                     "valoresAtributo": [{ "idDato": [1], "valoresDato": [{ "string": null, "number": null, "selectFijo": null, "selectUsuario": null, "archivo": null, "date": null }] }]
+                },
+                {
+                    "ubicacionAtributo": { "idEtapa": 2, "idGrupo": 24, "idAtributo": 3, "idDato": null },
+                    "cantidadInstancias": 1,
+                    "valoresAtributo": [
+                        {
+                            "idDato": [1],
+                            "valoresDato": [
+                                { "string": "Un nombre", "number": null, "selectFijo": null, "selectUsuario": null, "archivo": null, "date": null }
+                            ]
+                        },
+                        {
+                            "idDato": [2],
+                            "valoresDato": [
+                                { "string": null, "number": null, "selectFijo": null, "selectUsuario": null, "archivo": null, "date": null }
+                            ]
+                        },
+                        {
+                            "idDato": [3],
+                            "valoresDato": [
+                                { "string": null, "number": null, "selectFijo": null, "selectUsuario": null, "archivo": null, "date": null }
+                            ]
+                        },
+                        {
+                            "idDato": [4],
+                            "valoresDato": [
+                                { "string": null, "number": null, "selectFijo": null, "selectUsuario": null, "archivo": null, "date": null }
+                            ]
+                        },
+                        {
+                            "idDato": [5],
+                            "valoresDato": [
+                                { "string": null, "number": null, "selectFijo": null, "selectUsuario": null, "archivo": null, "date": null }
+                            ]
+                        },
+                        {
+                            "idDato": [6],
+                            "valoresDato": [
+                                { "string": null, "number": null, "selectFijo": null, "selectUsuario": null, "archivo": null, "date": null }
+                            ]
+                        }
+                    ]
                 }
             ]
         }
