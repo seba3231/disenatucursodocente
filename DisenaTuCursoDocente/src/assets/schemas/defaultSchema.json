@@ -1849,7 +1849,7 @@
                                     },
                                     "herencia": null,
                                     "ayuda": null,
-                                    "tipo": "dateLog",
+                                    "tipo": "date",
                                     "computo": null,
                                     "opciones": null,
                                     "habilitadoSi": null,
@@ -1885,7 +1885,7 @@
                     }]
                 },
                 {
-                    "id": 2,
+                    "id": 32,
                     "nombre": "Estructura del curso",
                     "ubicacion": {
                         "idEtapa": 3,
@@ -2059,7 +2059,7 @@
                                     },
                                     "herencia": null,
                                     "ayuda": null,
-                                    "tipo": null,
+                                    "tipo": "text",
                                     "computo": null,
                                     "opciones": null,
                                     "habilitadoSi": null,
@@ -2104,7 +2104,7 @@
                                     },
                                     "herencia": null,
                                     "ayuda": null,
-                                    "tipo": null,
+                                    "tipo": "text",
                                     "computo": null,
                                     "opciones": null,
                                     "habilitadoSi": null,
