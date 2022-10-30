@@ -647,7 +647,7 @@
                         },
                         {
                             "id": 2,
-                            "nombre": null,
+                            "nombre": "Objetivos de aprendizaje",
                             "ubicacion": {
                                 "idEtapa": 1,
                                 "idGrupo": 13,
@@ -665,7 +665,7 @@
                             "filasDatos": [{
                                 "datos": [{
                                     "id": 1,
-                                    "nombre": "Objetivos de aprendizaje",
+                                    "nombre": null,
                                     "ubicacion": {
                                         "idEtapa": 1,
                                         "idGrupo": 13,
@@ -687,7 +687,7 @@
                         },
                         {
                             "id": 3,
-                            "nombre": null,
+                            "nombre": "Marco pedagógico",
                             "ubicacion": {
                                 "idEtapa": 1,
                                 "idGrupo": 13,
@@ -696,12 +696,16 @@
                             },
                             "herencia": null,
                             "multiInstanciable": false,
-                            "puntoCritico": null,
+                            "puntoCritico": {
+                                "normativa": null,
+                                "informacionAmpliatoria": null,
+                                "aporteConceptual": "Se refiere a los principios y conceptos básicos que sustentan la propuesta del curso. Optar por un marco pedagógico implica adherir a una teoría, es decir, a un conjunto de ideas sobre cómo ocurre el proceso de aprendizaje y en función de ello, cómo se debe enseñar. Implica tomar una serie de decisiones sobre qué tipo de actividades de aprendizaje proponer, qué recursos educativos utilizar y qué tipo de evaluación realizar, etc."
+                            },
                             "comentariosPrivados": [],
                             "filasDatos": [{
                                 "datos": [{
                                     "id": 1,
-                                    "nombre": "Marco pedagógico",
+                                    "nombre": null,
                                     "ubicacion": {
                                         "idEtapa": 1,
                                         "idGrupo": 13,
@@ -709,7 +713,7 @@
                                         "idDato": null
                                     },
                                     "herencia": null,
-                                    "ayuda": "Se refiere a los principios y conceptos básicos que sustentan la propuesta del curso. Optar por un marco pedagógico implica adherir a una teoría, es decir, a un conjunto de ideas sobre cómo ocurre el proceso de aprendizaje y en función de ello, cómo se debe enseñar. Implica tomar una serie de decisiones sobre qué tipo de actividades de aprendizaje proponer, qué recursos educativos utilizar y qué tipo de evaluación realizar, etc.",
+                                    "ayuda": null,
                                     "tipo": "text",
                                     "computo": null,
                                     "opciones": null,
