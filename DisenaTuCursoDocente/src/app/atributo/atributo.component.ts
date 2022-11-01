@@ -110,7 +110,8 @@ export class AtributoComponent {
                 if (datoGuardado.ubicacionAtributo.idEtapa === this.atributo.ubicacion.idEtapa
                     && datoGuardado.ubicacionAtributo.idGrupo === this.atributo.ubicacion.idGrupo
                     && datoGuardado.ubicacionAtributo.idAtributo === this.atributo.id
-                    && datoGuardado.ubicacionAtributo.idDato === null
+                    // estoy hay que descomentarlo despues
+                    // && datoGuardado.ubicacionAtributo.idDato === null
                 ){
                     this.datoGuardado = datoGuardado;
                 }
@@ -468,13 +469,88 @@ export class AtributoComponent {
                                     if (valoresAtributo){
                                         datoGuardado.cantidadInstancias = cantidadInstancias
                                         datoGuardado.valoresAtributo = valoresAtributo
+                                        
+                                        var datoHeredado = JSON.parse(JSON.stringify(dato));
+                                        datoHeredado.ubicacion = datoGuardado.ubicacionAtributo
+                                        let ubicacionAbsoluta = this.computoUbicacionAbsoluta(datoHeredado.ubicacion,dato.id);
+                                        let claveMap = this.objectToString(ubicacionAbsoluta);
+                                        //Computo opciones de los Select del Atributo
+                                        if(datoHeredado.opciones){
+                                            this.cargoOpcionesSelect(datoHeredado,claveMap,ubicacionAbsoluta);
+                                        }
+                                        //Computo del dato computo
+                                        if(datoHeredado.computo){
+                                            this.procesarDatoComputo(datoHeredado.computo,ubicacionAbsoluta);
+                                        }
+                                        //Computo opciones de los Select del Atributo de contenidoCondicional
+                                        if(datoHeredado.filasDatos !== null){
+                                            
+                                            let datoInterior = datoHeredado.filasDatos[0].datos[0];
+                                            let ubicacionAbsInterior = this.computoUbicacionAbsoluta(datoInterior.ubicacion,datoInterior.id);
+                                            //ubicacionAbsInterior = 2,24,3,[7,1]
+                                            this.cargoOpcionesSelect(datoInterior
+                                                ,this.objectToString(ubicacionAbsInterior)
+                                                ,ubicacionAbsInterior
+                                            );
+                                            
+                                            //Todos los ContCond
+                                            let contenidoCondicional = this.initialSchemaService.defaultSchema?.contenidoCondicional;
+                                            //Los ContCond que son de este Dato
+                                            let contenidosMatchean = contenidoCondicional?.filter((contMacth) => this.objectToString(contMacth.muestroSi.referencia) === this.objectToString(ubicacionAbsInterior));
+                                            
+                                            //Cantidad de instancias de Modulo
+                                            let cantidadInstanciasAtributo = this.cuentoInstanciasGuardadasDeAtributo(dato.ubicacion);
+                                            //Copio array: arrayDato = [7,1]
+                                            let arrayDato = [...ubicacionAbsInterior.idDato];
+
+                                            //Agrego elemento al inicio, pivote de n° de instancia
+                                            ubicacionAbsInterior.idDato.unshift(0);
+                                            //Por cada instancia de Módulo, busco cuantas/cuales Unidades tiene
+                                            for (var i = 0; i < cantidadInstanciasAtributo; i++) {
+                                                
+                                                //Si no existe clave en Map, la agrego
+                                                let ubicacionContCondicional : Ubicacion = {
+                                                    idEtapa : ubicacionAbsInterior.idEtapa,
+                                                    idGrupo : ubicacionAbsInterior.idGrupo,
+                                                    idAtributo : ubicacionAbsInterior.idAtributo,
+                                                    idDato : [i]
+                                                }
+                                                let claveContCondicional = this.objectToString(ubicacionContCondicional);
+                                                let contCondicional = this.mapContenidoCondicional.get(claveContCondicional);
+                                                if(contCondicional === undefined){
+                                                    this.mapContenidoCondicional.set(
+                                                        claveContCondicional,
+                                                        []
+                                                    );
+                                                    contCondicional = this.mapContenidoCondicional.get(claveContCondicional);
+                                                }
+                                                                            
+                                                ubicacionAbsInterior.idDato[0] = i;
+                                                //ubicacionAbsInterior = 2,24,3,[i,7,1]
+                                                let valoresSelectCondicional = this.buscoDatoGuardadoDeAtributoContenidoCondicional(ubicacionAbsInterior,arrayDato);
+                                                for(let [indexSelCond,valSelCond] of valoresSelectCondicional.entries()){
+                                                    if(valSelCond.selectFijo === null){
+                                                        //Seteo como contenido condicional seleccionando la primer opcion
+                                                        contCondicional?.push([indexSelCond,contenidosMatchean![0].filasDatos]);
+                                                    }
+                                                    else{
+                                                        for (let contenidoEncontrado of contenidosMatchean!) {
+                                                            if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === valSelCond.selectFijo[0]){
+                                                                contCondicional?.push([indexSelCond,contenidoEncontrado.filasDatos]);
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
 
                         this.informarCambio.emit(datoUbicacion);
-                        break
+                        // break
                     }
                     break  
                 }

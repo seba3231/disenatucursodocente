@@ -1,13 +1,13 @@
 <div class="card container" (click)="onModify()">
     <div class="card-body">
-        <div *ngIf="grupo.nombre" class="d-flex flex-row">
+        <div *ngIf="grupo.nombre" class="d-flex flex-row mb-2">
             <i class="bi bi-mortarboard-fill p-2"></i>
             <h4 class="p-2">{{ grupo.nombre }}</h4>
         </div>
-        <div class="card border-secondary mb-3">
-            <div class="card-body">
+        <div class="mb-3">
+            <div class="">
                 <!-- este input es para que cuando se selecciona un grupo se haga foco en esta tabla -->
-                <input id="myInputFocus" type="text" autofocus style="opacity: 0;height: 0px;" />
+                <input id="myInputFocus" type="text" autofocus style="opacity: 0;height: 0px;padding: 0px;border: none;display: block;" />
 
                 <div *ngFor="let atributo of grupo.atributos" class="card border-secondary mb-3" style="padding-right: 2rem;" [ngClass]="{'puntoCritico': atributo.puntoCritico}" [ngStyle]="{'background-color': atributo.puntoCritico ? '#e6f1fc' : null}">
                     <div class="card-body">
