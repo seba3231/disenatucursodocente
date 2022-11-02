@@ -2097,13 +2097,19 @@
             "opciones": [{
                     "id": 0,
                     "idGrupo": 3,
-                    "valor": "Ciencia",
+                    "valor": "Área de Tecnologías y Ciencias de la Naturaleza y el Hábitat",
                     "muestroSi": null
                 },
                 {
                     "id": 1,
                     "idGrupo": 3,
-                    "valor": "Humanidades",
+                    "valor": "Área Ciencias de la Salud",
+                    "muestroSi": null
+                },
+                {
+                    "id": 2,
+                    "idGrupo": 3,
+                    "valor": "Área Social y Artística",
                     "muestroSi": null
                 }
             ]
@@ -2120,9 +2126,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2139,9 +2143,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2158,9 +2160,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2177,9 +2177,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2196,9 +2194,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2215,9 +2211,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2234,9 +2228,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2253,9 +2245,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2272,9 +2262,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2291,9 +2279,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2310,9 +2296,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2329,9 +2313,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2348,9 +2330,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2367,9 +2347,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2386,9 +2364,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2405,9 +2381,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2424,9 +2398,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2443,9 +2415,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2462,9 +2432,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
@@ -2481,9 +2449,7 @@
                             "idEtapa": 1,
                             "idGrupo": 12,
                             "idAtributo": 2,
-                            "idDato": [
-                                1
-                            ]
+                            "idDato": [1]
                         },
                         "valorSeleccionado": {
                             "idGrupoDatoFijo": 3,
