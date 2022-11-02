@@ -1,4 +1,4 @@
-<div *ngFor="let _ of [].constructor(datoGuardado!.cantidadInstancias); index as indiceInstancia">
+<div *ngFor="let _ of [].constructor(datoGuardado!.cantidadInstancias); index as indiceInstancia" class="atr-container">
     <div *ngIf="indiceInstancia === 0 && atributo.nombre" class="row">
         <h5>{{ atributo.nombre ? atributo.nombre+' ' : '' }}
             <span *ngIf="atributo.ayuda" class="d-inline-block" data-bs-toggle="popover" data-bs-trigger="hover focus" [attr.data-bs-content]="atributo.ayuda" data-bs-custom-class="custom-popover">
@@ -12,8 +12,8 @@
         <div *ngIf="atributo.puntoCritico.normativa" class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contenidoNormativa">
-                    Normativa
-                </button>
+                Normativa
+            </button>
             </h2>
             <div id="contenidoNormativa" class="accordion-collapse collapse collapse">
                 <div class="accordion-body" [innerHTML]="addLinkHTML(atributo.puntoCritico.normativa)"></div>
@@ -22,8 +22,8 @@
         <div *ngIf="atributo.puntoCritico.informacionAmpliatoria" class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contenidoInformacionAmpliatoria">
-                    Información Ampliatoria
-                </button>
+                Información Ampliatoria
+            </button>
             </h2>
             <div id="contenidoInformacionAmpliatoria" class="accordion-collapse collapse">
                 <div class="accordion-body" [innerHTML]="addLinkHTML(atributo.puntoCritico.informacionAmpliatoria)"></div>
@@ -32,8 +32,8 @@
         <div *ngIf="atributo.puntoCritico.aporteConceptual" class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contenidoAporteConceptual">
-                    Aporte Conceptual
-                </button>
+                Aporte Conceptual
+            </button>
             </h2>
             <div id="contenidoAporteConceptual" class="accordion-collapse collapse">
                 <div class="accordion-body" [innerHTML]="addLinkHTML(atributo.puntoCritico.aporteConceptual)"></div>
