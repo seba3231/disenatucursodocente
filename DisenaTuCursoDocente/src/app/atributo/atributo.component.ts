@@ -21,7 +21,8 @@ export interface ValorComputado{
     valor:number;
     op1:ComputoValorUbicacion|number;
     op2:ComputoValorUbicacion|number;
-    operacion:string;
+    op3:ComputoValorUbicacion|number;
+    operacion:string[];
 }
 export interface ComputoValorUbicacion{
     claveUbicacion:string;
@@ -1142,8 +1143,10 @@ export class AtributoComponent {
         if(valorComputado === undefined){
             let valorOP1 = this.calcularValorOperando(datoComputo.op1,ubicacion);
             let valorOP2 = this.calcularValorOperando(datoComputo.op2,ubicacion);
+            let valorOP3 = this.calcularValorOperando(datoComputo.op3,ubicacion);
             let op1=0;
             let op2=0;
+            let op3=0;
             if(typeof valorOP1 === "object"){
                 op1 = valorOP1.valor;
             }
@@ -1156,10 +1159,18 @@ export class AtributoComponent {
             else{
                 op2 = valorOP2;
             }
+            if (valorOP3){
+                if(typeof valorOP3 === "object"){
+                    op3 = valorOP3.valor;
+                }
+                else{
+                    op3 = valorOP3;
+                }
+            }
             //Hago la cuenta
             let nuevoValorComputado=0;
-            if(op2!==0 || (op2===0 && datoComputo.operacion !== '/')){
-                switch(datoComputo.operacion){
+            if(op2!==0 || (op2===0 && datoComputo.operacion[0] !== '/')){
+                switch(datoComputo.operacion[0]){
                     case '/':{
                         nuevoValorComputado=op1/op2;
                         break;
@@ -1178,10 +1189,32 @@ export class AtributoComponent {
                     }
                 }
             }
+            if(op3!==0 || (op3===0 && datoComputo.operacion[1] && datoComputo.operacion[1] !== '/')){
+                switch(datoComputo.operacion[1]){
+                    case '/':{
+                        nuevoValorComputado=nuevoValorComputado/op3;
+                        break;
+                    }
+                    case '+':{
+                        nuevoValorComputado=nuevoValorComputado+op3;
+                        break;
+                    }
+                    case '-':{
+                        nuevoValorComputado=nuevoValorComputado-op3;
+                        break;
+                    }
+                    case '*':{
+                        nuevoValorComputado=nuevoValorComputado*op3;
+                        break;
+                    }
+                }
+            }
+            nuevoValorComputado = Math.ceil(nuevoValorComputado)
             let valorComputado:ValorComputado = {
                 valor:nuevoValorComputado,
                 op1:valorOP1,
                 op2:valorOP2,
+                op3:valorOP3,
                 operacion:datoComputo.operacion
             };
             this.mapValoresComputados.set(claveIntesado,valorComputado);
@@ -1228,7 +1261,7 @@ export class AtributoComponent {
                     let valorAnterior = this.mapValoresComputados.get(claveIntesado);
                     if(valorAnterior !== undefined){
                         let op1 = 0;
-                        if(typeof valorAnterior.op1 === "object" && valorAnterior.op1.claveUbicacion === claveObservado){
+                        if(typeof valorAnterior.op1 === "object" ){
                             let valoresDato = this.buscoDatoGuardadoDeAtributo(registroDependencia.observado);
                             let nuevoResultadoOP = 0;
                             for(let valorDato of valoresDato){
@@ -1259,11 +1292,27 @@ export class AtributoComponent {
                         else if(typeof valorAnterior.op2 === "number"){
                             op2 = valorAnterior.op2;
                         }
+                        let op3 = 0;
+                        if(typeof valorAnterior.op3 === "object" && valorAnterior.op3.claveUbicacion === claveObservado){
+                            let valoresDato = this.buscoDatoGuardadoDeAtributo(registroDependencia.observado);
+                            let nuevoResultadoOP = 0;
+                            for(let valorDato of valoresDato){
+                                //Si hay valor válido
+                                if(valorDato.number){
+                                    nuevoResultadoOP = nuevoResultadoOP + valorDato.number;
+                                }
+                            }
+                            valorAnterior.op3.valor = nuevoResultadoOP;
+                            op1 = nuevoResultadoOP;
+                        }
+                        else if(typeof valorAnterior.op3 === "number"){
+                            op3 = valorAnterior.op3;
+                        }
 
                         //Hago la cuenta
                         let nuevoValorComputado=0;
-                        if(op2!==0 || (op2===0 && valorAnterior.operacion !== '/')){
-                            switch(valorAnterior.operacion){
+                        if(op2!==0 || (op2===0 && valorAnterior.operacion[0] !== '/')){
+                            switch(valorAnterior.operacion[0]){
                                 case '/':{
                                     nuevoValorComputado=op1/op2;
                                     break;
@@ -1282,6 +1331,27 @@ export class AtributoComponent {
                                 }
                             }
                         }
+                        if(op3!==0 || (op3===0 && valorAnterior.operacion[1] && valorAnterior.operacion[1] !== '/')){
+                            switch(valorAnterior.operacion[1]){
+                                case '/':{
+                                    nuevoValorComputado=nuevoValorComputado/op3;
+                                    break;
+                                }
+                                case '+':{
+                                    nuevoValorComputado=nuevoValorComputado+op3;
+                                    break;
+                                }
+                                case '-':{
+                                    nuevoValorComputado=nuevoValorComputado-op3;
+                                    break;
+                                }
+                                case '*':{
+                                    nuevoValorComputado=nuevoValorComputado*op3;
+                                    break;
+                                }
+                            }
+                        }
+                        nuevoValorComputado = Math.ceil(nuevoValorComputado)
                         
                         //Guardo resultado
                         valorAnterior.valor = nuevoValorComputado;

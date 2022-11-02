@@ -94,12 +94,13 @@ export interface Dato{
 export interface Computo{
     //operacion puede ser: '+','-','*','/'
     //la operacion a realizar es op1 {operacion} op2
-    operacion:string;
+    operacion:string[];
     //Si Ubicacion es multiInstanciable, se suman los valores
     //de todas sus instancias previo a realizar la operacion
     op1:number | Ubicacion;
     //number indica ID de Constante
     op2:number | Ubicacion;
+    op3:number | Ubicacion;
 }
 
 export interface Opciones{

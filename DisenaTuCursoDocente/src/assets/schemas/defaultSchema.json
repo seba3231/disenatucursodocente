@@ -65,14 +65,20 @@
                                         "ayuda": "Créditos que fueron calculados a partir de la cantidad de horas de cada tema",
                                         "tipo": "computo",
                                         "computo": {
-                                            "operacion": "/",
+                                            "operacion": ["+", "/"],
                                             "op1": {
                                                 "idEtapa": 1,
                                                 "idGrupo": 11,
                                                 "idAtributo": 2,
                                                 "idDato": [4]
                                             },
-                                            "op2": 1
+                                            "op2": {
+                                                "idEtapa": 1,
+                                                "idGrupo": 11,
+                                                "idAtributo": 2,
+                                                "idDato": [5]
+                                            },
+                                            "op3": 1
                                         },
                                         "opciones": null,
                                         "habilitadoSi": null,
@@ -100,50 +106,93 @@
                             "ayuda": null,
                             "obligatorio": false,
                             "filasDatos": [{
-                                "datos": [{
-                                        "id": 1,
-                                        "nombre": "Temas y/o Competencias",
-                                        "ubicacion": {
-                                            "idEtapa": 1,
-                                            "idGrupo": 11,
-                                            "idAtributo": 2,
-                                            "idDato": null
+                                    "datos": [{
+                                            "id": 1,
+                                            "nombre": "Temas y/o Competencias",
+                                            "ubicacion": {
+                                                "idEtapa": 1,
+                                                "idGrupo": 11,
+                                                "idAtributo": 2,
+                                                "idDato": null
+                                            },
+                                            "herencia": null,
+                                            "ayuda": " Las competencias combinan habilidades, actitudes y conocimientos que los estudiantes deben desarrollar en su proceso de aprendizaje. Se pueden formular en un enunciado que la describa en términos generales y haga referencia a algunos aspectos específicos. <br>Ej. Resolución de problemas: seleccionar estrategias y recursos para llegar a una solución a partir de lo que se conoce. Puede incluir analizar información, ponderar alternativas y crear planes de acción.",
+                                            "tipo": "selectFijoUnico",
+                                            "computo": null,
+                                            "opciones": {
+                                                "referencia": null,
+                                                "idGrupoDatoFijo": 1
+                                            },
+                                            "habilitadoSi": null,
+                                            "multiInstanciable": false,
+                                            "idContenidoCondicional": null,
+                                            "tamanio": null,
+                                            "filasDatos": null
                                         },
-                                        "herencia": null,
-                                        "ayuda": " Las competencias combinan habilidades, actitudes y conocimientos que los estudiantes deben desarrollar en su proceso de aprendizaje. Se pueden formular en un enunciado que la describa en términos generales y haga referencia a algunos aspectos específicos. <br>Ej. Resolución de problemas: seleccionar estrategias y recursos para llegar a una solución a partir de lo que se conoce. Puede incluir analizar información, ponderar alternativas y crear planes de acción.",
-                                        "tipo": "selectFijoUnico",
-                                        "computo": null,
-                                        "opciones": {
-                                            "referencia": null,
-                                            "idGrupoDatoFijo": 1
+                                        {
+                                            "id": 2,
+                                            "nombre": "Nombre de tema",
+                                            "ubicacion": {
+                                                "idEtapa": 1,
+                                                "idGrupo": 11,
+                                                "idAtributo": 2,
+                                                "idDato": null
+                                            },
+                                            "herencia": null,
+                                            "ayuda": "Los cursos abordan temas que el docente identifica como unidades específicas de contenido y organiza en, módulos, clases, unidades, o como decida denominar cada segmento. Pueden estar totalmente predefinidos por el equipo docente o pueden ser negociados con los estudiantes a partir de propuestas que se analizan. El 'tema' se refiere a esa unidad de contenido que debe ser abordada en el curso. Por ej. en un curso de Desigualdades sociales, un tema del curso podría ser 'Clases sociales'",
+                                            "tipo": "text",
+                                            "computo": null,
+                                            "opciones": null,
+                                            "habilitadoSi": null,
+                                            "multiInstanciable": false,
+                                            "idContenidoCondicional": null,
+                                            "tamanio": 40,
+                                            "filasDatos": null
                                         },
-                                        "habilitadoSi": null,
-                                        "multiInstanciable": false,
-                                        "idContenidoCondicional": null,
-                                        "tamanio": null,
-                                        "filasDatos": null
-                                    },
-                                    {
-                                        "id": 2,
-                                        "nombre": "Nombre de tema",
-                                        "ubicacion": {
-                                            "idEtapa": 1,
-                                            "idGrupo": 11,
-                                            "idAtributo": 2,
-                                            "idDato": null
+                                        {
+                                            "id": 4,
+                                            "nombre": "Horas de clase o similar",
+                                            "ubicacion": {
+                                                "idEtapa": 1,
+                                                "idGrupo": 11,
+                                                "idAtributo": 2,
+                                                "idDato": null
+                                            },
+                                            "herencia": null,
+                                            "ayuda": "Cálculo de horas que se le asigna al tema o al desarrollo de la competencia dentro del curso",
+                                            "tipo": "number",
+                                            "computo": null,
+                                            "opciones": null,
+                                            "habilitadoSi": null,
+                                            "multiInstanciable": false,
+                                            "idContenidoCondicional": null,
+                                            "tamanio": 3,
+                                            "filasDatos": null
                                         },
-                                        "herencia": null,
-                                        "ayuda": "Los cursos abordan temas que el docente identifica como unidades específicas de contenido y organiza en, módulos, clases, unidades, o como decida denominar cada segmento. Pueden estar totalmente predefinidos por el equipo docente o pueden ser negociados con los estudiantes a partir de propuestas que se analizan. El 'tema' se refiere a esa unidad de contenido que debe ser abordada en el curso. Por ej. en un curso de Desigualdades sociales, un tema del curso podría ser 'Clases sociales'",
-                                        "tipo": "text",
-                                        "computo": null,
-                                        "opciones": null,
-                                        "habilitadoSi": null,
-                                        "multiInstanciable": false,
-                                        "idContenidoCondicional": null,
-                                        "tamanio": 40,
-                                        "filasDatos": null
-                                    },
-                                    {
+                                        {
+                                            "id": 5,
+                                            "nombre": "Horas estudio personal",
+                                            "ubicacion": {
+                                                "idEtapa": 1,
+                                                "idGrupo": 11,
+                                                "idAtributo": 2,
+                                                "idDato": null
+                                            },
+                                            "herencia": null,
+                                            "ayuda": "Las horas de estudio personal son la mitad de las horas totales del curso",
+                                            "tipo": "number",
+                                            "computo": null,
+                                            "opciones": null,
+                                            "habilitadoSi": null,
+                                            "multiInstanciable": false,
+                                            "idContenidoCondicional": null,
+                                            "tamanio": 3,
+                                            "filasDatos": null
+                                        }
+                                    ]
+                                },
+                                {
+                                    "datos": [{
                                         "id": 3,
                                         "nombre": "Descripción",
                                         "ubicacion": {
@@ -162,29 +211,9 @@
                                         "idContenidoCondicional": null,
                                         "tamanio": 200,
                                         "filasDatos": null
-                                    },
-                                    {
-                                        "id": 4,
-                                        "nombre": "Cantidad de horas",
-                                        "ubicacion": {
-                                            "idEtapa": 1,
-                                            "idGrupo": 11,
-                                            "idAtributo": 2,
-                                            "idDato": null
-                                        },
-                                        "herencia": null,
-                                        "ayuda": "Cálculo de horas que se le asigna al tema o al desarrollo de la competencia dentro del curso",
-                                        "tipo": "number",
-                                        "computo": null,
-                                        "opciones": null,
-                                        "habilitadoSi": null,
-                                        "multiInstanciable": false,
-                                        "idContenidoCondicional": null,
-                                        "tamanio": 3,
-                                        "filasDatos": null
-                                    }
-                                ]
-                            }]
+                                    }]
+                                }
+                            ]
                         }
                     ]
                 },
