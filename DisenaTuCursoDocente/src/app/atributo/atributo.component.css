@@ -20,11 +20,3 @@
 ::-webkit-calendar-picker-indicator {
     filter: invert(0.2);
 }
-
-.atr-container:first-child>.accordion {
-    display: block !important;
-}
-
-.atr-container>.accordion {
-    display: none;
-}

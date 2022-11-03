@@ -1,4 +1,4 @@
-<div *ngFor="let _ of [].constructor(datoGuardado!.cantidadInstancias); index as indiceInstancia" class="atr-container">
+<div *ngFor="let _ of [].constructor(datoGuardado!.cantidadInstancias); index as indiceInstancia;let i=index;" class="atr-container">
     <div *ngIf="indiceInstancia === 0 && atributo.nombre" class="row">
         <h5>{{ atributo.nombre ? atributo.nombre+' ' : '' }}
             <span *ngIf="atributo.ayuda" class="d-inline-block" data-bs-toggle="popover" data-bs-trigger="hover focus" [attr.data-bs-content]="atributo.ayuda" data-bs-custom-class="custom-popover">
@@ -8,7 +8,7 @@
     </div>
 
     <!-- punto critico -->
-    <div *ngIf="atributo.puntoCritico" class="accordion pb-4">
+    <div *ngIf="i==0 && atributo.puntoCritico" class="accordion pb-4">
         <div *ngIf="atributo.puntoCritico.normativa" class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contenidoNormativa">
@@ -44,7 +44,7 @@
     <!-- subir archivos -->
     <input type="file" (change)="onFileSelected($event)" #fileUploader style="display:none">
     <a #fileDownloader style="display:none"></a>
-    <div *ngIf="atributo.herencia && atributoHerencia && atributoHerencia!.filasDatos" class="d-flex flex-column pb-2 pt-2 align-items-end">
+    <div *ngIf="i==0 && atributo.herencia && atributoHerencia && atributoHerencia!.filasDatos" class="d-flex flex-column pb-2 pt-2 align-items-end">
         <button class="btn btn-outline-primary" role="button" style="font-size: 12px; border: none;" data-bs-toggle="popover" data-bs-trigger="hover focus" [attr.data-bs-content]="'Podras cargar este dato con la información cargada en la sección ' + grupoHerencia!.nombre + ' de ' + etapaHerencia!.nombre"
             data-bs-custom-class="custom-popover" (click)="cargarDatosDesdeHerencia(atributo)">
             <!-- (click)="openModal('eliminar')" -->
