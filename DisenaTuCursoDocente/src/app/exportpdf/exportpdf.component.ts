@@ -113,7 +113,7 @@ export class ExportpdfComponent{
         dato.ubicacionAtributo.idGrupo == ubicacion.idGrupo &&
         dato.ubicacionAtributo.idAtributo == ubicacion.idAtributo){
           for (let valoresAtributo of dato.valoresAtributo){
-            if(valoresAtributo.idDato[0] == ubicacion.idDato[0]){
+            if(valoresAtributo.idDato[0] == ubicacion.idDato![0]){
               return valoresAtributo;
             }
           }

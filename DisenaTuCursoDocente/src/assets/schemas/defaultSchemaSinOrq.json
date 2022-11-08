@@ -65,14 +65,20 @@
                                         "ayuda": "Créditos que fueron calculados a partir de la cantidad de horas de cada tema",
                                         "tipo": "computo",
                                         "computo": {
-                                            "operacion": "/",
+                                            "operacion": ["+", "/"],
                                             "op1": {
                                                 "idEtapa": 1,
                                                 "idGrupo": 11,
                                                 "idAtributo": 2,
                                                 "idDato": [4]
                                             },
-                                            "op2": 1
+                                            "op2": {
+                                                "idEtapa": 1,
+                                                "idGrupo": 11,
+                                                "idAtributo": 2,
+                                                "idDato": [5]
+                                            },
+                                            "op3": 1
                                         },
                                         "opciones": null,
                                         "habilitadoSi": null,
@@ -100,50 +106,93 @@
                             "ayuda": null,
                             "obligatorio": false,
                             "filasDatos": [{
-                                "datos": [{
-                                        "id": 1,
-                                        "nombre": "Temas y/o Competencias",
-                                        "ubicacion": {
-                                            "idEtapa": 1,
-                                            "idGrupo": 11,
-                                            "idAtributo": 2,
-                                            "idDato": null
+                                    "datos": [{
+                                            "id": 1,
+                                            "nombre": "Temas y/o Competencias",
+                                            "ubicacion": {
+                                                "idEtapa": 1,
+                                                "idGrupo": 11,
+                                                "idAtributo": 2,
+                                                "idDato": null
+                                            },
+                                            "herencia": null,
+                                            "ayuda": " Las competencias combinan habilidades, actitudes y conocimientos que los estudiantes deben desarrollar en su proceso de aprendizaje. Se pueden formular en un enunciado que la describa en términos generales y haga referencia a algunos aspectos específicos. <br>Ej. Resolución de problemas: seleccionar estrategias y recursos para llegar a una solución a partir de lo que se conoce. Puede incluir analizar información, ponderar alternativas y crear planes de acción.",
+                                            "tipo": "selectFijoUnico",
+                                            "computo": null,
+                                            "opciones": {
+                                                "referencia": null,
+                                                "idGrupoDatoFijo": 1
+                                            },
+                                            "habilitadoSi": null,
+                                            "multiInstanciable": false,
+                                            "idContenidoCondicional": null,
+                                            "tamanio": null,
+                                            "filasDatos": null
                                         },
-                                        "herencia": null,
-                                        "ayuda": " Las competencias combinan habilidades, actitudes y conocimientos que los estudiantes deben desarrollar en su proceso de aprendizaje. Se pueden formular en un enunciado que la describa en términos generales y haga referencia a algunos aspectos específicos. <br>Ej. Resolución de problemas: seleccionar estrategias y recursos para llegar a una solución a partir de lo que se conoce. Puede incluir analizar información, ponderar alternativas y crear planes de acción.",
-                                        "tipo": "selectFijoUnico",
-                                        "computo": null,
-                                        "opciones": {
-                                            "referencia": null,
-                                            "idGrupoDatoFijo": 1
+                                        {
+                                            "id": 2,
+                                            "nombre": "Nombre de tema",
+                                            "ubicacion": {
+                                                "idEtapa": 1,
+                                                "idGrupo": 11,
+                                                "idAtributo": 2,
+                                                "idDato": null
+                                            },
+                                            "herencia": null,
+                                            "ayuda": "Los cursos abordan temas que el docente identifica como unidades específicas de contenido y organiza en, módulos, clases, unidades, o como decida denominar cada segmento. Pueden estar totalmente predefinidos por el equipo docente o pueden ser negociados con los estudiantes a partir de propuestas que se analizan. El 'tema' se refiere a esa unidad de contenido que debe ser abordada en el curso. Por ej. en un curso de Desigualdades sociales, un tema del curso podría ser 'Clases sociales'",
+                                            "tipo": "text",
+                                            "computo": null,
+                                            "opciones": null,
+                                            "habilitadoSi": null,
+                                            "multiInstanciable": false,
+                                            "idContenidoCondicional": null,
+                                            "tamanio": 40,
+                                            "filasDatos": null
                                         },
-                                        "habilitadoSi": null,
-                                        "multiInstanciable": false,
-                                        "idContenidoCondicional": null,
-                                        "tamanio": null,
-                                        "filasDatos": null
-                                    },
-                                    {
-                                        "id": 2,
-                                        "nombre": "Nombre de tema",
-                                        "ubicacion": {
-                                            "idEtapa": 1,
-                                            "idGrupo": 11,
-                                            "idAtributo": 2,
-                                            "idDato": null
+                                        {
+                                            "id": 4,
+                                            "nombre": "Horas de clase o similar",
+                                            "ubicacion": {
+                                                "idEtapa": 1,
+                                                "idGrupo": 11,
+                                                "idAtributo": 2,
+                                                "idDato": null
+                                            },
+                                            "herencia": null,
+                                            "ayuda": "Cálculo de horas que se le asigna al tema o al desarrollo de la competencia dentro del curso",
+                                            "tipo": "number",
+                                            "computo": null,
+                                            "opciones": null,
+                                            "habilitadoSi": null,
+                                            "multiInstanciable": false,
+                                            "idContenidoCondicional": null,
+                                            "tamanio": 3,
+                                            "filasDatos": null
                                         },
-                                        "herencia": null,
-                                        "ayuda": "Los cursos abordan temas que el docente identifica como unidades específicas de contenido y organiza en, módulos, clases, unidades, o como decida denominar cada segmento. Pueden estar totalmente predefinidos por el equipo docente o pueden ser negociados con los estudiantes a partir de propuestas que se analizan. El 'tema' se refiere a esa unidad de contenido que debe ser abordada en el curso. Por ej. en un curso de Desigualdades sociales, un tema del curso podría ser 'Clases sociales'",
-                                        "tipo": "text",
-                                        "computo": null,
-                                        "opciones": null,
-                                        "habilitadoSi": null,
-                                        "multiInstanciable": false,
-                                        "idContenidoCondicional": null,
-                                        "tamanio": 40,
-                                        "filasDatos": null
-                                    },
-                                    {
+                                        {
+                                            "id": 5,
+                                            "nombre": "Horas estudio personal",
+                                            "ubicacion": {
+                                                "idEtapa": 1,
+                                                "idGrupo": 11,
+                                                "idAtributo": 2,
+                                                "idDato": null
+                                            },
+                                            "herencia": null,
+                                            "ayuda": "Las horas de estudio personal son la mitad de las horas totales del curso",
+                                            "tipo": "number",
+                                            "computo": null,
+                                            "opciones": null,
+                                            "habilitadoSi": null,
+                                            "multiInstanciable": false,
+                                            "idContenidoCondicional": null,
+                                            "tamanio": 3,
+                                            "filasDatos": null
+                                        }
+                                    ]
+                                },
+                                {
+                                    "datos": [{
                                         "id": 3,
                                         "nombre": "Descripción",
                                         "ubicacion": {
@@ -162,29 +211,9 @@
                                         "idContenidoCondicional": null,
                                         "tamanio": 200,
                                         "filasDatos": null
-                                    },
-                                    {
-                                        "id": 4,
-                                        "nombre": "Cantidad de horas",
-                                        "ubicacion": {
-                                            "idEtapa": 1,
-                                            "idGrupo": 11,
-                                            "idAtributo": 2,
-                                            "idDato": null
-                                        },
-                                        "herencia": null,
-                                        "ayuda": "Cálculo de horas que se le asigna al tema o al desarrollo de la competencia dentro del curso",
-                                        "tipo": "number",
-                                        "computo": null,
-                                        "opciones": null,
-                                        "habilitadoSi": null,
-                                        "multiInstanciable": false,
-                                        "idContenidoCondicional": null,
-                                        "tamanio": 3,
-                                        "filasDatos": null
-                                    }
-                                ]
-                            }]
+                                    }]
+                                }
+                            ]
                         }
                     ]
                 },
@@ -474,7 +503,18 @@
                                         "tipo": "porcentaje",
                                         "computo": null,
                                         "opciones": null,
-                                        "habilitadoSi": null,
+                                        "habilitadoSi": {
+                                            "referencia": {
+                                                "idEtapa": 1,
+                                                "idGrupo": 12,
+                                                "idAtributo": 4,
+                                                "idDato": [1]
+                                            },
+                                            "valorSeleccionado": {
+                                                "idGrupoDatoFijo": 5,
+                                                "idOpcion": 0
+                                            }
+                                        },
                                         "multiInstanciable": false,
                                         "idContenidoCondicional": null,
                                         "tamanio": 3,
@@ -494,7 +534,18 @@
                                         "tipo": "porcentaje",
                                         "computo": null,
                                         "opciones": null,
-                                        "habilitadoSi": null,
+                                        "habilitadoSi": {
+                                            "referencia": {
+                                                "idEtapa": 1,
+                                                "idGrupo": 12,
+                                                "idAtributo": 4,
+                                                "idDato": [1]
+                                            },
+                                            "valorSeleccionado": {
+                                                "idGrupoDatoFijo": 5,
+                                                "idOpcion": 0
+                                            }
+                                        },
                                         "multiInstanciable": false,
                                         "idContenidoCondicional": null,
                                         "tamanio": 3,
@@ -647,7 +698,7 @@
                         },
                         {
                             "id": 2,
-                            "nombre": "Objetivos de aprendizaje",
+                            "nombre": null,
                             "ubicacion": {
                                 "idEtapa": 1,
                                 "idGrupo": 13,
@@ -665,7 +716,7 @@
                             "filasDatos": [{
                                 "datos": [{
                                     "id": 1,
-                                    "nombre": null,
+                                    "nombre": "Objetivos de aprendizaje",
                                     "ubicacion": {
                                         "idEtapa": 1,
                                         "idGrupo": 13,
@@ -687,7 +738,7 @@
                         },
                         {
                             "id": 3,
-                            "nombre": "Marco pedagógico",
+                            "nombre": null,
                             "ubicacion": {
                                 "idEtapa": 1,
                                 "idGrupo": 13,
@@ -696,16 +747,12 @@
                             },
                             "herencia": null,
                             "multiInstanciable": false,
-                            "puntoCritico": {
-                                "normativa": null,
-                                "informacionAmpliatoria": null,
-                                "aporteConceptual": "Se refiere a los principios y conceptos básicos que sustentan la propuesta del curso. Optar por un marco pedagógico implica adherir a una teoría, es decir, a un conjunto de ideas sobre cómo ocurre el proceso de aprendizaje y en función de ello, cómo se debe enseñar. Implica tomar una serie de decisiones sobre qué tipo de actividades de aprendizaje proponer, qué recursos educativos utilizar y qué tipo de evaluación realizar, etc."
-                            },
+                            "puntoCritico": null,
                             "comentariosPrivados": [],
                             "filasDatos": [{
                                 "datos": [{
                                     "id": 1,
-                                    "nombre": null,
+                                    "nombre": "Marco pedagógico",
                                     "ubicacion": {
                                         "idEtapa": 1,
                                         "idGrupo": 13,
@@ -713,7 +760,7 @@
                                         "idDato": null
                                     },
                                     "herencia": null,
-                                    "ayuda": null,
+                                    "ayuda": "Se refiere a los principios y conceptos básicos que sustentan la propuesta del curso. Optar por un marco pedagógico implica adherir a una teoría, es decir, a un conjunto de ideas sobre cómo ocurre el proceso de aprendizaje y en función de ello, cómo se debe enseñar. Implica tomar una serie de decisiones sobre qué tipo de actividades de aprendizaje proponer, qué recursos educativos utilizar y qué tipo de evaluación realizar, etc.",
                                     "tipo": "text",
                                     "computo": null,
                                     "opciones": null,
@@ -798,6 +845,29 @@
                                         "idContenidoCondicional": null,
                                         "tamanio": null,
                                         "filasDatos": null
+                                    },
+                                    {
+                                        "id": 3,
+                                        "nombre": "Tipo",
+                                        "ubicacion": {
+                                            "idEtapa": 1,
+                                            "idGrupo": 14,
+                                            "idAtributo": 1,
+                                            "idDato": null
+                                        },
+                                        "herencia": null,
+                                        "ayuda": null,
+                                        "tipo": "selectFijoUnico",
+                                        "computo": null,
+                                        "opciones": {
+                                            "referencia": null,
+                                            "idGrupoDatoFijo": 18
+                                        },
+                                        "habilitadoSi": null,
+                                        "multiInstanciable": false,
+                                        "idContenidoCondicional": null,
+                                        "tamanio": null,
+                                        "filasDatos": null
                                     }
                                 ]
                             }]
@@ -869,7 +939,7 @@
                         },
                         {
                             "id": 3,
-                            "nombre": null,
+                            "nombre": "Licenciamiento Creative Commons",
                             "ubicacion": {
                                 "idEtapa": 1,
                                 "idGrupo": 14,
@@ -952,7 +1022,7 @@
                                         "idDato": null
                                     },
                                     "herencia": null,
-                                    "ayuda": "Una vez finalizado el período de inscripción, el docente debe saber el número de estudiantes inscriptos. Es un dato muy importante para determinar si se trata de un caso de numerosidad, por ej. O para calcular la proporción de alumnos por docente.                                    ",
+                                    "ayuda": "Una vez finalizado el período de inscripción, el docente debe saber el número de estudiantes inscriptos. Es un dato muy importante para determinar si se trata de un caso de numerosidad, por ej. O para calcular la proporción de alumnos por docente.",
                                     "tipo": "number",
                                     "computo": null,
                                     "opciones": null,
@@ -1177,7 +1247,7 @@
                             "filasDatos": [{
                                 "datos": [{
                                     "id": 1,
-                                    "nombre": null,
+                                    "nombre": "Plataformas disponibles",
                                     "ubicacion": {
                                         "idEtapa": 2,
                                         "idGrupo": 22,
@@ -1406,7 +1476,7 @@
                                                 "idEtapa": 1,
                                                 "idGrupo": 11,
                                                 "idAtributo": 2,
-                                                "idDato": 3
+                                                "idDato": [2]
                                             },
                                             "idGrupoDatoFijo": null
                                         },
@@ -1432,51 +1502,26 @@
                     },
                     "relacionesGrafo": [3],
                     "atributos": [{
-                        "id": 3,
-                        "nombre": "Orquestación",
-                        "ubicacion": {
-                            "idEtapa": 2,
-                            "idGrupo": 24,
-                            "idAtributo": null,
-                            "idDato": null
-                        },
-                        "herencia": null,
-                        "multiInstanciable": true,
-                        "puntoCritico": {
-                            "aporteConceptual": "aaaa",
-                            "informacionAmpliatoria": "bbb",
-                            "normativa": null
-                        },
-                        "filasDatos": [{
-                                "datos": [{
-                                    "id": 1,
-                                    "nombre": "Nombre de modulo",
-                                    "ubicacion": {
-                                        "idEtapa": 2,
-                                        "idGrupo": 24,
-                                        "idAtributo": 3,
-                                        "idDato": null
-                                    },
-                                    "herencia": null,
-                                    "ayuda": null,
-                                    "tipo": "text",
-                                    "computo": null,
-                                    "opciones": null,
-                                    "habilitadoSi": null,
-                                    "multiInstanciable": false,
-                                    "idContenidoCondicional": null,
-                                    "tamanio": 50,
-                                    "filasDatos": null
-                                }]
+                            "id": 1,
+                            "nombre": null,
+                            "ubicacion": {
+                                "idEtapa": 2,
+                                "idGrupo": 24,
+                                "idAtributo": null,
+                                "idDato": null
                             },
-                            {
+                            "herencia": null,
+                            "multiInstanciable": false,
+                            "puntoCritico": null,
+                            "comentariosPrivados": [],
+                            "filasDatos": [{
                                 "datos": [{
-                                        "id": 2,
+                                        "id": 1,
                                         "nombre": "Fecha inicio",
                                         "ubicacion": {
                                             "idEtapa": 2,
                                             "idGrupo": 24,
-                                            "idAtributo": 3,
+                                            "idAtributo": 1,
                                             "idDato": null
                                         },
                                         "herencia": null,
@@ -1491,12 +1536,12 @@
                                         "filasDatos": null
                                     },
                                     {
-                                        "id": 3,
+                                        "id": 2,
                                         "nombre": "Fecha fin",
                                         "ubicacion": {
                                             "idEtapa": 2,
                                             "idGrupo": 24,
-                                            "idAtributo": 3,
+                                            "idAtributo": 1,
                                             "idDato": null
                                         },
                                         "herencia": null,
@@ -1509,14 +1554,58 @@
                                         "idContenidoCondicional": null,
                                         "tamanio": null,
                                         "filasDatos": null
-                                    },
-                                    {
-                                        "id": 4,
-                                        "nombre": "Modalidad",
+                                    }
+                                ]
+                            }]
+                        },
+                        {
+                            "id": 2,
+                            "nombre": "Evaluaciones",
+                            "ubicacion": {
+                                "idEtapa": 2,
+                                "idGrupo": 24,
+                                "idAtributo": null,
+                                "idDato": null
+                            },
+                            "herencia": null,
+                            "multiInstanciable": true,
+                            "puntoCritico": {
+                                "aporteConceptual": "aaaa",
+                                "informacionAmpliatoria": "bbb",
+                                "normativa": null
+                            },
+                            "comentariosPrivados": [],
+                            "filasDatos": [{
+                                "datos": [{
+                                        "id": 1,
+                                        "nombre": "Tipo",
                                         "ubicacion": {
                                             "idEtapa": 2,
                                             "idGrupo": 24,
-                                            "idAtributo": 3,
+                                            "idAtributo": 2,
+                                            "idDato": null
+                                        },
+                                        "herencia": null,
+                                        "ayuda": null,
+                                        "tipo": "date",
+                                        "computo": null,
+                                        "opciones": {
+                                            "referencia": null,
+                                            "idGrupoDatoFijo": 14
+                                        },
+                                        "habilitadoSi": null,
+                                        "multiInstanciable": false,
+                                        "idContenidoCondicional": null,
+                                        "tamanio": null,
+                                        "filasDatos": null
+                                    },
+                                    {
+                                        "id": 2,
+                                        "nombre": "Herramientas",
+                                        "ubicacion": {
+                                            "idEtapa": 2,
+                                            "idGrupo": 24,
+                                            "idAtributo": 2,
                                             "idDato": null
                                         },
                                         "herencia": null,
@@ -1525,38 +1614,7 @@
                                         "computo": null,
                                         "opciones": {
                                             "referencia": null,
-                                            "idGrupoDatoFijo": 9
-                                        },
-                                        "habilitadoSi": null,
-                                        "multiInstanciable": false,
-                                        "idContenidoCondicional": null,
-                                        "tamanio": null,
-                                        "filasDatos": null
-                                    }
-                                ]
-                            },
-                            {
-                                "datos": [{
-                                        "id": 5,
-                                        "nombre": "Espacios fisicos utilizados",
-                                        "ubicacion": {
-                                            "idEtapa": 2,
-                                            "idGrupo": 24,
-                                            "idAtributo": 3,
-                                            "idDato": null
-                                        },
-                                        "herencia": null,
-                                        "ayuda": null,
-                                        "tipo": "selectUsuarioMultiple",
-                                        "computo": null,
-                                        "opciones": {
-                                            "referencia": {
-                                                "idEtapa": 2,
-                                                "idGrupo": 22,
-                                                "idAtributo": 1,
-                                                "idDato": 1
-                                            },
-                                            "idGrupoDatoFijo": null
+                                            "idGrupoDatoFijo": 15
                                         },
                                         "habilitadoSi": null,
                                         "multiInstanciable": false,
@@ -1565,78 +1623,29 @@
                                         "filasDatos": null
                                     },
                                     {
-                                        "id": 6,
-                                        "nombre": "Plataformas disponibles",
+                                        "id": 3,
+                                        "nombre": "Otras",
                                         "ubicacion": {
                                             "idEtapa": 2,
                                             "idGrupo": 24,
-                                            "idAtributo": 3,
+                                            "idAtributo": 2,
                                             "idDato": null
                                         },
                                         "herencia": null,
                                         "ayuda": null,
-                                        "tipo": "selectFijoMultiple",
+                                        "tipo": "text",
                                         "computo": null,
-                                        "opciones": {
-                                            "referencia": null,
-                                            "idGrupoDatoFijo": 13
-                                        },
+                                        "opciones": null,
                                         "habilitadoSi": null,
                                         "multiInstanciable": false,
                                         "idContenidoCondicional": null,
-                                        "tamanio": null,
+                                        "tamanio": 200,
                                         "filasDatos": null
                                     }
                                 ]
-                            },
-                            {
-                                "datos": [{
-                                    "id": 7,
-                                    "nombre": "Unidades",
-                                    "ubicacion": {
-                                        "idEtapa": 2,
-                                        "idGrupo": 24,
-                                        "idAtributo": 3,
-                                        "idDato": null
-                                    },
-                                    "herencia": null,
-                                    "ayuda": null,
-                                    "tipo": null,
-                                    "computo": null,
-                                    "opciones": null,
-                                    "habilitadoSi": null,
-                                    "multiInstanciable": true,
-                                    "idContenidoCondicional": null,
-                                    "tamanio": null,
-                                    "filasDatos": [{
-                                        "datos": [{
-                                            "id": 1,
-                                            "nombre": null,
-                                            "ubicacion": {
-                                                "idEtapa": 2,
-                                                "idGrupo": 24,
-                                                "idAtributo": 3,
-                                                "idDato": [7]
-                                            },
-                                            "herencia": null,
-                                            "ayuda": null,
-                                            "tipo": "selectFijoUnico",
-                                            "computo": null,
-                                            "opciones": {
-                                                "referencia": null,
-                                                "idGrupoDatoFijo": 16
-                                            },
-                                            "habilitadoSi": null,
-                                            "multiInstanciable": false,
-                                            "idContenidoCondicional": [1, 2, 3],
-                                            "tamanio": null,
-                                            "filasDatos": null
-                                        }]
-                                    }]
-                                }]
-                            }
-                        ]
-                    }]
+                            }]
+                        }
+                    ]
                 },
                 {
                     "id": 25,
@@ -1842,7 +1851,27 @@
                         "puntoCritico": null,
                         "comentariosPrivados": [],
                         "filasDatos": [{
-                                "datos": [{
+                            "datos": [{
+                                    "id": 2,
+                                    "nombre": "Comentario",
+                                    "ubicacion": {
+                                        "idEtapa": 3,
+                                        "idGrupo": 31,
+                                        "idAtributo": 1,
+                                        "idDato": null
+                                    },
+                                    "herencia": null,
+                                    "ayuda": null,
+                                    "tipo": "text",
+                                    "computo": null,
+                                    "opciones": null,
+                                    "habilitadoSi": null,
+                                    "multiInstanciable": false,
+                                    "idContenidoCondicional": null,
+                                    "tamanio": 1000,
+                                    "filasDatos": null
+                                },
+                                {
                                     "id": 1,
                                     "nombre": "Fecha",
                                     "ubicacion": {
@@ -1861,31 +1890,9 @@
                                     "idContenidoCondicional": null,
                                     "tamanio": null,
                                     "filasDatos": null
-                                }]
-                            },
-                            {
-                                "datos": [{
-                                    "id": 2,
-                                    "nombre": null,
-                                    "ubicacion": {
-                                        "idEtapa": 3,
-                                        "idGrupo": 31,
-                                        "idAtributo": 1,
-                                        "idDato": null
-                                    },
-                                    "herencia": null,
-                                    "ayuda": null,
-                                    "tipo": "text",
-                                    "computo": null,
-                                    "opciones": null,
-                                    "habilitadoSi": null,
-                                    "multiInstanciable": false,
-                                    "idContenidoCondicional": null,
-                                    "tamanio": 1000,
-                                    "filasDatos": null
-                                }]
-                            }
-                        ]
+                                }
+                            ]
+                        }]
                     }]
                 },
                 {
@@ -1941,85 +1948,6 @@
                             },
                             "comentariosPrivados": [],
                             "filasDatos": null
-                        },
-                        {
-                            "id": 3,
-                            "nombre": "Orquestación",
-                            "ubicacion": {
-                                "idEtapa": 3,
-                                "idGrupo": 32,
-                                "idAtributo": null,
-                                "idDato": null
-                            },
-                            "herencia": {
-                                "idEtapa": 2,
-                                "idGrupo": 24,
-                                "idAtributo": 3,
-                                "idDato": null
-                            },
-                            "multiInstanciable": true,
-                            "puntoCritico": {
-                                "aporteConceptual": "aaaa",
-                                "informacionAmpliatoria": "bbb",
-                                "normativa": null
-                            },
-                            "comentariosPrivados": [],
-                            "filasDatos": [{
-                                "datos": [{
-                                    "id": 1,
-                                    "nombre": "Unidad",
-                                    "ubicacion": {
-                                        "idEtapa": 3,
-                                        "idGrupo": 32,
-                                        "idAtributo": 3,
-                                        "idDato": null
-                                    },
-                                    "herencia": {
-                                        "idEtapa": 2,
-                                        "idGrupo": 24,
-                                        "idAtributo": 3,
-                                        "idDato": [7]
-                                    },
-                                    "ayuda": null,
-                                    "tipo": null,
-                                    "computo": null,
-                                    "opciones": null,
-                                    "habilitadoSi": null,
-                                    "multiInstanciable": true,
-                                    "idContenidoCondicional": null,
-                                    "tamanio": null,
-                                    "filasDatos": [{
-                                        "datos": [{
-                                            "id": 1,
-                                            "nombre": null,
-                                            "ubicacion": {
-                                                "idEtapa": 3,
-                                                "idGrupo": 32,
-                                                "idAtributo": 3,
-                                                "idDato": [1]
-                                            },
-                                            "herencia": {
-                                                "idEtapa": 2,
-                                                "idGrupo": 24,
-                                                "idAtributo": 3,
-                                                "idDato": [7, 1]
-                                            },
-                                            "ayuda": null,
-                                            "tipo": "selectFijoUnico",
-                                            "computo": null,
-                                            "opciones": {
-                                                "referencia": null,
-                                                "idGrupoDatoFijo": 16
-                                            },
-                                            "habilitadoSi": null,
-                                            "multiInstanciable": false,
-                                            "idContenidoCondicional": [4, 5, 6],
-                                            "tamanio": null,
-                                            "filasDatos": null
-                                        }]
-                                    }]
-                                }]
-                            }]
                         }
                     ]
                 },
@@ -2879,6 +2807,23 @@
                     "id": 8,
                     "idGrupo": 17,
                     "valor": "Aprendizaje basado en problemas",
+                    "muestroSi": null
+                }
+            ]
+        },
+        {
+            "id": 18,
+            "nombre": "Tipo de Bibliografía",
+            "opciones": [{
+                    "id": 0,
+                    "idGrupo": 18,
+                    "valor": "Obligatoria",
+                    "muestroSi": null
+                },
+                {
+                    "id": 1,
+                    "idGrupo": 18,
+                    "valor": "Ampliatoria o recomendada",
                     "muestroSi": null
                 }
             ]
