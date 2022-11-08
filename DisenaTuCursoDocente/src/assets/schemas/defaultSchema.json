@@ -698,7 +698,7 @@
                         },
                         {
                             "id": 2,
-                            "nombre": null,
+                            "nombre": "Objetivos de aprendizaje",
                             "ubicacion": {
                                 "idEtapa": 1,
                                 "idGrupo": 13,
@@ -2370,7 +2370,7 @@
                 {
                     "id": 12,
                     "idGrupo": 4,
-                    "valor": " Instituto Escuela Nacional de Bellas Artes",
+                    "valor": "Instituto Escuela Nacional de Bellas Artes",
                     "muestroSi": {
                         "referencia": {
                             "idEtapa": 1,
