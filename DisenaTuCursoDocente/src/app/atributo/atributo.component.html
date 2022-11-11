@@ -104,8 +104,7 @@
                         <mat-form-field appearance="fill">
                             <mat-label>{{ dato.nombre ? dato.nombre : "Seleccione" }}</mat-label>
                             <mat-select multiple (selectionChange)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event)" [ngModel]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)">
-                                <!--<mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">-->
-                                <mat-option *ngFor="let opcion of getOpciones(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">
+                                <mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">
                                     {{opcion.string}}
                                 </mat-option>
                             </mat-select>
@@ -177,8 +176,7 @@
                         <mat-form-field appearance="fill">
                             <mat-label>{{ dato.nombre ? dato.nombre : "Seleccione" }}</mat-label>
                             <mat-select multiple (selectionChange)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event)" [ngModel]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)">
-                                <!--<mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">-->
-                                <mat-option *ngFor="let opcion of getOpciones(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">
+                                <mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">
                                     {{opcion.string}}
                                 </mat-option>
                             </mat-select>
@@ -318,8 +316,7 @@
                                         <mat-form-field appearance="fill">
                                             <mat-label>{{ dato.nombre ? dato.nombre : "Seleccione" }}</mat-label>
                                             <mat-select multiple (selectionChange)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event)" [ngModel]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)">
-                                                <!--<mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">-->
-                                                <mat-option *ngFor="let opcion of getOpciones(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">
+                                                <mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">
                                                     {{opcion.string}}
                                                 </mat-option>
                                             </mat-select>
@@ -392,8 +389,7 @@
                                         <mat-form-field appearance="fill">
                                             <mat-label>{{ dato.nombre ? dato.nombre : "Seleccione" }}</mat-label>
                                             <mat-select multiple (selectionChange)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event)" [ngModel]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)">
-                                                <!--<mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">-->
-                                                <mat-option *ngFor="let opcion of getOpciones(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">
+                                                <mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">
                                                     {{opcion.string}}
                                                 </mat-option>
                                             </mat-select>

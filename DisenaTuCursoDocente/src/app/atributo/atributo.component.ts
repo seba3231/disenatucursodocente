@@ -1588,16 +1588,4 @@ export class AtributoComponent {
             }
         }
     }
-
-    //ACCESO A MAPS
-    //<input class="form-control" 
-    //(keyup)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" 
-    //[type]="mapTipoInputHTML.get(enumTiposInput.porcentaje)" 
-    //[placeholder]="dato.nombre || ''"
-    //[formControl]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)" 
-    //[ngClass]="{ 'is-invalid': mapControlesCampos.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id))+indiceInstancia)!.invalid }">
-    getOpciones(clave:string){
-        let ret = this.mapOpcionesSelect.get(clave);
-        return ret;
-    }
 }
