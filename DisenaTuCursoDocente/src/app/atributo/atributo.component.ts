@@ -657,7 +657,7 @@ export class AtributoComponent {
         fileUploader.setAttribute('idEtapa',ubicacion.idEtapa.toString());
         fileUploader.setAttribute('idGrupo',ubicacion.idGrupo.toString());
         fileUploader.setAttribute('idAtributo',ubicacion.idAtributo.toString());
-        let acumuladorIDDato=null;
+        let acumuladorIDDato:string|null=null;
         for(let idDato of ubicacion.idDato!){
             if(acumuladorIDDato === null){
                 acumuladorIDDato=idDato.toString();
@@ -805,7 +805,7 @@ export class AtributoComponent {
                         valoresDato[indice].selectFijo = null;
                     }
                     else{
-                        let valoresAGuardar = [];
+                        let valoresAGuardar:number[] = [];
                         for(let valor of nuevoValor.value){
                             valoresAGuardar.push(valor);
                         }
@@ -819,7 +819,7 @@ export class AtributoComponent {
                         valoresDato[indice].selectUsuario = null;
                     }
                     else{
-                        let valoresAGuardar = [];
+                        let valoresAGuardar:number[] = [];
                         for(let valor of nuevoValor.value){
                             valoresAGuardar.push(valor);
                         }

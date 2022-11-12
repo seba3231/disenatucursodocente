@@ -250,7 +250,7 @@ export class ExportpdfComponent{
             this.pdf.content.push({text: '\n',style: 'body' });
             if (cursosDatos){  
               if (cursosDatos){
-                  var valueString = null;
+                  var valueString:string|null = null;
                   var ultimoGrupo;
                   var ultimaEtapa;
                   for(let datoGuardado of cursosDatos!.datosGuardados){
