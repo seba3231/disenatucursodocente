@@ -2959,6 +2959,23 @@
                     "muestroSi": null
                 }
             ]
+        },
+        {
+            "id": 18,
+            "nombre": "Tipo de Bibliografía",
+            "opciones": [{
+                    "id": 0,
+                    "idGrupo": 18,
+                    "valor": "Obligatoria",
+                    "muestroSi": null
+                },
+                {
+                    "id": 1,
+                    "idGrupo": 18,
+                    "valor": "Ampliatoria o recomendada",
+                    "muestroSi": null
+                }
+            ]
         }
     ],
     "contenidoCondicional": [{
