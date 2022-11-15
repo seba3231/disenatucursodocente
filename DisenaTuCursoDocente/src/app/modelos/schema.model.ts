@@ -53,7 +53,7 @@ export interface Ubicacion{
     idEtapa:number;
     idGrupo:number;
     idAtributo:number;
-    idDato:number[];
+    idDato:number[] | null;
 }
 
 export interface Atributo{

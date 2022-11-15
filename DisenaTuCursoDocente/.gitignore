@@ -1,7 +1,21 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # Compiled output
-/dist
+
+!/dist/
+/dist/*
+!/dist/disena-tu-curso-docente/
+/dist/disena-tu-curso-docente/*
+!/dist/disena-tu-curso-docente/assets/
+/dist/disena-tu-curso-docente/assets/*
+!/dist/disena-tu-curso-docente/assets/schemasData/
+/dist/disena-tu-curso-docente/assets/schemasData/*
+!/dist/disena-tu-curso-docente/assets/schemasData/.gitkeep
+
+!/dist/disena-tu-curso-docente/assets/files/
+/dist/disena-tu-curso-docente/assets/files/*
+!/dist/disena-tu-curso-docente/assets/files/.gitkeep
+
 /tmp
 /out-tsc
 /bazel-out

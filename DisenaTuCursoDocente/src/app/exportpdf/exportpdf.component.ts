@@ -113,7 +113,7 @@ export class ExportpdfComponent{
         dato.ubicacionAtributo.idGrupo == ubicacion.idGrupo &&
         dato.ubicacionAtributo.idAtributo == ubicacion.idAtributo){
           for (let valoresAtributo of dato.valoresAtributo){
-            if(valoresAtributo.idDato[0] == ubicacion.idDato[0]){
+            if(valoresAtributo.idDato[0] == ubicacion.idDato![0]){
               return valoresAtributo;
             }
           }
@@ -250,7 +250,7 @@ export class ExportpdfComponent{
             this.pdf.content.push({text: '\n',style: 'body' });
             if (cursosDatos){  
               if (cursosDatos){
-                  var valueString = null;
+                  var valueString:string|null = null;
                   var ultimoGrupo;
                   var ultimaEtapa;
                   for(let datoGuardado of cursosDatos!.datosGuardados){

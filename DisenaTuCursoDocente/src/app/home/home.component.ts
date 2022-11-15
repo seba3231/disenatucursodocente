@@ -151,12 +151,13 @@ export class HomeComponent {
               const datosHerencia : any = atributoHerencia?.filasDatos
               ?.flat()
               .map(fila => fila?.datos)
-              .flat()
-              .map((dato, index) => new Object({
+              .flat();
+              /*.map((dato, index) => new Object({
                 ...dato, id: (atributo.filasDatos?.flat().map((fd) => fd?.datos)?.flat().length || 0) + index
+                ...dato
                 })
               )
-              .flat();
+              .flat();*/
               return new Object({
                 ubicacionAtributo: {...atributo.ubicacion, idAtributo: atributo.id},
                 cantidadInstancias: 1,

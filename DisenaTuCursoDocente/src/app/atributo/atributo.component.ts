@@ -62,7 +62,6 @@ export class AtributoComponent {
     grupoHerencia : Grupo | undefined;
     etapaHerencia: Etapa | undefined;
 
-    datoGuardado:InformacionGuardada | undefined;
     versionActual:Version | undefined;
     
     //Map con el ContenidoCondicional de un Dato
@@ -86,6 +85,9 @@ export class AtributoComponent {
 
     mapDatoArchivo : Map<string, DatoArchivo> = new Map();
 
+    mapInformacionGuardadaDeAtributo : Map<string, InformacionGuardada> = new Map();
+    //datoGuardado:InformacionGuardada | undefined;
+
     constructor(private initialSchemaService : InitialSchemaLoaderService
         ,private modalService: NgbModal
         ,private accionesCursosService: AccionesCursosService) {
@@ -107,15 +109,16 @@ export class AtributoComponent {
         //Veo cuantas instancias de este atributo hay y cargo los Datos guardados de este Atributo
         this.versionActual = this.versionSeleccionada;
         if(this.versionActual !== undefined){
-            for(let datoGuardado of this.versionActual.datosGuardados!){
-                
-                if (datoGuardado.ubicacionAtributo.idEtapa === this.atributo.ubicacion.idEtapa
-                    && datoGuardado.ubicacionAtributo.idGrupo === this.atributo.ubicacion.idGrupo
-                    && datoGuardado.ubicacionAtributo.idAtributo === this.atributo.id
-                    // estoy hay que descomentarlo despues
-                    // && datoGuardado.ubicacionAtributo.idDato === null
-                ){
-                    this.datoGuardado = datoGuardado;
+            let ubicacionAtr : Ubicacion = this.ubicacionAbsolutaDeAtributo(this.atributo.ubicacion,this.atributo.id);
+            let claveMap = this.objectToString(ubicacionAtr);
+            let retrievedValue = this.mapInformacionGuardadaDeAtributo.get(claveMap);
+            if(!retrievedValue){
+                //Si no existe la key en el map
+                for(let datoGuardado of this.versionActual.datosGuardados!){
+                    if (this.objectToString(datoGuardado.ubicacionAtributo) === claveMap){
+                        this.mapInformacionGuardadaDeAtributo.set(claveMap,datoGuardado);
+                        break;
+                    }
                 }
             }
         }
@@ -127,18 +130,22 @@ export class AtributoComponent {
                 this.atributoHerencia.ubicacion = this.atributo.ubicacion
                 for(let filaDatos of this.atributoHerencia.filasDatos){
                     for(let dato of filaDatos.datos){
-                       dato.ubicacion.idEtapa = this.atributo.ubicacion.idEtapa
-                       dato.ubicacion.idGrupo = this.atributo.ubicacion.idGrupo
-                       dato.ubicacion.idAtributo =  this.atributo.id
-
-                       
-                        let ubicacionAbsoluta = this.computoUbicacionAbsoluta(dato.ubicacion,dato.id);
+                        dato.ubicacion.idEtapa = this.atributo.ubicacion.idEtapa
+                        dato.ubicacion.idGrupo = this.atributo.ubicacion.idGrupo
+                        dato.ubicacion.idAtributo =  this.atributo.id     
+                        let ubicacionAbsoluta = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
                         let claveMap = this.objectToString(ubicacionAbsoluta);
                         //Computo opciones de los Select del Atributo
                         if(dato.opciones){
                             if(dato.opciones.referencia){
                                 //Busco en los datos guardados la Ubicación dato.opciones.referencia
-                                let valoresDato = this.buscoDatoGuardadoDeAtributo(dato.opciones.referencia);
+                                let ubicacionDesarmada : Ubicacion = {
+                                    idEtapa : dato.opciones.referencia.idEtapa
+                                    ,idGrupo : dato.opciones.referencia.idGrupo
+                                    ,idAtributo : dato.opciones.referencia.idAtributo
+                                    ,idDato : null
+                                }
+                                let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,dato.opciones.referencia.idDato);
                                 for(let [index,valorDato] of valoresDato.entries()){
                                     let stringOpcion = 'Nombre de tema no asignado';
                                     if(valorDato.string){
@@ -226,7 +233,13 @@ export class AtributoComponent {
         
                                                 //Reseteo el valor guardado y el mapOpcionSeleccionada
                                                 //cargarInfoPrevia se encarga de seleccionar la primer opcion by default
-                                                let valoresDato = this.buscoDatoGuardadoDeAtributo(registroDependencia.interesado);
+                                                let ubicacionDesarmada : Ubicacion = {
+                                                    idEtapa : registroDependencia.interesado.idEtapa
+                                                    ,idGrupo : registroDependencia.interesado.idGrupo
+                                                    ,idAtributo : registroDependencia.interesado.idAtributo
+                                                    ,idDato : null
+                                                }
+                                                let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.interesado.idDato);
                                                 valoresDato[0].selectFijo = null;
                                                 this.mapOpcionSeleccionada.delete(claveIntesado);
                                             });
@@ -252,7 +265,7 @@ export class AtributoComponent {
         if (this.atributo.filasDatos){
             for(let filaDatos of this.atributo.filasDatos){
                 for(let dato of filaDatos.datos){
-                    let ubicacionAbsoluta = this.computoUbicacionAbsoluta(dato.ubicacion,dato.id);
+                    let ubicacionAbsoluta = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
                     let claveMap = this.objectToString(ubicacionAbsoluta);
                     //Computo opciones de los Select del Atributo
                     if(dato.opciones){
@@ -266,7 +279,7 @@ export class AtributoComponent {
                     if(dato.filasDatos !== null){
                         
                         let datoInterior = dato.filasDatos[0].datos[0];
-                        let ubicacionAbsInterior = this.computoUbicacionAbsoluta(datoInterior.ubicacion,datoInterior.id);
+                        let ubicacionAbsInterior = this.ubicacionAbsolutaDeDato(datoInterior.ubicacion,datoInterior.id);
                         //ubicacionAbsInterior = 2,24,3,[7,1]
                         this.cargoOpcionesSelect(datoInterior
                             ,this.objectToString(ubicacionAbsInterior)
@@ -281,10 +294,10 @@ export class AtributoComponent {
                         //Cantidad de instancias de Modulo
                         let cantidadInstanciasAtributo = this.cuentoInstanciasGuardadasDeAtributo(dato.ubicacion);
                         //Copio array: arrayDato = [7,1]
-                        let arrayDato = [...ubicacionAbsInterior.idDato];
+                        let arrayDato = [...ubicacionAbsInterior.idDato!];
 
                         //Agrego elemento al inicio, pivote de n° de instancia
-                        ubicacionAbsInterior.idDato.unshift(0);
+                        ubicacionAbsInterior.idDato!.unshift(0);
                         //Por cada instancia de Módulo, busco cuantas/cuales Unidades tiene
                         for (var i = 0; i < cantidadInstanciasAtributo; i++) {
                             
@@ -305,9 +318,9 @@ export class AtributoComponent {
                                 contCondicional = this.mapContenidoCondicional.get(claveContCondicional);
                             }
                                                         
-                            ubicacionAbsInterior.idDato[0] = i;
+                            ubicacionAbsInterior.idDato![0] = i;
                             //ubicacionAbsInterior = 2,24,3,[i,7,1]
-                            let valoresSelectCondicional = this.buscoDatoGuardadoDeAtributoContenidoCondicional(ubicacionAbsInterior,arrayDato);
+                            let valoresSelectCondicional = this.buscoValoresDatoDeAtributoContenidoCondicional(ubicacionAbsInterior,arrayDato);
                             for(let [indexSelCond,valSelCond] of valoresSelectCondicional.entries()){
                                 if(valSelCond.selectFijo === null){
                                     //Seteo como contenido condicional seleccionando la primer opcion
@@ -333,8 +346,30 @@ export class AtributoComponent {
 
     cargoOpcionesSelect(dato:Dato,claveMap:string,ubicacionAbsoluta:Ubicacion){
         if(dato.opciones.referencia){
+            /*export interface InformacionGuardada {
+                ubicacionAtributo: Ubicacion;
+                cantidadInstancias: number;
+                valoresAtributo: ValoresAtributo[];
+            }
+
+            export interface ValoresAtributo {
+                idDato: [number];
+                valoresDato: ValoresDato[];
+            }
+
+            export interface ValoresDato {
+                string: string | null;
+                ...
+            }*/
             //Busco en los datos guardados la Ubicación dato.opciones.referencia
-            let valoresDato = this.buscoDatoGuardadoDeAtributo(dato.opciones.referencia);
+            let ubicacionDesarmada : Ubicacion = {
+                idEtapa : dato.opciones.referencia.idEtapa
+                ,idGrupo : dato.opciones.referencia.idGrupo
+                ,idAtributo : dato.opciones.referencia.idAtributo
+                ,idDato : null
+            }
+            let custion = dato.opciones.referencia.idDato;
+            let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,dato.opciones.referencia.idDato);
             for(let [index,valorDato] of valoresDato.entries()){
                 let stringOpcion = 'Nombre de tema no asignado';
                 if(valorDato.string){
@@ -422,7 +457,13 @@ export class AtributoComponent {
 
                             //Reseteo el valor guardado y el mapOpcionSeleccionada
                             //cargarInfoPrevia se encarga de seleccionar la primer opcion by default
-                            let valoresDato = this.buscoDatoGuardadoDeAtributo(registroDependencia.interesado);
+                            let ubicacionDesarmada : Ubicacion = {
+                                idEtapa : registroDependencia.interesado.idEtapa
+                                ,idGrupo : registroDependencia.interesado.idGrupo
+                                ,idAtributo : registroDependencia.interesado.idAtributo
+                                ,idDato : null
+                            }
+                            let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.interesado.idDato);
                             valoresDato[0].selectFijo = null;
                             this.mapOpcionSeleccionada.delete(claveIntesado);
                         });
@@ -476,7 +517,7 @@ export class AtributoComponent {
                                         
                                         var datoHeredado = JSON.parse(JSON.stringify(dato));
                                         datoHeredado.ubicacion = datoGuardado.ubicacionAtributo
-                                        let ubicacionAbsoluta = this.computoUbicacionAbsoluta(datoHeredado.ubicacion,dato.id);
+                                        let ubicacionAbsoluta = this.ubicacionAbsolutaDeDato(datoHeredado.ubicacion,dato.id);
                                         let claveMap = this.objectToString(ubicacionAbsoluta);
                                         //Computo opciones de los Select del Atributo
                                         if(datoHeredado.opciones){
@@ -490,7 +531,7 @@ export class AtributoComponent {
                                         if(datoHeredado.filasDatos !== null){
                                             
                                             let datoInterior = datoHeredado.filasDatos[0].datos[0];
-                                            let ubicacionAbsInterior = this.computoUbicacionAbsoluta(datoInterior.ubicacion,datoInterior.id);
+                                            let ubicacionAbsInterior = this.ubicacionAbsolutaDeDato(datoInterior.ubicacion,datoInterior.id);
                                             //ubicacionAbsInterior = 2,24,3,[7,1]
                                             this.cargoOpcionesSelect(datoInterior
                                                 ,this.objectToString(ubicacionAbsInterior)
@@ -505,10 +546,10 @@ export class AtributoComponent {
                                             //Cantidad de instancias de Modulo
                                             let cantidadInstanciasAtributo = this.cuentoInstanciasGuardadasDeAtributo(dato.ubicacion);
                                             //Copio array: arrayDato = [7,1]
-                                            let arrayDato = [...ubicacionAbsInterior.idDato];
+                                            let arrayDato = [...ubicacionAbsInterior.idDato!];
 
                                             //Agrego elemento al inicio, pivote de n° de instancia
-                                            ubicacionAbsInterior.idDato.unshift(0);
+                                            ubicacionAbsInterior.idDato!.unshift(0);
                                             //Por cada instancia de Módulo, busco cuantas/cuales Unidades tiene
                                             for (var i = 0; i < cantidadInstanciasAtributo; i++) {
                                                 
@@ -529,9 +570,9 @@ export class AtributoComponent {
                                                     contCondicional = this.mapContenidoCondicional.get(claveContCondicional);
                                                 }
                                                                             
-                                                ubicacionAbsInterior.idDato[0] = i;
+                                                ubicacionAbsInterior.idDato![0] = i;
                                                 //ubicacionAbsInterior = 2,24,3,[i,7,1]
-                                                let valoresSelectCondicional = this.buscoDatoGuardadoDeAtributoContenidoCondicional(ubicacionAbsInterior,arrayDato);
+                                                let valoresSelectCondicional = this.buscoValoresDatoDeAtributoContenidoCondicional(ubicacionAbsInterior,arrayDato);
                                                 for(let [indexSelCond,valSelCond] of valoresSelectCondicional.entries()){
                                                     if(valSelCond.selectFijo === null){
                                                         //Seteo como contenido condicional seleccionando la primer opcion
@@ -586,20 +627,30 @@ export class AtributoComponent {
         }
     }
 
-    agregarInstanciaAtributo() {        
-        for(let datoDentroAtributo of this.datoGuardado!.valoresAtributo!){
-            let nuevoValorDato : ValoresDato = {
-                string:null,
-                number:null,
-                selectFijo:null,
-                selectUsuario:null,
-                archivo:null,
-                date:null
-            }
-            datoDentroAtributo.valoresDato.push(nuevoValorDato);
+    agregarInstanciaAtributo(ubicacion:Ubicacion,idAtributo:number) {
+        let ubicacionAtr : Ubicacion = {
+            idEtapa : ubicacion.idEtapa,
+            idGrupo : ubicacion.idGrupo,
+            idAtributo : idAtributo,
+            idDato : null
         }
-        this.datoGuardado!.cantidadInstancias++;
-        this.accionesCursosService.modificarCurso();
+        let infoGuardada : InformacionGuardada | null = this.buscoInformacionGuardadaDeAtributo(ubicacionAtr);
+        if(infoGuardada !== null){
+            let valsAtrib : ValoresAtributo[] = infoGuardada.valoresAtributo;
+            for(let datoDentroAtributo of valsAtrib){
+                let nuevoValorDato : ValoresDato = {
+                    string:null,
+                    number:null,
+                    selectFijo:null,
+                    selectUsuario:null,
+                    archivo:null,
+                    date:null
+                }
+                datoDentroAtributo.valoresDato.push(nuevoValorDato);
+            }
+            infoGuardada.cantidadInstancias++;
+            this.accionesCursosService.modificarCurso();
+        }
     }
 
     openSelectFileDialog(ubicacion:Ubicacion,indice:number){
@@ -609,8 +660,8 @@ export class AtributoComponent {
         fileUploader.setAttribute('idEtapa',ubicacion.idEtapa.toString());
         fileUploader.setAttribute('idGrupo',ubicacion.idGrupo.toString());
         fileUploader.setAttribute('idAtributo',ubicacion.idAtributo.toString());
-        let acumuladorIDDato=null;
-        for(let idDato of ubicacion.idDato){
+        let acumuladorIDDato:string|null=null;
+        for(let idDato of ubicacion.idDato!){
             if(acumuladorIDDato === null){
                 acumuladorIDDato=idDato.toString();
             }
@@ -705,12 +756,12 @@ export class AtributoComponent {
         return false;
     }
 
-    guardarCambio(ubicacion:Ubicacion,indice:number,tipoInput:TipoInput,nuevoValor:any){
-        console.log(ubicacion)
-        let valoresDato = this.buscoDatoGuardadoDeAtributo(ubicacion);
-        console.log(nuevoValor.value)
+    guardarCambio(ubicacion:Ubicacion,idDato:number,indice:number,tipoInput:TipoInput,nuevoValor:any){
+        
+        let valoresDato = this.buscoValoresDatoDeAtributo(ubicacion,[idDato]);
         if(valoresDato.length !== 0){
-            let claveMap = this.objectToString(ubicacion)+indice;
+            //let claveMap = this.objectToString(ubicacion)+indice;
+            let claveMap = this.objectToString(this.ubicacionAbsolutaDeDato(ubicacion,idDato))+indice;
             switch (tipoInput) {
                 case TipoInput.text:{
                     valoresDato[indice].string = nuevoValor.value;
@@ -757,7 +808,7 @@ export class AtributoComponent {
                         valoresDato[indice].selectFijo = null;
                     }
                     else{
-                        let valoresAGuardar = [];
+                        let valoresAGuardar:number[] = [];
                         for(let valor of nuevoValor.value){
                             valoresAGuardar.push(valor);
                         }
@@ -771,7 +822,7 @@ export class AtributoComponent {
                         valoresDato[indice].selectUsuario = null;
                     }
                     else{
-                        let valoresAGuardar = [];
+                        let valoresAGuardar:number[] = [];
                         for(let valor of nuevoValor.value){
                             valoresAGuardar.push(valor);
                         }
@@ -799,14 +850,14 @@ export class AtributoComponent {
         }
     }
 
-    cargarInfoPrevia(ubicacion:Ubicacion, indice:number, tipoInput: TipoInput, posibleValor:any) : any {
+    cargarInfoPrevia(ubicacion:Ubicacion, idDato:number, indice:number, tipoInput: TipoInput, posibleValor:any) : any {
         
         /*if(ubicacion.idDato.length === 2){
             console.log("aquiqui");
         }*/
-        let valoresDato = this.buscoDatoGuardadoDeAtributo(ubicacion);
+        let valoresDato = this.buscoValoresDatoDeAtributo(ubicacion,[idDato]);
         if(valoresDato.length !== 0){
-            let claveMap = this.objectToString(ubicacion)+indice;
+            let claveMap = this.objectToString(this.ubicacionAbsolutaDeDato(ubicacion,idDato))+indice;
             switch (tipoInput) {
                 case TipoInput.text:{
                     return valoresDato[indice].string;
@@ -895,7 +946,8 @@ export class AtributoComponent {
                         }
                         this.mapOpcionesSeleccionadas.set(claveMap,vuelta);
                     }
-                    return this.mapOpcionesSeleccionadas.get(claveMap);
+                    valoresSeleccionados = this.mapOpcionesSeleccionadas.get(claveMap);
+                    return valoresSeleccionados;
                 }
                 case TipoInput.radio:{
 
@@ -974,7 +1026,9 @@ export class AtributoComponent {
                         }
                         this.mapOpcionesSeleccionadas.set(claveMap,vuelta);
                     }
-                    return this.mapOpcionesSeleccionadas.get(claveMap);
+                    valoresSeleccionados = this.mapOpcionesSeleccionadas.get(claveMap);
+                    return valoresSeleccionados;
+                    //return this.mapOpcionesSeleccionadas.get(claveMap);
                 }
                 default:
                     return "null_default";
@@ -1035,12 +1089,21 @@ export class AtributoComponent {
         }
     }
     
-    computoUbicacionAbsoluta(ubicacion:Ubicacion,id:number) : Ubicacion {
+    ubicacionAbsolutaDeAtributo(ubicacion:Ubicacion,idAtributo:number){
+        return {
+            idEtapa : ubicacion.idEtapa,
+            idGrupo : ubicacion.idGrupo,
+            idAtributo : idAtributo,
+            idDato : null
+        }
+    }
+
+    ubicacionAbsolutaDeDato(ubicacion:Ubicacion,idDato:number) : Ubicacion {
         let idDatoAbsoluto:number[] = [];
         if(ubicacion.idDato){
             idDatoAbsoluto = [...ubicacion.idDato];
         }
-        idDatoAbsoluto.push(id);
+        idDatoAbsoluto.push(idDato);
         return {
             idEtapa : ubicacion.idEtapa,
             idGrupo : ubicacion.idGrupo,
@@ -1057,24 +1120,35 @@ export class AtributoComponent {
         return JSON.parse(string);
     }
 
-    buscoDatoGuardadoDeAtributo(ubicacion:Ubicacion) : ValoresDato[]{
-        //Busco en los datos guardados la Ubicación pasada por parámetro
+    buscoInformacionGuardadaDeAtributo(ubicacion:Ubicacion) : InformacionGuardada | null{
         if(this.versionActual !== undefined){
             for(let datoGuardado of this.versionActual.datosGuardados!){
-                
-                if (datoGuardado.ubicacionAtributo.idEtapa === ubicacion.idEtapa
-                    && datoGuardado.ubicacionAtributo.idGrupo === ubicacion.idGrupo
-                    && datoGuardado.ubicacionAtributo.idAtributo === ubicacion.idAtributo
-                ){
-                    //Encontré el Atributo, busco el idDato
-                    for(let valorAtributo of datoGuardado.valoresAtributo){
-                        if(valorAtributo.idDato.length === ubicacion.idDato.length && valorAtributo.idDato.every(function(value, index) { return value === ubicacion.idDato[index]})){
-                            return valorAtributo.valoresDato;
-                        }
-                    }
+                //Busco por "ubicacionAtributo"
+                if(this.objectToString(datoGuardado.ubicacionAtributo) === this.objectToString(ubicacion)){
+                    return datoGuardado;
                 }
             }
-        }    
+        }
+        return null;
+    }
+
+    buscoValoresAtributoDeAtributo(ubicacion:Ubicacion) : ValoresAtributo[]{
+        let inforGuardada : InformacionGuardada | null = this.buscoInformacionGuardadaDeAtributo(ubicacion);
+        if(inforGuardada !== null){
+            return inforGuardada.valoresAtributo;
+        }
+        return [];
+    }
+
+    buscoValoresDatoDeAtributo(ubicacion:Ubicacion,idDato:number[] | null) : ValoresDato[]{
+        //Busco por "ubicacionAtributo"
+        let valsAtrib : ValoresAtributo[] = this.buscoValoresAtributoDeAtributo(ubicacion);
+        //Busco por "idDato" dentro de "valoresAtributo"
+        for(let valorDato of valsAtrib){
+            if(this.objectToString(valorDato.idDato) === this.objectToString(idDato)){
+                return valorDato.valoresDato;
+            }
+        }
         return [];
     }
 
@@ -1085,19 +1159,12 @@ export class AtributoComponent {
                 if(this.objectToString(datoGuardado.ubicacionAtributo) === this.objectToString(ubicacion)){
                     return datoGuardado.cantidadInstancias;
                 }
-                /*if (datoGuardado.ubicacionAtributo.idEtapa === ubicacion.idEtapa
-                    && datoGuardado.ubicacionAtributo.idGrupo === ubicacion.idGrupo
-                    && datoGuardado.ubicacionAtributo.idAtributo === ubicacion.idAtributo
-                    && datoGuardado.ubicacionAtributo.idDato === null
-                ){
-                    return datoGuardado.cantidadInstancias;
-                }*/
             }
         }    
         return 0;
     }
 
-    buscoDatoGuardadoDeAtributoContenidoCondicional(ubicacion:Ubicacion, arrayDato:number[]) : ValoresDato[]{
+    buscoValoresDatoDeAtributoContenidoCondicional(ubicacion:Ubicacion, arrayDato:number[]) : ValoresDato[]{
         //Busco en los datos guardados la Ubicación pasada por parámetro
         if(this.versionActual !== undefined){
             for(let datoGuardado of this.versionActual.datosGuardados!){
@@ -1105,7 +1172,7 @@ export class AtributoComponent {
                     if (datoGuardado.ubicacionAtributo.idEtapa === ubicacion.idEtapa
                         && datoGuardado.ubicacionAtributo.idGrupo === ubicacion.idGrupo
                         && datoGuardado.ubicacionAtributo.idAtributo === ubicacion.idAtributo
-                        && datoGuardado.ubicacionAtributo.idDato.length === ubicacion.idDato.length && datoGuardado.ubicacionAtributo.idDato.every(function(value, index) { return value === ubicacion.idDato[index]})
+                        && datoGuardado.ubicacionAtributo.idDato.length === ubicacion.idDato!.length && datoGuardado.ubicacionAtributo.idDato.every(function(value, index) { return value === ubicacion.idDato![index]})
                     ){
                         //Encontré el Atributo/Indice, busco el idDato
                         for(let valorAtributo of datoGuardado.valoresAtributo){
@@ -1129,7 +1196,7 @@ export class AtributoComponent {
                     if (datoGuardado.ubicacionAtributo.idEtapa === ubicacion.idEtapa
                         && datoGuardado.ubicacionAtributo.idGrupo === ubicacion.idGrupo
                         && datoGuardado.ubicacionAtributo.idAtributo === ubicacion.idAtributo
-                        && datoGuardado.ubicacionAtributo.idDato.length === ubicacion.idDato.length && datoGuardado.ubicacionAtributo.idDato.every(function(value, index) { return value === ubicacion.idDato[index]})
+                        && datoGuardado.ubicacionAtributo.idDato.length === ubicacion.idDato!.length && datoGuardado.ubicacionAtributo.idDato.every(function(value, index) { return value === ubicacion.idDato![index]})
                     ){
                         //Encontré el Atributo/Indice, devuelvo cantidad Instancias
                         return datoGuardado.cantidadInstancias;
@@ -1228,7 +1295,13 @@ export class AtributoComponent {
         let resultado=0;
         if(typeof operandoObservado === "object"){
             //Busco en los datos guardados la Ubicación dato.computo.op1
-            let valoresDato = this.buscoDatoGuardadoDeAtributo(operandoObservado);
+            let ubicacionDesarmada : Ubicacion = {
+                idEtapa : operandoObservado.idEtapa
+                ,idGrupo : operandoObservado.idGrupo
+                ,idAtributo : operandoObservado.idAtributo
+                ,idDato : null
+            }
+            let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,operandoObservado.idDato);
             for(let valorDato of valoresDato){
                 //Si hay valor válido
                 if(valorDato.number){
@@ -1269,9 +1342,15 @@ export class AtributoComponent {
 
                     if(valorAnterior !== undefined){
                         let op1 = 0;
-                        if(typeof valorAnterior.op1 === "object"){
+                        if(typeof valorAnterior.op1 === "object" ){
+                            let ubicacionDesarmada : Ubicacion = {
+                                idEtapa : registroDependencia.observado.idEtapa
+                                ,idGrupo : registroDependencia.observado.idGrupo
+                                ,idAtributo : registroDependencia.observado.idAtributo
+                                ,idDato : null
+                            }
+                            let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.observado.idDato);
 
-                            let valoresDato = this.buscoDatoGuardadoDeAtributo(registroDependencia.observado);
                             let nuevoResultadoOP = 0;
                             for(let valorDato of valoresDato){
                                 //Si hay valor válido
@@ -1286,11 +1365,15 @@ export class AtributoComponent {
                             op1 = valorAnterior.op1;
                         }
                         let op2 = 0;
-                        if(typeof valorAnterior.op2 === "object"){
-  
-                            var registroDependenciaobservado2 : Ubicacion;
-                            registroDependenciaobservado2 = registroDependencia.observado2 as Ubicacion;
-                            let valoresDato = this.buscoDatoGuardadoDeAtributo(registroDependenciaobservado2);
+                        if(typeof valorAnterior.op2 === "object" && valorAnterior.op2.claveUbicacion === claveObservado){
+                            let ubicacionDesarmada : Ubicacion = {
+                                idEtapa : registroDependencia.observado.idEtapa
+                                ,idGrupo : registroDependencia.observado.idGrupo
+                                ,idAtributo : registroDependencia.observado.idAtributo
+                                ,idDato : null
+                            }
+                            let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.observado.idDato);
+                            
                             let nuevoResultadoOP = 0;
                             if (valoresDato){
                                 for(let valorDato of valoresDato){
@@ -1308,7 +1391,14 @@ export class AtributoComponent {
                         }
                         let op3 = 0;
                         if(typeof valorAnterior.op3 === "object" && valorAnterior.op3.claveUbicacion === claveObservado){
-                            let valoresDato = this.buscoDatoGuardadoDeAtributo(registroDependencia.observado);
+                            let ubicacionDesarmada : Ubicacion = {
+                                idEtapa : registroDependencia.observado.idEtapa
+                                ,idGrupo : registroDependencia.observado.idGrupo
+                                ,idAtributo : registroDependencia.observado.idAtributo
+                                ,idDato : null
+                            }
+                            let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.observado.idDato);
+                            //let valoresDato = this.buscoValoresDatoDeAtributo(registroDependencia.observado);
                             let nuevoResultadoOP = 0;
                             for(let valorDato of valoresDato){
                                 //Si hay valor válido
@@ -1393,27 +1483,33 @@ export class AtributoComponent {
         });
         modalRef.componentInstance.tittle = 'Atención';
         modalRef.componentInstance.body = '¿Está seguro que desea eliminar el registro?';
+        modalRef.componentInstance.ubicacionAtr = this.objectToString(this.ubicacionAbsolutaDeAtributo(ubicacionAtributo,idAtributo));
         
         //Control Resolve with Observable
         modalRef.closed.subscribe({
-            next: () => {
-                //Elimino instancia de Atributo
-                if(this.datoGuardado!.cantidadInstancias !== 1){
-                    
-                    for(let datoDentroAtributo of this.datoGuardado!.valoresAtributo!){
-                        datoDentroAtributo.valoresDato.splice(indice,1);
+            next: (ubicacionAtr:string) => {
+                
+                let retrievedValue = this.mapInformacionGuardadaDeAtributo.get(ubicacionAtr);
+                if(retrievedValue){
+                    //Si existe la key en el map
+                    //Elimino instancia de Atributo
+                    if(retrievedValue.cantidadInstancias !== 1){
+                        
+                        for(let datoDentroAtributo of retrievedValue.valoresAtributo!){
+                            datoDentroAtributo.valoresDato.splice(indice,1);
+                        }
+                        retrievedValue.cantidadInstancias--;
                     }
-                    this.datoGuardado!.cantidadInstancias--;
-                }
-                else{
-                    //Reseteo los datos de la única instancia
-                    for(let datoDentroAtributo of this.datoGuardado!.valoresAtributo!){
-                        datoDentroAtributo.valoresDato[0].string = null;
-                        datoDentroAtributo.valoresDato[0].number = null;
-                        datoDentroAtributo.valoresDato[0].selectFijo = null;
-                        datoDentroAtributo.valoresDato[0].selectUsuario = null;
-                        datoDentroAtributo.valoresDato[0].archivo = null;
-                        datoDentroAtributo.valoresDato[0].date = null;
+                    else{
+                        //Reseteo los datos de la única instancia
+                        for(let datoDentroAtributo of retrievedValue.valoresAtributo!){
+                            datoDentroAtributo.valoresDato[0].string = null;
+                            datoDentroAtributo.valoresDato[0].number = null;
+                            datoDentroAtributo.valoresDato[0].selectFijo = null;
+                            datoDentroAtributo.valoresDato[0].selectUsuario = null;
+                            datoDentroAtributo.valoresDato[0].archivo = null;
+                            datoDentroAtributo.valoresDato[0].date = null;
+                        }
                     }
                 }
 
@@ -1431,9 +1527,8 @@ export class AtributoComponent {
                                                 && referencia.idGrupo === ubicacionAtributo.idGrupo
                                                 && referencia.idAtributo === idAtributo)
                                             {
-
-                                                let ubicacionDato = this.computoUbicacionAbsoluta(dato.ubicacion,dato.id);
-                                                let datosGuardados = this.buscoDatoGuardadoDeAtributo(ubicacionDato);
+                                                //let ubicacionDato = this.computoUbicacionAbsoluta(dato.ubicacion,dato.id);
+                                                let datosGuardados = this.buscoValoresDatoDeAtributo(dato.ubicacion,[dato.id]);
                                                 for(let datoGuardado of datosGuardados){
                                                     if(datoGuardado.selectUsuario != null){
                                                         this.corregirIndicesGuardados(indice,datoGuardado.selectUsuario);
@@ -1470,8 +1565,7 @@ export class AtributoComponent {
                         }
                     }
                 }
-                //console.log(this.datoGuardado!.valoresAtributo);
-                
+                //console.log(this.datoGuardado!.valoresAtributo); 
                 //Invalido map de archivos
                 this.mapDatoArchivo = new Map();
                 //Invalido map de opcionesSeleccionadas

@@ -65,20 +65,27 @@
                                         "ayuda": "Créditos que fueron calculados a partir de la cantidad de horas de cada tema",
                                         "tipo": "computo",
                                         "computo": {
-                                            "operacion": ["+", "/"],
                                             "op1": {
-                                                "idEtapa": 1,
-                                                "idGrupo": 11,
                                                 "idAtributo": 2,
-                                                "idDato": [4]
+                                                "idDato": [
+                                                    4
+                                                ],
+                                                "idEtapa": 1,
+                                                "idGrupo": 11
                                             },
                                             "op2": {
-                                                "idEtapa": 1,
-                                                "idGrupo": 11,
                                                 "idAtributo": 2,
-                                                "idDato": [5]
+                                                "idDato": [
+                                                    5
+                                                ],
+                                                "idEtapa": 1,
+                                                "idGrupo": 11
                                             },
-                                            "op3": 1
+                                            "op3": 1,
+                                            "operacion": [
+                                                "+",
+                                                "/"
+                                            ]
                                         },
                                         "opciones": null,
                                         "habilitadoSi": null,
@@ -1022,7 +1029,7 @@
                                         "idDato": null
                                     },
                                     "herencia": null,
-                                    "ayuda": "Una vez finalizado el período de inscripción, el docente debe saber el número de estudiantes inscriptos. Es un dato muy importante para determinar si se trata de un caso de numerosidad, por ej. O para calcular la proporción de alumnos por docente.",
+                                    "ayuda": "Una vez finalizado el período de inscripción, el docente debe saber el número de estudiantes inscriptos. Es un dato muy importante para determinar si se trata de un caso de numerosidad, por ej. O para calcular la proporción de alumnos por docente.                                    ",
                                     "tipo": "number",
                                     "computo": null,
                                     "opciones": null,
@@ -1502,26 +1509,51 @@
                     },
                     "relacionesGrafo": [3],
                     "atributos": [{
-                            "id": 1,
-                            "nombre": null,
-                            "ubicacion": {
-                                "idEtapa": 2,
-                                "idGrupo": 24,
-                                "idAtributo": null,
-                                "idDato": null
-                            },
-                            "herencia": null,
-                            "multiInstanciable": false,
-                            "puntoCritico": null,
-                            "comentariosPrivados": [],
-                            "filasDatos": [{
+                        "id": 3,
+                        "nombre": "Orquestación",
+                        "ubicacion": {
+                            "idEtapa": 2,
+                            "idGrupo": 24,
+                            "idAtributo": null,
+                            "idDato": null
+                        },
+                        "herencia": null,
+                        "multiInstanciable": true,
+                        "puntoCritico": {
+                            "aporteConceptual": "aaaa",
+                            "informacionAmpliatoria": "bbb",
+                            "normativa": null
+                        },
+                        "filasDatos": [{
                                 "datos": [{
-                                        "id": 1,
+                                    "id": 1,
+                                    "nombre": "Nombre de modulo",
+                                    "ubicacion": {
+                                        "idEtapa": 2,
+                                        "idGrupo": 24,
+                                        "idAtributo": 3,
+                                        "idDato": null
+                                    },
+                                    "herencia": null,
+                                    "ayuda": null,
+                                    "tipo": "text",
+                                    "computo": null,
+                                    "opciones": null,
+                                    "habilitadoSi": null,
+                                    "multiInstanciable": false,
+                                    "idContenidoCondicional": null,
+                                    "tamanio": 50,
+                                    "filasDatos": null
+                                }]
+                            },
+                            {
+                                "datos": [{
+                                        "id": 2,
                                         "nombre": "Fecha inicio",
                                         "ubicacion": {
                                             "idEtapa": 2,
                                             "idGrupo": 24,
-                                            "idAtributo": 1,
+                                            "idAtributo": 3,
                                             "idDato": null
                                         },
                                         "herencia": null,
@@ -1529,93 +1561,6 @@
                                         "tipo": "date",
                                         "computo": null,
                                         "opciones": null,
-                                        "habilitadoSi": null,
-                                        "multiInstanciable": false,
-                                        "idContenidoCondicional": null,
-                                        "tamanio": null,
-                                        "filasDatos": null
-                                    },
-                                    {
-                                        "id": 2,
-                                        "nombre": "Fecha fin",
-                                        "ubicacion": {
-                                            "idEtapa": 2,
-                                            "idGrupo": 24,
-                                            "idAtributo": 1,
-                                            "idDato": null
-                                        },
-                                        "herencia": null,
-                                        "ayuda": null,
-                                        "tipo": "date",
-                                        "computo": null,
-                                        "opciones": null,
-                                        "habilitadoSi": null,
-                                        "multiInstanciable": false,
-                                        "idContenidoCondicional": null,
-                                        "tamanio": null,
-                                        "filasDatos": null
-                                    }
-                                ]
-                            }]
-                        },
-                        {
-                            "id": 2,
-                            "nombre": "Evaluaciones",
-                            "ubicacion": {
-                                "idEtapa": 2,
-                                "idGrupo": 24,
-                                "idAtributo": null,
-                                "idDato": null
-                            },
-                            "herencia": null,
-                            "multiInstanciable": true,
-                            "puntoCritico": {
-                                "aporteConceptual": "aaaa",
-                                "informacionAmpliatoria": "bbb",
-                                "normativa": null
-                            },
-                            "comentariosPrivados": [],
-                            "filasDatos": [{
-                                "datos": [{
-                                        "id": 1,
-                                        "nombre": "Tipo",
-                                        "ubicacion": {
-                                            "idEtapa": 2,
-                                            "idGrupo": 24,
-                                            "idAtributo": 2,
-                                            "idDato": null
-                                        },
-                                        "herencia": null,
-                                        "ayuda": null,
-                                        "tipo": "date",
-                                        "computo": null,
-                                        "opciones": {
-                                            "referencia": null,
-                                            "idGrupoDatoFijo": 14
-                                        },
-                                        "habilitadoSi": null,
-                                        "multiInstanciable": false,
-                                        "idContenidoCondicional": null,
-                                        "tamanio": null,
-                                        "filasDatos": null
-                                    },
-                                    {
-                                        "id": 2,
-                                        "nombre": "Herramientas",
-                                        "ubicacion": {
-                                            "idEtapa": 2,
-                                            "idGrupo": 24,
-                                            "idAtributo": 2,
-                                            "idDato": null
-                                        },
-                                        "herencia": null,
-                                        "ayuda": null,
-                                        "tipo": "selectFijoUnico",
-                                        "computo": null,
-                                        "opciones": {
-                                            "referencia": null,
-                                            "idGrupoDatoFijo": 15
-                                        },
                                         "habilitadoSi": null,
                                         "multiInstanciable": false,
                                         "idContenidoCondicional": null,
@@ -1624,28 +1569,151 @@
                                     },
                                     {
                                         "id": 3,
-                                        "nombre": "Otras",
+                                        "nombre": "Fecha fin",
                                         "ubicacion": {
                                             "idEtapa": 2,
                                             "idGrupo": 24,
-                                            "idAtributo": 2,
+                                            "idAtributo": 3,
                                             "idDato": null
                                         },
                                         "herencia": null,
                                         "ayuda": null,
-                                        "tipo": "text",
+                                        "tipo": "date",
                                         "computo": null,
                                         "opciones": null,
                                         "habilitadoSi": null,
                                         "multiInstanciable": false,
                                         "idContenidoCondicional": null,
-                                        "tamanio": 200,
+                                        "tamanio": null,
+                                        "filasDatos": null
+                                    },
+                                    {
+                                        "id": 4,
+                                        "nombre": "Modalidad",
+                                        "ubicacion": {
+                                            "idEtapa": 2,
+                                            "idGrupo": 24,
+                                            "idAtributo": 3,
+                                            "idDato": null
+                                        },
+                                        "herencia": null,
+                                        "ayuda": null,
+                                        "tipo": "selectFijoUnico",
+                                        "computo": null,
+                                        "opciones": {
+                                            "referencia": null,
+                                            "idGrupoDatoFijo": 9
+                                        },
+                                        "habilitadoSi": null,
+                                        "multiInstanciable": false,
+                                        "idContenidoCondicional": null,
+                                        "tamanio": null,
                                         "filasDatos": null
                                     }
                                 ]
-                            }]
-                        }
-                    ]
+                            },
+                            {
+                                "datos": [{
+                                        "id": 5,
+                                        "nombre": "Espacios fisicos utilizados",
+                                        "ubicacion": {
+                                            "idEtapa": 2,
+                                            "idGrupo": 24,
+                                            "idAtributo": 3,
+                                            "idDato": null
+                                        },
+                                        "herencia": null,
+                                        "ayuda": null,
+                                        "tipo": "selectUsuarioMultiple",
+                                        "computo": null,
+                                        "opciones": {
+                                            "referencia": {
+                                                "idEtapa": 2,
+                                                "idGrupo": 22,
+                                                "idAtributo": 1,
+                                                "idDato": 1
+                                            },
+                                            "idGrupoDatoFijo": null
+                                        },
+                                        "habilitadoSi": null,
+                                        "multiInstanciable": false,
+                                        "idContenidoCondicional": null,
+                                        "tamanio": null,
+                                        "filasDatos": null
+                                    },
+                                    {
+                                        "id": 6,
+                                        "nombre": "Plataformas disponibles",
+                                        "ubicacion": {
+                                            "idEtapa": 2,
+                                            "idGrupo": 24,
+                                            "idAtributo": 3,
+                                            "idDato": null
+                                        },
+                                        "herencia": null,
+                                        "ayuda": null,
+                                        "tipo": "selectFijoMultiple",
+                                        "computo": null,
+                                        "opciones": {
+                                            "referencia": null,
+                                            "idGrupoDatoFijo": 13
+                                        },
+                                        "habilitadoSi": null,
+                                        "multiInstanciable": false,
+                                        "idContenidoCondicional": null,
+                                        "tamanio": null,
+                                        "filasDatos": null
+                                    }
+                                ]
+                            },
+                            {
+                                "datos": [{
+                                    "id": 7,
+                                    "nombre": "Unidades",
+                                    "ubicacion": {
+                                        "idEtapa": 2,
+                                        "idGrupo": 24,
+                                        "idAtributo": 3,
+                                        "idDato": null
+                                    },
+                                    "herencia": null,
+                                    "ayuda": null,
+                                    "tipo": null,
+                                    "computo": null,
+                                    "opciones": null,
+                                    "habilitadoSi": null,
+                                    "multiInstanciable": true,
+                                    "idContenidoCondicional": null,
+                                    "tamanio": null,
+                                    "filasDatos": [{
+                                        "datos": [{
+                                            "id": 1,
+                                            "nombre": null,
+                                            "ubicacion": {
+                                                "idEtapa": 2,
+                                                "idGrupo": 24,
+                                                "idAtributo": 3,
+                                                "idDato": [7]
+                                            },
+                                            "herencia": null,
+                                            "ayuda": null,
+                                            "tipo": "selectFijoUnico",
+                                            "computo": null,
+                                            "opciones": {
+                                                "referencia": null,
+                                                "idGrupoDatoFijo": 16
+                                            },
+                                            "habilitadoSi": null,
+                                            "multiInstanciable": false,
+                                            "idContenidoCondicional": [1, 2, 3],
+                                            "tamanio": null,
+                                            "filasDatos": null
+                                        }]
+                                    }]
+                                }]
+                            }
+                        ]
+                    }]
                 },
                 {
                     "id": 25,
@@ -1851,27 +1919,7 @@
                         "puntoCritico": null,
                         "comentariosPrivados": [],
                         "filasDatos": [{
-                            "datos": [{
-                                    "id": 2,
-                                    "nombre": "Comentario",
-                                    "ubicacion": {
-                                        "idEtapa": 3,
-                                        "idGrupo": 31,
-                                        "idAtributo": 1,
-                                        "idDato": null
-                                    },
-                                    "herencia": null,
-                                    "ayuda": null,
-                                    "tipo": "text",
-                                    "computo": null,
-                                    "opciones": null,
-                                    "habilitadoSi": null,
-                                    "multiInstanciable": false,
-                                    "idContenidoCondicional": null,
-                                    "tamanio": 1000,
-                                    "filasDatos": null
-                                },
-                                {
+                                "datos": [{
                                     "id": 1,
                                     "nombre": "Fecha",
                                     "ubicacion": {
@@ -1890,9 +1938,31 @@
                                     "idContenidoCondicional": null,
                                     "tamanio": null,
                                     "filasDatos": null
-                                }
-                            ]
-                        }]
+                                }]
+                            },
+                            {
+                                "datos": [{
+                                    "id": 2,
+                                    "nombre": null,
+                                    "ubicacion": {
+                                        "idEtapa": 3,
+                                        "idGrupo": 31,
+                                        "idAtributo": 1,
+                                        "idDato": null
+                                    },
+                                    "herencia": null,
+                                    "ayuda": null,
+                                    "tipo": "text",
+                                    "computo": null,
+                                    "opciones": null,
+                                    "habilitadoSi": null,
+                                    "multiInstanciable": false,
+                                    "idContenidoCondicional": null,
+                                    "tamanio": 1000,
+                                    "filasDatos": null
+                                }]
+                            }
+                        ]
                     }]
                 },
                 {
@@ -1948,6 +2018,85 @@
                             },
                             "comentariosPrivados": [],
                             "filasDatos": null
+                        },
+                        {
+                            "id": 3,
+                            "nombre": "Orquestación",
+                            "ubicacion": {
+                                "idEtapa": 3,
+                                "idGrupo": 32,
+                                "idAtributo": null,
+                                "idDato": null
+                            },
+                            "herencia": {
+                                "idEtapa": 2,
+                                "idGrupo": 24,
+                                "idAtributo": 3,
+                                "idDato": null
+                            },
+                            "multiInstanciable": true,
+                            "puntoCritico": {
+                                "aporteConceptual": "aaaa",
+                                "informacionAmpliatoria": "bbb",
+                                "normativa": null
+                            },
+                            "comentariosPrivados": [],
+                            "filasDatos": [{
+                                "datos": [{
+                                    "id": 1,
+                                    "nombre": "Unidad",
+                                    "ubicacion": {
+                                        "idEtapa": 3,
+                                        "idGrupo": 32,
+                                        "idAtributo": 3,
+                                        "idDato": null
+                                    },
+                                    "herencia": {
+                                        "idEtapa": 2,
+                                        "idGrupo": 24,
+                                        "idAtributo": 3,
+                                        "idDato": [7]
+                                    },
+                                    "ayuda": null,
+                                    "tipo": null,
+                                    "computo": null,
+                                    "opciones": null,
+                                    "habilitadoSi": null,
+                                    "multiInstanciable": true,
+                                    "idContenidoCondicional": null,
+                                    "tamanio": null,
+                                    "filasDatos": [{
+                                        "datos": [{
+                                            "id": 1,
+                                            "nombre": null,
+                                            "ubicacion": {
+                                                "idEtapa": 3,
+                                                "idGrupo": 32,
+                                                "idAtributo": 3,
+                                                "idDato": [1]
+                                            },
+                                            "herencia": {
+                                                "idEtapa": 2,
+                                                "idGrupo": 24,
+                                                "idAtributo": 3,
+                                                "idDato": [7, 1]
+                                            },
+                                            "ayuda": null,
+                                            "tipo": "selectFijoUnico",
+                                            "computo": null,
+                                            "opciones": {
+                                                "referencia": null,
+                                                "idGrupoDatoFijo": 16
+                                            },
+                                            "habilitadoSi": null,
+                                            "multiInstanciable": false,
+                                            "idContenidoCondicional": [4, 5, 6],
+                                            "tamanio": null,
+                                            "filasDatos": null
+                                        }]
+                                    }]
+                                }]
+                            }]
                         }
                     ]
                 },

@@ -9,13 +9,14 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class ModalConfirmacionComponent implements OnInit {
     @Input() tittle: string='';
     @Input() body: string='';
+    @Input() ubicacionAtr: string='';
     
     constructor(public activeModal: NgbActiveModal) { }
 
     ngOnInit(): void { }
 
     resolve() {
-        this.activeModal.close(null);
+        this.activeModal.close(this.ubicacionAtr);
     }
     
     reject() {
