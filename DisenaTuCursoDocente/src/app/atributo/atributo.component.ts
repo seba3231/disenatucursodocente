@@ -16,6 +16,7 @@ export interface RegistrarDependencia{
     interesado:Ubicacion;
     observado:Ubicacion;
     claveInteresado:string|null;
+    observado2:Ubicacion|number|undefined;
     interesadoEscucha:EventEmitter<any>;
 }
 export interface ValorComputado{
@@ -220,6 +221,7 @@ export class AtributoComponent {
                                             let registroDependencia : RegistrarDependencia = {
                                                 interesado:ubicacionAbsoluta,
                                                 observado:opcion.muestroSi.referencia,
+                                                observado2: undefined,
                                                 claveInteresado:null,
                                                 interesadoEscucha:retrievedEventEmitter
                                             }
@@ -434,6 +436,7 @@ export class AtributoComponent {
                 let registroDependencia : RegistrarDependencia = {
                     interesado:ubicacionAbsoluta,
                     observado:dato.opciones.referencia,
+                    observado2:undefined,
                     claveInteresado:claveMap,
                     interesadoEscucha:retrievedEventEmitter
                 }
@@ -521,6 +524,7 @@ export class AtributoComponent {
                         let registroDependencia : RegistrarDependencia = {
                             interesado:ubicacionAbsoluta,
                             observado:opcion.muestroSi.referencia,
+                            observado2:undefined,
                             claveInteresado:null,
                             interesadoEscucha:retrievedEventEmitter
                         }
@@ -1311,9 +1315,9 @@ export class AtributoComponent {
         let claveIntesado = this.objectToString(ubicacion);
         let valorComputado = this.mapValoresComputados.get(claveIntesado);
         if(valorComputado === undefined){
-            let valorOP1 = this.calcularValorOperando(datoComputo.op1,ubicacion);
-            let valorOP2 = this.calcularValorOperando(datoComputo.op2,ubicacion);
-            let valorOP3 = this.calcularValorOperando(datoComputo.op3,ubicacion);
+            let valorOP1 = this.calcularValorOperando(datoComputo.op1,datoComputo.op2,ubicacion);
+            let valorOP2 = this.calcularValorOperando(datoComputo.op2,datoComputo.op1,ubicacion);
+            let valorOP3 = this.calcularValorOperando(datoComputo.op3,undefined,ubicacion);
             let op1=0;
             let op2=0;
             let op3=0;
@@ -1391,7 +1395,7 @@ export class AtributoComponent {
         }
     }
 
-    calcularValorOperando(operandoObservado:Ubicacion|number,ubicacionInteresado:Ubicacion):number|ComputoValorUbicacion{
+    calcularValorOperando(operandoObservado:Ubicacion|number,operandoObservado2:Ubicacion|number|undefined,ubicacionInteresado:Ubicacion):number|ComputoValorUbicacion{
         let resultado=0;
         if(typeof operandoObservado === "object"){
             //Busco en los datos guardados la Ubicación dato.computo.op1
@@ -1425,6 +1429,7 @@ export class AtributoComponent {
                 let registroDependencia : RegistrarDependencia = {
                     interesado:ubicacionInteresado,
                     observado:operandoObservado,
+                    observado2:operandoObservado2,
                     claveInteresado:null,
                     interesadoEscucha:retrievedEventEmitter
                 }
@@ -1434,8 +1439,12 @@ export class AtributoComponent {
                 retrievedEventEmitter.subscribe((registroDependencia:RegistrarDependencia) => {
                     let claveIntesado = this.objectToString(registroDependencia.interesado);
                     let claveObservado = this.objectToString(registroDependencia.observado);
+                    let claveObservado2 = this.objectToString(registroDependencia.observado2); //2
+                    
+                    //cambiar el registro dependencias y tener un observado y observado2
 
-                    let valorAnterior = this.mapValoresComputados.get(claveIntesado);
+                    let valorAnterior = this.mapValoresComputados.get(claveIntesado);                    
+
                     if(valorAnterior !== undefined){
                         let op1 = 0;
                         if(typeof valorAnterior.op1 === "object" ){
@@ -1446,7 +1455,7 @@ export class AtributoComponent {
                                 ,idDato : null
                             }
                             let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.observado.idDato);
-                            //let valoresDato = this.buscoValoresDatoDeAtributo(registroDependencia.observado);
+
                             let nuevoResultadoOP = 0;
                             for(let valorDato of valoresDato){
                                 //Si hay valor válido
@@ -1469,12 +1478,14 @@ export class AtributoComponent {
                                 ,idDato : null
                             }
                             let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.observado.idDato);
-                            //let valoresDato = this.buscoValoresDatoDeAtributo(registroDependencia.observado);
+                            
                             let nuevoResultadoOP = 0;
-                            for(let valorDato of valoresDato){
-                                //Si hay valor válido
-                                if(valorDato.number){
-                                    nuevoResultadoOP = nuevoResultadoOP + valorDato.number;
+                            if (valoresDato){
+                                for(let valorDato of valoresDato){
+                                    //Si hay valor válido
+                                    if(valorDato.number){
+                                        nuevoResultadoOP = nuevoResultadoOP + valorDato.number;
+                                    }
                                 }
                             }
                             valorAnterior.op2.valor = nuevoResultadoOP;
