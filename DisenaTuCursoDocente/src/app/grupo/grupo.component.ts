@@ -41,7 +41,7 @@ export class GrupoComponent implements OnInit {
 
     informarCambio(cambioEnUbicacion:Ubicacion){
         let claveMap = this.objectToString(cambioEnUbicacion);
-        let depdendencias = this.mapObservadorCambios.get(claveMap);
+        let depdendencias : RegistrarDependencia[] | undefined= this.mapObservadorCambios.get(claveMap);
         if(depdendencias !== undefined){
             for(let dependencia of depdendencias){
                 let claveObservado = this.objectToString(dependencia.observado);

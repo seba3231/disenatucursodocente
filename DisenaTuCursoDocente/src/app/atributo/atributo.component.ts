@@ -15,6 +15,7 @@ declare var bootstrap: any;
 export interface RegistrarDependencia{
     interesado:Ubicacion;
     observado:Ubicacion;
+    claveInteresado:string|null;
     observado2:Ubicacion|number|undefined;
     interesadoEscucha:EventEmitter<any>;
 }
@@ -65,9 +66,7 @@ export class AtributoComponent {
     versionActual:Version | undefined;
     
     //Map con el ContenidoCondicional de un Dato
-    //mapContenidoCondicional : Map<string,RenderContenidoCondicional> = new Map();
-    //mapContenidoCondicional : Map<string,Map<number,FilaDatos[]>> = new Map();
-    mapContenidoCondicional : Map<string,[number,FilaDatos[]][]> = new Map();
+    mapContenidoCondicional : Map<string,FilaDatos[][]> = new Map();
 
     //Las posibles opciones de un idGrupoDatoFijo
     mapOpcionesSelect : Map<string,ValorSelect[]> = new Map();
@@ -223,6 +222,7 @@ export class AtributoComponent {
                                                 interesado:ubicacionAbsoluta,
                                                 observado:opcion.muestroSi.referencia,
                                                 observado2: undefined,
+                                                claveInteresado:null,
                                                 interesadoEscucha:retrievedEventEmitter
                                             }
                                             this.registrarDependencia.emit(registroDependencia);
@@ -292,14 +292,14 @@ export class AtributoComponent {
                         let contenidosMatchean = contenidoCondicional?.filter((contMacth) => this.objectToString(contMacth.muestroSi.referencia) === this.objectToString(ubicacionAbsInterior));
                         
                         //Cantidad de instancias de Modulo
-                        let cantidadInstanciasAtributo = this.cuentoInstanciasGuardadasDeAtributo(dato.ubicacion);
+                        let cantidadInstanciasAtributo = this.buscoInformacionGuardadaDeAtributo(dato.ubicacion)?.cantidadInstancias;
                         //Copio array: arrayDato = [7,1]
                         let arrayDato = [...ubicacionAbsInterior.idDato!];
 
                         //Agrego elemento al inicio, pivote de n° de instancia
                         ubicacionAbsInterior.idDato!.unshift(0);
                         //Por cada instancia de Módulo, busco cuantas/cuales Unidades tiene
-                        for (var i = 0; i < cantidadInstanciasAtributo; i++) {
+                        for (var i = 0; i < cantidadInstanciasAtributo!; i++) {
                             
                             //Si no existe clave en Map, la agrego
                             let ubicacionContCondicional : Ubicacion = {
@@ -308,29 +308,47 @@ export class AtributoComponent {
                                 idAtributo : ubicacionAbsInterior.idAtributo,
                                 idDato : [i]
                             }
-                            let claveContCondicional = this.objectToString(ubicacionContCondicional);
-                            let contCondicional = this.mapContenidoCondicional.get(claveContCondicional);
+                            //Por ejemplo, Padre (modulo) indice 0
+                            //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]}"
+                            let clavePadreContCondicional = this.objectToString(ubicacionContCondicional);
+                            let contCondicional = this.mapContenidoCondicional.get(clavePadreContCondicional);
                             if(contCondicional === undefined){
                                 this.mapContenidoCondicional.set(
-                                    claveContCondicional,
+                                    clavePadreContCondicional,
                                     []
                                 );
-                                contCondicional = this.mapContenidoCondicional.get(claveContCondicional);
+                                contCondicional = this.mapContenidoCondicional.get(clavePadreContCondicional);
                             }
                                                         
                             ubicacionAbsInterior.idDato![0] = i;
                             //ubicacionAbsInterior = 2,24,3,[i,7,1]
-                            let valoresSelectCondicional = this.buscoValoresDatoDeAtributoContenidoCondicional(ubicacionAbsInterior,arrayDato);
+                            let valoresSelectCondicional : ValoresDato[] = this.buscoValoresDatoDeAtributo(ubicacionAbsInterior,arrayDato);
                             for(let [indexSelCond,valSelCond] of valoresSelectCondicional.entries()){
+                                let filaDatosAAgregar : FilaDatos[] = [];
                                 if(valSelCond.selectFijo === null){
                                     //Seteo como contenido condicional seleccionando la primer opcion
-                                    contCondicional?.push([indexSelCond,contenidosMatchean![0].filasDatos]);
+                                    contCondicional?.push(contenidosMatchean![0].filasDatos);
+                                    filaDatosAAgregar = contenidosMatchean![0].filasDatos;
                                 }
                                 else{
                                     for (let contenidoEncontrado of contenidosMatchean!) {
                                         if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === valSelCond.selectFijo[0]){
-                                            contCondicional?.push([indexSelCond,contenidoEncontrado.filasDatos]);
+                                            contCondicional?.push(contenidoEncontrado.filasDatos);
+                                            filaDatosAAgregar = contenidoEncontrado.filasDatos;
                                             break;
+                                        }
+                                    }
+                                }
+                                //Tengo que agregar las opciones de los selectUsuarioMultiple
+                                for(let filaDatosCondional of filaDatosAAgregar){
+                                    for(let datoInterno of filaDatosCondional.datos){
+                                        switch (this.mapTipoInput.revGet(datoInterno.tipo)) {
+                                            case TipoInput.selectUsuarioMultiple:{
+                                                //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, idDato 2
+                                                //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"
+                                                let claveHijoContCondicional = clavePadreContCondicional+","+indexSelCond+","+datoInterno.id;
+                                                this.cargoOpcionesSelect(datoInterno,claveHijoContCondicional,datoInterno.ubicacion);
+                                            }
                                         }
                                     }
                                 }
@@ -344,23 +362,25 @@ export class AtributoComponent {
         console.log("Fin precomputo");
     }
 
+    iteradorOpciones(parametro:string) : ValorSelect[] {
+        let vuelta = this.mapOpcionesSelect.get(parametro);
+        return vuelta!;
+    }
+
+    obtenerClaveSelectCondicional(ubicacionDato:Ubicacion,indicePadre:number,indiceHijo:number,idDatoCondicional:number):string{
+        //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, dato 2
+        //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2
+        let nuevaUbicacion : Ubicacion = {
+            idEtapa: ubicacionDato.idEtapa,
+            idGrupo: ubicacionDato.idGrupo,
+            idAtributo: ubicacionDato.idAtributo,
+            idDato: [indicePadre]
+        }
+        return this.objectToString(nuevaUbicacion)+","+indiceHijo+","+idDatoCondicional;
+    }
+
     cargoOpcionesSelect(dato:Dato,claveMap:string,ubicacionAbsoluta:Ubicacion){
         if(dato.opciones.referencia){
-            /*export interface InformacionGuardada {
-                ubicacionAtributo: Ubicacion;
-                cantidadInstancias: number;
-                valoresAtributo: ValoresAtributo[];
-            }
-
-            export interface ValoresAtributo {
-                idDato: [number];
-                valoresDato: ValoresDato[];
-            }
-
-            export interface ValoresDato {
-                string: string | null;
-                ...
-            }*/
             //Busco en los datos guardados la Ubicación dato.opciones.referencia
             let ubicacionDesarmada : Ubicacion = {
                 idEtapa : dato.opciones.referencia.idEtapa
@@ -368,12 +388,14 @@ export class AtributoComponent {
                 ,idAtributo : dato.opciones.referencia.idAtributo
                 ,idDato : null
             }
-            let custion = dato.opciones.referencia.idDato;
             let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,dato.opciones.referencia.idDato);
             for(let [index,valorDato] of valoresDato.entries()){
-                let stringOpcion = 'Nombre de tema no asignado';
+                let stringOpcion = 'Nombre no asignado';
                 if(valorDato.string){
                     stringOpcion = valorDato.string;
+                }
+                if(valorDato.archivo && valorDato.archivo.texto){
+                    stringOpcion = valorDato.archivo.texto;
                 }
                 let retrievedValue = this.mapOpcionesSelect.get(claveMap);
                 if(retrievedValue){
@@ -396,6 +418,62 @@ export class AtributoComponent {
                     array.push(nuevaOpcion);
                     this.mapOpcionesSelect.set(claveMap,array);
                 }
+            }
+            //Si dependo de alguien mas, debo de saber cuando ese alguien
+            //mas cambia para actualizar y recomputar acorde
+            let claveInteresado = this.objectToString(claveMap);
+            let claveObservado = this.objectToString(dato.opciones.referencia);
+            let claveEvento = claveInteresado+claveObservado;
+
+            let retrievedEventEmitter = this.mapManejadorEventos.get(claveEvento);
+            if(retrievedEventEmitter === undefined){
+                //Registro evento en Grupo
+                retrievedEventEmitter = new EventEmitter();
+                this.mapManejadorEventos.set(
+                    claveEvento,
+                    retrievedEventEmitter
+                );
+                let registroDependencia : RegistrarDependencia = {
+                    interesado:ubicacionAbsoluta,
+                    observado:dato.opciones.referencia,
+                    observado2:undefined,
+                    claveInteresado:claveMap,
+                    interesadoEscucha:retrievedEventEmitter
+                }
+                this.registrarDependencia.emit(registroDependencia);
+
+                //Si cambia el dato observado, se llama esta funcion
+                retrievedEventEmitter.subscribe((registroDependencia:RegistrarDependencia) => {
+                    let claveIntesado = registroDependencia.claveInteresado;
+                    let ubicacionDesarmada : Ubicacion = {
+                        idEtapa: registroDependencia.observado.idEtapa,
+                        idGrupo: registroDependencia.observado.idGrupo,
+                        idAtributo: registroDependencia.observado.idAtributo,
+                        idDato: null
+                    }
+
+                    //Reseteo los maps de opciones disponibles
+                    let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.observado.idDato);
+                    let array : ValorSelect[] = [];
+                    this.mapOpcionesSelect.set(claveIntesado!,array);
+                    let retrievedValue = this.mapOpcionesSelect.get(claveIntesado!);
+                    
+                    for(let [index,valorDato] of valoresDato.entries()){
+                        let stringOpcion = 'Nombre no asignado';
+                        if(valorDato.string){
+                            stringOpcion = valorDato.string;
+                        }
+                        if(valorDato.archivo && valorDato.archivo.texto){
+                            stringOpcion = valorDato.archivo.texto;
+                        }
+                        let nuevaOpcion : ValorSelect = {
+                            string:stringOpcion,
+                            muestroSi:null,
+                            valor:index
+                        }
+                        retrievedValue!.push(nuevaOpcion);
+                    }
+                });
             }
         }
         else{
@@ -447,6 +525,7 @@ export class AtributoComponent {
                             interesado:ubicacionAbsoluta,
                             observado:opcion.muestroSi.referencia,
                             observado2:undefined,
+                            claveInteresado:null,
                             interesadoEscucha:retrievedEventEmitter
                         }
                         this.registrarDependencia.emit(registroDependencia);
@@ -529,65 +608,7 @@ export class AtributoComponent {
                                         }
                                         //Computo opciones de los Select del Atributo de contenidoCondicional
                                         if(datoHeredado.filasDatos !== null){
-                                            
-                                            let datoInterior = datoHeredado.filasDatos[0].datos[0];
-                                            let ubicacionAbsInterior = this.ubicacionAbsolutaDeDato(datoInterior.ubicacion,datoInterior.id);
-                                            //ubicacionAbsInterior = 2,24,3,[7,1]
-                                            this.cargoOpcionesSelect(datoInterior
-                                                ,this.objectToString(ubicacionAbsInterior)
-                                                ,ubicacionAbsInterior
-                                            );
-                                            
-                                            //Todos los ContCond
-                                            let contenidoCondicional = this.initialSchemaService.defaultSchema?.contenidoCondicional;
-                                            //Los ContCond que son de este Dato
-                                            let contenidosMatchean = contenidoCondicional?.filter((contMacth) => this.objectToString(contMacth.muestroSi.referencia) === this.objectToString(ubicacionAbsInterior));
-                                            
-                                            //Cantidad de instancias de Modulo
-                                            let cantidadInstanciasAtributo = this.cuentoInstanciasGuardadasDeAtributo(dato.ubicacion);
-                                            //Copio array: arrayDato = [7,1]
-                                            let arrayDato = [...ubicacionAbsInterior.idDato!];
 
-                                            //Agrego elemento al inicio, pivote de n° de instancia
-                                            ubicacionAbsInterior.idDato!.unshift(0);
-                                            //Por cada instancia de Módulo, busco cuantas/cuales Unidades tiene
-                                            for (var i = 0; i < cantidadInstanciasAtributo; i++) {
-                                                
-                                                //Si no existe clave en Map, la agrego
-                                                let ubicacionContCondicional : Ubicacion = {
-                                                    idEtapa : ubicacionAbsInterior.idEtapa,
-                                                    idGrupo : ubicacionAbsInterior.idGrupo,
-                                                    idAtributo : ubicacionAbsInterior.idAtributo,
-                                                    idDato : [i]
-                                                }
-                                                let claveContCondicional = this.objectToString(ubicacionContCondicional);
-                                                let contCondicional = this.mapContenidoCondicional.get(claveContCondicional);
-                                                if(contCondicional === undefined){
-                                                    this.mapContenidoCondicional.set(
-                                                        claveContCondicional,
-                                                        []
-                                                    );
-                                                    contCondicional = this.mapContenidoCondicional.get(claveContCondicional);
-                                                }
-                                                                            
-                                                ubicacionAbsInterior.idDato![0] = i;
-                                                //ubicacionAbsInterior = 2,24,3,[i,7,1]
-                                                let valoresSelectCondicional = this.buscoValoresDatoDeAtributoContenidoCondicional(ubicacionAbsInterior,arrayDato);
-                                                for(let [indexSelCond,valSelCond] of valoresSelectCondicional.entries()){
-                                                    if(valSelCond.selectFijo === null){
-                                                        //Seteo como contenido condicional seleccionando la primer opcion
-                                                        contCondicional?.push([indexSelCond,contenidosMatchean![0].filasDatos]);
-                                                    }
-                                                    else{
-                                                        for (let contenidoEncontrado of contenidosMatchean!) {
-                                                            if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === valSelCond.selectFijo[0]){
-                                                                contCondicional?.push([indexSelCond,contenidoEncontrado.filasDatos]);
-                                                                break;
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
                                         }
                                     }
                                 }
@@ -844,7 +865,13 @@ export class AtributoComponent {
                 default:
                     break;
             }
-            this.informarCambio.emit(ubicacion);
+            let ubicacionAbs : Ubicacion = {
+                idEtapa: ubicacion.idEtapa,
+                idGrupo: ubicacion.idGrupo,
+                idAtributo: ubicacion.idAtributo,
+                idDato: [idDato]
+            }
+            this.informarCambio.emit(ubicacionAbs);
             //console.log(valoresDato);
             this.accionesCursosService.modificarCurso();
         }
@@ -852,78 +879,28 @@ export class AtributoComponent {
 
     cargarInfoPrevia(ubicacion:Ubicacion, idDato:number, indice:number, tipoInput: TipoInput, posibleValor:any) : any {
         
-        /*if(ubicacion.idDato.length === 2){
-            console.log("aquiqui");
-        }*/
         let valoresDato = this.buscoValoresDatoDeAtributo(ubicacion,[idDato]);
         if(valoresDato.length !== 0){
             let claveMap = this.objectToString(this.ubicacionAbsolutaDeDato(ubicacion,idDato))+indice;
             switch (tipoInput) {
                 case TipoInput.text:{
-                    return valoresDato[indice].string;
+                    return valoresDato[indice!].string;
                 }
                 case TipoInput.date:{
-                    return valoresDato[indice].date;
+                    return valoresDato[indice!].date;
                 }
                 case TipoInput.number:{
-                    return valoresDato[indice].number;
+                    return valoresDato[indice!].number;
                 }
                 case TipoInput.selectFijoUnico:{
 
-                    //Checkeo ContenidoCondicional a ver si ese contenido depende de este Dato
-                    /*let contenidoCondicional = this.initialSchemaService.defaultSchema?.contenidoCondicional;
-                    let contenidosMatchean = contenidoCondicional?.filter((contMacth) => this.objectToString(contMacth.muestroSi.referencia) === this.objectToString(ubicacion));
-                    let ubicacionContCondicional : Ubicacion = {
-                        idEtapa : ubicacion.idEtapa,
-                        idGrupo : ubicacion.idGrupo,
-                        idAtributo : ubicacion.idAtributo,
-                        idDato : [indice]
-                    }
-                    let claveContCondicional = this.objectToString(ubicacionContCondicional);
-                    let contCondicional = this.mapContenidoCondicional.get(claveContCondicional);
-                    if(contCondicional === undefined){
-                        for (let contenidoEncontrado of contenidosMatchean!) {
-                            if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === posibleValor){
-                                //Tengo que leer datosGuardados para saber cuantas instancias existen
-                                let contCond : RenderContenidoCondicional = {
-                                    cantInstancias : this.cantidadInstanciasAtributoContenidoCondicional(ubicacionContCondicional),
-                                    filaDatos : contenidoEncontrado.filasDatos
-                                }
-                                this.mapContenidoCondicional.set(
-                                    claveContCondicional,
-                                    contCond
-                                );
-                                break;
-                            }
-                        }
-                    }*/
-                    
                     let estaOpcionEstaSeleccionada = false;
-                    /*if(this.atributo.multiInstanciable){
-                        //No se guarda en this.mapOpcionSeleccionada porque nada de este atributo
-                        //(sucede en todos, pero nos interesa este)
-                        //depende del valor seleccionado en un selectFijoUnico multiinstanciable
-                        if(valoresDato[indice]?.selectFijo){
-                            estaOpcionEstaSeleccionada = posibleValor === valoresDato[indice].selectFijo![0];
-                        }
-                    }
-                    else{*/
-                        let value = this.mapOpcionSeleccionada.get(claveMap);
-                        //Checkeo que solo se compute una vez este codigo
-                        if(value === undefined){
-                            if(valoresDato[indice]?.selectFijo){
-                                estaOpcionEstaSeleccionada = posibleValor === valoresDato[indice].selectFijo![0];
-                                if(estaOpcionEstaSeleccionada){
-                                    this.mapOpcionSeleccionada.set(
-                                        claveMap,
-                                        posibleValor
-                                    );
-                                }
-                            }
-                            else{
-                                //Si nunca se guardó valor, guardo el primero y lo seteo como seleccionado
-                                estaOpcionEstaSeleccionada=true;
-                                valoresDato[indice].selectFijo = [posibleValor];
+                    let value = this.mapOpcionSeleccionada.get(claveMap);
+                    //Checkeo que solo se compute una vez este codigo
+                    if(value === undefined){
+                        if(valoresDato[indice!]?.selectFijo){
+                            estaOpcionEstaSeleccionada = posibleValor === valoresDato[indice!].selectFijo![0];
+                            if(estaOpcionEstaSeleccionada){
                                 this.mapOpcionSeleccionada.set(
                                     claveMap,
                                     posibleValor
@@ -931,9 +908,18 @@ export class AtributoComponent {
                             }
                         }
                         else{
-                            estaOpcionEstaSeleccionada = posibleValor === value;
+                            //Si nunca se guardó valor, guardo el primero y lo seteo como seleccionado
+                            estaOpcionEstaSeleccionada=true;
+                            valoresDato[indice!].selectFijo = [posibleValor];
+                            this.mapOpcionSeleccionada.set(
+                                claveMap,
+                                posibleValor
+                            );
                         }
-                    //}
+                    }
+                    else{
+                        estaOpcionEstaSeleccionada = posibleValor === value;
+                    }
 
                     return estaOpcionEstaSeleccionada;
                 }
@@ -941,8 +927,8 @@ export class AtributoComponent {
                     let valoresSeleccionados = this.mapOpcionesSeleccionadas.get(claveMap);
                     if(valoresSeleccionados === undefined){
                         let vuelta : number[] = [];
-                        if(valoresDato[indice]?.selectFijo){
-                            vuelta = valoresDato[indice].selectFijo!;
+                        if(valoresDato[indice!]?.selectFijo){
+                            vuelta = valoresDato[indice!].selectFijo!;
                         }
                         this.mapOpcionesSeleccionadas.set(claveMap,vuelta);
                     }
@@ -952,8 +938,8 @@ export class AtributoComponent {
                 case TipoInput.radio:{
 
                     let estaOpcionEstaSeleccionada = false;
-                    if(valoresDato[indice]?.selectFijo){
-                        estaOpcionEstaSeleccionada = posibleValor === valoresDato[indice].selectFijo![0];
+                    if(valoresDato[indice!]?.selectFijo){
+                        estaOpcionEstaSeleccionada = posibleValor === valoresDato[indice!].selectFijo![0];
                     }
                     if(estaOpcionEstaSeleccionada && !this.atributo.multiInstanciable){
                         let value = this.mapOpcionSeleccionada.get(claveMap);
@@ -971,8 +957,8 @@ export class AtributoComponent {
                     //Checkeo que solo se compute una vez este codigo
                     if(value === undefined){
                         let valorParaControl = 0;
-                        if(valoresDato[indice].number !== null){
-                            valorParaControl = valoresDato[indice].number!;
+                        if(valoresDato[indice!].number !== null){
+                            valorParaControl = valoresDato[indice!].number!;
                         }
                         this.mapControlesCampos.set(
                             claveMap,
@@ -995,16 +981,16 @@ export class AtributoComponent {
                 case TipoInput.archivo:{
                     let archivoCargado = this.mapDatoArchivo.get(claveMap);
                     if(archivoCargado === undefined){
-                        if(valoresDato[indice]?.archivo == null){
+                        if(valoresDato[indice!]?.archivo == null){
                             let nuevoDatoArchivo : DatoArchivo= {
                                 texto:null,
                                 fileName:null,
                                 fileBinary:null,
                                 ruta:null
                             }
-                            valoresDato[indice]!.archivo = nuevoDatoArchivo;
+                            valoresDato[indice!]!.archivo = nuevoDatoArchivo;
                         }
-                        this.mapDatoArchivo.set(claveMap,valoresDato[indice]?.archivo!);
+                        this.mapDatoArchivo.set(claveMap,valoresDato[indice!]?.archivo!);
                     }
                     archivoCargado = this.mapDatoArchivo.get(claveMap);
                     switch(posibleValor){
@@ -1021,8 +1007,177 @@ export class AtributoComponent {
                     let valoresSeleccionados = this.mapOpcionesSeleccionadas.get(claveMap);
                     if(valoresSeleccionados === undefined){
                         let vuelta : number[] = [];
-                        if(valoresDato[indice]?.selectUsuario){
-                            vuelta = valoresDato[indice].selectUsuario!;
+                        if(valoresDato[indice!]?.selectUsuario){
+                            vuelta = valoresDato[indice!].selectUsuario!;
+                        }
+                        this.mapOpcionesSeleccionadas.set(claveMap,vuelta);
+                    }
+                    valoresSeleccionados = this.mapOpcionesSeleccionadas.get(claveMap);
+                    return valoresSeleccionados;
+                    //return this.mapOpcionesSeleccionadas.get(claveMap);
+                }
+                default:
+                    return "null_default";
+            }
+        }
+        
+        return "null_fin";
+    }
+
+    cargarInfoPreviaContenidoCondicional(ubicacion:Ubicacion, idDato:number, padre:number ,hijo:number,tipoInput: TipoInput, posibleValor:any) : any {
+        
+        let arrayIdDato : number[] = [];
+        let ubicacionReconstruida : Ubicacion = {
+            idEtapa : ubicacion.idEtapa,
+            idGrupo : ubicacion.idGrupo,
+            idAtributo : ubicacion.idAtributo,
+            idDato : null
+        }
+        //reconstruyo ubicacion con idDato,indice
+        //idDato = 1
+        //ubicacion.idDato = [7]
+        //indice = 0
+        arrayIdDato = [...ubicacion.idDato!];
+        arrayIdDato.push(idDato);
+
+        ubicacionReconstruida.idDato = [...ubicacion.idDato!];
+        ubicacionReconstruida.idDato!.push(idDato);
+        ubicacionReconstruida.idDato!.unshift(padre);
+
+        /*if(ubicacion.idDato !== null){
+            console.log("aquiqui");
+        }*/
+        let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionReconstruida,arrayIdDato);
+        if(valoresDato.length !== 0){
+            let claveMap = this.objectToString(this.ubicacionAbsolutaDeDato(ubicacion,idDato))+padre+','+hijo;
+            switch (tipoInput) {
+                case TipoInput.text:{
+                    return valoresDato[hijo].string;
+                }
+                case TipoInput.date:{
+                    return valoresDato[hijo].date;
+                }
+                case TipoInput.number:{
+                    return valoresDato[hijo].number;
+                }
+                case TipoInput.selectFijoUnico:{
+                    
+                    let estaOpcionEstaSeleccionada = false;
+                    let value = this.mapOpcionSeleccionada.get(claveMap);
+                    //Checkeo que solo se compute una vez este codigo
+                    if(value === undefined){
+                        if(valoresDato[hijo]?.selectFijo){
+                            let varlorGuardado = valoresDato[hijo].selectFijo![0];
+                            estaOpcionEstaSeleccionada = posibleValor === varlorGuardado;
+                            if(estaOpcionEstaSeleccionada){
+                                this.mapOpcionSeleccionada.set(
+                                    claveMap,
+                                    posibleValor
+                                );
+                            }
+                        }
+                        else{
+                            //Si nunca se guardó valor, guardo el primero y lo seteo como seleccionado
+                            estaOpcionEstaSeleccionada=true;
+                            valoresDato[hijo].selectFijo = [posibleValor];
+                            this.mapOpcionSeleccionada.set(
+                                claveMap,
+                                posibleValor
+                            );
+                        }
+                    }
+                    else{
+                        estaOpcionEstaSeleccionada = posibleValor === value;
+                    }
+
+                    return estaOpcionEstaSeleccionada;
+                }
+                case TipoInput.selectFijoMultiple:{
+                    let valoresSeleccionados = this.mapOpcionesSeleccionadas.get(claveMap);
+                    if(valoresSeleccionados === undefined){
+                        let vuelta : number[] = [];
+                        if(valoresDato[hijo]?.selectFijo){
+                            vuelta = valoresDato[hijo].selectFijo!;
+                        }
+                        this.mapOpcionesSeleccionadas.set(claveMap,vuelta);
+                    }
+                    valoresSeleccionados = this.mapOpcionesSeleccionadas.get(claveMap);
+                    return valoresSeleccionados;
+                }
+                case TipoInput.radio:{
+
+                    let estaOpcionEstaSeleccionada = false;
+                    if(valoresDato[hijo]?.selectFijo){
+                        estaOpcionEstaSeleccionada = posibleValor === valoresDato[hijo].selectFijo![0];
+                    }
+                    if(estaOpcionEstaSeleccionada && !this.atributo.multiInstanciable){
+                        let value = this.mapOpcionSeleccionada.get(claveMap);
+                        if(value === undefined){
+                            this.mapOpcionSeleccionada.set(
+                                claveMap,
+                                posibleValor
+                            );
+                        }
+                    }
+                    return estaOpcionEstaSeleccionada;
+                }
+                case TipoInput.porcentaje:{
+                    let value = this.mapControlesCampos.get(claveMap);
+                    //Checkeo que solo se compute una vez este codigo
+                    if(value === undefined){
+                        let valorParaControl = 0;
+                        if(valoresDato[hijo].number !== null){
+                            valorParaControl = valoresDato[hijo].number!;
+                        }
+                        this.mapControlesCampos.set(
+                            claveMap,
+                            new FormControl(
+                                {
+                                    value: valorParaControl,
+                                    disabled: false
+                                },
+                                { 
+                                    validators: [
+                                        Validators.min(0),
+                                        Validators.max(100)
+                                    ]
+                                }
+                            )
+                        );
+                    }
+                    return this.mapControlesCampos.get(claveMap);
+                }
+                case TipoInput.archivo:{
+                    let archivoCargado = this.mapDatoArchivo.get(claveMap);
+                    if(archivoCargado === undefined){
+                        if(valoresDato[hijo]?.archivo == null){
+                            let nuevoDatoArchivo : DatoArchivo= {
+                                texto:null,
+                                fileName:null,
+                                fileBinary:null,
+                                ruta:null
+                            }
+                            valoresDato[hijo]!.archivo = nuevoDatoArchivo;
+                        }
+                        this.mapDatoArchivo.set(claveMap,valoresDato[hijo]?.archivo!);
+                    }
+                    archivoCargado = this.mapDatoArchivo.get(claveMap);
+                    switch(posibleValor){
+                        case 'Texto':{
+                            return archivoCargado?.texto;
+                        }
+                        case 'ExisteFile':{
+                            return archivoCargado?.fileName !== null;
+                        }
+                    }
+                    break;
+                }
+                case TipoInput.selectUsuarioMultiple:{
+                    let valoresSeleccionados = this.mapOpcionesSeleccionadas.get(claveMap);
+                    if(valoresSeleccionados === undefined){
+                        let vuelta : number[] = [];
+                        if(valoresDato[hijo]?.selectUsuario){
+                            vuelta = valoresDato[hijo].selectUsuario!;
                         }
                         this.mapOpcionesSeleccionadas.set(claveMap,vuelta);
                     }
@@ -1112,6 +1267,10 @@ export class AtributoComponent {
         }
     }
 
+    /*ubicacionAbsolutaDeDatoCondicional(ubicacion:Ubicacion,idDato:number,instanciaPadre:number,instanciaDato:number) : Ubicacion {
+        return ubicacion;
+    }*/
+
     objectToString(obj:any){
         return JSON.stringify(obj);
     }
@@ -1150,61 +1309,6 @@ export class AtributoComponent {
             }
         }
         return [];
-    }
-
-    cuentoInstanciasGuardadasDeAtributo(ubicacion:Ubicacion) : number{
-        //Busco en los datos guardados la Ubicación pasada por parámetro
-        if(this.versionActual !== undefined){
-            for(let datoGuardado of this.versionActual.datosGuardados!){
-                if(this.objectToString(datoGuardado.ubicacionAtributo) === this.objectToString(ubicacion)){
-                    return datoGuardado.cantidadInstancias;
-                }
-            }
-        }    
-        return 0;
-    }
-
-    buscoValoresDatoDeAtributoContenidoCondicional(ubicacion:Ubicacion, arrayDato:number[]) : ValoresDato[]{
-        //Busco en los datos guardados la Ubicación pasada por parámetro
-        if(this.versionActual !== undefined){
-            for(let datoGuardado of this.versionActual.datosGuardados!){
-                if(datoGuardado.ubicacionAtributo.idDato !== null){
-                    if (datoGuardado.ubicacionAtributo.idEtapa === ubicacion.idEtapa
-                        && datoGuardado.ubicacionAtributo.idGrupo === ubicacion.idGrupo
-                        && datoGuardado.ubicacionAtributo.idAtributo === ubicacion.idAtributo
-                        && datoGuardado.ubicacionAtributo.idDato.length === ubicacion.idDato!.length && datoGuardado.ubicacionAtributo.idDato.every(function(value, index) { return value === ubicacion.idDato![index]})
-                    ){
-                        //Encontré el Atributo/Indice, busco el idDato
-                        for(let valorAtributo of datoGuardado.valoresAtributo){
-                            if(valorAtributo.idDato.length === arrayDato.length && valorAtributo.idDato.every(function(value, index) { return value === arrayDato[index]})){
-                                return valorAtributo.valoresDato;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return [];
-    }
-
-    cantidadInstanciasAtributoContenidoCondicional(ubicacion:Ubicacion) : number{
-        //Busco en los datos guardados la Ubicación pasada por parámetro
-        if(this.versionActual !== undefined){
-            for(let datoGuardado of this.versionActual.datosGuardados!){
-                if(datoGuardado.ubicacionAtributo.idDato !== null){
-                    
-                    if (datoGuardado.ubicacionAtributo.idEtapa === ubicacion.idEtapa
-                        && datoGuardado.ubicacionAtributo.idGrupo === ubicacion.idGrupo
-                        && datoGuardado.ubicacionAtributo.idAtributo === ubicacion.idAtributo
-                        && datoGuardado.ubicacionAtributo.idDato.length === ubicacion.idDato!.length && datoGuardado.ubicacionAtributo.idDato.every(function(value, index) { return value === ubicacion.idDato![index]})
-                    ){
-                        //Encontré el Atributo/Indice, devuelvo cantidad Instancias
-                        return datoGuardado.cantidadInstancias;
-                    }
-                }
-            }
-        }
-        return 1;
     }
 
     procesarDatoComputo(datoComputo:Computo,ubicacion:Ubicacion){
@@ -1326,6 +1430,7 @@ export class AtributoComponent {
                     interesado:ubicacionInteresado,
                     observado:operandoObservado,
                     observado2:operandoObservado2,
+                    claveInteresado:null,
                     interesadoEscucha:retrievedEventEmitter
                 }
                 this.registrarDependencia.emit(registroDependencia);
@@ -1559,17 +1664,63 @@ export class AtributoComponent {
                                                 }
                                             }
                                         }
+
+                                        //Corrijo indices de contenidos condicionales
+                                        if(dato.filasDatos !== null){
+                                            
+                                            let datoInterior = dato.filasDatos[0].datos[0];                                                                     
+                                            //Cantidad de instancias de Modulo
+                                            let cantidadInstanciasAtributo = this.buscoInformacionGuardadaDeAtributo(dato.ubicacion)?.cantidadInstancias;
+
+                                            //Por cada instancia de Módulo, busco cuantas/cuales Unidades tiene
+                                            for (var i = 0; i < cantidadInstanciasAtributo!; i++) {
+                                                
+                                                //Calculo clave para buscar en map de contenidoCondicional
+                                                let ubicacionContCondicional : Ubicacion = {
+                                                    idEtapa : datoInterior.ubicacion.idEtapa,
+                                                    idGrupo : datoInterior.ubicacion.idGrupo,
+                                                    idAtributo : datoInterior.ubicacion.idAtributo,
+                                                    idDato : [i]
+                                                }
+                                                //Por ejemplo, Padre (modulo) indice 0
+                                                //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]}"
+                                                let clavePadreContCondicional = this.objectToString(ubicacionContCondicional);
+                                                //El Atributo que se elimina, no tiene el mapContenidoCondicional. Hay que buscarlo
+                                                let contCondicional = this.mapContenidoCondicional.get(clavePadreContCondicional);
+                                                if(contCondicional !== undefined){
+
+                                                    for(let [indexHijo,valSelCond] of contCondicional.entries()){
+                                                        for(let filaDatosCond of valSelCond){
+                                                            for(let datoCond of filaDatosCond.datos){
+                                                                if(TipoInput.selectUsuarioMultiple === this.mapTipoInput.revGet(datoCond.tipo)){
+                                                                    let referencia = dato.opciones.referencia;
+                                                                    if(referencia.idEtapa === ubicacionAtributo.idEtapa
+                                                                        && referencia.idGrupo === ubicacionAtributo.idGrupo
+                                                                        && referencia.idAtributo === idAtributo)
+                                                                    {
+                                                                        //Tengo que emitir para que se actualice FrontEnd
+                                                                        this.informarCambio.emit(referencia);
+                                                                        //Tengo que corregir indices en archivo guardado
+                                                                        //TODO
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }   
                         }
                     }
                 }
-                //console.log(this.datoGuardado!.valoresAtributo); 
                 //Invalido map de archivos
                 this.mapDatoArchivo = new Map();
-                //Invalido map de opcionesSeleccionadas
+                //Invalido map de opcionSeleccionada
                 this.mapOpcionSeleccionada = new Map();
+                //Invalido map de opcionesSeleccionadas
                 this.mapOpcionesSeleccionadas = new Map();
 
                 this.accionesCursosService.modificarCurso();
