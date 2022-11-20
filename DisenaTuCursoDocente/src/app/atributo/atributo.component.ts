@@ -1366,15 +1366,13 @@ export class AtributoComponent {
                         }
                         let op2 = 0;
                         if(typeof valorAnterior.op2 === "object" && valorAnterior.op2.claveUbicacion === claveObservado){
-                            var registroDependenciaobservado2 : Ubicacion;
-                            registroDependenciaobservado2 = registroDependencia.observado2 as Ubicacion;
                             let ubicacionDesarmada : Ubicacion = {
-                                idEtapa : registroDependenciaobservado2.idEtapa
-                                ,idGrupo : registroDependenciaobservado2.idGrupo
-                                ,idAtributo : registroDependenciaobservado2.idAtributo
+                                idEtapa : registroDependencia.observado.idEtapa
+                                ,idGrupo : registroDependencia.observado.idGrupo
+                                ,idAtributo : registroDependencia.observado.idAtributo
                                 ,idDato : null
                             }
-                            let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependenciaobservado2.idDato);
+                            let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.observado.idDato);
                             
                             let nuevoResultadoOP = 0;
                             if (valoresDato){
