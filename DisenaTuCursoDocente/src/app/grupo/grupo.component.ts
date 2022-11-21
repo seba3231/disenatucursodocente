@@ -27,6 +27,14 @@ export class GrupoComponent implements OnInit {
     ngOnInit(): void {}
 
     registrarDependencia(registroDependencia:RegistrarDependencia){
+        const ordered = Object.keys(registroDependencia.observado).sort().reduce(
+            (obj, key) => { 
+              obj[key] = registroDependencia.observado[key]; 
+              return obj;
+            }, 
+            {}
+          );
+        registroDependencia.observado = ordered as Ubicacion;
         let claveMap = this.objectToString(registroDependencia.observado);
         let depdendencias = this.mapObservadorCambios.get(claveMap);
         if(depdendencias === undefined){
@@ -40,7 +48,14 @@ export class GrupoComponent implements OnInit {
     }
 
     informarCambio(cambioEnUbicacion:Ubicacion){
-        let claveMap = this.objectToString(cambioEnUbicacion);
+        const ordered = Object.keys(cambioEnUbicacion).sort().reduce(
+            (obj, key) => { 
+              obj[key] = cambioEnUbicacion[key]; 
+              return obj;
+            }, 
+            {}
+          );
+        let claveMap = this.objectToString(ordered);
         let depdendencias : RegistrarDependencia[] | undefined= this.mapObservadorCambios.get(claveMap);
         if(depdendencias !== undefined){
             for(let dependencia of depdendencias){

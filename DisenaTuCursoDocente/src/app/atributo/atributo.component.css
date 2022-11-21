@@ -20,3 +20,7 @@
 ::-webkit-calendar-picker-indicator {
     filter: invert(0.2);
 }
+
+.mat-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-form-field-flex {
+    background-color: #fff !important;
+}
