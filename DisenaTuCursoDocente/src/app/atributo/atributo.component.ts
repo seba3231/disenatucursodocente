@@ -883,6 +883,108 @@ export class AtributoComponent {
         }
     }
 
+    guardarCambioContenidoCondicional(ubicacion:Ubicacion,idDato:number,indicePadre:number,indiceHijo:number,tipoInput:TipoInput,nuevoValor:any){
+        //Debo recibir:
+        //Instancia Padre
+        let valoresDato = this.buscoValoresDatoDeAtributo(ubicacion,[idDato]);
+        console.log("aaa");
+        /*if(valoresDato.length !== 0){
+            //let claveMap = this.objectToString(ubicacion)+indice;
+            let claveMap = this.objectToString(this.ubicacionAbsolutaDeDato(ubicacion,idDato))+indice;
+            switch (tipoInput) {
+                case TipoInput.text:{
+                    valoresDato[indice].string = nuevoValor.value;
+                    break;
+                }
+                case TipoInput.number:{
+                    valoresDato[indice].number = Number(nuevoValor.value);
+                    break;
+                }
+                case TipoInput.porcentaje:{
+                    let control = this.mapControlesCampos.get(claveMap);
+                    if(!control?.invalid){
+                        valoresDato[indice].number = Number(nuevoValor.value);
+                    }
+                    else{
+                        valoresDato[indice].number = null;
+                    }
+                    break;
+                }
+                case TipoInput.selectFijoUnico:
+                //Una vez que matchea una opcion, ejecuta codigo hasta encontrar un break
+                //Osea, selectFijoUnico ejecuta el mismo codigo que radio
+                case TipoInput.radio:{
+                    let valueObject = this.stringToObject(nuevoValor.value);
+                    //Actualizo control interno
+                    if(!this.atributo.multiInstanciable){
+                        this.mapOpcionSeleccionada.set(
+                            claveMap,
+                            valueObject
+                        );
+                    }
+
+                    //Actualizo datos guardados en archivo
+                    if(valoresDato[indice].selectFijo){
+                        valoresDato[indice].selectFijo![0] = valueObject;
+                    }
+                    else{
+                        valoresDato[indice].selectFijo = [valueObject];
+                    }
+                    break;
+                }
+                case TipoInput.selectFijoMultiple:{
+                    if(nuevoValor.value.length === 0){
+                        valoresDato[indice].selectFijo = null;
+                    }
+                    else{
+                        let valoresAGuardar:number[] = [];
+                        for(let valor of nuevoValor.value){
+                            valoresAGuardar.push(valor);
+                        }
+                        valoresDato[indice].selectFijo = valoresAGuardar;
+                    }
+                    break;
+                }
+                case TipoInput.selectUsuarioMultiple:{
+
+                    if(nuevoValor.value.length === 0){
+                        valoresDato[indice].selectUsuario = null;
+                    }
+                    else{
+                        let valoresAGuardar:number[] = [];
+                        for(let valor of nuevoValor.value){
+                            valoresAGuardar.push(valor);
+                        }
+                        valoresDato[indice].selectUsuario = valoresAGuardar;
+                    }
+                    break;
+                }
+                case TipoInput.archivo:{
+                    let archivoCargado = this.mapDatoArchivo.get(claveMap);
+                    if(archivoCargado !== undefined){
+                        archivoCargado.texto = nuevoValor.value;
+                    }
+                    break;
+                }
+                case TipoInput.date:{
+                    valoresDato[indice].date = nuevoValor.value
+                    break;
+                }
+                default:
+                    break;
+            }
+            let ubicacionAbs : Ubicacion = {
+                idEtapa: ubicacion.idEtapa,
+                idGrupo: ubicacion.idGrupo,
+                idAtributo: ubicacion.idAtributo,
+                idDato: [idDato]
+            }
+            this.informarCambio.emit(ubicacionAbs);
+            //console.log(valoresDato);
+            this.accionesCursosService.modificarCurso();
+        }*/
+    }
+
     cargarInfoPrevia(ubicacion:Ubicacion, idDato:number, indice:number, tipoInput: TipoInput, posibleValor:any) : any {
         
         let valoresDato = this.buscoValoresDatoDeAtributo(ubicacion,[idDato]);

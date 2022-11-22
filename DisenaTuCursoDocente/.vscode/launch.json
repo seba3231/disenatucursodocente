@@ -4,7 +4,7 @@
   "configurations": [
     {
         //Para que esto funcione, no debe de haber ninguna instancia de Edge corriendo
-        "type": "pwa-msedge",
+        "type": "msedge",
         "request": "launch",
         "preLaunchTask": "npm: start_dev",
         "name": "Debug DiseñaTuCurso",
@@ -13,7 +13,7 @@
         //Esta clave sirve para que utilice el perfil del usuario local del navegador,
         //que viene con las extensiones que tenga ese perfil.
         //En particular, nos interesa la extensión app.requestly.io para realizar el modify header.
-        "userDataDir": false,
+        //"userDataDir": false,
         "postDebugTask": "end all",
     }
     /*{

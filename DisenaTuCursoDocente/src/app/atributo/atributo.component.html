@@ -226,7 +226,7 @@
                                         </div>-->
                                         <ng-container *ngFor="let contCondicional of mapContenidoCondicional.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,indiceInstancia))); index as indiceInstanciaDeDato;">
                                             <!--<ng-container *ngFor="let contCondicional of prueba(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,indiceInstancia)))">-->
-                                            <!-- get( 2,24,3,[instanciaModulo] ) -> [ [number,FilaDatos[]] , [number,FilaDatos[]] , [number,FilaDatos[]] ] -->
+                                            <!-- get( 2,24,3,[instanciaModulo] ) -> [ FilaDatos[] , FilaDatos[] , FilaDatos[], FilaDatos[] ] -->
                                             <!-- for(cantidadElementos(Map) ) -->
                                             <!-- Map.get(indice) -->
                                             <div class="card border-secondary mb-4" style="background-color: transparent !important;">
@@ -250,10 +250,10 @@
                                                                         </label>
                                                                         <!-- selectFijoUnico que determina el contenido condicional a mostrar -->
                                                                         <ng-container *ngIf="datoInterior.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
-                                                                            <select class="form-select" (change)="guardarCambio(datoInterior.ubicacion,datoInterior.id,indiceInstancia,mapTipoInput.revGet(datoInterior.tipo)!,$event.target)" [disabled]="estaDeshabilitado(datoInterior.habilitadoSi,indiceInstancia)">
+                                                                            <select class="form-select" 
+                                                                                (change)="guardarCambioContenidoCondicional(datoInterior.ubicacion,datoInterior.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoInterior.tipo)!,$event.target)">
                                                                                 <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(datoInterior.ubicacion,datoInterior.id)))">
                                                                                     <option
-                                                                                        *ngIf="muestroOpcion(opcion.muestroSi,indiceInstancia)"
                                                                                         [selected]="cargarInfoPreviaContenidoCondicional(datoInterior.ubicacion,datoInterior.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoInterior.tipo)!,opcion.valor)"
                                                                                         value={{opcion.valor}}
                                                                                     >
@@ -265,6 +265,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <!-- contenido condicional mostrado -->
                                                             <div *ngFor="let filaContCond of contCondicional" class="row">
                                                                 <div *ngFor="let datoContCond of filaContCond.datos" class="col">
                                                                     <div class="mb-3">
@@ -384,7 +385,9 @@
                                     </ng-container>
                                     <!-- Codigo selectFijoUnico -->
                                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
-                                        <select class="form-select" (change)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)">
+                                        <select class="form-select" 
+                                            (change)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" 
+                                            [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)">
                                             <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))">
                                                 <option
                                                     *ngIf="muestroOpcion(opcion.muestroSi,indiceInstancia)"
