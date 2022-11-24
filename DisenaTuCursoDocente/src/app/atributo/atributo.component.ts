@@ -687,6 +687,40 @@ export class AtributoComponent {
         }
     }
 
+    agregarUnidades(ubicacion:Ubicacion,idAtributo:number) {
+//hay que implementar esto
+
+        let ubicacionAtr : Ubicacion = {
+            idEtapa : ubicacion.idEtapa,
+            idGrupo : ubicacion.idGrupo,
+            idAtributo : idAtributo,
+            idDato : null
+        }
+        let infoGuardada : InformacionGuardada | null = this.buscoInformacionGuardadaDeAtributo(ubicacionAtr);
+        if(infoGuardada !== null){
+            let valsAtrib : ValoresAtributo[] = infoGuardada.valoresAtributo;
+            for(let datoDentroAtributo of valsAtrib){
+                let nuevoValorDato : ValoresDato = {
+                    string:null,
+                    number:null,
+                    selectFijo:null,
+                    selectUsuario:null,
+                    archivo:null,
+                    date:null
+                }
+                datoDentroAtributo.valoresDato.push(nuevoValorDato);
+            }
+            infoGuardada.cantidadInstancias++;
+            this.accionesCursosService.modificarCurso();
+            //Por cada Dato del Atributo creado, emito por si alguien más depende de el
+            let datosDeAtrib : Dato[] = this.datosDeAtributo(ubicacionAtr);
+            for(let dato of datosDeAtrib){
+                let ubicacionDato = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
+                this.informarCambio.emit(ubicacionDato);
+            }
+        }
+    }
+
     openSelectFileDialog(ubicacion:Ubicacion,indice:number){
         //Varios Datos usan el FileUploader, se setean las coordenadas para
         //para saber donde guardar lo que se seleccione
@@ -1970,11 +2004,53 @@ export class AtributoComponent {
                 let contCondicional = this.mapContenidoCondicional.get(clavePadreContCondicional);
                 if(contCondicional != undefined){
                     if (contCondicional.length ==1){
+                        contCondicional.splice(idUnidad,1)
 
+                        //esto hay que ver cuando este la parte de datos guardados como limpiamos la info
+
+                        // ubicacionAtr.idDato = null
+                        // let valoresSelectCondicional : ValoresDato[] = this.buscoValoresDatoDeAtributo(ubicacionAtr,[dato.id]);
+                        
+                        // ubicacionAtr.idDato = [dato.id,datoInterior.id]
+                        // let contenidoCondicional = this.initialSchemaService.defaultSchema?.contenidoCondicional;
+                        // //Los ContCond que son de este Dato
+                        // let contenidosMatchean = contenidoCondicional?.filter((contMacth) => this.objectToString(contMacth.muestroSi.referencia) === this.objectToString(ubicacionAtr));
+                        // for(let [indexSelCond,valSelCond] of valoresSelectCondicional.entries()){
+                        //     let filaDatosAAgregar : FilaDatos[] = [];
+                        //     if(valSelCond.selectFijo === null){
+                        //         //Seteo como contenido condicional seleccionando la primer opcion
+                        //         contCondicional?.push(contenidosMatchean![0].filasDatos);
+                        //         filaDatosAAgregar = contenidosMatchean![0].filasDatos;
+                        //     }
+                        //     else{
+                        //         for (let contenidoEncontrado of contenidosMatchean!) {
+                        //             if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === valSelCond.selectFijo[0]){
+                        //                 contCondicional?.push(contenidoEncontrado.filasDatos);
+                        //                 filaDatosAAgregar = contenidoEncontrado.filasDatos;
+                        //                 break;
+                        //             }
+                        //         }
+                        //     }
+                        //     //Tengo que agregar las opciones de los selectUsuarioMultiple
+                        //     for(let filaDatosCondional of filaDatosAAgregar){
+                        //         for(let datoInterno of filaDatosCondional.datos){
+                        //             switch (this.mapTipoInput.revGet(datoInterno.tipo)) {
+                        //                 case TipoInput.selectUsuarioMultiple:{
+                        //                     //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, idDato 2
+                        //                     //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"
+                        //                     let claveHijoContCondicional = clavePadreContCondicional+","+indexSelCond+","+datoInterno.id;
+                        //                     this.cargoOpcionesSelect(datoInterno,claveHijoContCondicional,datoInterno.ubicacion);
+                        //                 }
+                        //             }
+                        //         }
+                        //     }
+                        // }
                     } else{
                         contCondicional.splice(idUnidad,1)
                     }
                 }
+
+
 
                 this.mapDatoArchivo = new Map();
                 //Invalido map de opcionSeleccionada
