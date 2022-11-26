@@ -130,6 +130,7 @@ export class HomeComponent {
     }
   
     initDatosGuardados(): any[] | undefined {
+      let datosAInformacionGuardada: any[] = [];
       const datos = this.initialSchemaService.defaultSchema?.
         // .etapas[0].grupos        
         etapas.map((etapa) => etapa.grupos)
@@ -158,12 +159,48 @@ export class HomeComponent {
                 })
               )
               .flat();*/
+              const datosParaInfoGuardada = (atributo.filasDatos
+                ?.flat()
+                .map((fd) => fd?.datos.filter(dato => dato.filasDatos !== null))
+                .flat() || [])?.map(datoFilaNoNull => datoFilaNoNull.filasDatos)?.flat()
+                ?.map(filaNoNull => filaNoNull.datos)?.flat()
+                ?.map(datoFiltrado => {
+                  const idsDatosEnDato = datoFiltrado.idContenidoCondicional;
+                  let maximaCantidad = 0;
+                  this.initialSchemaService.defaultSchema?.contenidoCondicional
+                  .filter((contenidoCondicional) => idsDatosEnDato.includes(contenidoCondicional.id))
+                  .forEach((contenidoCondicional) => {
+                    const cantidadContenido = contenidoCondicional.filasDatos?.at(-1)?.datos?.at(-1)?.id || 0;
+                    if(cantidadContenido > maximaCantidad) maximaCantidad = cantidadContenido;
+                  })
+                  return new Object({
+                    ubicacionAtributo: {...datoFiltrado.ubicacion, idDato: [0].concat(datoFiltrado.ubicacion.idDato || []).concat(datoFiltrado.id) },
+                    cantidadInstancias: 1,
+                    valoresAtributo: Array.from({length: maximaCantidad + 1}, (_, index) => 
+                    new Object({
+                              idDato: index === 0 ? (datoFiltrado.ubicacion.idDato || []).concat(datoFiltrado.id) :
+                              (datoFiltrado.ubicacion.idDato || []).concat(datoFiltrado.id, index),
+                              valoresDato: [
+                                {
+                                  string: null,
+                                  number: null,
+                                  selectFijo: null,
+                                  selectUsuario: null,
+                                  archivo: null,
+                                  date: null,
+                                },
+                              ],
+                            })
+                          )
+                    })
+                })
+              datosAInformacionGuardada = datosAInformacionGuardada.concat(datosParaInfoGuardada);
               return new Object({
                 ubicacionAtributo: {...atributo.ubicacion, idAtributo: atributo.id},
                 cantidadInstancias: 1,
                 valoresAtributo: (atributo.filasDatos
                 ?.flat()
-                .map((fd) => fd?.datos)
+                .map((fd) => fd?.datos.filter(dato => dato.filasDatos === null))
                 .flat() || [])
                 .concat(datosHerencia || [])
                 .map((dato) => new Object({
@@ -181,7 +218,7 @@ export class HomeComponent {
                       })
                     )
               })
-    });
+    }).concat(datosAInformacionGuardada);
       return datos;
     }
   
