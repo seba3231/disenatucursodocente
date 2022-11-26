@@ -200,7 +200,7 @@
                 <div class="row">
                     <div class="col">
                         <div *ngFor="let fila of atributo.filasDatos" class="row">
-                            <div *ngFor="let dato of fila.datos; index as indiceInstanciaModulo;" class="col">
+                            <div *ngFor="let dato of fila.datos" class="col">
                                 <div class="mb-3">
                                     <!--
                                         date,
@@ -250,7 +250,9 @@
                                                                         </label>
                                                                         <!-- selectFijoUnico que determina el contenido condicional a mostrar -->
                                                                         <ng-container *ngIf="datoInterior.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
-                                                                            <select class="form-select" (change)="guardarCambioContenidoCondicional(datoInterior.ubicacion,datoInterior.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoInterior.tipo)!,$event.target)">
+                                                                            <select class="form-select"
+                                                                                (change)="guardarCambioContenidoCondicional(datoInterior.ubicacion,datoInterior.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoInterior.tipo)!,$event.target)"
+                                                                            >
                                                                                 <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(datoInterior.ubicacion,datoInterior.id)))">
                                                                                     <option
                                                                                         [selected]="cargarInfoPreviaContenidoCondicional(datoInterior.ubicacion,datoInterior.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoInterior.tipo)!,opcion.valor)"
@@ -338,7 +340,11 @@
                                                             </div>
                                                         </div>
                                                         <div *ngIf="dato.multiInstanciable" class="col-auto align-self-center">
-                                                            <button type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" (click)="modalEliminarUnidad(atributo.ubicacion,atributo.id,dato,indiceInstanciaModulo,indiceInstanciaDeDato)">
+                                                            <button type="button" 
+                                                                class="btn btn-outline-primary background-primary" 
+                                                                style="padding-top:3px;padding-bottom:3px;" 
+                                                                (click)="modalEliminarUnidad(atributo.ubicacion,atributo.id,dato,indiceInstancia,indiceInstanciaDeDato)"
+                                                            >
                                                                 <i class="bi bi-trash-fill fs-5"></i>
                                                                 <!-- aca elimino las unidades de mas adentro -->
                                                             </button>
