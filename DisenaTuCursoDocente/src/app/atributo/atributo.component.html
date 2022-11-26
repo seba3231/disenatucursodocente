@@ -283,71 +283,52 @@
                                                                         </label>
                                                                         <!-- Codigo text -->
                                                                         <ng-container *ngIf="datoContCond.tipo === (mapTipoInput.get(enumTiposInput.text))">
-                                                                            <input *ngIf="datoContCond.tamanio < 200" class="form-control" [type]="datoContCond.tipo" [placeholder]="datoContCond.nombre || ''" (keyup)="guardarCambio(datoContCond.ubicacion,datoContCond.id,indiceInstancia,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)">
-                                                                            <textarea *ngIf="datoContCond.tamanio > 199" class="form-control" [rows]="(datoContCond.tamanio/100)" [placeholder]="datoContCond.nombre || ''" (keyup)="guardarCambio(datoContCond.ubicacion,datoContCond.id,indiceInstancia,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)"></textarea>
+                                                                            <input *ngIf="datoContCond.tamanio < 200" 
+                                                                                class="form-control" 
+                                                                                [type]="datoContCond.tipo" 
+                                                                                [placeholder]="datoContCond.nombre || ''" 
+                                                                                (keyup)="guardarCambioContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)"
+                                                                                [ngModel]="cargarInfoPreviaContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,null)"
+                                                                            >
+                                                                            <textarea *ngIf="datoContCond.tamanio > 199" 
+                                                                                class="form-control" 
+                                                                                [rows]="(datoContCond.tamanio/100)" 
+                                                                                [placeholder]="datoContCond.nombre || ''" 
+                                                                                (keyup)="guardarCambioContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)"
+                                                                                [ngModel]="cargarInfoPreviaContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,null)"
+                                                                            ></textarea>
                                                                         </ng-container>
                                                                         <!-- Codigo number -->
                                                                         <ng-container *ngIf="datoContCond.tipo === (mapTipoInput.get(enumTiposInput.number))">
-                                                                            <input class="form-control" (keyup)="guardarCambio(datoContCond.ubicacion,datoContCond.id,indiceInstancia,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)" [type]="datoContCond.tipo" [placeholder]="datoContCond.nombre || ''">
-                                                                        </ng-container>
-                                                                        <!-- Codigo selectFijoUnico -->
-                                                                        <ng-container *ngIf="datoContCond.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
-                                                                            <select class="form-select" (change)="guardarCambio(datoContCond.ubicacion,datoContCond.id,indiceInstancia,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)">
-                                                                                <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(datoContCond.ubicacion,datoContCond.id)))">
-                                                                                    <option value={{opcion.valor}}>
-                                                                                        {{ opcion.string }}
-                                                                                    </option>
-                                                                                </ng-container>
-                                                                            </select>
-                                                                        </ng-container>
-                                                                        <!-- Codigo selectFijoMultiple -->
-                                                                        <ng-container *ngIf="datoContCond.tipo === (mapTipoInput.get(enumTiposInput.selectFijoMultiple))">
-                                                                            <mat-form-field appearance="fill">
-                                                                                <mat-label>{{ datoContCond.nombre ? datoContCond.nombre : "Seleccione" }}</mat-label>
-                                                                                <mat-select multiple (selectionChange)="guardarCambio(datoContCond.ubicacion,datoContCond.id,indiceInstancia,mapTipoInput.revGet(datoContCond.tipo)!,$event)">
-                                                                                    <mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(datoContCond.ubicacion,datoContCond.id)))" [value]="opcion.valor">
-                                                                                        {{opcion.string}}
-                                                                                    </mat-option>
-                                                                                </mat-select>
-                                                                            </mat-form-field>
-                                                                        </ng-container>
-                                                                        <!-- Codigo radio -->
-                                                                        <ng-container *ngIf="datoContCond.tipo === (mapTipoInput.get(enumTiposInput.radio))">
-                                                                            <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(datoContCond.ubicacion,datoContCond.id)))">
-                                                                                <div class="form-check">
-                                                                                    <input type="radio" (click)="guardarCambio(datoContCond.ubicacion,datoContCond.id,indiceInstancia,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)" [attr.checked]="cargarInfoPrevia(datoContCond.ubicacion,datoContCond.id,indiceInstancia,mapTipoInput.revGet(datoContCond.tipo)!,opcion.valor) ? '' : null"
-                                                                                        value={{objectToString(opcion.valor)}} class="form-check-input" [name]="objectToString(ubicacionAbsolutaDeDato(datoContCond.ubicacion,datoContCond.id))">
-                                                                                    <label class="form-check-label">{{opcion.string}}</label>
-                                                                                </div>
-                                                                            </ng-container>
+                                                                            <input class="form-control" 
+                                                                                (keyup)="guardarCambioContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)"
+                                                                                [ngModel]="cargarInfoPreviaContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,null)"
+                                                                                [type]="datoContCond.tipo"
+                                                                                [placeholder]="datoContCond.nombre || ''"
+                                                                            >
                                                                         </ng-container>
                                                                         <!-- Codigo date -->
                                                                         <ng-container *ngIf="datoContCond.tipo === (mapTipoInput.get(enumTiposInput.date))">
                                                                             <div class="input-group">
-                                                                                <input class="form-control" type="date" [disabled]="estaDeshabilitado(datoContCond.habilitadoSi,indiceInstancia)" [ngModel]="cargarInfoPrevia(datoContCond.ubicacion,datoContCond.id,indiceInstancia,mapTipoInput.revGet(datoContCond.tipo)!,null)" (change)="guardarCambio(datoContCond.ubicacion,datoContCond.id,indiceInstancia,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)">
-                                                                                <!-- <button class="btn btn-outline-primary bi bi-calendar-event" (click)="d.toggle()" type="button"></button> -->
+                                                                                <input class="form-control" 
+                                                                                    type="date" 
+                                                                                    [ngModel]="cargarInfoPreviaContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,null)"
+                                                                                    (change)="guardarCambioContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)"
+                                                                                >
                                                                             </div>
-                                                                        </ng-container>
-                                                                        <!-- Codigo porcentaje -->
-                                                                        <ng-container *ngIf="datoContCond.tipo === (mapTipoInput.get(enumTiposInput.porcentaje))">
-                                                                            <fieldset [disabled]="estaDeshabilitado(datoContCond.habilitadoSi,indiceInstancia)">
-                                                                                <input class="form-control" (keyup)="guardarCambio(datoContCond.ubicacion,datoContCond.id,indiceInstancia,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)" [type]="mapTipoInputHTML.get(enumTiposInput.porcentaje)" [placeholder]="datoContCond.nombre || ''"
-                                                                                    [formControl]="cargarInfoPrevia(datoContCond.ubicacion,datoContCond.id,indiceInstancia,mapTipoInput.revGet(datoContCond.tipo)!,null)" [ngClass]="{ 'is-invalid': mapControlesCampos.get(objectToString(ubicacionAbsolutaDeDato(datoContCond.ubicacion,datoContCond.id))+indiceInstancia)!.invalid }">
-                                                                                <div *ngIf="mapControlesCampos.get(objectToString(ubicacionAbsolutaDeDato(datoContCond.ubicacion,datoContCond.id))+indiceInstancia)!.invalid" class="invalid-feedback">
-                                                                                    Porcentaje debe estar entre 0 y 100.
-                                                                                </div>
-                                                                            </fieldset>
                                                                         </ng-container>
                                                                         <!-- Codigo selectUsuarioMultiple -->
                                                                         <ng-container *ngIf="datoContCond.tipo === (mapTipoInput.get(enumTiposInput.selectUsuarioMultiple))">
                                                                             <mat-form-field appearance="fill">
                                                                                 <mat-label>{{ datoContCond.nombre ? datoContCond.nombre : "Seleccione" }}</mat-label>
-                                                                                <mat-select multiple (selectionChange)="guardarCambio(datoContCond.ubicacion,datoContCond.id,indiceInstancia,mapTipoInput.revGet(datoContCond.tipo)!,$event)">
-                                                                                    <!--<mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(datoContCond.ubicacion,datoContCond.id)))" [value]="opcion.valor">-->
+                                                                                <mat-select multiple 
+                                                                                    (selectionChange)="guardarCambioContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,$event)"
+                                                                                    [ngModel]="cargarInfoPreviaContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,null)"
+                                                                                >
                                                                                     <!-- Necesito: 
                                                                                         Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, dato 2
                                                                                         "{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"-->
-                                                                                    <mat-option *ngFor="let opcion of iteradorOpciones(obtenerClaveSelectCondicional(datoContCond.ubicacion,indiceInstancia,indiceInstanciaDeDato,datoContCond.id))" [value]="opcion.valor">
+                                                                                    <mat-option *ngFor="let opcion of mapOpcionesSelect.get(obtenerClaveSelectCondicional(datoContCond.ubicacion,indiceInstancia,indiceInstanciaDeDato,datoContCond.id))" [value]="opcion.valor">
                                                                                         {{opcion.string}}
                                                                                     </mat-option>
                                                                                 </mat-select>

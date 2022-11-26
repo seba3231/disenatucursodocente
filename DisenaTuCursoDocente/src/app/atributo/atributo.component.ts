@@ -362,11 +362,6 @@ export class AtributoComponent {
         console.log("Fin precomputo");
     }
 
-    iteradorOpciones(parametro:string) : ValorSelect[] {
-        let vuelta = this.mapOpcionesSelect.get(parametro);
-        return vuelta!;
-    }
-
     obtenerClaveSelectCondicional(ubicacionDato:Ubicacion,indicePadre:number,indiceHijo:number,idDatoCondicional:number):string{
         //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, dato 2
         //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2
@@ -884,105 +879,123 @@ export class AtributoComponent {
     }
 
     guardarCambioContenidoCondicional(ubicacion:Ubicacion,idDato:number,indicePadre:number,indiceHijo:number,tipoInput:TipoInput,nuevoValor:any){
-        //Debo recibir:
-        //Instancia Padre
-        let valoresDato = this.buscoValoresDatoDeAtributo(ubicacion,[idDato]);
-        console.log("aaa");
-        /*if(valoresDato.length !== 0){
-            //let claveMap = this.objectToString(ubicacion)+indice;
-            let claveMap = this.objectToString(this.ubicacionAbsolutaDeDato(ubicacion,idDato))+indice;
+        
+        const [ubicacionAtributo, arrayIdDato] = this.ubicacionContenidoCondicional(ubicacion,idDato,indicePadre);
+
+        //ubicacionClaveMap = "{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[7,1]}
+        let ubicacionClaveMap : Ubicacion = {
+            idEtapa:ubicacionAtributo.idEtapa,
+            idGrupo:ubicacionAtributo.idGrupo,
+            idAtributo:ubicacionAtributo.idAtributo,
+            idDato:[...arrayIdDato]
+        }
+        
+        let valoresDato : ValoresDato[]= this.buscoValoresDatoDeAtributo(ubicacionAtributo,arrayIdDato);
+        if(valoresDato.length !== 0){
+            //calveMap = '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[7,1]}0,0'
+            let claveMap = this.objectToString(ubicacionClaveMap)+indicePadre+','+indiceHijo;
             switch (tipoInput) {
                 case TipoInput.text:{
-                    valoresDato[indice].string = nuevoValor.value;
+                    valoresDato[indiceHijo].string = nuevoValor.value;
                     break;
                 }
                 case TipoInput.number:{
-                    valoresDato[indice].number = Number(nuevoValor.value);
+                    valoresDato[indiceHijo].number = Number(nuevoValor.value);
                     break;
                 }
-                case TipoInput.porcentaje:{
-                    let control = this.mapControlesCampos.get(claveMap);
-                    if(!control?.invalid){
-                        valoresDato[indice].number = Number(nuevoValor.value);
-                    }
-                    else{
-                        valoresDato[indice].number = null;
-                    }
-                    break;
-                }
-                case TipoInput.selectFijoUnico:
-                //Una vez que matchea una opcion, ejecuta codigo hasta encontrar un break
-                //Osea, selectFijoUnico ejecuta el mismo codigo que radio
-                case TipoInput.radio:{
+                case TipoInput.selectFijoUnico:{
                     let valueObject = this.stringToObject(nuevoValor.value);
-                    //Actualizo control interno
-                    if(!this.atributo.multiInstanciable){
-                        this.mapOpcionSeleccionada.set(
-                            claveMap,
-                            valueObject
-                        );
+
+                    //Reseteo datos guardados del CC viejo
+                    let valoresAtributo : ValoresAtributo[] = this.buscoValoresAtributoDeAtributo(ubicacionAtributo);
+                    for(let valorAtributo of valoresAtributo){
+                        valorAtributo.valoresDato[indiceHijo] = {
+                            string : null,
+                            number: null,
+                            selectFijo: null,
+                            selectUsuario: null,
+                            archivo: null,
+                            date: null
+                        }
                     }
 
                     //Actualizo datos guardados en archivo
-                    if(valoresDato[indice].selectFijo){
-                        valoresDato[indice].selectFijo![0] = valueObject;
+                    if(valoresDato[indiceHijo].selectFijo){
+                        valoresDato[indiceHijo].selectFijo![0] = valueObject;
                     }
                     else{
-                        valoresDato[indice].selectFijo = [valueObject];
+                        valoresDato[indiceHijo].selectFijo = [valueObject];
                     }
-                    break;
-                }
-                case TipoInput.selectFijoMultiple:{
-                    if(nuevoValor.value.length === 0){
-                        valoresDato[indice].selectFijo = null;
+                    
+
+                    //Actualizo map ContCond
+                    //ubicacionAbsInterior = 2,24,3,[7,1] = ubicacionClaveMap
+                    //Todos los ContCond
+                    let contenidoCondicional = this.initialSchemaService.defaultSchema?.contenidoCondicional;
+                    //Los ContCond que son de este Dato
+                    let contenidosMatchean = contenidoCondicional?.filter((contMacth) => this.objectToString(contMacth.muestroSi.referencia) === this.objectToString(ubicacionClaveMap));
+
+                    //Por ejemplo, Padre (modulo) indice 0
+                    //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]}"
+                    let ubicacionContCondicional : Ubicacion = {
+                        idEtapa:ubicacionAtributo.idEtapa,
+                        idGrupo:ubicacionAtributo.idGrupo,
+                        idAtributo:ubicacionAtributo.idAtributo,
+                        idDato:[indicePadre]
                     }
-                    else{
-                        let valoresAGuardar:number[] = [];
-                        for(let valor of nuevoValor.value){
-                            valoresAGuardar.push(valor);
+                    let clavePadreContCondicional = this.objectToString(ubicacionContCondicional);
+                    let contCondicional = this.mapContenidoCondicional.get(clavePadreContCondicional);
+                    if(contCondicional !== undefined){
+                        let filaDatosAAgregar : FilaDatos[] = [];
+                        for (let contenidoEncontrado of contenidosMatchean!) {
+                            if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === valueObject){
+                                contCondicional[indiceHijo] = contenidoEncontrado.filasDatos
+                                filaDatosAAgregar = contenidoEncontrado.filasDatos;
+                                break;
+                            }
                         }
-                        valoresDato[indice].selectFijo = valoresAGuardar;
+                        //Tengo que agregar las opciones de los selectUsuarioMultiple
+                        for(let filaDatosCondional of filaDatosAAgregar){
+                            for(let datoInterno of filaDatosCondional.datos){
+                                switch (this.mapTipoInput.revGet(datoInterno.tipo)) {
+                                    case TipoInput.selectUsuarioMultiple:{
+                                        //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, idDato 2
+                                        //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"
+                                        let claveHijoContCondicional = clavePadreContCondicional+","+indiceHijo+","+datoInterno.id;
+                                        this.mapOpcionesSelect.delete(claveHijoContCondicional);
+                                        this.cargoOpcionesSelect(datoInterno,claveHijoContCondicional,datoInterno.ubicacion);
+                                    }
+                                }
+                            }
+                        }
+                        //Reseteo las opciones seleccionadas anteriormente en UI
+                        this.mapOpcionesSeleccionadas = new Map();
                     }
                     break;
                 }
                 case TipoInput.selectUsuarioMultiple:{
 
                     if(nuevoValor.value.length === 0){
-                        valoresDato[indice].selectUsuario = null;
+                        valoresDato[indiceHijo].selectUsuario = null;
                     }
                     else{
                         let valoresAGuardar:number[] = [];
                         for(let valor of nuevoValor.value){
                             valoresAGuardar.push(valor);
                         }
-                        valoresDato[indice].selectUsuario = valoresAGuardar;
-                    }
-                    break;
-                }
-                case TipoInput.archivo:{
-                    let archivoCargado = this.mapDatoArchivo.get(claveMap);
-                    if(archivoCargado !== undefined){
-                        archivoCargado.texto = nuevoValor.value;
+                        valoresDato[indiceHijo].selectUsuario = valoresAGuardar;
                     }
                     break;
                 }
                 case TipoInput.date:{
-                    valoresDato[indice].date = nuevoValor.value
+                    valoresDato[indiceHijo].date = nuevoValor.value
                     break;
                 }
                 default:
                     break;
             }
-            let ubicacionAbs : Ubicacion = {
-                idEtapa: ubicacion.idEtapa,
-                idGrupo: ubicacion.idGrupo,
-                idAtributo: ubicacion.idAtributo,
-                idDato: [idDato]
-            }
-            this.informarCambio.emit(ubicacionAbs);
-            //console.log(valoresDato);
             this.accionesCursosService.modificarCurso();
-        }*/
+        }
     }
 
     cargarInfoPrevia(ubicacion:Ubicacion, idDato:number, indice:number, tipoInput: TipoInput, posibleValor:any) : any {
@@ -1132,46 +1145,52 @@ export class AtributoComponent {
         return "null_fin";
     }
 
-    cargarInfoPreviaContenidoCondicional(ubicacion:Ubicacion, idDato:number, padre:number ,hijo:number,tipoInput: TipoInput, posibleValor:any) : any {
+    cargarInfoPreviaContenidoCondicional(ubicacion:Ubicacion, idDato:number, indicePadre:number,indiceHijo:number,tipoInput: TipoInput, posibleValor:any) : any {
         
-        let arrayIdDato : number[] = [];
-        let ubicacionReconstruida : Ubicacion = {
-            idEtapa : ubicacion.idEtapa,
-            idGrupo : ubicacion.idGrupo,
-            idAtributo : ubicacion.idAtributo,
-            idDato : null
-        }
-        //reconstruyo ubicacion con idDato,indice
-        //idDato = 1
-        //ubicacion.idDato = [7]
-        //indice = 0
-        arrayIdDato = [...ubicacion.idDato!];
-        arrayIdDato.push(idDato);
-
-        ubicacionReconstruida.idDato = [...ubicacion.idDato!];
-        ubicacionReconstruida.idDato!.push(idDato);
-        ubicacionReconstruida.idDato!.unshift(padre);
-
-        /*if(ubicacion.idDato !== null){
-            console.log("aquiqui");
+        const [ubicacionAtributo, arrayIdDato] = this.ubicacionContenidoCondicional(ubicacion,idDato,indicePadre);
+        
+        /*if(this.objectToString(arrayIdDato)==="[7,1,2]" && indicePadre===0 && indiceHijo===0){
+            console.log("aca");
         }*/
-        let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionReconstruida,arrayIdDato);
+
+        let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionAtributo,arrayIdDato);
         if(valoresDato.length !== 0){
-            let claveMap = this.objectToString(this.ubicacionAbsolutaDeDato(ubicacion,idDato))+padre+','+hijo;
+            //calveMap = '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[7,1]}0,0'
+            let claveMap = this.objectToString(this.ubicacionAbsolutaDeDato(ubicacion,idDato))+indicePadre+','+indiceHijo;
             switch (tipoInput) {
                 case TipoInput.text:{
-                    return valoresDato[hijo].string;
+                    return valoresDato[indiceHijo].string;
                 }
                 case TipoInput.date:{
-                    return valoresDato[hijo].date;
+                    return valoresDato[indiceHijo].date;
                 }
                 case TipoInput.number:{
-                    return valoresDato[hijo].number;
+                    return valoresDato[indiceHijo].number;
                 }
                 case TipoInput.selectFijoUnico:{
                     
                     let estaOpcionEstaSeleccionada = false;
-                    let value = this.mapOpcionSeleccionada.get(claveMap);
+                    if(valoresDato[indiceHijo]?.selectFijo){
+                        let varlorGuardado = valoresDato[indiceHijo].selectFijo![0];
+                        estaOpcionEstaSeleccionada = posibleValor === varlorGuardado;
+                    }
+                    else{
+                        estaOpcionEstaSeleccionada=true;
+                        valoresDato[indiceHijo].selectFijo = [posibleValor];
+                    }
+                    /*let opciones = this.mapOpcionesSelect.get('{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[7,1]}');
+                    let cl = claveMap;
+                    let pV = posibleValor;*/
+                    if(estaOpcionEstaSeleccionada){
+                        console.log("CM: "+claveMap+", PV: "+posibleValor);
+                    }
+                    /*if(estaOpcionEstaSeleccionada && claveMap === '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[7,1]}0,0'){
+                        console.log("ClaveMap: "+claveMap+", PV: "+posibleValor);
+                    }
+                    if(estaOpcionEstaSeleccionada && claveMap === '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[7,1]}0,3'){
+                        console.log("ClaveMap: "+claveMap+", PV: "+posibleValor);
+                    }*/
+                    /*let value = this.mapOpcionSeleccionada.get(claveMap);
                     //Checkeo que solo se compute una vez este codigo
                     if(value === undefined){
                         if(valoresDato[hijo]?.selectFijo){
@@ -1195,97 +1214,22 @@ export class AtributoComponent {
                         }
                     }
                     else{
+                        let cl = claveMap;
+                        let pV = posibleValor;
                         estaOpcionEstaSeleccionada = posibleValor === value;
-                    }
+                        if(estaOpcionEstaSeleccionada && cl === '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[7,1]}0,0'){
+                            console.log("true");
+                        }
+                    }*/
 
                     return estaOpcionEstaSeleccionada;
-                }
-                case TipoInput.selectFijoMultiple:{
-                    let valoresSeleccionados = this.mapOpcionesSeleccionadas.get(claveMap);
-                    if(valoresSeleccionados === undefined){
-                        let vuelta : number[] = [];
-                        if(valoresDato[hijo]?.selectFijo){
-                            vuelta = valoresDato[hijo].selectFijo!;
-                        }
-                        this.mapOpcionesSeleccionadas.set(claveMap,vuelta);
-                    }
-                    valoresSeleccionados = this.mapOpcionesSeleccionadas.get(claveMap);
-                    return valoresSeleccionados;
-                }
-                case TipoInput.radio:{
-
-                    let estaOpcionEstaSeleccionada = false;
-                    if(valoresDato[hijo]?.selectFijo){
-                        estaOpcionEstaSeleccionada = posibleValor === valoresDato[hijo].selectFijo![0];
-                    }
-                    if(estaOpcionEstaSeleccionada && !this.atributo.multiInstanciable){
-                        let value = this.mapOpcionSeleccionada.get(claveMap);
-                        if(value === undefined){
-                            this.mapOpcionSeleccionada.set(
-                                claveMap,
-                                posibleValor
-                            );
-                        }
-                    }
-                    return estaOpcionEstaSeleccionada;
-                }
-                case TipoInput.porcentaje:{
-                    let value = this.mapControlesCampos.get(claveMap);
-                    //Checkeo que solo se compute una vez este codigo
-                    if(value === undefined){
-                        let valorParaControl = 0;
-                        if(valoresDato[hijo].number !== null){
-                            valorParaControl = valoresDato[hijo].number!;
-                        }
-                        this.mapControlesCampos.set(
-                            claveMap,
-                            new FormControl(
-                                {
-                                    value: valorParaControl,
-                                    disabled: false
-                                },
-                                { 
-                                    validators: [
-                                        Validators.min(0),
-                                        Validators.max(100)
-                                    ]
-                                }
-                            )
-                        );
-                    }
-                    return this.mapControlesCampos.get(claveMap);
-                }
-                case TipoInput.archivo:{
-                    let archivoCargado = this.mapDatoArchivo.get(claveMap);
-                    if(archivoCargado === undefined){
-                        if(valoresDato[hijo]?.archivo == null){
-                            let nuevoDatoArchivo : DatoArchivo= {
-                                texto:null,
-                                fileName:null,
-                                fileBinary:null,
-                                ruta:null
-                            }
-                            valoresDato[hijo]!.archivo = nuevoDatoArchivo;
-                        }
-                        this.mapDatoArchivo.set(claveMap,valoresDato[hijo]?.archivo!);
-                    }
-                    archivoCargado = this.mapDatoArchivo.get(claveMap);
-                    switch(posibleValor){
-                        case 'Texto':{
-                            return archivoCargado?.texto;
-                        }
-                        case 'ExisteFile':{
-                            return archivoCargado?.fileName !== null;
-                        }
-                    }
-                    break;
                 }
                 case TipoInput.selectUsuarioMultiple:{
                     let valoresSeleccionados = this.mapOpcionesSeleccionadas.get(claveMap);
                     if(valoresSeleccionados === undefined){
                         let vuelta : number[] = [];
-                        if(valoresDato[hijo]?.selectUsuario){
-                            vuelta = valoresDato[hijo].selectUsuario!;
+                        if(valoresDato[indiceHijo]?.selectUsuario){
+                            vuelta = valoresDato[indiceHijo].selectUsuario!;
                         }
                         this.mapOpcionesSeleccionadas.set(claveMap,vuelta);
                     }
@@ -1375,9 +1319,30 @@ export class AtributoComponent {
         }
     }
 
-    /*ubicacionAbsolutaDeDatoCondicional(ubicacion:Ubicacion,idDato:number,instanciaPadre:number,instanciaDato:number) : Ubicacion {
-        return ubicacion;
-    }*/
+    ubicacionContenidoCondicional(ubicacion:Ubicacion,idDato:number,indicePadre:number) : [Ubicacion,number[]]{
+        let ubicacionAtributo : Ubicacion = {
+            idEtapa:ubicacion.idEtapa,
+            idGrupo:ubicacion.idGrupo,
+            idAtributo:ubicacion.idAtributo,
+            idDato:[...ubicacion.idDato!]
+        }
+        let arrayIdDato : number[] = [...ubicacionAtributo.idDato!];
+        if(ubicacion.idDato !== null && ubicacion.idDato.length === 2){
+            //Caso de Dato de Contenido Condicional
+            //arrayIdDato = [7,1,idDato]
+            arrayIdDato.push(idDato);
+        }
+        else{
+            //Caso SelectFijoUnico que determina Contenido Condicional
+            //ubicacionAtributo = 2,24,3,[7,1]
+            ubicacionAtributo = this.ubicacionAbsolutaDeDato(ubicacion,idDato);
+            //arrayIdDato = [7,1]
+            arrayIdDato = [...ubicacionAtributo.idDato!];
+        }
+        //ubicacionAtributo = 2,24,3,[indicePadre,7,1]
+        ubicacionAtributo.idDato!.unshift(indicePadre);
+        return [ubicacionAtributo,arrayIdDato];
+    }
 
     objectToString(obj:any){
         return JSON.stringify(obj);
