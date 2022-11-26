@@ -250,13 +250,12 @@
                                                                         </label>
                                                                         <!-- selectFijoUnico que determina el contenido condicional a mostrar -->
                                                                         <ng-container *ngIf="datoInterior.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
-                                                                            <select class="form-select"
-                                                                                (change)="guardarCambioContenidoCondicional(datoInterior.ubicacion,datoInterior.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoInterior.tipo)!,$event.target)"
-                                                                            >
+                                                                            <select class="form-select" id={{indiceInstanciaDeDato}} (change)="guardarCambioContenidoCondicional(datoInterior.ubicacion,datoInterior.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoInterior.tipo)!,$event.target)">
                                                                                 <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(datoInterior.ubicacion,datoInterior.id)))">
                                                                                     <option
                                                                                         [selected]="cargarInfoPreviaContenidoCondicional(datoInterior.ubicacion,datoInterior.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoInterior.tipo)!,opcion.valor)"
-                                                                                        value={{opcion.valor}}
+                                                                                        ngValue={{opcion.valor}}
+                                                                                        id={{opcion.string}}
                                                                                     >
                                                                                         {{ opcion.string }}
                                                                                     </option>
@@ -284,48 +283,27 @@
                                                                         </label>
                                                                         <!-- Codigo text -->
                                                                         <ng-container *ngIf="datoContCond.tipo === (mapTipoInput.get(enumTiposInput.text))">
-                                                                            <input *ngIf="datoContCond.tamanio < 200" 
-                                                                                class="form-control" 
-                                                                                [type]="datoContCond.tipo" 
-                                                                                [placeholder]="datoContCond.nombre || ''" 
-                                                                                (keyup)="guardarCambioContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)"
-                                                                                [ngModel]="cargarInfoPreviaContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,null)"
-                                                                            >
-                                                                            <textarea *ngIf="datoContCond.tamanio > 199" 
-                                                                                class="form-control" 
-                                                                                [rows]="(datoContCond.tamanio/100)" 
-                                                                                [placeholder]="datoContCond.nombre || ''" 
-                                                                                (keyup)="guardarCambioContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)"
-                                                                                [ngModel]="cargarInfoPreviaContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,null)"
-                                                                            ></textarea>
+                                                                            <input *ngIf="datoContCond.tamanio < 200" class="form-control" [type]="datoContCond.tipo" [placeholder]="datoContCond.nombre || ''" (keyup)="guardarCambioContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)"
+                                                                                [ngModel]="cargarInfoPreviaContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,null)">
+                                                                            <textarea *ngIf="datoContCond.tamanio > 199" class="form-control" [rows]="(datoContCond.tamanio/100)" [placeholder]="datoContCond.nombre || ''" (keyup)="guardarCambioContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)"
+                                                                                [ngModel]="cargarInfoPreviaContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,null)"></textarea>
                                                                         </ng-container>
                                                                         <!-- Codigo number -->
                                                                         <ng-container *ngIf="datoContCond.tipo === (mapTipoInput.get(enumTiposInput.number))">
-                                                                            <input class="form-control" 
-                                                                                (keyup)="guardarCambioContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)"
-                                                                                [ngModel]="cargarInfoPreviaContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,null)"
-                                                                                [type]="datoContCond.tipo"
-                                                                                [placeholder]="datoContCond.nombre || ''"
-                                                                            >
+                                                                            <input class="form-control" (keyup)="guardarCambioContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)" [ngModel]="cargarInfoPreviaContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,null)"
+                                                                                [type]="datoContCond.tipo" [placeholder]="datoContCond.nombre || ''">
                                                                         </ng-container>
                                                                         <!-- Codigo date -->
                                                                         <ng-container *ngIf="datoContCond.tipo === (mapTipoInput.get(enumTiposInput.date))">
                                                                             <div class="input-group">
-                                                                                <input class="form-control" 
-                                                                                    type="date" 
-                                                                                    [ngModel]="cargarInfoPreviaContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,null)"
-                                                                                    (change)="guardarCambioContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)"
-                                                                                >
+                                                                                <input class="form-control" type="date" [ngModel]="cargarInfoPreviaContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,null)" (change)="guardarCambioContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,$event.target)">
                                                                             </div>
                                                                         </ng-container>
                                                                         <!-- Codigo selectUsuarioMultiple -->
                                                                         <ng-container *ngIf="datoContCond.tipo === (mapTipoInput.get(enumTiposInput.selectUsuarioMultiple))">
                                                                             <mat-form-field appearance="fill">
                                                                                 <mat-label>{{ datoContCond.nombre ? datoContCond.nombre : "Seleccione" }}</mat-label>
-                                                                                <mat-select multiple 
-                                                                                    (selectionChange)="guardarCambioContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,$event)"
-                                                                                    [ngModel]="cargarInfoPreviaContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,null)"
-                                                                                >
+                                                                                <mat-select multiple (selectionChange)="guardarCambioContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,$event)" [ngModel]="cargarInfoPreviaContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,null)">
                                                                                     <!-- Necesito: 
                                                                                         Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, dato 2
                                                                                         "{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"-->
@@ -340,11 +318,7 @@
                                                             </div>
                                                         </div>
                                                         <div *ngIf="dato.multiInstanciable" class="col-auto align-self-center">
-                                                            <button type="button" 
-                                                                class="btn btn-outline-primary background-primary" 
-                                                                style="padding-top:3px;padding-bottom:3px;" 
-                                                                (click)="modalEliminarUnidad(atributo.ubicacion,atributo.id,dato,indiceInstancia,indiceInstanciaDeDato)"
-                                                            >
+                                                            <button type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" (click)="modalEliminarUnidad(atributo.ubicacion,atributo.id,dato,indiceInstancia,indiceInstanciaDeDato)">
                                                                 <i class="bi bi-trash-fill fs-5"></i>
                                                                 <!-- aca elimino las unidades de mas adentro -->
                                                             </button>
