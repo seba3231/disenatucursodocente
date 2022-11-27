@@ -255,7 +255,6 @@
                                                                                     <option
                                                                                         [selected]="cargarInfoPreviaContenidoCondicional(datoInterior.ubicacion,datoInterior.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoInterior.tipo)!,opcion.valor)"
                                                                                         ngValue={{opcion.valor}}
-                                                                                        id={{opcion.string}}
                                                                                     >
                                                                                         {{ opcion.string }}
                                                                                     </option>
@@ -329,7 +328,7 @@
 
                                         </ng-container>
                                         <div *ngIf="atributo.multiInstanciable">
-                                            <button type="button" class="btn btn-outline-primary background-primary m-2 w-100" (click)="agregarUnidades(atributo.ubicacion,atributo.id)" style="font-weight:500;">
+                                            <button type="button" class="btn btn-outline-primary background-primary m-2 w-100" (click)="agregarUnidades(dato,atributo.ubicacion,atributo.id,indiceInstancia)" style="font-weight:500;">
                                                 <i _ngcontent-ofn-c89="" class="bi bi-plus-square-dotted me-2"></i>
                                                 Agregar {{ dato.nombre }}
                                             </button>

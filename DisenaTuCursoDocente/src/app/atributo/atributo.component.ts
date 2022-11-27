@@ -682,19 +682,22 @@ export class AtributoComponent {
         }
     }
 
-    agregarUnidades(ubicacion:Ubicacion,idAtributo:number) {
-//hay que implementar esto
+    agregarUnidades(dato: Dato,ubicacion:Ubicacion,idAtributo:number,idModulo:number) {
+        //hay que implementar esto
+        let datoInterior = dato.filasDatos[0].datos[0];
 
-        let ubicacionAtr : Ubicacion = {
+        var ubicacionAtr: Ubicacion = {                
             idEtapa : ubicacion.idEtapa,
             idGrupo : ubicacion.idGrupo,
             idAtributo : idAtributo,
-            idDato : null
+            idDato : [idModulo,dato.id,datoInterior.id]
         }
-        let infoGuardada : InformacionGuardada | null = this.buscoInformacionGuardadaDeAtributo(ubicacionAtr);
-        if(infoGuardada !== null){
-            let valsAtrib : ValoresAtributo[] = infoGuardada.valoresAtributo;
-            for(let datoDentroAtributo of valsAtrib){
+
+        let infoGuardada : InformacionGuardada | null= this.buscoInformacionGuardadaDeAtributo(ubicacionAtr);
+        let indexSelCond = 0
+        if(infoGuardada !==null){
+            //Reseteo los datos de la nueva instancia
+            for(let datoDentroAtributo of infoGuardada.valoresAtributo!){
                 let nuevoValorDato : ValoresDato = {
                     string:null,
                     number:null,
@@ -704,15 +707,64 @@ export class AtributoComponent {
                     date:null
                 }
                 datoDentroAtributo.valoresDato.push(nuevoValorDato);
+                let indexSelCond = datoDentroAtributo.valoresDato.length
             }
             infoGuardada.cantidadInstancias++;
-            this.accionesCursosService.modificarCurso();
-            //Por cada Dato del Atributo creado, emito por si alguien más depende de el
-            let datosDeAtrib : Dato[] = this.datosDeAtributo(ubicacionAtr);
-            for(let dato of datosDeAtrib){
-                let ubicacionDato = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
-                this.informarCambio.emit(ubicacionDato);
+        }
+
+        let ubicacionContCondicional : Ubicacion = {
+            idEtapa : ubicacionAtr.idEtapa,
+            idGrupo : ubicacionAtr.idGrupo,
+            idAtributo : ubicacionAtr.idAtributo,
+            idDato : [idModulo]
+        }
+
+        let clavePadreContCondicional = this.objectToString(ubicacionContCondicional);
+        var contCondicional = this.mapContenidoCondicional.get(clavePadreContCondicional);
+        
+        //Todos los ContCond
+        let contenidoCondicional = this.initialSchemaService.defaultSchema?.contenidoCondicional;
+        //Los ContCond que son de este Dato
+        ubicacionContCondicional.idDato = [dato.id,datoInterior.id]
+        let contenidosMatchean = contenidoCondicional?.filter((contMacth) => this.objectToString(contMacth.muestroSi.referencia) === this.objectToString(ubicacionContCondicional));
+        
+        let filaDatosAAgregar : FilaDatos[] = [];
+           
+        for (let contenidoEncontrado of contenidosMatchean!) {
+            if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === 0){
+                contCondicional?.push(contenidoEncontrado.filasDatos);
+                filaDatosAAgregar = contenidoEncontrado.filasDatos;
+                break;
             }
+        }
+            
+        //Tengo que agregar las opciones de los selectUsuarioMultiple
+        for(let filaDatosCondional of filaDatosAAgregar){
+            for(let datoInterno of filaDatosCondional.datos){
+                switch (this.mapTipoInput.revGet(datoInterno.tipo)) {
+                    case TipoInput.selectUsuarioMultiple:{
+                        //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, idDato 2
+                        //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"
+                        let claveHijoContCondicional = clavePadreContCondicional+","+indexSelCond+","+datoInterno.id;
+                        this.cargoOpcionesSelect(datoInterno,claveHijoContCondicional,datoInterno.ubicacion);
+                    }
+                }
+            }
+        }
+
+        this.mapDatoArchivo = new Map();
+        //Invalido map de opcionSeleccionada
+        this.mapOpcionSeleccionada = new Map();
+        //Invalido map de opcionesSeleccionadas
+        this.mapOpcionesSeleccionadas = new Map();
+
+        this.accionesCursosService.modificarCurso();
+
+        //Por cada Dato del Atributo eliminado, emito por si alguien más depende de el
+        let datosDeAtrib : Dato[] = this.datosDeAtributo(ubicacionAtr);
+        for(let dato of datosDeAtrib){
+            let ubicacionDato = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
+            this.informarCambio.emit(ubicacionDato);
         }
     }
 
@@ -935,7 +987,6 @@ export class AtributoComponent {
         if(valoresDato.length !== 0){
             //calveMap = '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[7,1]}0,0'
             let claveMap = this.objectToString(ubicacionClaveMap)+indicePadre+','+indiceHijo;
-            console.log("CM: "+claveMap+", GUARDANDO");
             switch (tipoInput) {
                 case TipoInput.text:{
                     valoresDato[indiceHijo].string = nuevoValor.value;
@@ -946,7 +997,8 @@ export class AtributoComponent {
                     break;
                 }
                 case TipoInput.selectFijoUnico:{
-                    let valueObject = this.stringToObject(nuevoValor.value);
+                    // let valueObject = this.stringToObject(nuevoValor.selectedIndex);
+                    let valueObject = this.stringToObject(nuevoValor.selectedIndex);
 
                     //Reseteo datos guardados del CC viejo
                     let valoresAtributo : ValoresAtributo[] = this.buscoValoresAtributoDeAtributo(ubicacionAtributo);
@@ -997,6 +1049,7 @@ export class AtributoComponent {
                             }
                         }
                         //Tengo que agregar las opciones de los selectUsuarioMultiple
+                        var isok = false
                         for(let filaDatosCondional of filaDatosAAgregar){
                             for(let datoInterno of filaDatosCondional.datos){
                                 switch (this.mapTipoInput.revGet(datoInterno.tipo)) {
@@ -1006,9 +1059,13 @@ export class AtributoComponent {
                                         let claveHijoContCondicional = clavePadreContCondicional+","+indiceHijo+","+datoInterno.id;
                                         this.mapOpcionesSelect.delete(claveHijoContCondicional);
                                         this.cargoOpcionesSelect(datoInterno,claveHijoContCondicional,datoInterno.ubicacion);
+                                        isok = true
+                                        break
                                     }
                                 }
+                                if (isok) break
                             }
+                            if (isok) break
                         }
                         //Reseteo las opciones seleccionadas anteriormente en UI
                         this.mapOpcionesSeleccionadas = new Map();
