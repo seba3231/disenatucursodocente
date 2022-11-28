@@ -3047,7 +3047,7 @@
                     "datos": [
                         {
                             "id": 1,
-                            "nombre": "Horas",
+                            "nombre": "OPCION 0",
                             "ubicacion": {
                                 "idEtapa": 2,
                                 "idGrupo": 24,
@@ -3197,7 +3197,7 @@
                     "datos": [
                         {
                             "id": 1,
-                            "nombre": "Horas",
+                            "nombre": "OPCION 1",
                             "ubicacion": {
                                 "idEtapa": 2,
                                 "idGrupo": 24,
@@ -3319,7 +3319,7 @@
                     "datos": [
                         {
                             "id": 1,
-                            "nombre": "Fecha inicio",
+                            "nombre": "OPCION 2",
                             "ubicacion": {
                                 "idEtapa": 2,
                                 "idGrupo": 24,

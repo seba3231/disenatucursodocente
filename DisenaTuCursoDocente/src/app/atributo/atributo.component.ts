@@ -334,14 +334,18 @@ export class AtributoComponent {
                                 let filaDatosAAgregar : FilaDatos[] = [];
                                 if(valSelCond.selectFijo === null){
                                     //Seteo como contenido condicional seleccionando la primer opcion
-                                    contCondicional?.push(contenidosMatchean![0].filasDatos);
-                                    filaDatosAAgregar = contenidosMatchean![0].filasDatos;
+                                    let copiaFilaDatos : FilaDatos[] = this.stringToObject(this.objectToString(contenidosMatchean![0].filasDatos));
+
+                                    contCondicional?.push(copiaFilaDatos);
+                                    filaDatosAAgregar = copiaFilaDatos;
                                 }
                                 else{
                                     for (let contenidoEncontrado of contenidosMatchean!) {
                                         if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === valSelCond.selectFijo[0]){
-                                            contCondicional?.push(contenidoEncontrado.filasDatos);
-                                            filaDatosAAgregar = contenidoEncontrado.filasDatos;
+                                            let copiaFilaDatos : FilaDatos[] = this.stringToObject(this.objectToString(contenidoEncontrado.filasDatos));
+                                            
+                                            contCondicional?.push(copiaFilaDatos);
+                                            filaDatosAAgregar = copiaFilaDatos;
                                             break;
                                         }
                                     }
@@ -682,19 +686,22 @@ export class AtributoComponent {
         }
     }
 
-    agregarUnidades(ubicacion:Ubicacion,idAtributo:number) {
+    agregarUnidades(dato: Dato,ubicacion:Ubicacion,idAtributo:number,idModulo:number) {
         //hay que implementar esto
+        let datoInterior = dato.filasDatos[0].datos[0];
 
-        let ubicacionAtr : Ubicacion = {
+        var ubicacionAtr: Ubicacion = {
             idEtapa : ubicacion.idEtapa,
             idGrupo : ubicacion.idGrupo,
             idAtributo : idAtributo,
-            idDato : null
+            idDato : [idModulo,dato.id,datoInterior.id]
         }
-        let infoGuardada : InformacionGuardada | null = this.buscoInformacionGuardadaDeAtributo(ubicacionAtr);
-        if(infoGuardada !== null){
-            let valsAtrib : ValoresAtributo[] = infoGuardada.valoresAtributo;
-            for(let datoDentroAtributo of valsAtrib){
+
+        let infoGuardada : InformacionGuardada | null= this.buscoInformacionGuardadaDeAtributo(ubicacionAtr);
+        let indiceNuevoHijo = 0;
+        if(infoGuardada !==null){
+            //Reseteo los datos de la nueva instancia
+            for(let datoDentroAtributo of infoGuardada.valoresAtributo!){
                 let nuevoValorDato : ValoresDato = {
                     string:null,
                     number:null,
@@ -706,13 +713,65 @@ export class AtributoComponent {
                 datoDentroAtributo.valoresDato.push(nuevoValorDato);
             }
             infoGuardada.cantidadInstancias++;
-            this.accionesCursosService.modificarCurso();
-            //Por cada Dato del Atributo creado, emito por si alguien más depende de el
-            let datosDeAtrib : Dato[] = this.datosDeAtributo(ubicacionAtr);
-            for(let dato of datosDeAtrib){
-                let ubicacionDato = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
-                this.informarCambio.emit(ubicacionDato);
+            indiceNuevoHijo = infoGuardada.cantidadInstancias-1;
+        }
+
+        let ubicacionContCondicional : Ubicacion = {
+            idEtapa : ubicacionAtr.idEtapa,
+            idGrupo : ubicacionAtr.idGrupo,
+            idAtributo : ubicacionAtr.idAtributo,
+            idDato : [idModulo]
+        }
+
+        let clavePadreContCondicional = this.objectToString(ubicacionContCondicional);
+        var contCondicional = this.mapContenidoCondicional.get(clavePadreContCondicional);
+
+        //Todos los ContCond
+        let contenidoCondicional = this.initialSchemaService.defaultSchema?.contenidoCondicional;
+        //Los ContCond que son de este Dato
+        ubicacionContCondicional.idDato = [dato.id,datoInterior.id]
+        let contenidosMatchean = contenidoCondicional?.filter((contMacth) => this.objectToString(contMacth.muestroSi.referencia) === this.objectToString(ubicacionContCondicional));
+
+        let filaDatosAAgregar : FilaDatos[] = [];
+
+        for (let contenidoEncontrado of contenidosMatchean!) {
+            if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === 0){
+
+                let copiaFilaDatos : FilaDatos[] = this.stringToObject(this.objectToString(contenidoEncontrado.filasDatos));
+
+                contCondicional?.push(copiaFilaDatos);
+                filaDatosAAgregar = copiaFilaDatos;
+                break;
             }
+        }
+
+        //Tengo que agregar las opciones de los selectUsuarioMultiple
+        for(let filaDatosCondional of filaDatosAAgregar){
+            for(let datoInterno of filaDatosCondional.datos){
+                switch (this.mapTipoInput.revGet(datoInterno.tipo)) {
+                    case TipoInput.selectUsuarioMultiple:{
+                        //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, idDato 2
+                        //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"
+                        let claveHijoContCondicional = clavePadreContCondicional+","+indiceNuevoHijo+","+datoInterno.id;
+                        this.cargoOpcionesSelect(datoInterno,claveHijoContCondicional,datoInterno.ubicacion);
+                    }
+                }
+            }
+        }
+
+        this.mapDatoArchivo = new Map();
+        //Invalido map de opcionSeleccionada
+        this.mapOpcionSeleccionada = new Map();
+        //Invalido map de opcionesSeleccionadas
+        this.mapOpcionesSeleccionadas = new Map();
+
+        this.accionesCursosService.modificarCurso();
+
+        //Por cada Dato del Atributo eliminado, emito por si alguien más depende de el
+        let datosDeAtrib : Dato[] = this.datosDeAtributo(ubicacionAtr);
+        for(let dato of datosDeAtrib){
+            let ubicacionDato = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
+            this.informarCambio.emit(ubicacionDato);
         }
     }
 
@@ -935,7 +994,6 @@ export class AtributoComponent {
         if(valoresDato.length !== 0){
             //calveMap = '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[7,1]}0,0'
             let claveMap = this.objectToString(ubicacionClaveMap)+indicePadre+','+indiceHijo;
-            console.log("CM: "+claveMap+", GUARDANDO");
             switch (tipoInput) {
                 case TipoInput.text:{
                     valoresDato[indiceHijo].string = nuevoValor.value;
@@ -990,8 +1048,10 @@ export class AtributoComponent {
                         let filaDatosAAgregar : FilaDatos[] = [];
                         for (let contenidoEncontrado of contenidosMatchean!) {
                             if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === valueObject){
-                                contCondicional[indiceHijo] = contenidoEncontrado.filasDatos
-                                filaDatosAAgregar = contenidoEncontrado.filasDatos;
+                                //Copio filaDatos encontrado
+                                let copiaFilaDatos : FilaDatos[] = this.stringToObject(this.objectToString(contenidoEncontrado.filasDatos));
+                                contCondicional[indiceHijo] = copiaFilaDatos;
+                                filaDatosAAgregar = copiaFilaDatos;
                                 break;
                             }
                         }
@@ -1005,6 +1065,7 @@ export class AtributoComponent {
                                         let claveHijoContCondicional = clavePadreContCondicional+","+indiceHijo+","+datoInterno.id;
                                         this.mapOpcionesSelect.delete(claveHijoContCondicional);
                                         this.cargoOpcionesSelect(datoInterno,claveHijoContCondicional,datoInterno.ubicacion);
+                                        break
                                     }
                                 }
                             }
@@ -1036,6 +1097,7 @@ export class AtributoComponent {
                     break;
             }
             this.accionesCursosService.modificarCurso();
+            console.log("Curso Actualizado.");
         }
     }
 
@@ -1731,7 +1793,7 @@ export class AtributoComponent {
                                 idDato:[...arrayIDDato]
                             }
                             ubicacionUnidad.idDato?.unshift(indiceModulo);
-                            
+
                             //Construyo Ubicacion del map CC
                             let ubicacionContCondicional : Ubicacion = {
                                 idEtapa:ubicacionAtr.idEtapa,
@@ -1739,14 +1801,14 @@ export class AtributoComponent {
                                 idAtributo:ubicacionAtr.idAtributo,
                                 idDato:[indiceModulo]
                             }
-                            
+
                             if(indice === indiceModulo){
                                 //Elimino las Unidades del Modulo
                                 this.eliminarInformacionGuardada(ubicacionUnidad);
-                                //Elimino Contenido Condicional a mostrar en UI                                
+                                //Elimino Contenido Condicional a mostrar en UI
                                 this.mapContenidoCondicional.delete(this.objectToString(ubicacionContCondicional));
                             }
-                            
+
                             if(indiceModulo > indice){
                                 //Muevo las Unidades de Modulos en base un lugar para atras
                                 this.corregirIndicesModuloUnidad(ubicacionUnidad);
@@ -1826,66 +1888,6 @@ export class AtributoComponent {
                                                         this.corregirIndicesGuardados(indice,datoGuardado.selectUsuario);
                                                         if(datoGuardado.selectUsuario.length === 0){
                                                             datoGuardado.selectUsuario = null;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                        //Corrijo indices de contenidos condicionales
-                                        if(dato.filasDatos !== null){
-                        
-                                            let datoInterior = dato.filasDatos[0].datos[0];
-                                            let ubicacionAbsInterior = this.ubicacionAbsolutaDeDato(datoInterior.ubicacion,datoInterior.id);
-                                            //ubicacionAbsInterior = 2,24,3,[7,1]
-
-                                            //Copio array: arrayDato = [7,1]
-                                            let arrayDato = [...ubicacionAbsInterior.idDato!];
-                                            
-                                            //Todos los ContCond
-                                            let contenidoCondicional = this.initialSchemaService.defaultSchema?.contenidoCondicional;
-                                            //Los ContCond que son de este Dato
-                                            let contenidosMatchean = contenidoCondicional?.filter((contMacth) => this.objectToString(contMacth.muestroSi.referencia) === this.objectToString(ubicacionAbsInterior));
-                                            
-                                            //Cantidad de instancias de Modulo
-                                            let cantidadInstanciasAtributo = this.buscoInformacionGuardadaDeAtributo(dato.ubicacion)?.cantidadInstancias;
-
-                                            //Agrego number adelante, luego lo sustituyo por indice de Modulo
-                                            ubicacionAbsInterior.idDato!.unshift(-1);
-                                            //Por cada instancia de Módulo, busco cuantas/cuales Unidades tiene
-                                            for (var i = 0; i < cantidadInstanciasAtributo!; i++) {
-                                                
-                                                ubicacionAbsInterior.idDato![0] = i;
-                                                //ubicacionAbsInterior = 2,24,3,[i,7,1]
-
-                                                let valoresSelectCondicional : ValoresDato[] = this.buscoValoresDatoDeAtributo(ubicacionAbsInterior,arrayDato);
-                                                for(let [indexSelCond,valSelCond] of valoresSelectCondicional.entries()){
-                                                    if(valSelCond.selectFijo !== null){
-                                                        for (let contenidoEncontrado of contenidosMatchean!) {
-                                                            if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === valSelCond.selectFijo[0]){
-                                                                for(let filaDatoCC of contenidoEncontrado.filasDatos){
-                                                                    for(let datoCC of filaDatoCC.datos){
-
-                                                                        if(TipoInput.selectUsuarioMultiple === this.mapTipoInput.revGet(datoCC.tipo)){
-                                                                            let referencia = datoCC.opciones.referencia;
-                                                                            if(referencia.idEtapa === ubicacionAtributo.idEtapa
-                                                                                && referencia.idGrupo === ubicacionAtributo.idGrupo
-                                                                                && referencia.idAtributo === idAtributo)
-                                                                            {
-                                                                                //Tengo que corregir indices en archivo guardado
-                                                                                /*let datosGuardados = this.buscoValoresDatoDeAtributo(ubicacionAbsInterior,[datoCC.id]);
-                                                                                let datoGuardado = datosGuardados[indexSelCond];
-                                                                                if(datoGuardado.selectUsuario != null){
-                                                                                    this.corregirIndicesGuardados(indice,datoGuardado.selectUsuario);
-                                                                                    if(datoGuardado.selectUsuario.length === 0){
-                                                                                        datoGuardado.selectUsuario = null;
-                                                                                    }
-                                                                                }*/
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
                                                         }
                                                     }
                                                 }
@@ -2036,7 +2038,7 @@ export class AtributoComponent {
                     if(atrib.filasDatos != null){
                         for(let filaDatos of atrib.filasDatos){
                             for(let dato of filaDatos.datos){
-                                if(dato.filasDatos !== null 
+                                if(dato.filasDatos !== null
                                     && dato.ubicacion.idEtapa === ubicacionAtr.idEtapa
                                     && dato.ubicacion.idGrupo === ubicacionAtr.idGrupo
                                     && dato.ubicacion.idAtributo === idAtr
@@ -2049,7 +2051,7 @@ export class AtributoComponent {
                 }
             }
         }
-                                    
+
         return [false,[]];
     }
 
