@@ -683,7 +683,7 @@ export class AtributoComponent {
     }
 
     agregarUnidades(ubicacion:Ubicacion,idAtributo:number) {
-//hay que implementar esto
+        //hay que implementar esto
 
         let ubicacionAtr : Ubicacion = {
             idEtapa : ubicacion.idEtapa,
@@ -969,7 +969,6 @@ export class AtributoComponent {
                         valoresDato[indiceHijo].selectFijo = [valueObject];
                     }
                     
-
                     //Actualizo map ContCond
                     //ubicacionAbsInterior = 2,24,3,[7,1] = ubicacionClaveMap
                     //Todos los ContCond
@@ -1220,49 +1219,6 @@ export class AtributoComponent {
                         estaOpcionEstaSeleccionada=true;
                         valoresDato[indiceHijo].selectFijo = [posibleValor];
                     }
-                    /*let opciones = this.mapOpcionesSelect.get('{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[7,1]}');
-                    let cl = claveMap;
-                    let pV = posibleValor;*/
-                    if(estaOpcionEstaSeleccionada){
-                        console.log("CM: "+claveMap+", PV: "+posibleValor);
-                    }
-                    /*if(estaOpcionEstaSeleccionada && claveMap === '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[7,1]}0,0'){
-                        console.log("ClaveMap: "+claveMap+", PV: "+posibleValor);
-                    }
-                    if(estaOpcionEstaSeleccionada && claveMap === '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[7,1]}0,3'){
-                        console.log("ClaveMap: "+claveMap+", PV: "+posibleValor);
-                    }*/
-                    /*let value = this.mapOpcionSeleccionada.get(claveMap);
-                    //Checkeo que solo se compute una vez este codigo
-                    if(value === undefined){
-                        if(valoresDato[hijo]?.selectFijo){
-                            let varlorGuardado = valoresDato[hijo].selectFijo![0];
-                            estaOpcionEstaSeleccionada = posibleValor === varlorGuardado;
-                            if(estaOpcionEstaSeleccionada){
-                                this.mapOpcionSeleccionada.set(
-                                    claveMap,
-                                    posibleValor
-                                );
-                            }
-                        }
-                        else{
-                            //Si nunca se guardó valor, guardo el primero y lo seteo como seleccionado
-                            estaOpcionEstaSeleccionada=true;
-                            valoresDato[hijo].selectFijo = [posibleValor];
-                            this.mapOpcionSeleccionada.set(
-                                claveMap,
-                                posibleValor
-                            );
-                        }
-                    }
-                    else{
-                        let cl = claveMap;
-                        let pV = posibleValor;
-                        estaOpcionEstaSeleccionada = posibleValor === value;
-                        if(estaOpcionEstaSeleccionada && cl === '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[7,1]}0,0'){
-                            console.log("true");
-                        }
-                    }*/
 
                     return estaOpcionEstaSeleccionada;
                 }
@@ -1762,14 +1718,70 @@ export class AtributoComponent {
                 if(retrievedValue){
                     
                     //Si es un Modulo (Contenido Condicional), tengo que acomodar las Unidades
-                    //¿Existe información de Unidad?
+                    const [esAtrCC,arrayIDDato] = this.esAtributoConContenidoCondicional(ubicacionAtributo,idAtributo);
+                    if(esAtrCC){
 
-                    /*for (let indiceModulo = 0; indiceModulo < retrievedValue.cantidadInstancias; indiceModulo++) {
-                        //¿Existe información de Unidad?
-                        if(){
-
+                        for (let indiceModulo = indice; indiceModulo < retrievedValue.cantidadInstancias; indiceModulo++) {
+                            //Construyo Ubicacion de Unidad
+                            //2,24,3,[indiceModulo,7,1]
+                            let ubicacionUnidad : Ubicacion = {
+                                idEtapa:ubicacionAtr.idEtapa,
+                                idGrupo:ubicacionAtr.idGrupo,
+                                idAtributo:ubicacionAtr.idAtributo,
+                                idDato:[...arrayIDDato]
+                            }
+                            ubicacionUnidad.idDato?.unshift(indiceModulo);
+                            
+                            //Construyo Ubicacion del map CC
+                            let ubicacionContCondicional : Ubicacion = {
+                                idEtapa:ubicacionAtr.idEtapa,
+                                idGrupo:ubicacionAtr.idGrupo,
+                                idAtributo:ubicacionAtr.idAtributo,
+                                idDato:[indiceModulo]
+                            }
+                            
+                            if(indice === indiceModulo){
+                                //Elimino las Unidades del Modulo
+                                this.eliminarInformacionGuardada(ubicacionUnidad);
+                                //Elimino Contenido Condicional a mostrar en UI                                
+                                this.mapContenidoCondicional.delete(this.objectToString(ubicacionContCondicional));
+                            }
+                            
+                            if(indiceModulo > indice){
+                                //Muevo las Unidades de Modulos en base un lugar para atras
+                                this.corregirIndicesModuloUnidad(ubicacionUnidad);
+                                //Muevo las claves de CC
+                                let contCondModulo = this.mapContenidoCondicional.get(this.objectToString(ubicacionContCondicional));
+                                this.mapContenidoCondicional.delete(this.objectToString(ubicacionContCondicional));
+                                let nuevaUbicacionContCondicional : Ubicacion = {
+                                    idEtapa:ubicacionAtr.idEtapa,
+                                    idGrupo:ubicacionAtr.idGrupo,
+                                    idAtributo:ubicacionAtr.idAtributo,
+                                    idDato:[indiceModulo-1]
+                                }
+                                this.mapContenidoCondicional.set(this.objectToString(nuevaUbicacionContCondicional),contCondModulo!);
+                                //Muevo las claves de los selectUsuario de la UI
+                                for(const [indiceHijo,filaDatos] of contCondModulo!.entries()){
+                                    for(let filaDatosCondional of filaDatos){
+                                        for(let datoInterno of filaDatosCondional.datos){
+                                            switch (this.mapTipoInput.revGet(datoInterno.tipo)) {
+                                                case TipoInput.selectUsuarioMultiple:{
+                                                    //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, idDato 2
+                                                    //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"
+                                                    let oldClaveHijoContCondicional = this.objectToString(ubicacionContCondicional)+","+indiceHijo+","+datoInterno.id;
+                                                    this.mapOpcionesSelect.delete(oldClaveHijoContCondicional);
+                                                    let newClaveHijoContCondicional = this.objectToString(nuevaUbicacionContCondicional)+","+indiceHijo+","+datoInterno.id;
+                                                    this.cargoOpcionesSelect(datoInterno,newClaveHijoContCondicional,datoInterno.ubicacion);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
-                    }*/
+                        //Reseteo las opciones seleccionadas anteriormente en UI
+                        this.mapOpcionesSeleccionadas = new Map();
+                    }
 
                     //Si existe la key en el map
                     //Elimino instancia de Atributo
@@ -1998,6 +2010,60 @@ export class AtributoComponent {
             //Los indices mayores les resto 1
             if(indiceGuardado !== indiceEliminado && indiceGuardado>indiceEliminado){
                 indicesGuardados[i]--;
+            }
+        }
+    }
+
+    corregirIndicesModuloUnidad(ubicacionUnidad:Ubicacion){
+        let info : InformacionGuardada | null= this.buscoInformacionGuardadaDeAtributo(ubicacionUnidad);
+        if(info !== null){
+            info.ubicacionAtributo.idDato![0] = info.ubicacionAtributo.idDato![0]-1;
+        }
+
+        /*for(let indexIter = indiceComienzo; indexIter<=indiceFin; indexIter++){
+            ubicacionUnidadComienzo.idDato![0] = indexIter;
+            let info : InformacionGuardada | null= this.buscoInformacionGuardadaDeAtributo(ubicacionUnidadComienzo);
+            if(info !== null){
+                info.ubicacionAtributo.idDato![0] = info.ubicacionAtributo.idDato![0]-1;
+            }
+        }*/
+    }
+
+    esAtributoConContenidoCondicional(ubicacionAtr:Ubicacion,idAtr:number):[boolean,number[]]{
+        for(let etapa of this.initialSchemaService.defaultSchema?.etapas!){
+            for(let grupo of etapa.grupos){
+                for(let atrib of grupo.atributos){
+                    if(atrib.filasDatos != null){
+                        for(let filaDatos of atrib.filasDatos){
+                            for(let dato of filaDatos.datos){
+                                if(dato.filasDatos !== null 
+                                    && dato.ubicacion.idEtapa === ubicacionAtr.idEtapa
+                                    && dato.ubicacion.idGrupo === ubicacionAtr.idGrupo
+                                    && dato.ubicacion.idAtributo === idAtr
+                                ){
+                                    return [true,[dato.id,1]];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+                                    
+        return [false,[]];
+    }
+
+    eliminarInformacionGuardada(ubicacion:Ubicacion){
+        if(this.versionActual !== undefined){
+            let indiceEliminar = -1;
+            for(const [indice, informacionGuardada] of this.versionActual.datosGuardados!.entries()){
+                if(this.objectToString(informacionGuardada.ubicacionAtributo) === this.objectToString(ubicacion)){
+                    indiceEliminar = indice;
+                    break;
+                }
+            }
+            if(indiceEliminar !== -1){
+                this.versionActual.datosGuardados!.splice(indiceEliminar, 1);
             }
         }
     }
