@@ -661,27 +661,39 @@ export class AtributoComponent {
             idAtributo : idAtributo,
             idDato : null
         }
-        let infoGuardada : InformacionGuardada | null = this.buscoInformacionGuardadaDeAtributo(ubicacionAtr);
-        if(infoGuardada !== null){
-            let valsAtrib : ValoresAtributo[] = infoGuardada.valoresAtributo;
-            for(let datoDentroAtributo of valsAtrib){
-                let nuevoValorDato : ValoresDato = {
-                    string:null,
-                    number:null,
-                    selectFijo:null,
-                    selectUsuario:null,
-                    archivo:null,
-                    date:null
+        console.log(ubicacionAtr)
+
+        //Si es un Modulo (Contenido Condicional), tengo que acomodar las Unidades
+        const [esAtrCC,arrayIDDato] = this.esAtributoConContenidoCondicional(ubicacionAtr,idAtributo);
+        if(esAtrCC){
+            // aca va codigo de agregar modulo/unidades
+            
+            //Reseteo las opciones seleccionadas anteriormente en UI
+            this.mapOpcionesSeleccionadas = new Map();
+        }else{
+            
+            let infoGuardada : InformacionGuardada | null = this.buscoInformacionGuardadaDeAtributo(ubicacionAtr);
+            if(infoGuardada !== null){
+                let valsAtrib : ValoresAtributo[] = infoGuardada.valoresAtributo;
+                for(let datoDentroAtributo of valsAtrib){
+                    let nuevoValorDato : ValoresDato = {
+                        string:null,
+                        number:null,
+                        selectFijo:null,
+                        selectUsuario:null,
+                        archivo:null,
+                        date:null
+                    }
+                    datoDentroAtributo.valoresDato.push(nuevoValorDato);
                 }
-                datoDentroAtributo.valoresDato.push(nuevoValorDato);
-            }
-            infoGuardada.cantidadInstancias++;
-            this.accionesCursosService.modificarCurso();
-            //Por cada Dato del Atributo creado, emito por si alguien más depende de el
-            let datosDeAtrib : Dato[] = this.datosDeAtributo(ubicacionAtr);
-            for(let dato of datosDeAtrib){
-                let ubicacionDato = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
-                this.informarCambio.emit(ubicacionDato);
+                infoGuardada.cantidadInstancias++;
+                this.accionesCursosService.modificarCurso();
+                //Por cada Dato del Atributo creado, emito por si alguien más depende de el
+                let datosDeAtrib : Dato[] = this.datosDeAtributo(ubicacionAtr);
+                for(let dato of datosDeAtrib){
+                    let ubicacionDato = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
+                    this.informarCambio.emit(ubicacionDato);
+                }
             }
         }
     }
