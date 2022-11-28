@@ -1782,58 +1782,143 @@ export class AtributoComponent {
                     //Si es un Modulo (Contenido Condicional), tengo que acomodar las Unidades
                     const [esAtrCC,arrayIDDato] = this.esAtributoConContenidoCondicional(ubicacionAtributo,idAtributo);
                     if(esAtrCC){
+                        //Construyo Ubicacion de Unidad
+                        //2,24,3,[indiceModulo,7,1]
+                        let ubicacionUnidad : Ubicacion = {
+                            idEtapa:ubicacionAtr.idEtapa,
+                            idGrupo:ubicacionAtr.idGrupo,
+                            idAtributo:ubicacionAtr.idAtributo,
+                            idDato:[...arrayIDDato]
+                        }
+                        ubicacionUnidad.idDato?.unshift(0);
 
-                        for (let indiceModulo = indice; indiceModulo < retrievedValue.cantidadInstancias; indiceModulo++) {
-                            //Construyo Ubicacion de Unidad
-                            //2,24,3,[indiceModulo,7,1]
-                            let ubicacionUnidad : Ubicacion = {
-                                idEtapa:ubicacionAtr.idEtapa,
-                                idGrupo:ubicacionAtr.idGrupo,
-                                idAtributo:ubicacionAtr.idAtributo,
-                                idDato:[...arrayIDDato]
-                            }
-                            ubicacionUnidad.idDato?.unshift(indiceModulo);
+                        //Construyo Ubicacion del map CC
+                        let ubicacionContCondicional : Ubicacion = {
+                            idEtapa:ubicacionAtr.idEtapa,
+                            idGrupo:ubicacionAtr.idGrupo,
+                            idAtributo:ubicacionAtr.idAtributo,
+                            idDato:[0]
+                        }
+                        let clavePadreContCondicional = this.objectToString(ubicacionContCondicional);
 
-                            //Construyo Ubicacion del map CC
-                            let ubicacionContCondicional : Ubicacion = {
-                                idEtapa:ubicacionAtr.idEtapa,
-                                idGrupo:ubicacionAtr.idGrupo,
-                                idAtributo:ubicacionAtr.idAtributo,
-                                idDato:[indiceModulo]
-                            }
-
-                            if(indice === indiceModulo){
-                                //Elimino las Unidades del Modulo
-                                this.eliminarInformacionGuardada(ubicacionUnidad);
-                                //Elimino Contenido Condicional a mostrar en UI
-                                this.mapContenidoCondicional.delete(this.objectToString(ubicacionContCondicional));
-                            }
-
-                            if(indiceModulo > indice){
-                                //Muevo las Unidades de Modulos en base un lugar para atras
-                                this.corregirIndicesModuloUnidad(ubicacionUnidad);
-                                //Muevo las claves de CC
-                                let contCondModulo = this.mapContenidoCondicional.get(this.objectToString(ubicacionContCondicional));
-                                this.mapContenidoCondicional.delete(this.objectToString(ubicacionContCondicional));
-                                let nuevaUbicacionContCondicional : Ubicacion = {
+                        if(retrievedValue.cantidadInstancias === 1){
+                            let infoGuardada : InformacionGuardada | null = this.buscoInformacionGuardadaDeAtributo(ubicacionUnidad);
+                            if(infoGuardada !== null){
+                                //Elimino las opciones viejas
+                                let ubicacionSelectCC : Ubicacion = {
                                     idEtapa:ubicacionAtr.idEtapa,
                                     idGrupo:ubicacionAtr.idGrupo,
                                     idAtributo:ubicacionAtr.idAtributo,
-                                    idDato:[indiceModulo-1]
+                                    idDato:[...arrayIDDato]
                                 }
-                                this.mapContenidoCondicional.set(this.objectToString(nuevaUbicacionContCondicional),contCondModulo!);
-                                //Muevo las claves de los selectUsuario de la UI
-                                for(const [indiceHijo,filaDatos] of contCondModulo!.entries()){
-                                    for(let filaDatosCondional of filaDatos){
-                                        for(let datoInterno of filaDatosCondional.datos){
-                                            switch (this.mapTipoInput.revGet(datoInterno.tipo)) {
-                                                case TipoInput.selectUsuarioMultiple:{
-                                                    //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, idDato 2
-                                                    //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"
-                                                    let oldClaveHijoContCondicional = this.objectToString(ubicacionContCondicional)+","+indiceHijo+","+datoInterno.id;
-                                                    this.mapOpcionesSelect.delete(oldClaveHijoContCondicional);
-                                                    let newClaveHijoContCondicional = this.objectToString(nuevaUbicacionContCondicional)+","+indiceHijo+","+datoInterno.id;
-                                                    this.cargoOpcionesSelect(datoInterno,newClaveHijoContCondicional,datoInterno.ubicacion);
+
+                                let keysEliminar : string[] = [];
+                                //Debo quitar las opciones de Unidad
+                                for (let key of this.mapOpcionesSelect.keys()) {
+                                    //Si no son opciones de Unidad, JSON.parse no da Excepcion
+                                    //Me quedo con esas opciones ya que no se deben eliminar
+                                    try {
+                                        JSON.parse(key);
+                                    }
+                                    catch (e) {
+                                        keysEliminar.push(key);
+                                    }
+                                }
+
+                                //Quito las opciones de Unidad
+                                for (let key of keysEliminar) {
+                                    this.mapOpcionesSelect.delete(key);
+                                }
+
+                                //Elimino Unidades del Modulo
+                                infoGuardada.cantidadInstancias = 1;
+                                for(let valsAtrib of infoGuardada.valoresAtributo){
+                                    valsAtrib.valoresDato = [];
+                                    let nuevoValorDato : ValoresDato = {
+                                        string:null,
+                                        number:null,
+                                        selectFijo:null,
+                                        selectUsuario:null,
+                                        archivo:null,
+                                        date:null
+                                    }
+                                    valsAtrib.valoresDato.push(nuevoValorDato);
+                                }
+                                //Cargo CC default
+                                //Todos los ContCond
+                                let contenidoCondicional = this.initialSchemaService.defaultSchema?.contenidoCondicional;
+                                //Los ContCond que son de este Dato
+                                let contenidosMatchean = contenidoCondicional?.filter((contMacth) => this.objectToString(contMacth.muestroSi.referencia) === this.objectToString(ubicacionSelectCC));
+
+                                let filaDatosAAgregar : FilaDatos[] = [];
+                                
+                                let contCondicional : FilaDatos[][] = [];
+                                for (let contenidoEncontrado of contenidosMatchean!) {
+                                    if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === 0){
+
+                                        let copiaFilaDatos : FilaDatos[] = this.stringToObject(this.objectToString(contenidoEncontrado.filasDatos));
+                                        contCondicional[0] = copiaFilaDatos;
+                                        filaDatosAAgregar = copiaFilaDatos;
+                                        break;
+                                    }
+                                }
+
+                                //Tengo que agregar las opciones de los selectUsuarioMultiple
+                                for(let filaDatosCondional of filaDatosAAgregar){
+                                    for(let datoInterno of filaDatosCondional.datos){
+                                        switch (this.mapTipoInput.revGet(datoInterno.tipo)) {
+                                            case TipoInput.selectUsuarioMultiple:{
+                                                //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, idDato 2
+                                                //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"
+                                                let claveHijoContCondicional = clavePadreContCondicional+","+0+","+datoInterno.id;
+                                                this.cargoOpcionesSelect(datoInterno,claveHijoContCondicional,datoInterno.ubicacion);
+                                            }
+                                        }
+                                    }
+                                }
+                                //Actualizo mapCC
+                                this.mapContenidoCondicional.set(this.objectToString(ubicacionContCondicional),contCondicional);
+                            }
+                        }
+                        else{
+                            for (let indiceModulo = indice; indiceModulo < retrievedValue.cantidadInstancias; indiceModulo++) {
+                                
+                                ubicacionUnidad.idDato![0] = indiceModulo;
+                                ubicacionContCondicional.idDato![0] = indiceModulo;
+
+                                if(indice === indiceModulo){
+                                    //Elimino las Unidades del Modulo
+                                    this.eliminarInformacionGuardada(ubicacionUnidad);
+                                    //Elimino Contenido Condicional a mostrar en UI
+                                    this.mapContenidoCondicional.delete(this.objectToString(ubicacionContCondicional));
+                                }
+
+                                if(indiceModulo > indice){
+                                    //Muevo las Unidades de Modulos en base un lugar para atras
+                                    this.corregirIndicesModuloUnidad(ubicacionUnidad);
+                                    //Muevo las claves de CC
+                                    let contCondModulo = this.mapContenidoCondicional.get(this.objectToString(ubicacionContCondicional));
+                                    this.mapContenidoCondicional.delete(this.objectToString(ubicacionContCondicional));
+                                    let nuevaUbicacionContCondicional : Ubicacion = {
+                                        idEtapa:ubicacionAtr.idEtapa,
+                                        idGrupo:ubicacionAtr.idGrupo,
+                                        idAtributo:ubicacionAtr.idAtributo,
+                                        idDato:[indiceModulo-1]
+                                    }
+                                    this.mapContenidoCondicional.set(this.objectToString(nuevaUbicacionContCondicional),contCondModulo!);
+                                    //Muevo las claves de los selectUsuario de la UI
+                                    for(const [indiceHijo,filaDatos] of contCondModulo!.entries()){
+                                        for(let filaDatosCondional of filaDatos){
+                                            for(let datoInterno of filaDatosCondional.datos){
+                                                switch (this.mapTipoInput.revGet(datoInterno.tipo)) {
+                                                    case TipoInput.selectUsuarioMultiple:{
+                                                        //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, idDato 2
+                                                        //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"
+                                                        let oldClaveHijoContCondicional = this.objectToString(ubicacionContCondicional)+","+indiceHijo+","+datoInterno.id;
+                                                        this.mapOpcionesSelect.delete(oldClaveHijoContCondicional);
+                                                        let newClaveHijoContCondicional = this.objectToString(nuevaUbicacionContCondicional)+","+indiceHijo+","+datoInterno.id;
+                                                        this.cargoOpcionesSelect(datoInterno,newClaveHijoContCondicional,datoInterno.ubicacion);
+                                                    }
                                                 }
                                             }
                                         }
@@ -1922,10 +2007,6 @@ export class AtributoComponent {
         });
     }
 
-    consolelog(object : any){
-        console.log(object)
-    }
-
     modalEliminarUnidad(ubicacionAtributo:Ubicacion, idAtributo:number, dato: Dato, idModulo: number ,idUnidad:number){
         const modalRef = this.modalService.open(ModalConfirmacionComponent, {
             scrollable: false,
@@ -1974,6 +2055,47 @@ export class AtributoComponent {
                     if (contCondicional.length !== 1){
                         contCondicional.splice(idUnidad,1)
                     }
+                    else{
+                        //Actualizo CC con opción default
+                        //Ubicacion Select Cont Cond
+                        let ubicacionSelectCC : Ubicacion = {
+                            idEtapa : ubicacionAtributo.idEtapa,
+                            idGrupo : ubicacionAtributo.idGrupo,
+                            idAtributo : idAtributo,
+                            idDato : [dato.id,datoInterior.id]
+                        }
+                        //Todos los ContCond
+                        let contenidoCondicional = this.initialSchemaService.defaultSchema?.contenidoCondicional;
+                        //Los ContCond que son de este Dato
+                        let contenidosMatchean = contenidoCondicional?.filter((contMacth) => this.objectToString(contMacth.muestroSi.referencia) === this.objectToString(ubicacionSelectCC));
+
+                        let filaDatosAAgregar : FilaDatos[] = [];
+
+                        for (let contenidoEncontrado of contenidosMatchean!) {
+                            if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === 0){
+
+                                let copiaFilaDatos : FilaDatos[] = this.stringToObject(this.objectToString(contenidoEncontrado.filasDatos));
+                                contCondicional[idUnidad] = copiaFilaDatos;
+                                filaDatosAAgregar = copiaFilaDatos;
+                                break;
+                            }
+                        }
+
+                        //Tengo que agregar las opciones de los selectUsuarioMultiple
+                        for(let filaDatosCondional of filaDatosAAgregar){
+                            for(let datoInterno of filaDatosCondional.datos){
+                                switch (this.mapTipoInput.revGet(datoInterno.tipo)) {
+                                    case TipoInput.selectUsuarioMultiple:{
+                                        //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, idDato 2
+                                        //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"
+                                        let claveHijoContCondicional = clavePadreContCondicional+","+0+","+datoInterno.id;
+                                        this.mapOpcionesSelect.delete(claveHijoContCondicional);
+                                        this.cargoOpcionesSelect(datoInterno,claveHijoContCondicional,datoInterno.ubicacion);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
 
                 this.mapDatoArchivo = new Map();
@@ -2021,14 +2143,6 @@ export class AtributoComponent {
         if(info !== null){
             info.ubicacionAtributo.idDato![0] = info.ubicacionAtributo.idDato![0]-1;
         }
-
-        /*for(let indexIter = indiceComienzo; indexIter<=indiceFin; indexIter++){
-            ubicacionUnidadComienzo.idDato![0] = indexIter;
-            let info : InformacionGuardada | null= this.buscoInformacionGuardadaDeAtributo(ubicacionUnidadComienzo);
-            if(info !== null){
-                info.ubicacionAtributo.idDato![0] = info.ubicacionAtributo.idDato![0]-1;
-            }
-        }*/
     }
 
     esAtributoConContenidoCondicional(ubicacionAtr:Ubicacion,idAtr:number):[boolean,number[]]{

@@ -1817,7 +1817,7 @@
                                                     "idEtapa": 2,
                                                     "idGrupo": 22,
                                                     "idAtributo": 1,
-                                                    "idDato": 1
+                                                    "idDato": [1]
                                                 },
                                                 "idGrupoDatoFijo": null
                                             },
