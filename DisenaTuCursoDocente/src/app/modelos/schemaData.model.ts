@@ -25,7 +25,7 @@ export interface InformacionGuardada {
 }
 
 export interface ValoresAtributo {
-  idDato: [number];
+  idDato: number[];
   valoresDato: ValoresDato[];
 }
 

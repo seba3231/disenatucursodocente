@@ -22,7 +22,8 @@ export class GrupoComponent implements OnInit {
 
     constructor(private modalService: NgbModal,
         public initialSchemaService : InitialSchemaLoaderService,
-        public accionesCursosService: AccionesCursosService) {}
+        public accionesCursosService: AccionesCursosService
+    ) {}
 
     ngOnInit(): void {}
 
@@ -44,6 +45,20 @@ export class GrupoComponent implements OnInit {
         }
         else{
             depdendencias.push(registroDependencia);
+        }
+    }
+
+    eliminarDependencia(interesado:string){
+        for(let value of this.mapObservadorCambios.values()){
+            let dependenciaAEliminar : number[]=[];
+            for(let [indice,regDep] of value.entries()){
+                if(regDep.claveInteresado===interesado){
+                    dependenciaAEliminar.push(indice);
+                }
+            }
+            for (var i = dependenciaAEliminar.length -1; i >= 0; i--){
+                value.splice(dependenciaAEliminar[i],1);
+            }
         }
     }
 

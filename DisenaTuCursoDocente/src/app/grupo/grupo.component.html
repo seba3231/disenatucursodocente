@@ -17,7 +17,13 @@
                                 <i class="bi bi-chat-right-text-fill " style="color: #616161; cursor: pointer;"></i>                            </button>
                             </div>
                         </ng-container>
-                        <app-atributo [atributo]="atributo" [versionSeleccionada]="versionSeleccionada" (registrarDependencia)="registrarDependencia($event)" (informarCambio)="informarCambio($event)">
+                        <app-atributo 
+                            [atributo]="atributo" 
+                            [versionSeleccionada]="versionSeleccionada" 
+                            (registrarDependencia)="registrarDependencia($event)" 
+                            (informarCambio)="informarCambio($event)"
+                            (eliminarDependencia)="eliminarDependencia($event)"
+                        >
                         </app-atributo>
                     </div>
                 </div>
