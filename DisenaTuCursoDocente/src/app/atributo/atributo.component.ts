@@ -1977,46 +1977,11 @@ export class AtributoComponent {
                                     idDato:[...arrayIDDato]
                                 }
 
-                                let keysEliminar : string[] = [];
-                                //Debo quitar las opciones de Unidad
-                                for (let key of this.mapOpcionesSelect.keys()) {
-                                    //Si no son opciones de Unidad, JSON.parse no da Excepcion
-                                    //Me quedo con esas opciones ya que no se deben eliminar
-                                    try {
-                                        JSON.parse(key);
-                                    }
-                                    catch (e) {
-                                        keysEliminar.push(key);
-                                    }
-                                }
-
-                                //Quito las opciones de Unidad
-                                for (let key of keysEliminar) {
-                                    this.mapOpcionesSelect.delete(key);
-                                }
-
                                 //Elimino dependencias de dato
                                 let contCondicional = this.mapContenidoCondicional.get(clavePadreContCondicional);
                                 if(contCondicional !== undefined){
                                     //Elimino eventos de dependencia de los selectUsuario viejos
-                                    for(let [indexHijo,todasFDHijo] of contCondicional.entries()){
-                                        for(let fD of todasFDHijo){
-                                            for(let dat of fD.datos){
-                                                switch (this.mapTipoInput.revGet(dat.tipo)) {
-                                                    case TipoInput.selectUsuarioMultiple:{
-                                                        //EMITO
-                                                        //claveInteresado = '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},0,3'
-                                                        this.eliminarDependencia.emit(this.objectToString({
-                                                            idEtapa:ubicacionAtributo.idEtapa,
-                                                            idGrupo:ubicacionAtributo.idGrupo,
-                                                            idAtributo:ubicacionAtributo.idAtributo,
-                                                            idDato:[0]
-                                                        })+","+indexHijo+","+dat.id);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
+                                    this.eliminarEntradasMapsPorCambioEnCC(contCondicional,0,clavePadreContCondicional);
                                 }
 
                                 //Elimino Unidades del Modulo
@@ -2060,32 +2025,9 @@ export class AtributoComponent {
 
                                 if(indiceModulo >= indice){
                                     //Elimino dependencias de dato y opciones de selectUsuario
-                                    let contCondicional = this.mapContenidoCondicional.get(clavePadreContCondicional);
+                                    let contCondicional = this.mapContenidoCondicional.get(this.objectToString(ubicacionContCondicional));
                                     if(contCondicional !== undefined){
-                                        for(let [indexHijo,todasFDHijo] of contCondicional.entries()){
-                                            for(let fD of todasFDHijo){
-                                                for(let dat of fD.datos){
-                                                    switch (this.mapTipoInput.revGet(dat.tipo)) {
-                                                        case TipoInput.selectUsuarioMultiple:{
-                                                            //EMITO
-                                                            //claveInteresado = '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},0,3'
-                                                            this.eliminarDependencia.emit(this.objectToString({
-                                                                idEtapa:ubicacionAtributo.idEtapa,
-                                                                idGrupo:ubicacionAtributo.idGrupo,
-                                                                idAtributo:ubicacionAtributo.idAtributo,
-                                                                idDato:[indiceModulo]
-                                                            })+","+indexHijo+","+dat.id);
-
-                                                            //Elimino opciones Select
-                                                            //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, idDato 2
-                                                            //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"
-                                                            let oldClaveHijoContCondicional = this.objectToString(ubicacionContCondicional)+","+indexHijo+","+dat.id;
-                                                            this.mapOpcionesSelect.delete(oldClaveHijoContCondicional);
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
+                                        this.eliminarEntradasMapsPorCambioEnCC(contCondicional,0,this.objectToString(ubicacionContCondicional));
                                     }
                                 }
 
@@ -2253,32 +2195,7 @@ export class AtributoComponent {
                 if(contCondicional !== undefined){
                     //Para todos los CC que hay en este Modulo
                     //Elimino las opciones selectUsuario y las dependencias de dato
-                    for(let [indexHijo,todasFDHijo] of contCondicional.entries()){
-                        if(indexHijo>=idUnidad){
-                            for(let fD of todasFDHijo){
-                                for(let dat of fD.datos){
-                                    switch (this.mapTipoInput.revGet(dat.tipo)) {
-                                        case TipoInput.selectUsuarioMultiple:{
-                                            //EMITO
-                                            //claveInteresado = '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},0,3'
-                                            this.eliminarDependencia.emit(this.objectToString({
-                                                idEtapa:ubicacionAtributo.idEtapa,
-                                                idGrupo:ubicacionAtributo.idGrupo,
-                                                idAtributo:ubicacionAtributo.idAtributo,
-                                                idDato:[idModulo]
-                                            })+","+indexHijo+","+dat.id);
-
-                                            //Elimino opciones Select
-                                            //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, idDato 2
-                                            //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"
-                                            let oldClaveHijoContCondicional = clavePadreContCondicional+","+indexHijo+","+dat.id;
-                                            this.mapOpcionesSelect.delete(oldClaveHijoContCondicional);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    this.eliminarEntradasMapsPorCambioEnCC(contCondicional,idUnidad,clavePadreContCondicional);
 
                     if (contCondicional.length !== 1){
 
@@ -2327,38 +2244,6 @@ export class AtributoComponent {
 
                         //Actualizo mapCC
                         contCondicional[idUnidad] = filaDatos;
-
-                        //Todos los ContCond
-                        /*let contenidoCondicional = this.initialSchemaService.defaultSchema?.contenidoCondicional;
-                        //Los ContCond que son de este Dato
-                        let contenidosMatchean = contenidoCondicional?.filter((contMacth) => this.objectToString(contMacth.muestroSi.referencia) === this.objectToString(ubicacionSelectCC));
-
-                        let filaDatosAAgregar : FilaDatos[] = [];
-
-                        for (let contenidoEncontrado of contenidosMatchean!) {
-                            if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === 0){
-
-                                let copiaFilaDatos : FilaDatos[] = this.stringToObject(this.objectToString(contenidoEncontrado.filasDatos));
-                                contCondicional[idUnidad] = copiaFilaDatos;
-                                filaDatosAAgregar = copiaFilaDatos;
-                                break;
-                            }
-                        }
-
-                        //Tengo que agregar las opciones de los selectUsuarioMultiple
-                        for(let filaDatosCondional of filaDatosAAgregar){
-                            for(let datoInterno of filaDatosCondional.datos){
-                                switch (this.mapTipoInput.revGet(datoInterno.tipo)) {
-                                    case TipoInput.selectUsuarioMultiple:{
-                                        //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, idDato 2
-                                        //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"
-                                        let claveHijoContCondicional = clavePadreContCondicional+","+0+","+datoInterno.id;
-                                        this.mapOpcionesSelect.delete(claveHijoContCondicional);
-                                        this.cargoOpcionesSelect(datoInterno,claveHijoContCondicional,datoInterno.ubicacion);
-                                    }
-                                }
-                            }
-                        }*/
                     }
                 }
 
@@ -2495,6 +2380,37 @@ export class AtributoComponent {
             }
             if(indiceEliminar !== -1){
                 this.versionActual.datosGuardados!.splice(indiceEliminar, 1);
+            }
+        }
+    }
+
+    eliminarEntradasMapsPorCambioEnCC(contCondicional:FilaDatos[][],idUnidad:number,claveCC:string){
+        //Elimino las opciones selectUsuario y las dependencias de dato
+        for(let [indexHijo,todasFDHijo] of contCondicional.entries()){
+            if(indexHijo>=idUnidad){
+                for(let fD of todasFDHijo){
+                    for(let dat of fD.datos){
+                        switch (this.mapTipoInput.revGet(dat.tipo)) {
+                            case TipoInput.selectUsuarioMultiple:{
+                                //EMITO
+                                //claveInteresado = '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},0,3'
+                                let claveInteresado = claveCC+","+indexHijo+","+dat.id;
+                                this.eliminarDependencia.emit(claveInteresado);
+
+                                //Elimino entrada de manejadorEventos Local
+                                let claveObservado = this.objectToString(dat.opciones.referencia);
+                                let claveEvento = claveInteresado+claveObservado;
+                                this.mapManejadorEventos.delete(claveEvento);
+
+                                //Elimino opciones Select
+                                //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, idDato 2
+                                //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"
+                                let oldClaveHijoContCondicional = claveCC+","+indexHijo+","+dat.id;
+                                this.mapOpcionesSelect.delete(oldClaveHijoContCondicional);
+                            }
+                        }
+                    }
+                }
             }
         }
     }
