@@ -46,7 +46,7 @@
     <a #fileDownloader style="display:none"></a>
     <div *ngIf="indiceInstancia==0 && atributo.herencia && atributoHerencia && atributoHerencia!.filasDatos" class="d-flex flex-column pb-2 pt-2 align-items-end">
         <button class="btn btn-outline-primary" role="button" style="font-size: 12px; border: none;" data-bs-toggle="popover" data-bs-trigger="hover focus" [attr.data-bs-content]="'Podras cargar este dato con la información cargada en la sección ' + grupoHerencia!.nombre + ' de ' + etapaHerencia!.nombre"
-            data-bs-custom-class="custom-popover" (click)="cargarDatosDesdeHerencia(atributo)">
+            data-bs-custom-class="custom-popover" (click)="cargarDatosDesdeHerencia()">
             <!-- (click)="openModal('eliminar')" -->
             <i class="bi bi-arrow-bar-down pe-2"></i>CARGAR DATOS DESDE {{grupoHerencia!.nombre | uppercase}} DE {{etapaHerencia!.nombre | uppercase}}
         </button>
@@ -88,7 +88,7 @@
                     <!-- Codigo selectFijoUnico -->
                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
                         <select class="form-select" (change)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)">
-                            <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))">
+                            <ng-container *ngFor="let opcion of pruebaOpciones(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))">
                                 <option 
                                     *ngIf="muestroOpcion(opcion.muestroSi,indiceInstancia)"
                                     [selected]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,opcion.valor)"

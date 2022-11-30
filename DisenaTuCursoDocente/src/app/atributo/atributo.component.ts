@@ -3,7 +3,7 @@ import { Atributo, Computo, DependenciaDeDatos, Ubicacion, Grupo, Etapa, Dato, C
 import { MapTipoInput, MapTipoInputHTML, TipoInput, TwoWayMap } from '../enumerados/enums';
 import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.service';
 import { AccionesCursosService } from '../servicios/acciones-cursos.service';
-import { DatoArchivo, InformacionGuardada, ValoresDato, Version,ValoresAtributo } from '../modelos/schemaData.model';
+import { DatoArchivo, InformacionGuardada, ValoresDato, Version,ValoresAtributo, Archivo } from '../modelos/schemaData.model';
 import { FormControl, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalConfirmacionComponent } from '../modal/confirmacion/modal-confirmacion.component';
@@ -492,95 +492,6 @@ export class AtributoComponent {
                 let array : ValorSelect[] = this.obtengoOpcionesSelectUsuario(ubicacionDesarmada,dato.opciones.referencia.idDato!,ubicacionAbsoluta,claveMap);
                 this.mapOpcionesSelect.set(claveMap,array);
             }
-
-            /*let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,dato.opciones.referencia.idDato);
-            for(let [index,valorDato] of valoresDato.entries()){
-                let stringOpcion = 'Nombre no asignado';
-                if(valorDato.string){
-                    stringOpcion = valorDato.string;
-                }
-                if(valorDato.archivo && valorDato.archivo.texto){
-                    stringOpcion = valorDato.archivo.texto;
-                }
-                let retrievedValue = this.mapOpcionesSelect.get(claveMap);
-                if(retrievedValue){
-                    //Si ya existe la key en el map, agrego una opción al array de opciones
-                    let nuevaOpcion : ValorSelect = {
-                        string:stringOpcion,
-                        muestroSi:null,
-                        valor:index
-                    }
-                    retrievedValue.push(nuevaOpcion);
-                }
-                else{
-                    //Si no existe la key en el map
-                    let nuevaOpcion : ValorSelect = {
-                        string:stringOpcion,
-                        muestroSi:null,
-                        valor:index
-                    }
-                    let array : ValorSelect[] = [];
-                    array.push(nuevaOpcion);
-                    this.mapOpcionesSelect.set(claveMap,array);
-                }
-            }*/
-
-            //Si dependo de alguien mas, debo de saber cuando ese alguien
-            //mas cambia para actualizar y recomputar acorde
-            /*let claveInteresado = this.objectToString(claveMap);
-            let claveObservado = this.objectToString(dato.opciones.referencia);
-            let claveEvento = claveInteresado+claveObservado;
-
-            let retrievedEventEmitter = this.mapManejadorEventos.get(claveEvento);
-            if(retrievedEventEmitter === undefined){
-                //Registro evento en Grupo
-                retrievedEventEmitter = new EventEmitter();
-                this.mapManejadorEventos.set(
-                    claveEvento,
-                    retrievedEventEmitter
-                );
-                let registroDependencia : RegistrarDependencia = {
-                    interesado:ubicacionAbsoluta,
-                    observado:dato.opciones.referencia,
-                    observado2:undefined,
-                    claveInteresado:claveMap,
-                    interesadoEscucha:retrievedEventEmitter
-                }
-                this.registrarDependencia.emit(registroDependencia);
-
-                //Si cambia el dato observado, se llama esta funcion
-                retrievedEventEmitter.subscribe((registroDependencia:RegistrarDependencia) => {
-                    let claveIntesado = registroDependencia.claveInteresado;
-                    let ubicacionDesarmada : Ubicacion = {
-                        idEtapa: registroDependencia.observado.idEtapa,
-                        idGrupo: registroDependencia.observado.idGrupo,
-                        idAtributo: registroDependencia.observado.idAtributo,
-                        idDato: null
-                    }
-
-                    //Reseteo los maps de opciones disponibles
-                    let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.observado.idDato);
-                    let array : ValorSelect[] = [];
-                    this.mapOpcionesSelect.set(claveIntesado!,array);
-                    let retrievedValue = this.mapOpcionesSelect.get(claveIntesado!);
-                    
-                    for(let [index,valorDato] of valoresDato.entries()){
-                        let stringOpcion = 'Nombre no asignado';
-                        if(valorDato.string){
-                            stringOpcion = valorDato.string;
-                        }
-                        if(valorDato.archivo && valorDato.archivo.texto){
-                            stringOpcion = valorDato.archivo.texto;
-                        }
-                        let nuevaOpcion : ValorSelect = {
-                            string:stringOpcion,
-                            muestroSi:null,
-                            valor:index
-                        }
-                        retrievedValue!.push(nuevaOpcion);
-                    }
-                });
-            }*/
         }
         else{
             //Proceso Datos Fijos
@@ -593,28 +504,6 @@ export class AtributoComponent {
                 this.mapOpcionesSelect.set(claveMap,array);
             }
             for (let opcion of datoFijo?.opciones!) {
-                
-                /*let retrievedValue = this.mapOpcionesSelect.get(claveMap);
-                if(retrievedValue){
-                    //Si ya existe la key en el map, agrego una opción al array de opciones
-                    let nuevaOpcion : ValorSelect = {
-                        string:opcion.valor,
-                        muestroSi:opcion.muestroSi,
-                        valor:opcion.id
-                    }
-                    retrievedValue.push(nuevaOpcion);
-                }
-                else{
-                    //Si no existe la key en el map
-                    let nuevaOpcion : ValorSelect = {
-                        string:opcion.valor,
-                        muestroSi:opcion.muestroSi,
-                        valor:opcion.id
-                    }
-                    let array : ValorSelect[] = [];
-                    array.push(nuevaOpcion);
-                    this.mapOpcionesSelect.set(claveMap,array);
-                }*/
 
                 //Si dependo de alguien mas para mostrar, debo de saber cuando ese alguien
                 //mas cambia para actualizar la información guardada en this.datoGuardado.valoresAtributo
@@ -663,10 +552,16 @@ export class AtributoComponent {
         }
     }
 
-    cargarDatosDesdeHerencia(atributo: Atributo){
+    pruebaOpciones(clave:string){
+        let ret = this.mapOpcionesSelect.get(clave);
+        console.log("a");
+        return ret;
+    }
+
+    cargarDatosDesdeHerencia(){
         if (this.atributo.herencia){
             // esto esta mal porque es el schema, yo tengo que traer los datos guardados para poder llamar al valoresDato
-            var [atributoHerencia, grupoHerencia, etapaHerencia] = this.getAtributoHerencia(this.atributo.herencia)
+            var [atributoHerencia, _, _] = this.getAtributoHerencia(this.atributo.herencia)
             var atributoHerencia = JSON.parse(JSON.stringify(atributoHerencia));
             if (atributoHerencia){
                 // atributoHerencia.ubicacion = this.atributo.ubicacion
@@ -688,7 +583,6 @@ export class AtributoComponent {
                                 ){
                                     valoresAtributo = datoGuardado.valoresAtributo
                                     cantidadInstancias = datoGuardado.cantidadInstancias
-                                    console.log(valoresAtributo)
                                 }
                             }
                         }    
@@ -729,11 +623,12 @@ export class AtributoComponent {
                         this.informarCambio.emit(datoUbicacion);
                         // break
                     }
-                    break  
+                    break;
                 }
+                //Reseteo Opciones Seleccionadas para que se actualice en UI las opciones de la Herencia
+                this.mapOpcionesSeleccionadas = new Map();
                 this.accionesCursosService.modificarCurso();
-                this.atributoHerencia =  atributoHerencia
-                // this.ngOnInit()
+                this.atributoHerencia =  atributoHerencia;
             }
         }
     }
@@ -987,10 +882,11 @@ export class AtributoComponent {
 
                 let reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = async function () {
+                reader.onload = function () {
                     if (typeof reader.result === 'string') {
                         archivoCargado!.fileName = file.name;
-                        archivoCargado!.fileBinary = reader.result;
+                        let idArchivo = insideThis.agregarArchivo(reader.result);
+                        archivoCargado!.fileId = idArchivo;
                     }
                     insideThis.accionesCursosService.modificarCurso();
                 };
@@ -1010,7 +906,9 @@ export class AtributoComponent {
         let archivoCargado = this.mapDatoArchivo.get(claveMap);
         if(archivoCargado !== undefined){
             archivoCargado!.fileName = null;
-            archivoCargado!.fileBinary = null;
+            let idEliminar = archivoCargado!.fileId!;
+            archivoCargado!.fileId = null;
+            this.eliminarArchivoDeBase(idEliminar);
             this.accionesCursosService.modificarCurso();
         }
     }
@@ -1135,7 +1033,6 @@ export class AtributoComponent {
                 idDato: [idDato]
             }
             this.informarCambio.emit(ubicacionAbs);
-            //console.log(valoresDato);
             this.accionesCursosService.modificarCurso();
         }
     }
@@ -1374,7 +1271,7 @@ export class AtributoComponent {
                             let nuevoDatoArchivo : DatoArchivo= {
                                 texto:null,
                                 fileName:null,
-                                fileBinary:null,
+                                fileId:null,
                                 ruta:null
                             }
                             valoresDato[indice!]!.archivo = nuevoDatoArchivo;
@@ -1483,7 +1380,8 @@ export class AtributoComponent {
             if(archivoCargado?.fileName !== null){
                 
                 let fileDownloader = this.fileDownloader.nativeElement;
-                fileDownloader.setAttribute('href',archivoCargado.fileBinary);
+                let [archivo,_] = this.obtenerArchivoCargadoById(archivoCargado.fileId!);
+                fileDownloader.setAttribute('href',archivo.b64);
                 fileDownloader.setAttribute('download',archivoCargado.fileName);
                 fileDownloader.click();
             }
@@ -2413,5 +2311,60 @@ export class AtributoComponent {
                 }
             }
         }
+    }
+
+    eliminarArchivoDeBase(id:number){
+        let existeReferenciaHaciaArchivo = false;
+        //Si ninguna version del curso tiene referencia hacia el archivo, lo elimino
+        if(this.initialSchemaService.loadedData !==undefined){
+            for(let version of this.initialSchemaService.loadedData.versiones){
+                for(let infoGuardada of version.datosGuardados!){
+                    for(let valAtrib of infoGuardada.valoresAtributo){
+                        for(let valDato of valAtrib.valoresDato){
+                            if(valDato.archivo !== null 
+                                && valDato.archivo.fileId !== null
+                                && valDato.archivo.fileId === id
+                            ){
+                                existeReferenciaHaciaArchivo = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if(!existeReferenciaHaciaArchivo){
+            let [_,index] = this.obtenerArchivoCargadoById(id);
+            this.initialSchemaService.loadedData!.archivos.splice(index,1);
+        }
+    }
+
+    obtenerArchivoCargadoById(id:number) : [Archivo,number] {
+        let archivosCargados : Archivo[] = this.initialSchemaService.loadedData!.archivos;
+        for(let [index,archivo] of archivosCargados.entries()){
+            if(archivo.id === id){
+                return [archivo,index];
+            }
+        }
+        return [{id:0,b64:"null"},-1];
+    }
+
+    agregarArchivo(b64:string) : number {
+        let archivosCargados : Archivo[] = this.initialSchemaService.loadedData!.archivos;
+        let lastID = 0;
+        for(let [_,archivo] of archivosCargados.entries()){
+            if(archivo.b64 === b64){
+                return archivo.id;
+            }
+            lastID = archivo.id;
+        }
+        let nuevaID = lastID+1;
+        archivosCargados.push(
+            {
+                id:nuevaID,
+                b64:b64
+            }
+        );
+        return nuevaID;
     }
 }

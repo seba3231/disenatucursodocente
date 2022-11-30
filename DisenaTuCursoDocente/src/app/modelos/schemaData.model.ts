@@ -5,6 +5,12 @@ export interface SchemaSavedData {
   nombreCurso: string;
   intitucion?: string;
   versiones: Version[];
+  archivos: Archivo[];
+}
+
+export interface Archivo {
+    id:number;
+    b64: string;
 }
 
 export interface Version {
@@ -41,7 +47,7 @@ export interface ValoresDato {
 export interface DatoArchivo{
     texto:string | null;
     fileName:string | null;
-    fileBinary:string | null;
+    fileId:number | null;
     ruta:string | null;
 }
 
