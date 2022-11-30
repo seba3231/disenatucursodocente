@@ -241,6 +241,7 @@ export class HomeComponent {
             nombre: 'Primera versión'
           },
         ],
+        archivos:[]
       };
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
