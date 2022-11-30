@@ -143,7 +143,7 @@ export class GrupoComponent implements OnInit {
                                     }
                                     dato.comentariosPrivados.push(comentario)
                                     this.comentariosPrivados.push(comentario)
-                            
+                                    this.modificarCurso()
                             }
                         }
                         
