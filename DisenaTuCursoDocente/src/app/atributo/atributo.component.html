@@ -115,7 +115,7 @@
                         <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))">
                             <div class="form-check">
                                 <input type="radio" (click)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [attr.checked]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,opcion.valor) ? '' : null"
-                                    value={{objectToString(opcion.valor)}} class="form-check-input" [name]="objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id))">
+                                    value={{objectToString(opcion.valor)}} class="form-check-input" [name]="objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id))+indiceInstancia">
                                 <label class="form-check-label">{{opcion.string}}</label>
                             </div>
                         </ng-container>
@@ -380,7 +380,7 @@
                                         <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))">
                                             <div class="form-check">
                                                 <input type="radio" (click)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [attr.checked]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,opcion.valor) ? '' : null"
-                                                    value={{objectToString(opcion.valor)}} class="form-check-input" [name]="objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id))">
+                                                    value={{objectToString(opcion.valor)}} class="form-check-input" [name]="objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id))+indiceInstancia">
                                                 <label class="form-check-label">{{opcion.string}}</label>
                                             </div>
                                         </ng-container>

@@ -264,76 +264,154 @@ export class ExportpdfComponent{
                             if (m == cant){
                                 let valorDato = columna.valoresDato[m]
                                 var dato = this.getDatoInfo(datoGuardado.ubicacionAtributo, columna.idDato[0])
-
-                                var cumpleHabilitado = false;
-                                if (dato && dato.habilitadoSi){
-                                  var datoHabilitadoSi = this.getDatoGuardadoInfo(dato.habilitadoSi.referencia,cursosDatos!.datosGuardados)
-                                  if (datoHabilitadoSi.valoresDato[0].selectFijo && datoHabilitadoSi.valoresDato[0].selectFijo[0] == dato.habilitadoSi.valorSeleccionado.idOpcion){
-                                    cumpleHabilitado = true
+                                if (dato.filasDatos == null){
+                                  // no tiene contenido condicional
+                                  var cumpleHabilitado = false;
+                                  if (dato && dato.habilitadoSi){
+                                    var datoHabilitadoSi = this.getDatoGuardadoInfo(dato.habilitadoSi.referencia,cursosDatos!.datosGuardados)
+                                    if (datoHabilitadoSi.valoresDato[0].selectFijo && datoHabilitadoSi.valoresDato[0].selectFijo[0] == dato.habilitadoSi.valorSeleccionado.idOpcion){
+                                      cumpleHabilitado = true
+                                    }else{
+                                      cumpleHabilitado = false
+                                    }
                                   }else{
-                                    cumpleHabilitado = false
+                                    cumpleHabilitado = true
+                                  }
+
+                                  if (cumpleHabilitado){
+                                    if (valorDato.string){
+                                      valueString = valorDato.string;
+                                    }else if(valorDato.number){
+                                        valueString = valorDato.number.toString() ;
+                                    }else if(valorDato.date){
+                                        valueString = valorDato.date.toString();
+                                    }else if(valorDato.selectFijo){
+                                      if (dato.opciones.idGrupoDatoFijo)
+                                        valueString = this.getValueDatoFijo(dato.opciones.idGrupoDatoFijo,valorDato.selectFijo);
+                                      else{
+                                        
+                                        if(dato.opciones.referencia)
+                                          valueString = this.getValueDatoFijoRef(dato.opciones.referencia,valorDato.selectFijo, cursosDatos.datosGuardados);
+                                      }
+                                  
+
+                                    }else if(valorDato.selectUsuario){
+                                      valueString = this.getValueDatoFijoRef(dato.opciones.referencia,valorDato.selectUsuario, cursosDatos.datosGuardados);
+                                      
+                                    }else if(valorDato.archivo){
+                                      console.log(valorDato)
+                                      valueString = valorDato.archivo.texto
+                                      if (valorDato.archivo.ruta){
+                                        valueString += ' [' +  valorDato.archivo.ruta + ']'
+                                      }else{
+                                        if(valorDato.archivo.fileName)
+                                          valueString += ' [' +  valorDato.archivo.fileName + ']'
+                                      }
+                                      
+                                    }else{
+                                        valueString = ''
+                                    }
+
+                                    var [grupoInfo, etapaInfo] = this.getDatoInfoAtributo(datoGuardado.ubicacionAtributo)
+                                    if (ultimaEtapa === undefined || ultimaEtapa !== datoGuardado.ubicacionAtributo.idEtapa){
+                                      ultimaEtapa = datoGuardado.ubicacionAtributo.idEtapa
+                                      
+                                      if (etapaInfo.nombre)
+                                        this.pdf.content.push({text: '__________________________________________________________________________________', style: 'body'});
+                                        this.pdf.content.push({text: etapaInfo.nombre, style: 'subheader',margin: [ 0, 15, 0, 5 ] });
+                                    }
+                                  
+                                    if (ultimoGrupo === undefined || ultimoGrupo !== datoGuardado.ubicacionAtributo.idGrupo){
+                                      ultimoGrupo = datoGuardado.ubicacionAtributo.idGrupo
+                                      if (grupoInfo.nombre)
+                                        this.pdf.content.push({text: grupoInfo.nombre, style: 'subsubheader',margin: [ 0, 10, 0, 5 ] });
+                                    }
+                                    
+                                    if (dato && dato.nombre)
+                                      this.pdf.content.push({text: dato.nombre + ": " + valueString,style: 'body' });
+                                    else
+                                      if (valueString)
+                                        this.pdf.content.push({text: valueString,style: 'body' });
+                                    
+                                    if (j == datoGuardado.valoresAtributo.length - 1)
+                                      this.pdf.content.push({text: '\n',style: 'body' });
                                   }
                                 }else{
-                                  cumpleHabilitado = true
-                                }
+                                  //con contenido condicional
+                                  for (let datofilasDatos of dato.filasDatos){
+                                    for (let datoCondicional of datofilasDatos.datos){
+                                      var cumpleHabilitado = false;
+                                      if (datoCondicional && dato.habilitadoSi){
+                                        var datoHabilitadoSi = this.getDatoGuardadoInfo(datoCondicional.habilitadoSi.referencia,cursosDatos!.datosGuardados)
+                                        if (datoHabilitadoSi.valoresDato[0].selectFijo && datoHabilitadoSi.valoresDato[0].selectFijo[0] == datoCondicional.habilitadoSi.valorSeleccionado.idOpcion){
+                                          cumpleHabilitado = true
+                                        }else{
+                                          cumpleHabilitado = false
+                                        }
+                                      }else{
+                                        cumpleHabilitado = true
+                                      }
 
-                                if (cumpleHabilitado){
-                                  if (valorDato.string){
-                                    valueString = valorDato.string;
-                                  }else if(valorDato.number){
-                                      valueString = valorDato.number.toString() ;
-                                  }else if(valorDato.date){
-                                      valueString = valorDato.date.toString();
-                                  }else if(valorDato.selectFijo){
-                                    if (dato.opciones.idGrupoDatoFijo)
-                                      valueString = this.getValueDatoFijo(dato.opciones.idGrupoDatoFijo,valorDato.selectFijo);
-                                    else{
+                                      if (cumpleHabilitado){
+                                        if (valorDato.string){
+                                          valueString = valorDato.string;
+                                        }else if(valorDato.number){
+                                            valueString = valorDato.number.toString() ;
+                                        }else if(valorDato.date){
+                                            valueString = valorDato.date.toString();
+                                        }else if(valorDato.selectFijo){
+                                          if (datoCondicional.opciones.idGrupoDatoFijo)
+                                            valueString = this.getValueDatoFijo(datoCondicional.opciones.idGrupoDatoFijo,valorDato.selectFijo);
+                                          else{
+                                            
+                                            if(datoCondicional.opciones.referencia)
+                                              valueString = this.getValueDatoFijoRef(datoCondicional.opciones.referencia,valorDato.selectFijo, cursosDatos.datosGuardados);
+                                          }
                                       
-                                      if(dato.opciones.referencia)
-                                        valueString = this.getValueDatoFijoRef(dato.opciones.referencia,valorDato.selectFijo, cursosDatos.datosGuardados);
-                                    }
-                                
 
-                                  }else if(valorDato.selectUsuario){
-                                    valueString = this.getValueDatoFijoRef(dato.opciones.referencia,valorDato.selectUsuario, cursosDatos.datosGuardados);
-                                    
-                                  }else if(valorDato.archivo){
-                                    console.log(valorDato)
-                                    valueString = valorDato.archivo.texto
-                                    if (valorDato.archivo.ruta){
-                                      valueString += ' [' +  valorDato.archivo.ruta + ']'
-                                    }else{
-                                      if(valorDato.archivo.fileName)
-                                        valueString += ' [' +  valorDato.archivo.fileName + ']'
-                                    }
-                                    
-                                  }else{
-                                      valueString = ''
-                                  }
+                                        }else if(valorDato.selectUsuario){
+                                          valueString = this.getValueDatoFijoRef(datoCondicional.opciones.referencia,valorDato.selectUsuario, cursosDatos.datosGuardados);
+                                          
+                                        }else if(valorDato.archivo){
+                                          console.log(valorDato)
+                                          valueString = valorDato.archivo.texto
+                                          if (valorDato.archivo.ruta){
+                                            valueString += ' [' +  valorDato.archivo.ruta + ']'
+                                          }else{
+                                            if(valorDato.archivo.fileName)
+                                              valueString += ' [' +  valorDato.archivo.fileName + ']'
+                                          }
+                                          
+                                        }else{
+                                            valueString = ''
+                                        }
 
-                                  var [grupoInfo, etapaInfo] = this.getDatoInfoAtributo(datoGuardado.ubicacionAtributo)
-                                  if (ultimaEtapa === undefined || ultimaEtapa !== datoGuardado.ubicacionAtributo.idEtapa){
-                                    ultimaEtapa = datoGuardado.ubicacionAtributo.idEtapa
-                                    
-                                    if (etapaInfo.nombre)
-                                      this.pdf.content.push({text: '__________________________________________________________________________________', style: 'body'});
-                                      this.pdf.content.push({text: etapaInfo.nombre, style: 'subheader',margin: [ 0, 15, 0, 5 ] });
+                                        var [grupoInfo, etapaInfo] = this.getDatoInfoAtributo(datoGuardado.ubicacionAtributo)
+                                        if (ultimaEtapa === undefined || ultimaEtapa !== datoGuardado.ubicacionAtributo.idEtapa){
+                                          ultimaEtapa = datoGuardado.ubicacionAtributo.idEtapa
+                                          
+                                          if (etapaInfo.nombre)
+                                            this.pdf.content.push({text: '__________________________________________________________________________________', style: 'body'});
+                                            this.pdf.content.push({text: etapaInfo.nombre, style: 'subheader',margin: [ 0, 15, 0, 5 ] });
+                                        }
+                                      
+                                        if (ultimoGrupo === undefined || ultimoGrupo !== datoGuardado.ubicacionAtributo.idGrupo){
+                                          ultimoGrupo = datoGuardado.ubicacionAtributo.idGrupo
+                                          if (grupoInfo.nombre)
+                                            this.pdf.content.push({text: grupoInfo.nombre, style: 'subsubheader',margin: [ 0, 10, 0, 5 ] });
+                                        }
+                                        
+                                        if (datoCondicional && datoCondicional.nombre)
+                                          this.pdf.content.push({text: datoCondicional.nombre + ": " + valueString,style: 'body' });
+                                        else
+                                          if (valueString)
+                                            this.pdf.content.push({text: valueString,style: 'body' });
+                                        
+                                        if (j == datoGuardado.valoresAtributo.length - 1)
+                                          this.pdf.content.push({text: '\n',style: 'body' });
+                                      }
+                                    }
                                   }
-                                
-                                  if (ultimoGrupo === undefined || ultimoGrupo !== datoGuardado.ubicacionAtributo.idGrupo){
-                                    ultimoGrupo = datoGuardado.ubicacionAtributo.idGrupo
-                                    if (grupoInfo.nombre)
-                                      this.pdf.content.push({text: grupoInfo.nombre, style: 'subsubheader',margin: [ 0, 10, 0, 5 ] });
-                                  }
-                                  
-                                  if (dato && dato.nombre)
-                                    this.pdf.content.push({text: dato.nombre + ": " + valueString,style: 'body' });
-                                  else
-                                    if (valueString)
-                                      this.pdf.content.push({text: valueString,style: 'body' });
-                                  
-                                  if (j == datoGuardado.valoresAtributo.length - 1)
-                                    this.pdf.content.push({text: '\n',style: 'body' });
                                 }
                                 
                             }
