@@ -132,7 +132,7 @@ export class AtributoComponent {
                     for(let dato of filaDatos.datos){
                         dato.ubicacion.idEtapa = this.atributo.ubicacion.idEtapa
                         dato.ubicacion.idGrupo = this.atributo.ubicacion.idGrupo
-                        dato.ubicacion.idAtributo =  this.atributo.id     
+                        dato.ubicacion.idAtributo =  this.atributo.id
                         let ubicacionAbsoluta = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
                         let claveMap = this.objectToString(ubicacionAbsoluta);
                         //Computo opciones de los Select del Atributo
@@ -257,8 +257,8 @@ export class AtributoComponent {
                 }
             }
             
-            this.grupoHerencia = grupoHerencia
-            this.etapaHerencia = etapaHerencia            
+            this.grupoHerencia = grupoHerencia!
+            this.etapaHerencia = etapaHerencia!          
             // console.log(this.atributoHerencia)            
         }
 
@@ -561,11 +561,11 @@ export class AtributoComponent {
     cargarDatosDesdeHerencia(){
         if (this.atributo.herencia){
             // esto esta mal porque es el schema, yo tengo que traer los datos guardados para poder llamar al valoresDato
-            var [atributoHerencia, _, _] = this.getAtributoHerencia(this.atributo.herencia)
-            var atributoHerencia = JSON.parse(JSON.stringify(atributoHerencia));
-            if (atributoHerencia){
+            var [atributoHerencia,_a,_b] = this.getAtributoHerencia(this.atributo.herencia)
+            var copyAtributoHerencia = JSON.parse(JSON.stringify(atributoHerencia!));
+            if (copyAtributoHerencia){
                 // atributoHerencia.ubicacion = this.atributo.ubicacion
-                for(let filaDatos of atributoHerencia.filasDatos){
+                for(let filaDatos of copyAtributoHerencia.filasDatos){
                     for(let dato of filaDatos.datos){
 
                         var datoUbicacion = JSON.parse(JSON.stringify(this.atributo.ubicacion));
@@ -597,7 +597,7 @@ export class AtributoComponent {
                                     //Encontré el Atributo, le piso los valores atributo con el nuevo
                                     if (valoresAtributo){
                                         datoGuardado.cantidadInstancias = cantidadInstancias
-                                        datoGuardado.valoresAtributo = valoresAtributo
+                                        datoGuardado.valoresAtributo = JSON.parse(JSON.stringify(valoresAtributo));
                                         
                                         var datoHeredado = JSON.parse(JSON.stringify(dato));
                                         datoHeredado.ubicacion = datoGuardado.ubicacionAtributo
@@ -619,6 +619,11 @@ export class AtributoComponent {
                                 }
                             }
                         }
+                        
+                        //Le cambio los ID a los datos heredados
+                        dato.ubicacion.idEtapa = this.atributo.ubicacion.idEtapa;
+                        dato.ubicacion.idGrupo = this.atributo.ubicacion.idGrupo;
+                        dato.ubicacion.idAtributo =  this.atributo.id;
 
                         this.informarCambio.emit(datoUbicacion);
                         // break
@@ -627,13 +632,25 @@ export class AtributoComponent {
                 }
                 //Reseteo Opciones Seleccionadas para que se actualice en UI las opciones de la Herencia
                 this.mapOpcionesSeleccionadas = new Map();
+                //Reseteo Archivos para que se actualice la UI con nuevos datos
+                this.mapDatoArchivo = new Map();
+
+                //Resteo Opcion Seleccionada para actualizar UI
+                this.mapOpcionSeleccionada = new Map();
+
                 this.accionesCursosService.modificarCurso();
-                this.atributoHerencia =  atributoHerencia;
+
+                copyAtributoHerencia.ubicacion.idEtapa = this.atributo.ubicacion.idEtapa;
+                copyAtributoHerencia.ubicacion.idGrupo = this.atributo.ubicacion.idGrupo;
+                copyAtributoHerencia.ubicacion.idAtributo = this.atributo.ubicacion.idAtributo;
+                copyAtributoHerencia.ubicacion.idDato = this.atributo.ubicacion.idDato;
+
+                this.atributoHerencia =  copyAtributoHerencia;
             }
         }
     }
 
-    getAtributoHerencia(ubicacion: Ubicacion): any{ //retorna un Dato completo
+    getAtributoHerencia(ubicacion: Ubicacion): [Atributo|null,Grupo|null,Etapa|null]{ //retorna un Dato completo
         if (this.initialSchemaService.defaultSchema){
             for(let etapa of this.initialSchemaService.defaultSchema?.etapas){
                 for(let grupo of etapa.grupos){
@@ -652,6 +669,7 @@ export class AtributoComponent {
                 }
             }
         }
+        return [null,null,null];
     }
 
     agregarInstanciaAtributo(ubicacion:Ubicacion,idAtributo:number) {
@@ -1380,7 +1398,7 @@ export class AtributoComponent {
             if(archivoCargado?.fileName !== null){
                 
                 let fileDownloader = this.fileDownloader.nativeElement;
-                let [archivo,_] = this.obtenerArchivoCargadoById(archivoCargado.fileId!);
+                let [archivo,] = this.obtenerArchivoCargadoById(archivoCargado.fileId!);
                 fileDownloader.setAttribute('href',archivo.b64);
                 fileDownloader.setAttribute('download',archivoCargado.fileName);
                 fileDownloader.click();
@@ -2334,7 +2352,7 @@ export class AtributoComponent {
             }
         }
         if(!existeReferenciaHaciaArchivo){
-            let [_,index] = this.obtenerArchivoCargadoById(id);
+            let [,index] = this.obtenerArchivoCargadoById(id);
             this.initialSchemaService.loadedData!.archivos.splice(index,1);
         }
     }
@@ -2352,7 +2370,7 @@ export class AtributoComponent {
     agregarArchivo(b64:string) : number {
         let archivosCargados : Archivo[] = this.initialSchemaService.loadedData!.archivos;
         let lastID = 0;
-        for(let [_,archivo] of archivosCargados.entries()){
+        for(let [,archivo] of archivosCargados.entries()){
             if(archivo.b64 === b64){
                 return archivo.id;
             }
