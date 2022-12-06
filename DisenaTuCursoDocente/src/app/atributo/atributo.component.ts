@@ -253,6 +253,98 @@ export class AtributoComponent {
                         if(dato.computo){
                             this.procesarDatoComputo(dato.computo,ubicacionAbsoluta);
                         }
+
+                        // si es contenido condicional cargo las fila de datos
+                        if(dato.filasDatos !== null){
+                        
+                            let datoInterior = dato.filasDatos[0].datos[0];
+                            let ubicacionAbsInterior = this.ubicacionAbsolutaDeDato(datoInterior.ubicacion,datoInterior.id);
+                            //ubicacionAbsInterior = 2,24,3,[7,1]
+                            this.cargoOpcionesSelect(datoInterior
+                                ,this.objectToString(ubicacionAbsInterior)
+                                ,ubicacionAbsInterior
+                            );
+                            
+                            //Todos los ContCond
+                            //let contenidoCondicional = this.initialSchemaService.defaultSchema?.contenidoCondicional;
+                            //Los ContCond que son de este Dato
+                            //let contenidosMatchean = contenidoCondicional?.filter((contMacth) => this.objectToString(contMacth.muestroSi.referencia) === this.objectToString(ubicacionAbsInterior));
+                            
+                            //Cantidad de instancias de Modulo
+                            let cantidadInstanciasAtributo = this.buscoInformacionGuardadaDeAtributo(dato.ubicacion)?.cantidadInstancias;
+                            //Copio array: arrayDato = [7,1]
+                            let arrayDato = [...ubicacionAbsInterior.idDato!];
+    
+                            //Agrego elemento al inicio, pivote de n° de instancia
+                            ubicacionAbsInterior.idDato!.unshift(0);
+                            //Por cada instancia de Módulo, busco cuantas/cuales Unidades tiene
+                            for (var i = 0; i < cantidadInstanciasAtributo!; i++) {
+                                
+                                //Si no existe clave en Map, la agrego
+                                let ubicacionContCondicional : Ubicacion = {
+                                    idEtapa : ubicacionAbsInterior.idEtapa,
+                                    idGrupo : ubicacionAbsInterior.idGrupo,
+                                    idAtributo : ubicacionAbsInterior.idAtributo,
+                                    idDato : [i]
+                                }
+
+                                let ubicacionHerenciaContCondicional : Ubicacion = {
+                                    idEtapa : ubicacionAbsoluta.idEtapa,
+                                    idGrupo : ubicacionAbsoluta.idGrupo,
+                                    idAtributo : ubicacionAbsoluta.idAtributo,
+                                    idDato : [i]
+                                }
+                                //Por ejemplo, Padre (modulo) indice 0
+                                //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]}"
+                                let clavePadreContCondicional = this.objectToString(ubicacionContCondicional);
+                                let claveHerenciaPadreContCondicional = this.objectToString(ubicacionHerenciaContCondicional);
+                                let contCondicional = this.mapContenidoCondicional.get(claveHerenciaPadreContCondicional);
+                                if(contCondicional === undefined){
+                                    this.mapContenidoCondicional.set(
+                                        claveHerenciaPadreContCondicional,
+                                        []
+                                    );
+                                    contCondicional = this.mapContenidoCondicional.get(claveHerenciaPadreContCondicional);
+                                    ubicacionContCondicional.idDato = ubicacionAbsInterior.idDato
+                                    ubicacionHerenciaContCondicional.idDato = ubicacionAbsInterior.idDato
+                                    var datosGuardados = this.buscoInformacionGuardadaDeAtributo(ubicacionHerenciaContCondicional) as InformacionGuardada;
+                                    this.mapInformacionGuardadaDeAtributo.set
+                                    (
+                                        this.objectToString(ubicacionHerenciaContCondicional),
+                                        datosGuardados
+                                    );
+                                }
+                                                            
+                                ubicacionAbsInterior.idDato![0] = i;
+                                //ubicacionAbsInterior = 2,24,3,[i,7,1]
+                                let valoresSelectCondicional : ValoresDato[] = this.buscoValoresDatoDeAtributo(ubicacionAbsInterior,arrayDato);
+                                for(let [indexSelCond,valSelCond] of valoresSelectCondicional.entries()){
+    
+                                    let idOpcion = 0;
+                                    if(valSelCond.selectFijo !== null){
+                                        idOpcion = valSelCond.selectFijo[0];
+                                    }
+    
+                                    //UbSchema = 2,24,3,[7,1]
+                                    //UbModulo = 2,24,3,[indiceMod]
+                                    const [filaDatos,opciones,maxCantDatos] = this.obtengoIngredientesContCond(
+                                        {idEtapa : ubicacionAbsInterior.idEtapa,idGrupo : ubicacionAbsInterior.idGrupo,idAtributo : ubicacionAbsInterior.idAtributo,idDato:[...arrayDato]},
+                                        {idEtapa : ubicacionAbsInterior.idEtapa,idGrupo : ubicacionAbsInterior.idGrupo,idAtributo : ubicacionAbsInterior.idAtributo,idDato:[i]},
+                                        idOpcion,
+                                        indexSelCond
+                                    );
+    
+                                    //Agrego opciones selectUsuario
+                                    for(let [key,value] of opciones.entries()){
+                                        this.mapOpcionesSelect.set(key,value);
+                                    }
+    
+                                    //Agrego FilaDatos a mapCC
+                                    contCondicional?.push(filaDatos);
+                                }
+                            }
+                        }
+
                     }
                 }
             }
@@ -263,7 +355,7 @@ export class AtributoComponent {
         }
 
         //Realizo precomputo de los elementos dinámicos
-        if (this.atributo.filasDatos){
+        if (this.atributo.filasDatos && !this.atributo.herencia){
             for(let filaDatos of this.atributo.filasDatos){
                 for(let dato of filaDatos.datos){
                     let ubicacionAbsoluta = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
@@ -554,7 +646,6 @@ export class AtributoComponent {
 
     pruebaOpciones(clave:string){
         let ret = this.mapOpcionesSelect.get(clave);
-        console.log("a");
         return ret;
     }
 
@@ -2249,14 +2340,16 @@ export class AtributoComponent {
 
         for (let contenidoEncontrado of contenidosMatchean!) {
             let maxLocal = 0;
-            for(let filaDatosCondional of contenidoEncontrado.filasDatos){
-                maxLocal += filaDatosCondional.datos.length;
-            }
-            if(maxLocal > maxCantDatos){
-                maxCantDatos=maxLocal;
-            }
-            if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === idOpcion){
-                filaDatosAAgregar = this.stringToObject(this.objectToString(contenidoEncontrado.filasDatos));
+            if (contenidoEncontrado.filasDatos){
+                for(let filaDatosCondional of contenidoEncontrado.filasDatos){
+                    maxLocal += filaDatosCondional.datos.length;
+                }
+                if(maxLocal > maxCantDatos){
+                    maxCantDatos=maxLocal;
+                }
+                if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === idOpcion){
+                    filaDatosAAgregar = this.stringToObject(this.objectToString(contenidoEncontrado.filasDatos));
+                }
             }
         }
 
