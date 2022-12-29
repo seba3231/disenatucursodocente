@@ -3,8 +3,8 @@
 $dirCompiladoAngular = "$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-win32-x64\resources\app\"
 $imgOrigen="$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-win32-x64\resources\app\dist\disena-tu-curso-docente\assets\img"
 $imgDestino="$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-win32-x64\resources\app\dist\assets"
-$cursosDeDesarrollo="$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-win32-x64\resources\app\dist\disena-tu-curso-docente\assets\schemasData\*"
-$filesDeDesarrollo="$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-win32-x64\resources\app\dist\disena-tu-curso-docente\assets\files\*"
+$cursosDeDesarrollo="$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-win32-x64\resources\app\dist\disena-tu-curso-docente\assets\schemasData\"
+$filesDeDesarrollo="$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-win32-x64\resources\app\dist\disena-tu-curso-docente\assets\files\"
 
 cd "$PSScriptRoot\DisenaTuCursoDocente"
 write-host "COMPILANDO ANGULAR"
@@ -18,7 +18,17 @@ Get-ChildItem "$dirCompiladoAngular" -Exclude dist,ElectronEntry.js,Backend.js,p
 Get-ChildItem "$dirCompiladoAngular\node_modules" -Exclude accepts,body-parser,call-bind,content-disposition,content-type,cookie,cookie-signature,cors,depd,destroy,ee-first,encodeurl,escape-html,etag,express,finalhandler,forwarded,fresh,function-bind,get-intrinsic,has,has-symbols,http-errors,iconv-lite,inherits,media-typer,merge-descriptors,methods,mime,mime-db,mime-types,negotiator,object-assign,object-inspect,on-finished,parseurl,path-to-regexp,proxy-addr,qs,range-parser,raw-body,safer-buffer,send,serve-static,setprototypeof,side-channel,statuses,toidentifier,type-is,unpipe,utils-merge,vary | Remove-Item -Recurse -Force
 
 write-host "ELIMINO CURSOS QUE HAYAN VENIDO DESDE DESARROLLO"
-rm "$cursosDeDesarrollo"
+if(test-path -path "$cursosDeDesarrollo"){
+    rm "$cursosDeDesarrollo\*"
+}
+else{
+    mkdir "$cursosDeDesarrollo" | Out-Null
+}
 
 write-host "ELIMINO FILES DE USUARIO QUE HAYAN VENIDO DESDE DESARROLLO"
-rm "$filesDeDesarrollo"
+if(test-path -path "$filesDeDesarrollo"){
+    rm "$filesDeDesarrollo\*"
+}
+else{
+    mkdir "$filesDeDesarrollo" | Out-Null
+}

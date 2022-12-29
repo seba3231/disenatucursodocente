@@ -1,4 +1,5 @@
 <div *ngFor="let _ of [].constructor(mapInformacionGuardadaDeAtributo.get(objectToString(ubicacionAbsolutaDeAtributo(atributo.ubicacion,atributo.id)))!.cantidadInstancias); index as indiceInstancia;" class="atr-container">
+    <!-- A la primer instancia, le imprimo el nombre del Atributo -->
     <div *ngIf="indiceInstancia === 0 && atributo.nombre" class="row">
         <h5>{{ atributo.nombre ? atributo.nombre+' ' : '' }}
             <span *ngIf="atributo.ayuda" class="d-inline-block" data-bs-toggle="popover" data-bs-trigger="hover focus" [attr.data-bs-content]="atributo.ayuda" data-bs-custom-class="custom-popover">
@@ -44,6 +45,7 @@
     <!-- subir archivos -->
     <input type="file" (change)="onFileSelected($event)" #fileUploader style="display:none">
     <a #fileDownloader style="display:none"></a>
+    <!-- Botón cargar información de etapa previa-->
     <div *ngIf="indiceInstancia==0 && atributo.herencia && atributoHerencia && atributoHerencia!.filasDatos" class="d-flex flex-column pb-2 pt-2 align-items-end">
         <button class="btn btn-outline-primary" role="button" style="font-size: 12px; border: none;" data-bs-toggle="popover" data-bs-trigger="hover focus" [attr.data-bs-content]="'Podras cargar este dato con la información cargada en la sección ' + grupoHerencia!.nombre + ' de ' + etapaHerencia!.nombre"
             data-bs-custom-class="custom-popover" (click)="cargarDatosDesdeHerencia()">

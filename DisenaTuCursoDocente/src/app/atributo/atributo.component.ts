@@ -124,10 +124,13 @@ export class AtributoComponent {
         }
 
         if (this.atributo.herencia){
-            const [atributoHerencia, grupoHerencia, etapaHerencia] = this.getAtributoHerencia(this.atributo.herencia)
+            const [atributoHerencia, grupoHerencia, etapaHerencia] = this.getAtributoHerencia(this.atributo.herencia);
             this.atributoHerencia = JSON.parse(JSON.stringify(atributoHerencia));
             if (this.atributoHerencia){
-                this.atributoHerencia.ubicacion = this.atributo.ubicacion
+                this.atributoHerencia.ubicacion = this.atributo.ubicacion;
+                if(this.atributoHerencia.nombre != null){
+                    this.atributo.nombre = this.atributoHerencia.nombre;
+                }
                 for(let filaDatos of this.atributoHerencia.filasDatos){
                     for(let dato of filaDatos.datos){
                         dato.ubicacion.idEtapa = this.atributo.ubicacion.idEtapa
@@ -649,8 +652,113 @@ export class AtributoComponent {
         return ret;
     }
 
+    filaDatosConContCondicional(filaDatos: FilaDatos[]):boolean{
+        for(let fila of filaDatos){
+            for(let dato of fila.datos){
+                if(dato.idContenidoCondicional !== null){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     cargarDatosDesdeHerencia(){
-        if (this.atributo.herencia){
+        let infoHerdada : InformacionGuardada = JSON.parse(JSON.stringify(this.buscoInformacionGuardadaDeAtributo(this.atributo.herencia)!));
+        let infoActual : InformacionGuardada = this.buscoInformacionGuardadaDeAtributo(this.ubicacionAbsolutaDeAtributo(this.atributo.ubicacion,this.atributo.id))!;
+        
+        //Busco si infoActual tiene un Dato que infoHeredada no tiene
+        let valsAtribActual = infoActual!.valoresAtributo;
+        let valsAtribHeredado = infoHerdada!.valoresAtributo;
+        let idsNuevos : number[][] = [];
+        for(let valAtribA of valsAtribActual){
+            let encontreIDDato = false;
+            for(let valAtribH of valsAtribHeredado){
+                if(JSON.stringify(valAtribH.idDato)===JSON.stringify(valAtribA.idDato)){
+                    encontreIDDato = true;
+                    break;
+                }
+            }
+            if(!encontreIDDato){
+                idsNuevos.push(valAtribA.idDato);
+            }
+        }
+        //Copio Datos Heredados
+        infoActual.cantidadInstancias = infoHerdada.cantidadInstancias;
+        infoActual.valoresAtributo = [];
+        for(let valAtribH of valsAtribHeredado){
+            infoActual.valoresAtributo.push(valAtribH);
+        }
+        //Agrego Datos nuevos que no tenia el Atr Heredado
+        for(let arrayIDs of idsNuevos){
+            let nuevoValAtrib : ValoresAtributo = {
+                idDato:arrayIDs,
+                valoresDato:[]
+            }
+            for (let i = 1; i <= infoActual.cantidadInstancias; i++) {
+                let valDato : ValoresDato = {
+                    string:null,
+                    number:null,
+                    selectFijo:null,
+                    selectUsuario:null,
+                    archivo:null,
+                    date:null
+                }
+                nuevoValAtrib.valoresDato.push(valDato);
+            }
+            infoActual.valoresAtributo.push(nuevoValAtrib);
+        }
+
+        //Actualizo estructuras del render
+        var [atributoHerencia,_a,_b] = this.getAtributoHerencia(this.atributo.herencia)
+        var copyAtributoHerencia = JSON.parse(JSON.stringify(atributoHerencia!));
+        if (copyAtributoHerencia){
+            for(let filaDatos of copyAtributoHerencia.filasDatos){
+                for(let dato of filaDatos.datos){
+                    //Le cambio los ID a los datos heredados
+                    dato.ubicacion.idEtapa = this.atributo.ubicacion.idEtapa;
+                    dato.ubicacion.idGrupo = this.atributo.ubicacion.idGrupo;
+                    dato.ubicacion.idAtributo =  this.atributo.id;
+                }
+            }
+            copyAtributoHerencia.ubicacion.idEtapa = this.atributo.ubicacion.idEtapa;
+            copyAtributoHerencia.ubicacion.idGrupo = this.atributo.ubicacion.idGrupo;
+            copyAtributoHerencia.ubicacion.idAtributo = this.atributo.ubicacion.idAtributo;
+            copyAtributoHerencia.ubicacion.idDato = this.atributo.ubicacion.idDato;
+            //Asigno variable atributoHerencia que imprime en UI
+            this.atributoHerencia =  copyAtributoHerencia;
+        }
+        //Reseteo Opciones Seleccionadas para que se actualice en UI las opciones de la Herencia
+        this.mapOpcionesSeleccionadas = new Map();
+        //Reseteo Archivos para que se actualice la UI con nuevos datos
+        this.mapDatoArchivo = new Map();
+        //Resteo Opcion Seleccionada para actualizar UI
+        this.mapOpcionSeleccionada = new Map();
+        //Persisto nuevos datos
+        this.accionesCursosService.modificarCurso();
+
+        /*if (this.atributo.herencia){
+            
+            //Codigo que contempla atributo.herencia != null Y atributo.filaDatos != null
+            let infoHerdada : InformacionGuardada = JSON.parse(JSON.stringify(this.buscoInformacionGuardadaDeAtributo(this.atributo.herencia)!));
+            let infoActual : InformacionGuardada = this.buscoInformacionGuardadaDeAtributo(this.ubicacionAbsolutaDeAtributo(this.atributo.ubicacion,this.atributo.id))!;
+            //Busco si infoActual tiene un Dato que infoHeredada no tiene
+            let valsAtribActual = infoActual!.valoresAtributo;
+            let valsAtribHeredado = infoHerdada!.valoresAtributo;
+            let idsNuevos : number[][] = [];
+            for(let valAtribA of valsAtribActual){
+                let encontreIDDato = false;
+                for(let valAtribH of valsAtribHeredado){
+                    if(JSON.stringify(valAtribH.idDato)===JSON.stringify(valAtribA.idDato)){
+                        encontreIDDato = true;
+                        break;
+                    }
+                }
+                if(!encontreIDDato){
+                    idsNuevos.push(valAtribA.idDato);
+                }
+            }
+
             // esto esta mal porque es el schema, yo tengo que traer los datos guardados para poder llamar al valoresDato
             var [atributoHerencia,_a,_b] = this.getAtributoHerencia(this.atributo.herencia)
             var copyAtributoHerencia = JSON.parse(JSON.stringify(atributoHerencia!));
@@ -668,9 +776,9 @@ export class AtributoComponent {
                         if(this.versionActual !== undefined){
                             for(let datoGuardado of this.versionActual.datosGuardados!){
                                 
-                                if (datoGuardado.ubicacionAtributo.idEtapa === dato.ubicacion.idEtapa
-                                    && datoGuardado.ubicacionAtributo.idGrupo === dato.ubicacion.idGrupo
-                                    && datoGuardado.ubicacionAtributo.idAtributo === dato.ubicacion.idAtributo
+                                if (datoGuardado.ubicacionAtributo.idEtapa === this.atributo.herencia.idEtapa
+                                    && datoGuardado.ubicacionAtributo.idGrupo === this.atributo.herencia.idGrupo
+                                    && datoGuardado.ubicacionAtributo.idAtributo === this.atributo.herencia.idAtributo
                                 ){
                                     valoresAtributo = datoGuardado.valoresAtributo
                                     cantidadInstancias = datoGuardado.cantidadInstancias
@@ -706,6 +814,26 @@ export class AtributoComponent {
                                         if(datoHeredado.filasDatos !== null){
 
                                         }
+
+                                        //Agrego Datos nuevos a la Base
+                                        for(let arrayIDs of idsNuevos){
+                                            let nuevoValAtrib : ValoresAtributo = {
+                                                idDato:arrayIDs,
+                                                valoresDato:[]
+                                            }
+                                            for (let i = 1; i <= datoGuardado.cantidadInstancias; i++) {
+                                                let valDato : ValoresDato = {
+                                                    string:null,
+                                                    number:null,
+                                                    selectFijo:null,
+                                                    selectUsuario:null,
+                                                    archivo:null,
+                                                    date:null
+                                                }
+                                                nuevoValAtrib.valoresDato.push(valDato);
+                                            }
+                                            datoGuardado.valoresAtributo.push(nuevoValAtrib);
+                                        }
                                     }
                                 }
                             }
@@ -721,6 +849,7 @@ export class AtributoComponent {
                     }
                     break;
                 }
+
                 //Reseteo Opciones Seleccionadas para que se actualice en UI las opciones de la Herencia
                 this.mapOpcionesSeleccionadas = new Map();
                 //Reseteo Archivos para que se actualice la UI con nuevos datos
@@ -738,7 +867,7 @@ export class AtributoComponent {
 
                 this.atributoHerencia =  copyAtributoHerencia;
             }
-        }
+        }*/
     }
 
     getAtributoHerencia(ubicacion: Ubicacion): [Atributo|null,Grupo|null,Etapa|null]{ //retorna un Dato completo
@@ -751,8 +880,10 @@ export class AtributoComponent {
                             && atributo.ubicacion.idGrupo == ubicacion.idGrupo
                             && atributo.id == ubicacion.idAtributo){
                             if (atributo.herencia){
-                                return this.getAtributoHerencia(atributo.ubicacion)
-                            }else{
+                                const [atributoHerencia,,] = this.getAtributoHerencia(atributo.herencia);
+                                return [atributoHerencia, grupo, etapa]
+                            }
+                            else{
                                 return [atributo, grupo, etapa]
                             }    
                         }
