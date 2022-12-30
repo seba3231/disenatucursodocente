@@ -25,7 +25,7 @@
                             "herencia": null,
                             "multiInstanciable": false,
                             "puntoCritico": {
-                                "normativa": "¿Cómo se cuentan los créditos de acuerdo a UDELAR?<br>https://dgjuridica.udelar.edu.uy/215-ordenanza-de-estudios-de-grado-y-otros-programas-de-formacion-terciaria/",
+                                "normativa": "Cómo se cuentan los créditos de acuerdo a UDELAR: leer ordenanza de grado:<br>https://dgjuridica.udelar.edu.uy/215-ordenanza-de-estudios-de-grado-y-otros-programas-de-formacion-terciaria/",
                                 "informacionAmpliatoria": null,
                                 "aporteConceptual": "Para definir el contenido del curso, se debe considerar la extensión en horas de curso (que se relaciona con los créditos que el curso otorga) y tiempo de cursada (curso semestral, curso anual, etc.). A tal efecto, se debe conocer la normativa de la institución y del contexto académico específico en el cual se llevará a cabo el curso: trayectoria, carrera, curso de educación permanente."
                             },
@@ -42,7 +42,7 @@
                                             "idDato": null
                                         },
                                         "herencia": null,
-                                        "ayuda": "Defina la cantidad de créditos si ya los conoce, de lo contrario pueden ser calculados a partir de la cantidad de horas de cada tema",
+                                        "ayuda": "La cantidad de créditos de un curso depende de cómo la institución ha determinado que se atribuyen los créditos según la propuesta del curso. Este dato se registra en su normativa. Por ej. en UDELAR, la Ordenanza de Grado determina que un crédito equivale a 15 horas de curso: 7,5 de estudios personal y 7,5 de 'clase o similar'",
                                         "tipo": "number",
                                         "computo": null,
                                         "opciones": null,
@@ -145,7 +145,7 @@
                                                 "idDato": null
                                             },
                                             "herencia": null,
-                                            "ayuda": "Los cursos abordan temas que el docente identifica como unidades específicas de contenido y organiza en, módulos, clases, unidades, o como decida denominar cada segmento. Pueden estar totalmente predefinidos por el equipo docente o pueden ser negociados con los estudiantes a partir de propuestas que se analizan. El 'tema' se refiere a esa unidad de contenido que debe ser abordada en el curso. Por ej. en un curso de Desigualdades sociales, un tema del curso podría ser 'Clases sociales'",
+                                            "ayuda": "Los cursos abordan temas que el docente identifica como unidades específicas de contenido y organiza en, módulos, clases, unidades, o como decida denominar cada segmento. Pueden estar totalmente predefinidos por el equipo docente o pueden ser negociados con los estudiantes a partir de propuestas de docentes o de estudiantes. El 'tema' se refiere a esa unidad de contenido que debe ser abordada en el curso. Por ej. en un curso de Desigualdades sociales, un tema del curso podría ser 'Clases sociales'",
                                             "tipo": "text",
                                             "computo": null,
                                             "opciones": null,
@@ -208,7 +208,7 @@
                                             "idDato": null
                                         },
                                         "herencia": null,
-                                        "ayuda": "Describir otros detalles de las competencias o del tema.",
+                                        "ayuda": "Aquí se debe describir otros detalles de las competencias o del tema que se abordará.",
                                         "tipo": "text",
                                         "computo": null,
                                         "opciones": null,
@@ -319,7 +319,7 @@
                                             "idDato": null
                                         },
                                         "herencia": null,
-                                        "ayuda": "En el siguiente enlace se especifican las áreas a las que puede pertenecer un curso de la UDELAR Enlace: https://udelar.edu.uy/portal/areas-academicas/                                        ",
+                                        "ayuda": "En el siguiente enlace se especifican las áreas a las que puede pertenecer un curso de la UDELAR Enlace: https://udelar.edu.uy/portal/areas-academicas/ ",
                                         "tipo": "selectFijoUnico",
                                         "computo": null,
                                         "opciones": {
@@ -771,7 +771,7 @@
                                         "idDato": null
                                     },
                                     "herencia": null,
-                                    "ayuda": "Se refiere a los principios y conceptos básicos que sustentan la propuesta del curso. Optar por un marco pedagógico implica adherir a una teoría, es decir, a un conjunto de ideas sobre cómo ocurre el proceso de aprendizaje y en función de ello, cómo se debe enseñar. Implica tomar una serie de decisiones sobre qué tipo de actividades de aprendizaje proponer, qué recursos educativos utilizar y qué tipo de evaluación realizar, etc.",
+                                    "ayuda": "Se refiere a los principios y conceptos básicos que sustentan la propuesta del curso. Optar por un marco pedagógico implica adherir a una teoría, es decir, a un conjunto de ideas sobre cómo ocurre el proceso de aprendizaje y en función de ello, cómo se debe enseñar. Implica tomar una serie de decisiones sobre la didáctica, sobre qué tipo de actividades de aprendizaje proponer, qué recursos educativos utilizar y qué tipo de evaluación realizar, etc.",
                                     "tipo": "text",
                                     "computo": null,
                                     "opciones": null,
@@ -910,7 +910,7 @@
                                             "idDato": null
                                         },
                                         "herencia": null,
-                                        "ayuda": "Los recursos educativos son los diversos materiales que se utilizan en el proceso de enseñanza y aprendizaje, para asistir y facilitar los procesos. Pueden incluir aquellos que se diseñan con el propósito específico de servir como apoyo, tema o soporte de la enseñanza. Es el caso por ej. de los libros de texto, los polimedias educativos, las fichas de lectura. Pero también pueden ser materiales que utilizamos diariamente en nuestra vida, como por ej. un artículo de un periódico, que se adaptan y/o complementan con actividades vinculadas. En el caso de los artículos podría ser por ejemplo, preguntas de comprensión lectora. También puede ser elementos gráficos como mapas, esquemas, imágenes u objetos a los cuales se les asigna un propósito en el proceso educativo, ya sea para presentar un tema, realizar una actividad de práctica, de evaluación, etc",
+                                        "ayuda": "Los recursos educativos son los diversos materiales que se utilizan para asistir y facilitar los procesos de enseñanza y aprendizaje. Pueden incluir aquellos que se diseñan con el propósito específico de servir como apoyo, tema o soporte de la enseñanza. Es el caso por ej. de los libros de texto, los polimedias educativos, las fichas de lectura. Pero también pueden ser materiales que utilizamos diariamente, que no fueron creados con fines educativos, como por ej. un artículo de un periódico, que se adaptan y/o complementan con actividades vinculadas. En el caso de los artículos podría ser por ejemplo, preguntas de comprensión lectora. También puede ser elementos gráficos como mapas, esquemas, imágenes u objetos a los cuales se les asigna un propósito en el proceso educativo, ya sea para presentar un tema, realizar una actividad de práctica, de evaluación, etc.",
                                         "tipo": "archivo",
                                         "computo": null,
                                         "opciones": null,
@@ -1060,6 +1060,7 @@
                             "herencia": null,
                             "multiInstanciable": true,
                             "puntoCritico": null,
+                            "ayuda": "Especificar cómo se compone el equipo docente: número de docentes, grado, etc.",
                             "filasDatos": [{
                                 "datos": [{
                                         "id": 1,
@@ -1256,28 +1257,72 @@
                             "puntoCritico": null,
                             "filasDatos": [{
                                 "datos": [{
-                                    "id": 1,
-                                    "nombre": "Plataformas disponibles",
-                                    "ubicacion": {
-                                        "idEtapa": 2,
-                                        "idGrupo": 22,
-                                        "idAtributo": 2,
-                                        "idDato": null
+                                        "id": 1,
+                                        "nombre": "Plataformas disponibles",
+                                        "ubicacion": {
+                                            "idEtapa": 2,
+                                            "idGrupo": 22,
+                                            "idAtributo": 2,
+                                            "idDato": null
+                                        },
+                                        "herencia": null,
+                                        "ayuda": null,
+                                        "tipo": "selectFijoMultiple",
+                                        "computo": null,
+                                        "opciones": {
+                                            "referencia": null,
+                                            "idGrupoDatoFijo": 13
+                                        },
+                                        "habilitadoSi": null,
+                                        "multiInstanciable": false,
+                                        "idContenidoCondicional": null,
+                                        "tamanio": null,
+                                        "filasDatos": null
                                     },
-                                    "herencia": null,
-                                    "ayuda": null,
-                                    "tipo": "selectFijoMultiple",
-                                    "computo": null,
-                                    "opciones": {
-                                        "referencia": null,
-                                        "idGrupoDatoFijo": 13
+                                    {
+                                        "id": 2,
+                                        "nombre": "Equipamiento",
+                                        "ubicacion": {
+                                            "idEtapa": 2,
+                                            "idGrupo": 22,
+                                            "idAtributo": 2,
+                                            "idDato": null
+                                        },
+                                        "herencia": null,
+                                        "ayuda": null,
+                                        "tipo": "selectFijoMultiple",
+                                        "computo": null,
+                                        "opciones": {
+                                            "referencia": null,
+                                            "idGrupoDatoFijo": 19
+                                        },
+                                        "habilitadoSi": null,
+                                        "multiInstanciable": false,
+                                        "idContenidoCondicional": null,
+                                        "tamanio": null,
+                                        "filasDatos": null
                                     },
-                                    "habilitadoSi": null,
-                                    "multiInstanciable": false,
-                                    "idContenidoCondicional": null,
-                                    "tamanio": null,
-                                    "filasDatos": null
-                                }]
+                                    {
+                                        "id": 3,
+                                        "nombre": "Otro equipamiento",
+                                        "ubicacion": {
+                                            "idEtapa": 2,
+                                            "idGrupo": 22,
+                                            "idAtributo": 2,
+                                            "idDato": null
+                                        },
+                                        "herencia": null,
+                                        "ayuda": null,
+                                        "tipo": "text",
+                                        "computo": null,
+                                        "opciones": null,
+                                        "habilitadoSi": null,
+                                        "multiInstanciable": false,
+                                        "idContenidoCondicional": null,
+                                        "tamanio": 200,
+                                        "filasDatos": null
+                                    }
+                                ]
                             }]
                         },
                         {
@@ -1328,7 +1373,7 @@
                             "herencia": null,
                             "multiInstanciable": true,
                             "puntoCritico": null,
-                            "ayuda": null,
+                            "ayuda": "Especificar si la institución cuenta con dispositivos para uso de los estudiantes, ya sea en préstamos domiciliarios o dentro de la institución.",
                             "filasDatos": [{
                                 "datos": [{
                                         "id": 1,
@@ -1971,6 +2016,7 @@
                         {
                             "id": 2,
                             "nombre": "Modalidad de enseñanza",
+                            "ayuda": "Se refiere a la forma en que se ofrece el curso. Implica especificar la modalidad de distribución, es decir la forma en que el curso llega a los estudiantes. El curso puede ser totalmente presencial, totalmente online o híbrido, es decir combinando ambas posibilidades. También puede ser online asincrónico -estudiantes y docentes trabajan con libertad total de horarios-, o sincrónico -existen instancias online en las cuales se encuentran estudiantes y docentes en el mismo horario, a través de las plataformas. Los componentes específicos de la modalidad, se deben especificar en la descripción de la modalidad de enseñanza.",
                             "ubicacion": {
                                 "idEtapa": 2,
                                 "idGrupo": 25,
@@ -1985,7 +2031,28 @@
                             },
                             "multiInstanciable": false,
                             "puntoCritico": null,
-                            "filasDatos": null
+                            "filasDatos": [{
+                                "datos": [{
+                                    "id": 1,
+                                    "nombre": "Descripción de la modalidad",
+                                    "ubicacion": {
+                                        "idEtapa": 2,
+                                        "idGrupo": 25,
+                                        "idAtributo": 2,
+                                        "idDato": null
+                                    },
+                                    "herencia": null,
+                                    "ayuda": null,
+                                    "tipo": "text",
+                                    "computo": null,
+                                    "opciones": null,
+                                    "habilitadoSi": null,
+                                    "multiInstanciable": false,
+                                    "idContenidoCondicional": null,
+                                    "tamanio": 500,
+                                    "filasDatos": null
+                                }]
+                            }]
                         },
                         {
                             "id": 3,
@@ -3027,13 +3094,25 @@
             "opciones": [{
                     "id": 0,
                     "idGrupo": 12,
-                    "valor": "Cámara",
+                    "valor": "Laptops",
                     "muestroSi": null
                 },
                 {
                     "id": 1,
                     "idGrupo": 12,
-                    "valor": "Pizarra",
+                    "valor": "Tablets",
+                    "muestroSi": null
+                },
+                {
+                    "id": 2,
+                    "idGrupo": 12,
+                    "valor": "PC",
+                    "muestroSi": null
+                },
+                {
+                    "id": 3,
+                    "idGrupo": 12,
+                    "valor": "Otro",
                     "muestroSi": null
                 }
             ]
@@ -3196,6 +3275,65 @@
                     "id": 1,
                     "idGrupo": 18,
                     "valor": "Ampliatoria o recomendada",
+                    "muestroSi": null
+                }
+            ]
+        },
+        {
+            "id": 19,
+            "nombre": "Equipamiento",
+            "opciones": [{
+                    "id": 0,
+                    "idGrupo": 19,
+                    "valor": "Cámara web",
+                    "muestroSi": null
+                },
+                {
+                    "id": 1,
+                    "idGrupo": 19,
+                    "valor": "Pizarra electrónica",
+                    "muestroSi": null
+                },
+                {
+                    "id": 2,
+                    "idGrupo": 19,
+                    "valor": "Computadoras",
+                    "muestroSi": null
+                },
+                {
+                    "id": 3,
+                    "idGrupo": 19,
+                    "valor": "Equipamiento de laboratorio",
+                    "muestroSi": null
+                },
+                {
+                    "id": 4,
+                    "idGrupo": 19,
+                    "valor": "Cámara fotográfica",
+                    "muestroSi": null
+                },
+                {
+                    "id": 5,
+                    "idGrupo": 19,
+                    "valor": "Cámara filmadora",
+                    "muestroSi": null
+                },
+                {
+                    "id": 6,
+                    "idGrupo": 19,
+                    "valor": "Cámara documento",
+                    "muestroSi": null
+                },
+                {
+                    "id": 7,
+                    "idGrupo": 19,
+                    "valor": "Sillas académicas",
+                    "muestroSi": null
+                },
+                {
+                    "id": 8,
+                    "idGrupo": 19,
+                    "valor": "Mesas y sillas",
                     "muestroSi": null
                 }
             ]

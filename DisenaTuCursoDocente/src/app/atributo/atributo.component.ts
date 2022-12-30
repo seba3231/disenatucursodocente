@@ -1547,7 +1547,7 @@ export class AtributoComponent {
             }
         }
         
-        return "null_fin";
+        return "";
     }
 
     cargarInfoPreviaContenidoCondicional(ubicacion:Ubicacion, idDato:number, indicePadre:number,indiceHijo:number,tipoInput: TipoInput, posibleValor:any) : any {
