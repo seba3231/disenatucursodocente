@@ -27,7 +27,7 @@
                             "puntoCritico": {
                                 "normativa": "Cómo se cuentan los créditos de acuerdo a UDELAR: leer ordenanza de grado:<br>https://dgjuridica.udelar.edu.uy/215-ordenanza-de-estudios-de-grado-y-otros-programas-de-formacion-terciaria/",
                                 "informacionAmpliatoria": null,
-                                "aporteConceptual": "Para definir el contenido del curso, se debe considerar la extensión en horas de curso (que se relaciona con los créditos que el curso otorga) y tiempo de cursada (curso semestral, curso anual, etc.). A tal efecto, se debe conocer la normativa de la institución y del contexto académico específico en el cual se llevará a cabo el curso: trayectoria, carrera, curso de educación permanente."
+                                "aporteConceptual": "Para definir el contenido del curso, se debe considerar la extensión en horas -que se relaciona con los créditos que el curso otorga- y tiempo de cursada -curso semestral, curso anual, etc. A tal efecto, se debe conocer la normativa de la institución y del contexto académico específico en el cual se llevará a cabo el curso: trayectoria, carrera, curso de educación permanente."
                             },
                             "ayuda": null,
                             "obligatorio": false,
@@ -465,7 +465,7 @@
                                 "idAtributo": null,
                                 "idDato": null
                             },
-                            "ayuda": "Especificar si el curso se aprueba por exoneración o examen libre y/o reglamentado.",
+                            "ayuda": "Especificar cómo se exonera el curso: por exoneración o examen libre y/o reglamentado.",
                             "herencia": null,
                             "multiInstanciable": false,
                             "puntoCritico": null,
@@ -841,7 +841,7 @@
                                             "idDato": null
                                         },
                                         "herencia": null,
-                                        "ayuda": "Cada recurso bibliográfico debe estar asociado por lo menos a un tema del contenido del curso.",
+                                        "ayuda": "Cada recurso bibliográfico debe estar asociado por lo menos a un tema o competencia del contenido del curso. *Los temas asociados que se visualizan acá son los cargados en contenidos",
                                         "tipo": "selectUsuarioMultiple",
                                         "computo": null,
                                         "opciones": {
@@ -980,7 +980,7 @@
                                         "idDato": null
                                     },
                                     "herencia": null,
-                                    "ayuda": null,
+                                    "ayuda": "Es importante licenciar los recursos educativos que ha creado, no solo para reconocer su autoría, sino también para tener muy claro bajo qué reglas y con qué normativas institucionales usted comparte su creación. Sugerimos un licenciamiento abierto, para lo cual será necesario que se familiarice con Creative Commons.",
                                     "tipo": "selectFijoUnico",
                                     "computo": null,
                                     "opciones": {
@@ -1337,7 +1337,7 @@
                             "herencia": null,
                             "multiInstanciable": false,
                             "puntoCritico": null,
-                            "ayuda": "Lorem ipsum",
+                            "ayuda": null,
                             "filasDatos": [{
                                 "datos": [{
                                     "id": 1,
@@ -1626,8 +1626,8 @@
                             "herencia": null,
                             "multiInstanciable": true,
                             "puntoCritico": {
-                                "aporteConceptual": "aaaa",
-                                "informacionAmpliatoria": "bbb",
+                                "aporteConceptual": "El concepto de evaluación ha evolucionado a través de los años. En términos generales, se refiere a una forma de 'medir' cuánto y qué se ha aprendido en un período específico.  Un concepto actual y vigente sería el siguiente: 'Concebimos evaluar como un proceso continuo, sistemático y flexible por el cual se emiten juicios de valor'.(Rodríguez Eríquez-Rodés, 2020). Es importante recordar que la evaluación requiere prever formas de retroalimentación de los estudiantes a partir de los resultados y las correcciones. Otro punto importante a tomar en cuenta es que evaluar y calificar (asignar una calificación) son procesos diferentes.",
+                                "informacionAmpliatoria": "Puede leer más sobre evaluación y tipos de evaluación en Rodríguez Enríquez— Rodés, 2020: https://eva.udelar.edu.uy/mod/book/view.php?id=24539 ",
                                 "normativa": null
                             },
                             "filasDatos": [{
@@ -1661,7 +1661,7 @@
                                             "idDato": null
                                         },
                                         "herencia": null,
-                                        "ayuda": null,
+                                        "ayuda": "Las evaluaciones pueden ser de diverso tipo: diagnóstica, continua, formativa, sumativa. La decisión sobre qué tipo de evaluación proponer depende de los objetivos del curso, del marco pedagógico y la metodología de enseñanza y por supuesto de los tiempos con que cuenta.",
                                         "tipo": "selectFijoUnico",
                                         "computo": null,
                                         "opciones": {
@@ -1684,7 +1684,7 @@
                                             "idDato": null
                                         },
                                         "herencia": null,
-                                        "ayuda": null,
+                                        "ayuda": "Una vez seleccionado el tipo de evaluación, se debe pensar en las herramientas digitales y no digitales que se adecuan a las opciones tomadas. Importa explorar las posibilidades que brindan las plataformas con las cuales trabajamos. Pueden ser, por ej. wikis, juegos, rúbricas, evaluación entre pares, cuestionarios, entregas, presentaciones presenciales o grabadas, etc.",
                                         "tipo": "selectFijoUnico",
                                         "computo": null,
                                         "opciones": {
@@ -1707,7 +1707,7 @@
                                             "idDato": null
                                         },
                                         "herencia": null,
-                                        "ayuda": null,
+                                        "ayuda": "Puede diseñar sus propias herramientas de evaluación utilizando recursos en línea y de forma presencial.",
                                         "tipo": "text",
                                         "computo": null,
                                         "opciones": null,
@@ -1732,8 +1732,8 @@
                             "herencia": null,
                             "multiInstanciable": true,
                             "puntoCritico": {
-                                "aporteConceptual": "aaaa",
-                                "informacionAmpliatoria": "bbb",
+                                "aporteConceptual": "Pensar en la estructura del curso implica pensar en cómo se va a 'orquestar' con conjunto de componentes del curso, una vez comienza a dictarse. Se entiende 'orquestar' en el sentido de organizar y ordenar de antemano. Implica proponer una o más trayectorias posibles o ideales para llevar adelante el curso. Se concreta en una distribución de los contenidos, las actividades y las diferentes instancias educativas y entornos físicos y digitales. Se debe asignar espacios y tiempos al contenido desagregado. El tiempo puede ser estimado en horas, y calendarizado. Recordar que cada contenido previamente definido tiene actividades asociadas, instancias de evaluación, etc. El componente visual es muy importante para entender la secuencia de temas, actividades, evaluaciones, etc. por parte del estudiante.",
+                                "informacionAmpliatoria": "La estructura ordena y organiza el curso para estudiantes y alumnos. Al momento de concebir la estructura, es importante armonizar los diversos entornos en los cuales el curso tendrá lugar: virtuales, presenciales, sincrónicos y asincrónicos, evitando la fragmentación y procurando que se perciba la interconexión entre actividades y entornos Es necesario  que se perciba la unidad de la propuesta. Se debe ponderar la distribución de contenidos en función de los tiempos, considerar el ritmo de desarrollo del curso de forma integrada con las actividades y planificar la forma de evaluar en relación con la temporalidad del curso: ciclos, períodos, duración, etc. Estimar los tiempos que lleva completar cada secuencia didáctica y ajustar lo necesario para tener una propuesta realista y asequible para estudiantes y docentes. Para saber más sobre la importancia de la estructura del curso y sus posibilidades, ver Bates, 2012: https://pressbooks.pub/cead/chapter/11-9-paso-7-disenar-la-estructura-del-curso-y-las-actividades-de-aprendizaje/",
                                 "normativa": null
                             },
                             "filasDatos": [{
@@ -1960,8 +1960,8 @@
                             "herencia": null,
                             "multiInstanciable": false,
                             "puntoCritico": {
-                                "aporte": "aaa",
-                                "informacionAmpliatoria": "no null",
+                                "aporteConceptual": "Los métodos se refieren al “cómo” enseñar. Tienen abordajes diferentes según los marcos pedagógicos y las teorías de aprendizaje que los fundamentan y según cómo se aborda el objeto de aprendizaje. Existen métodos más centrados en el docente y métodos más centrados en el estudiante. Existen métodos muy estructurados y otros más flexibles. Definir la metodología implica Seleccionar entre métodos conocidos, proponer actividades, seleccionar técnicas y priorizar tipos de evaluación. Algunos ejemplos son: aprendizaje colaborativos, aula invertida, aprendizaje por proyectos, aprendizaje basado en problemas, gamificación, etc.",
+                                "informacionAmpliatoria": "Existen mucha producción bibliográfica sobre metodologías de enseñanza. La inclusión de tecnologías digitales ha ampliado las posibilidades y ha promovido el surgimiento de otras metodologías. Puede acceder a más información sobre las metodologías de enseñanza en este trabajo de Porta y Rodés, 2020: https://eva.udelar.edu.uy/mod/book/view.php?id=24527",
                                 "normativa": null
                             },
                             "filasDatos": [{
@@ -2000,7 +2000,7 @@
                                             "idDato": null
                                         },
                                         "herencia": null,
-                                        "ayuda": null,
+                                        "ayuda": "Puede especificar otras metodologías que se adecuan a su propuesta y disciplina.                                        ",
                                         "tipo": "text",
                                         "computo": null,
                                         "opciones": null,
@@ -2065,11 +2065,7 @@
                             },
                             "herencia": null,
                             "multiInstanciable": false,
-                            "puntoCritico": {
-                                "aporteConceptual": "no null",
-                                "informacionAmpliatoria": null,
-                                "normativa": null
-                            },
+                            "puntoCritico": null,
                             "filasDatos": [{
                                 "datos": [{
                                     "id": 1,
@@ -2253,8 +2249,8 @@
                             },
                             "multiInstanciable": true,
                             "puntoCritico": {
-                                "aporteConceptual": "aaaa",
-                                "informacionAmpliatoria": "bbb",
+                                "aporteConceptual": "El concepto de evaluación ha evolucionado a través de los años. En términos generales, se refiere a una forma de 'medir' cuánto y qué se ha aprendido en un período específico. Un concepto actual y vigente sería el siguiente: 'Concebimos evaluar como un proceso continuo, sistemático y flexible por el cual se emiten juicios de valor'.(Rodríguez Eríquez-Rodés, 2020). Es importante recordar que la evaluación requiere prever formas de retroalimentación de los estudiantes a partir de los resultados y las correcciones. Otro punto importante a tomar en cuenta es que evaluar y calificar (asignar una calificación) son procesos diferentes.",
+                                "informacionAmpliatoria": "Puede leer más sobre evaluación y tipos de evaluación en Rodríguez Enríquez— Rodés, 2020: https://eva.udelar.edu.uy/mod/book/view.php?id=24539",
                                 "normativa": null
                             },
                             "filasDatos": null
@@ -2276,8 +2272,8 @@
                             },
                             "multiInstanciable": true,
                             "puntoCritico": {
-                                "aporteConceptual": "aaaa",
-                                "informacionAmpliatoria": "bbb",
+                                "aporteConceptual": "La estructura ordena y organiza el curso para estudiantes y alumnos. Al momento de concebir la estructura, es importante armonizar los diversos entornos en los cuales el curso tendrá lugar: virtuales, presenciales, sincrónicos y asincrónicos, evitando la fragmentación y procurando que se perciba la interconexión entre actividades y entornos Es necesario que se perciba la unidad de la propuesta. Se debe ponderar la distribución de contenidos en función de los tiempos, considerar el ritmo de desarrollo del curso de forma integrada con las actividades y planificar la forma de evaluar en relación con la temporalidad del curso: ciclos, períodos, duración, etc. Estimar los tiempos que lleva completar cada secuencia didáctica y ajustar lo necesario para tener una propuesta realista y asequible para estudiantes y docentes. Para saber más sobre la importancia de la estructura del curso y sus posibilidades, ver Bates, 2012: https://pressbooks.pub/cead/chapter/11-9-paso-7-disenar-la-estructura-del-curso-y-las-actividades-de-aprendizaje/",
+                                "informacionAmpliatoria": "Pensar en la estructura del curso implica pensar en cómo se va a 'orquestar' con conjunto de componentes del curso, una vez comienza a dictarse. Se entiende 'orquestar' en el sentido de organizar y ordenar de antemano. Implica proponer una o más trayectorias posibles o ideales para llevar adelante el curso. Se concreta en una distribución de los contenidos, las actividades y las diferentes instancias educativas y entornos físicos y digitales. Se debe asignar espacios y tiempos al contenido desagregado. El tiempo puede ser estimado en horas, y calendarizado. Recordar que cada contenido previamente definido tiene actividades asociadas, instancias de evaluación, etc. El componente visual es muy importante para entender la secuencia de temas, actividades, evaluaciones, etc. por parte del estudiante.",
                                 "normativa": null
                             },
                             "filasDatos": [{
@@ -2419,11 +2415,7 @@
                                 "idDato": null
                             },
                             "multiInstanciable": true,
-                            "puntoCritico": {
-                                "normativa": null,
-                                "informacionAmpliatoria": "un string",
-                                "aporteConceptual": "un string"
-                            },
+                            "puntoCritico": null,
                             "filasDatos": [{
                                 "datos": [{
                                     "id": 1,
@@ -3085,6 +3077,18 @@
                     "idGrupo": 11,
                     "valor": "Gimnasio",
                     "muestroSi": null
+                },
+                {
+                    "id": 3,
+                    "idGrupo": 11,
+                    "valor": "Huerta",
+                    "muestroSi": null
+                },
+                {
+                    "id": 4,
+                    "idGrupo": 11,
+                    "valor": "Campo",
+                    "muestroSi": null
                 }
             ]
         },
@@ -3131,6 +3135,30 @@
                     "idGrupo": 13,
                     "valor": "BB",
                     "muestroSi": null
+                },
+                {
+                    "id": 2,
+                    "idGrupo": 13,
+                    "valor": "EVA",
+                    "muestroSi": null
+                },
+                {
+                    "id": 3,
+                    "idGrupo": 13,
+                    "valor": "Google Meet",
+                    "muestroSi": null
+                },
+                {
+                    "id": 4,
+                    "idGrupo": 13,
+                    "valor": "Jitsi meet",
+                    "muestroSi": null
+                },
+                {
+                    "id": 5,
+                    "idGrupo": 13,
+                    "valor": "Otra",
+                    "muestroSi": null
                 }
             ]
         },
@@ -3169,13 +3197,67 @@
             "opciones": [{
                     "id": 0,
                     "idGrupo": 15,
-                    "valor": "Herramienta_1",
+                    "valor": "Formularios de Google Drive",
                     "muestroSi": null
                 },
                 {
                     "id": 1,
                     "idGrupo": 15,
-                    "valor": "Herramienta_2",
+                    "valor": "Cuestionarios de Moodle (EVA)",
+                    "muestroSi": null
+                },
+                {
+                    "id": 2,
+                    "idGrupo": 15,
+                    "valor": "Hot Potatoe",
+                    "muestroSi": null
+                },
+                {
+                    "id": 3,
+                    "idGrupo": 15,
+                    "valor": "Foro",
+                    "muestroSi": null
+                },
+                {
+                    "id": 4,
+                    "idGrupo": 15,
+                    "valor": "Tarea",
+                    "muestroSi": null
+                },
+                {
+                    "id": 5,
+                    "idGrupo": 15,
+                    "valor": "Taller",
+                    "muestroSi": null
+                },
+                {
+                    "id": 6,
+                    "idGrupo": 15,
+                    "valor": "Lección",
+                    "muestroSi": null
+                },
+                {
+                    "id": 7,
+                    "idGrupo": 15,
+                    "valor": "Juego",
+                    "muestroSi": null
+                },
+                {
+                    "id": 8,
+                    "idGrupo": 15,
+                    "valor": "Wiki",
+                    "muestroSi": null
+                },
+                {
+                    "id": 9,
+                    "idGrupo": 15,
+                    "valor": "Preguntas que queman",
+                    "muestroSi": null
+                },
+                {
+                    "id": 10,
+                    "idGrupo": 15,
+                    "valor": "Paquete Scorm",
                     "muestroSi": null
                 }
             ]
