@@ -138,7 +138,7 @@ export class HomeComponent {
         .map((grupo) => grupo.atributos)
         .flat()
         .map(atributo => {
-              const atributoHerencia = structuredClone(
+              let atributoHerencia = structuredClone(
                       this.initialSchemaService.defaultSchema?.
                       etapas.map((etapaFilter) => etapaFilter.grupos)
                       .flat()
@@ -149,16 +149,35 @@ export class HomeComponent {
                         atributoFilter.ubicacion.idEtapa === atributo.herencia?.idEtapa &&
                         atributoFilter.ubicacion.idGrupo === atributo.herencia?.idGrupo)
                       );
-              const datosHerencia : any = atributoHerencia?.filasDatos
-              ?.flat()
-              .map(fila => fila?.datos)
-              .flat();
-              /*.map((dato, index) => new Object({
-                ...dato, id: (atributo.filasDatos?.flat().map((fd) => fd?.datos)?.flat().length || 0) + index
-                ...dato
-                })
-              )
-              .flat();*/
+              let hayDatosHerencia = atributoHerencia !== undefined && atributoHerencia !== null;
+              let datosHerencia : any = [];
+              while(hayDatosHerencia){
+                console.log(atributoHerencia);
+                datosHerencia = datosHerencia.concat(atributoHerencia?.filasDatos
+                ?.flat()
+                .map(fila => fila?.datos)
+                .flat() || []); //deberia poner el || []??
+
+                /*.map((dato, index) => new Object({
+                  ...dato, id: (atributo.filasDatos?.flat().map((fd) => fd?.datos)?.flat().length || 0) + index
+                  ...dato
+                  })
+                )
+                .flat();*/
+                if(atributoHerencia?.herencia){
+                  atributoHerencia = structuredClone(
+                    this.initialSchemaService.defaultSchema?.
+                    etapas.map((etapaFilter) => etapaFilter.grupos)
+                    .flat()
+                    .map((grupoFilter) => grupoFilter.atributos)
+                    .flat()
+                    .find(atributoFilter =>
+                      atributoFilter.id === atributoHerencia?.herencia?.idAtributo &&
+                      atributoFilter.ubicacion.idEtapa === atributoHerencia.herencia?.idEtapa &&
+                      atributoFilter.ubicacion.idGrupo === atributoHerencia.herencia?.idGrupo)
+                    );
+                } else hayDatosHerencia = false;
+              }
               const datosParaInfoGuardada = (atributo.filasDatos
                 ?.flat()
                 .map((fd) => fd?.datos.filter(dato => dato.filasDatos !== null))
