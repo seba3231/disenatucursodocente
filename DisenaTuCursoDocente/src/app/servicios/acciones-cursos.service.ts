@@ -76,6 +76,11 @@ export class AccionesCursosService {
     
     async modificarCurso() {
         const curso : SchemaSavedData | undefined = this.initialSchemaService.loadedData;
+       
+        const nuevaVersion = curso?.versiones.at(-1); 
+        if (nuevaVersion)
+          nuevaVersion.fechaModificacion =  new Date();
+          
         let headers = new Headers();
         headers.append('Accept', 'application/json');
         headers.append('Content-Type', 'application/json');

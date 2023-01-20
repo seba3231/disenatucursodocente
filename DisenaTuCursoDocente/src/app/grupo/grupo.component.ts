@@ -170,6 +170,9 @@ export class GrupoComponent implements OnInit {
 
     async modificarCurso() {
         const curso = this.initialSchemaService.loadedData
+        const nuevaVersion = curso?.versiones.at(-1); 
+        if (nuevaVersion)
+          nuevaVersion.fechaModificacion =  new Date();
         // busco version actualizada y la agrego como nueva cuando es el 1er cambio, falta definir esa logica
         // const nuevaVersion = curso?.versiones.at(-1); 
         // if (nuevaVersion !== undefined) curso?.versiones?.push(nuevaVersion);

@@ -134,7 +134,8 @@ export class HomeComponent {
                     nombre: nuevoCurso?.versiones.at(-1).nombre,
                     autor:this.autor,
                     version: ultimaVersionActual.version+1,
-                    fechaCreacion: new Date()
+                    fechaCreacion: new Date(),
+                    fechaModificacion: new Date()
                 }
                 nuevoCurso?.versiones.push(nuevaVersion)
                 this.modificarCurso(nuevoCurso)
