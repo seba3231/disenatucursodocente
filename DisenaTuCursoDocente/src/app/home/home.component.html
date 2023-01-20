@@ -16,7 +16,7 @@
                 <i class="bi bi-plus-circle-dotted me-2"></i>CREAR CURSO</a>
             <button class="btn btn-primary btn-rounded background-primary m-2" type="button" (click)="fileUpload.click()">
               <i class="bi bi-box-arrow-in-up me-2"></i>IMPORTAR CURSO</button>
-            <input type="file" class="file-upload" onclick="this.value = null" (change)="cargarArchivo($event)" accept=".json" #fileUpload>
+            <input type="file" class="file-upload" onclick="this.value = null" (change)="importarCurso($event)" accept=".json" #fileUpload>
             <!-- <p>2</p> -->
         </div>
     </div>
@@ -35,7 +35,7 @@
                 <i class="bi bi-plus-circle-dotted me-2"></i>CREAR CURSO</a>
             <button class="btn btn-primary btn-rounded background-primary m-2" type="button" (click)="fileUpload.click()">
           <i class="bi bi-box-arrow-in-up me-2"></i>IMPORTAR CURSO</button>
-            <input type="file" class="file-upload" onclick="this.value = null" (change)="cargarArchivo($event)" accept=".json" #fileUpload>
+            <input type="file" class="file-upload" onclick="this.value = null" (change)="importarCurso($event)" accept=".json" #fileUpload>
         </div>
     </div>
     <!-- <p>3</p> -->

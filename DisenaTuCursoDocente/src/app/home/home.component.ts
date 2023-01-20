@@ -82,7 +82,31 @@ export class HomeComponent {
         },
     });
     }
-  
+    
+    importarCurso(event: any) {
+      // MODAL PARA AGREGAR COMENTARIOS
+      const modalRef = this.modalService.open(ModalComentariosComponent, {
+        scrollable: false,
+      });
+      modalRef.componentInstance.tittle = 'Importar curso';
+      modalRef.componentInstance.inputDisclaimer[0] = 'Ingrese su nombre';
+      
+      //Control Resolve with Observable
+      modalRef.closed.subscribe({
+          next: (resp) => {
+              if (resp.length > 0){
+                  console.log(resp);
+                  this.autor = resp[0]
+                  
+                  this.cargarArchivo(event)
+              }
+          },
+          error: () => {
+              //Nunca se llama aca
+          },
+      });
+    }
+
     cargarArchivo(event: any) {
       let files = event.srcElement.files;
       let file: File;
@@ -104,7 +128,18 @@ export class HomeComponent {
           });
           if (response.status === 201) {
             console.log('Curso importado exitosamente');
-            this.initialSchemaService.allData?.push(nuevoCurso);
+            const ultimaVersionActual = structuredClone(nuevoCurso?.versiones.at(-1));
+            if(ultimaVersionActual){
+                const nuevaVersion = {...ultimaVersionActual,
+                    nombre: nuevoCurso?.versiones.at(-1).nombre,
+                    autor:this.autor,
+                    version: ultimaVersionActual.version+1,
+                    fechaCreacion: new Date()
+                }
+                nuevoCurso?.versiones.push(nuevaVersion)
+                this.modificarCurso(nuevoCurso)
+                this.initialSchemaService.allData?.push(nuevoCurso);
+            }
           } else console.log('Ha ocurrido un error, ', response.status);
         } catch (e) {
           const alert = document.querySelector('ngb-alert')
