@@ -97,7 +97,7 @@
                                     <!-- Codigo selectFijoUnico -->
                                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
                                         <select class="form-select" (change)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)">
-                                            <ng-container *ngFor="let opcion of pruebaOpciones(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))">
+                                            <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))">
                                                 <option 
                                                     *ngIf="muestroOpcion(opcion.muestroSi,indiceInstancia)"
                                                     [selected]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,opcion.valor)"
@@ -219,12 +219,12 @@
                                     </label>
 
                                     <!-- Codigo contenidoCondicional -->
-                                    <ng-container *ngIf="dato.filasDatos !== null && A(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,indiceInstancia)))">
+                                    <ng-container *ngIf="dato.filasDatos !== null && mapContenidoCondicional.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,indiceInstancia)))">
                                         <!-- REPITO SEGUN CANTIDAD DE INSTANCIAS DE ESTE DATO
                                         <div *ngFor="let item of testObject | keyvalue">
                                             Key: <b>{{item.key}}</b> and Value: <b>{{item.value}}</b>
                                         </div>-->
-                                        <ng-container *ngFor="let contCondicional of B(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,indiceInstancia))); index as indiceInstanciaDeDato;">
+                                        <ng-container *ngFor="let contCondicional of mapContenidoCondicional.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,indiceInstancia))); index as indiceInstanciaDeDato;">
                                             <!--                                                            [  Unidad 0   ,  Unidad 1   ,  Unidad 2  ,  Unidad 3   ] -->
                                             <!-- mapContenidoCondicional.get( 2,24,3,[instanciaModulo] ) -> [ FilaDatos[] , FilaDatos[] , FilaDatos[], FilaDatos[] ] -->
                                             <div class="card border-secondary mb-4" style="background-color: transparent !important;">
@@ -356,7 +356,7 @@
                                                         </div>
                                                         <div *ngIf="dato.multiInstanciable" class="col-auto align-self-center">
                                                             <button type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" (click)="modalEliminarUnidad(atributo.ubicacion,atributo.id,dato,indiceInstancia,indiceInstanciaDeDato)">
-                                                                <i class="bi bi-trash-fill fs-5">A</i>
+                                                                <i class="bi bi-trash-fill fs-5"></i>
                                                                 <!-- aca elimino las unidades de mas adentro -->
                                                             </button>
                                                         </div>
@@ -496,7 +496,7 @@
                     <button type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;"
                         (click)="modalConfirmacion(atributo.ubicacion,atributo.id,indiceInstancia)"
                     >
-                        <i class="bi bi-trash-fill fs-5">C</i>
+                        <i class="bi bi-trash-fill fs-5"></i>
                     </button>
                 </div>
             </div>

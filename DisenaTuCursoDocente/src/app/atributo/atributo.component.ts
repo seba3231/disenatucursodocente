@@ -455,7 +455,7 @@ export class AtributoComponent {
         console.log("Fin precomputo");
     }
 
-    A(a:string):boolean{
+    /*A(a:string):boolean{
         //mapContenidoCondicional.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,indiceInstancia)))
         let def :FilaDatos[][] = [];
         if(this.mapContenidoCondicional.get(a)){
@@ -471,7 +471,7 @@ export class AtributoComponent {
             return vuelta;
         }
         return def;
-    }
+    }*/
 
     obtenerClaveSelectCondicional(ubicacionDato:Ubicacion,indicePadre:number,indiceHijo:number,idDatoCondicional:number):string{
         //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, dato 2
@@ -661,10 +661,10 @@ export class AtributoComponent {
         }
     }
 
-    pruebaOpciones(clave:string){
+    /*pruebaOpciones(clave:string){
         let ret = this.mapOpcionesSelect.get(clave);
         return ret;
-    }
+    }*/
 
     filaDatosConContCondicional(filaDatos: FilaDatos[]):boolean{
         for(let fila of filaDatos){
