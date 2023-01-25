@@ -193,13 +193,6 @@ export class HomeComponent {
                 ?.flat()
                 .map(fila => fila?.datos)
                 .flat() || []); //deberia poner el || []??
-
-                /*.map((dato, index) => new Object({
-                  ...dato, id: (atributo.filasDatos?.flat().map((fd) => fd?.datos)?.flat().length || 0) + index
-                  ...dato
-                  })
-                )
-                .flat();*/
                 if(atributoHerencia?.herencia){
                   atributoHerencia = structuredClone(
                     this.initialSchemaService.defaultSchema?.
@@ -225,8 +218,14 @@ export class HomeComponent {
                   this.initialSchemaService.defaultSchema?.contenidoCondicional
                   .filter((contenidoCondicional) => idsDatosEnDato.includes(contenidoCondicional.id))
                   .forEach((contenidoCondicional) => {
-                    const cantidadContenido = contenidoCondicional.filasDatos?.at(-1)?.datos?.at(-1)?.id || 0;
-                    if(cantidadContenido > maximaCantidad) maximaCantidad = cantidadContenido;
+                    const cantidadContenido = (contenidoCondicional.filasDatos?.map(fila => fila?.datos?.length))
+                    ?.reduce((sumaParcial, cantDatos) => sumaParcial + cantDatos, 0) || 0;
+                    const contenidoCondicionalHerencia = this.initialSchemaService.defaultSchema?.contenidoCondicional
+                    .find(contenidoCondicionalInterior => contenidoCondicionalInterior.id === contenidoCondicional.herencia);
+                    const cantidadContenidoHerencia = (contenidoCondicionalHerencia?.filasDatos?.map(fila => fila?.datos?.length))
+                    ?.reduce((sumaParcial, cantDatos) => sumaParcial + cantDatos, 0) || 0;
+                    if((cantidadContenido + cantidadContenidoHerencia) > maximaCantidad) 
+                      maximaCantidad = cantidadContenido + cantidadContenidoHerencia;
                   })
                   return new Object({
                     ubicacionAtributo: {...datoFiltrado.ubicacion, idDato: [0].concat(datoFiltrado.ubicacion.idDato || []).concat(datoFiltrado.id) },
