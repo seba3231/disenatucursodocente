@@ -257,10 +257,16 @@ export class AtributoComponent {
                             this.procesarDatoComputo(dato.computo,ubicacionAbsoluta);
                         }
 
-                        // si es contenido condicional cargo las fila de datos
+                        //Computo opciones de los Select del Atributo de contenidoCondicional
+                        //Manejo la Herencia acá, falta luego agregar el nuevo Dato de CC que
+                        //no estaba en los Datos Heredados.
                         if(dato.filasDatos !== null){
-                        
+                            //Cambio la Ubicacion Heredada por la Ubicación del Atributo actual
                             let datoInterior = dato.filasDatos[0].datos[0];
+                            datoInterior.ubicacion.idEtapa = this.atributo.ubicacion.idEtapa
+                            datoInterior.ubicacion.idGrupo = this.atributo.ubicacion.idGrupo
+                            datoInterior.ubicacion.idAtributo =  this.atributo.id
+
                             let ubicacionAbsInterior = this.ubicacionAbsolutaDeDato(datoInterior.ubicacion,datoInterior.id);
                             //ubicacionAbsInterior = 2,24,3,[7,1]
                             this.cargoOpcionesSelect(datoInterior
@@ -277,7 +283,7 @@ export class AtributoComponent {
                             let cantidadInstanciasAtributo = this.buscoInformacionGuardadaDeAtributo(dato.ubicacion)?.cantidadInstancias;
                             //Copio array: arrayDato = [7,1]
                             let arrayDato = [...ubicacionAbsInterior.idDato!];
-    
+
                             //Agrego elemento al inicio, pivote de n° de instancia
                             ubicacionAbsInterior.idDato!.unshift(0);
                             //Por cada instancia de Módulo, busco cuantas/cuales Unidades tiene
@@ -290,30 +296,21 @@ export class AtributoComponent {
                                     idAtributo : ubicacionAbsInterior.idAtributo,
                                     idDato : [i]
                                 }
-
-                                let ubicacionHerenciaContCondicional : Ubicacion = {
-                                    idEtapa : ubicacionAbsoluta.idEtapa,
-                                    idGrupo : ubicacionAbsoluta.idGrupo,
-                                    idAtributo : ubicacionAbsoluta.idAtributo,
-                                    idDato : [i]
-                                }
                                 //Por ejemplo, Padre (modulo) indice 0
                                 //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]}"
                                 let clavePadreContCondicional = this.objectToString(ubicacionContCondicional);
-                                let claveHerenciaPadreContCondicional = this.objectToString(ubicacionHerenciaContCondicional);
-                                let contCondicional = this.mapContenidoCondicional.get(claveHerenciaPadreContCondicional);
+                                let contCondicional = this.mapContenidoCondicional.get(clavePadreContCondicional);
                                 if(contCondicional === undefined){
                                     this.mapContenidoCondicional.set(
-                                        claveHerenciaPadreContCondicional,
+                                        clavePadreContCondicional,
                                         []
                                     );
-                                    contCondicional = this.mapContenidoCondicional.get(claveHerenciaPadreContCondicional);
+                                    contCondicional = this.mapContenidoCondicional.get(clavePadreContCondicional);
                                     ubicacionContCondicional.idDato = ubicacionAbsInterior.idDato
-                                    ubicacionHerenciaContCondicional.idDato = ubicacionAbsInterior.idDato
-                                    var datosGuardados = this.buscoInformacionGuardadaDeAtributo(ubicacionHerenciaContCondicional) as InformacionGuardada;
+                                    var datosGuardados = this.buscoInformacionGuardadaDeAtributo(ubicacionContCondicional) as InformacionGuardada;
                                     this.mapInformacionGuardadaDeAtributo.set
                                     (
-                                        this.objectToString(ubicacionHerenciaContCondicional),
+                                        this.objectToString(ubicacionContCondicional),
                                         datosGuardados
                                     );
                                 }
@@ -322,12 +319,12 @@ export class AtributoComponent {
                                 //ubicacionAbsInterior = 2,24,3,[i,7,1]
                                 let valoresSelectCondicional : ValoresDato[] = this.buscoValoresDatoDeAtributo(ubicacionAbsInterior,arrayDato);
                                 for(let [indexSelCond,valSelCond] of valoresSelectCondicional.entries()){
-    
+
                                     let idOpcion = 0;
                                     if(valSelCond.selectFijo !== null){
                                         idOpcion = valSelCond.selectFijo[0];
                                     }
-    
+
                                     //UbSchema = 2,24,3,[7,1]
                                     //UbModulo = 2,24,3,[indiceMod]
                                     const [filaDatos,opciones,maxCantDatos] = this.obtengoIngredientesContCond(
@@ -336,18 +333,17 @@ export class AtributoComponent {
                                         idOpcion,
                                         indexSelCond
                                     );
-    
+
                                     //Agrego opciones selectUsuario
                                     for(let [key,value] of opciones.entries()){
                                         this.mapOpcionesSelect.set(key,value);
                                     }
-    
+
                                     //Agrego FilaDatos a mapCC
                                     contCondicional?.push(filaDatos);
                                 }
                             }
                         }
-
                     }
                 }
             }
@@ -457,6 +453,24 @@ export class AtributoComponent {
         }
         
         console.log("Fin precomputo");
+    }
+
+    A(a:string):boolean{
+        //mapContenidoCondicional.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,indiceInstancia)))
+        let def :FilaDatos[][] = [];
+        if(this.mapContenidoCondicional.get(a)){
+            return true;
+        }
+        return false;
+    }
+
+    B(b:string):FilaDatos[][]{
+        let def :FilaDatos[][] = [];
+        let vuelta = this.mapContenidoCondicional.get(b);
+        if(vuelta){
+            return vuelta;
+        }
+        return def;
     }
 
     obtenerClaveSelectCondicional(ubicacionDato:Ubicacion,indicePadre:number,indiceHijo:number,idDatoCondicional:number):string{
@@ -1072,7 +1086,7 @@ export class AtributoComponent {
         this.accionesCursosService.modificarCurso();
     }
 
-    openSelectFileDialog(ubicacion:Ubicacion,indice:number){
+    openSelectFileDialog(ubicacion:Ubicacion,indicePadre:number,indiceHijo:number|null){
         //Varios Datos usan el FileUploader, se setean las coordenadas para
         //para saber donde guardar lo que se seleccione
         let fileUploader = this.fileUploader.nativeElement;
@@ -1089,7 +1103,13 @@ export class AtributoComponent {
             }
         }
         fileUploader.setAttribute('idDato',acumuladorIDDato);
-        fileUploader.setAttribute('indice',indice.toString());
+        fileUploader.setAttribute('indicePadre',indicePadre.toString());
+        if(indiceHijo!=null){
+            fileUploader.setAttribute('indiceHijo',indiceHijo.toString());
+        }
+        else if(fileUploader.getAttribute('indiceHijo')!=null){
+            fileUploader.removeAttribute('indiceHijo');
+        }
         fileUploader.click();
     }
 
@@ -1108,14 +1128,23 @@ export class AtributoComponent {
             for(let sDato of arrayDato){
                 idDato.push(Number(sDato));
             }
+
             let ubicacion : Ubicacion = {
                 idEtapa:idEtapa,
                 idGrupo:idGrupo,
                 idAtributo:idAtributo,
                 idDato:idDato
             }
-            let indice = fileUploader.getAttribute('indice');
-            let claveMap = this.objectToString(ubicacion)+indice;
+            let indicePadre = fileUploader.getAttribute('indicePadre');
+            let claveMap = this.objectToString(ubicacion)+indicePadre;
+
+            //Si es un Archivo de CC, viene el IndiceHijo
+            let indiceHijo = fileUploader.getAttribute('indiceHijo');
+            if(indiceHijo!=null){
+                //Cambio clave para que reconozca Unidades
+                claveMap = this.objectToString(ubicacion)+indicePadre+','+indiceHijo;
+            }
+
             let archivoCargado = this.mapDatoArchivo.get(claveMap);
             let insideThis = this;
             if(archivoCargado !== undefined){
@@ -1141,8 +1170,11 @@ export class AtributoComponent {
         }
     }
 
-    eliminarArchivo(ubicacion:Ubicacion,indice:number){
-        let claveMap = this.objectToString(ubicacion)+indice;
+    eliminarArchivo(ubicacion:Ubicacion,indicePadre:number,indiceHijo:number|null){
+        let claveMap = this.objectToString(ubicacion)+indicePadre;
+        if(indiceHijo!=null){
+            claveMap=claveMap+','+indiceHijo;
+        }
         let archivoCargado = this.mapDatoArchivo.get(claveMap);
         if(archivoCargado !== undefined){
             archivoCargado!.fileName = null;
@@ -1305,9 +1337,27 @@ export class AtributoComponent {
                 case TipoInput.selectFijoUnico:{
                     let valueObject = this.stringToObject(nuevoValor.value);
 
+                    //Elimino Archivo
+                    this.eliminarArchivo(ubicacionClaveMap,indicePadre,indiceHijo);
+
                     //Reseteo datos guardados del CC viejo - los de la forma 2,24,3,[7,1,idDato]
                     let valoresAtributo : ValoresAtributo[] = this.buscoValoresAtributoDeAtributo(ubicacionAtributo);
                     for(let valorAtributo of valoresAtributo){
+                        //Si tiene archivo, intento eliminarlo
+                        if(valorAtributo.valoresDato[indiceHijo].archivo!=null 
+                            && valorAtributo.valoresDato[indiceHijo].archivo?.fileId != null
+                        ){
+                            this.eliminarArchivo(
+                                {
+                                    idEtapa:ubicacionClaveMap.idEtapa,
+                                    idGrupo:ubicacionClaveMap.idGrupo,
+                                    idAtributo:ubicacionClaveMap.idAtributo,
+                                    idDato:[...valorAtributo.idDato]
+                                }
+                                ,indicePadre
+                                ,indiceHijo
+                            );
+                        }
                         valorAtributo.valoresDato[indiceHijo] = {
                             string : null,
                             number: null,
@@ -1374,6 +1424,8 @@ export class AtributoComponent {
 
                         //Reseteo las opciones seleccionadas anteriormente en UI
                         this.mapOpcionesSeleccionadas = new Map();
+                        //Reseteo map de archivos
+                        this.mapDatoArchivo = new Map();
                     }
                     break;
                 }
@@ -1393,6 +1445,13 @@ export class AtributoComponent {
                 }
                 case TipoInput.date:{
                     valoresDato[indiceHijo].date = nuevoValor.value
+                    break;
+                }
+                case TipoInput.archivo:{
+                    let archivoCargado = this.mapDatoArchivo.get(claveMap);
+                    if(archivoCargado !== undefined){
+                        archivoCargado.texto = nuevoValor.value;
+                    }
                     break;
                 }
                 default:
@@ -1599,6 +1658,31 @@ export class AtributoComponent {
                     return valoresSeleccionados;
                     //return this.mapOpcionesSeleccionadas.get(claveMap);
                 }
+                case TipoInput.archivo:{
+                    let archivoCargado = this.mapDatoArchivo.get(claveMap);
+                    if(archivoCargado === undefined){
+                        if(valoresDato[indiceHijo!]?.archivo == null){
+                            let nuevoDatoArchivo : DatoArchivo= {
+                                texto:null,
+                                fileName:null,
+                                fileId:null,
+                                ruta:null
+                            }
+                            valoresDato[indiceHijo!]!.archivo = nuevoDatoArchivo;
+                        }
+                        this.mapDatoArchivo.set(claveMap,valoresDato[indiceHijo!]?.archivo!);
+                    }
+                    archivoCargado = this.mapDatoArchivo.get(claveMap);
+                    switch(posibleValor){
+                        case 'Texto':{
+                            return archivoCargado?.texto;
+                        }
+                        case 'ExisteFile':{
+                            return archivoCargado?.fileName !== null;
+                        }
+                    }
+                    break;
+                }
                 default:
                     return "null_default";
             }
@@ -1613,8 +1697,11 @@ export class AtributoComponent {
         })
     }
 
-    downloadUserFile(ubicacion:Ubicacion,indice:number){
-        let claveMap = this.objectToString(ubicacion)+indice;
+    downloadUserFile(ubicacion:Ubicacion,indicePadre:number,indiceHijo:number|null){
+        let claveMap = this.objectToString(ubicacion)+indicePadre;
+        if(indiceHijo!=null){
+            claveMap=claveMap+','+indiceHijo;
+        }
         let archivoCargado = this.mapDatoArchivo.get(claveMap);
         if(archivoCargado !== undefined){
             if(archivoCargado?.fileName !== null){
@@ -2460,29 +2547,11 @@ export class AtributoComponent {
         //Obtengo FilaDatos de CC y las opciones de sus selectMultipleUsuario
         //ubicacionSchemaCC = 2,24,3,[7,1]
         //ubicacionModulo   = 2,24,3,[indiceMod]
-        let filaDatosAAgregar : FilaDatos[] = [];
+        //let filaDatosAAgregar : FilaDatos[] = [];
         let opcionesSelect : Map<string,ValorSelect[]> = new Map();
-        let maxCantDatos : number = 0;
+        //let maxCantDatos : number = 0;
 
-        //Todos los ContCond
-        let contenidoCondicional = this.initialSchemaService.defaultSchema?.contenidoCondicional;
-        //Los ContCond que son de este Dato - 2,24,3,[7,1]
-        let contenidosMatchean = contenidoCondicional?.filter((contMacth) => this.objectToString(contMacth.muestroSi.referencia) === this.objectToString(ubicacionSchemaCC));
-
-        for (let contenidoEncontrado of contenidosMatchean!) {
-            let maxLocal = 0;
-            if (contenidoEncontrado.filasDatos){
-                for(let filaDatosCondional of contenidoEncontrado.filasDatos){
-                    maxLocal += filaDatosCondional.datos.length;
-                }
-                if(maxLocal > maxCantDatos){
-                    maxCantDatos=maxLocal;
-                }
-                if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === idOpcion){
-                    filaDatosAAgregar = this.stringToObject(this.objectToString(contenidoEncontrado.filasDatos));
-                }
-            }
-        }
+        const [filaDatosAAgregar,maxCantDatos] = this.obtenerFilasCC(ubicacionSchemaCC,idOpcion);
 
         //Tengo que agregar las opciones de los selectUsuarioMultiple
         for(let filaDatosCondional of filaDatosAAgregar){
@@ -2507,6 +2576,89 @@ export class AtributoComponent {
         }
 
         return [filaDatosAAgregar,opcionesSelect,maxCantDatos];
+    }
+
+    obtenerFilasCC(ubicacionSchemaCC:Ubicacion,idOpcion:number):[FilaDatos[],number]{
+
+        let filaDatosAAgregar : FilaDatos[] = [];
+        let maxCantDatos : number = 0;
+
+        //Todos los ContCond
+        let contenidoCondicional = this.initialSchemaService.defaultSchema?.contenidoCondicional;
+        //Los ContCond que son de este Dato - 2,24,3,[7,1]
+        let contenidosMatchean = contenidoCondicional?.filter((contMacth) => this.objectToString(contMacth.muestroSi.referencia) === this.objectToString(ubicacionSchemaCC));
+
+        for (let contenidoEncontrado of contenidosMatchean!) {
+            
+            let maxLocal = 0;
+            let filaDatosHeredadas : FilaDatos[] = [];
+
+            //Obtengo las filaDatos Heredadas de CC y la cantidad de Datos
+            if(contenidoEncontrado.herencia != null){
+
+                filaDatosHeredadas = this.obtenerFilasCCHeredadas(contenidoEncontrado.herencia);
+                for(let filaDato of filaDatosHeredadas){
+                    maxLocal += filaDato.datos.length;
+                }
+            }
+            
+            //Si "Original" tiene filaDatos, sumo a Cantidad de Datos
+            if (contenidoEncontrado.filasDatos){
+                for(let filaDatosCondional of contenidoEncontrado.filasDatos){
+                    maxLocal += filaDatosCondional.datos.length;
+                }
+            }
+
+            if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === idOpcion){
+
+                //Cambio Ubicación de lo Heredado, lo agrego al FilaDatos retorno.
+                for(let filaDato of filaDatosHeredadas){
+                    for(let dato of filaDato.datos){
+                        dato.ubicacion.idEtapa=ubicacionSchemaCC.idEtapa;
+                        dato.ubicacion.idGrupo=ubicacionSchemaCC.idGrupo;
+                        dato.ubicacion.idAtributo=ubicacionSchemaCC.idAtributo;
+                    }
+                    filaDatosAAgregar.push(filaDato);
+                }
+
+                //FilaDatos del "Original", luego de lo heredado
+                if(contenidoEncontrado.filasDatos){
+                    let copiaFilaDatosAAgregar = this.stringToObject(this.objectToString(contenidoEncontrado.filasDatos));
+                    for(let filaDato of copiaFilaDatosAAgregar){
+                        filaDatosAAgregar.push(filaDato);
+                    }
+                }
+            }
+
+            if(maxLocal > maxCantDatos){
+                maxCantDatos=maxLocal;
+            }
+        }
+        
+        return [filaDatosAAgregar,maxCantDatos];
+    }
+
+    obtenerFilasCCHeredadas(idCC:number):FilaDatos[]{
+        let filaDatosAAgregar : FilaDatos[] = [];
+
+        //Todos los ContCond
+        let contenidoCondicional = this.initialSchemaService.defaultSchema?.contenidoCondicional;
+        //Los ContCond que son de este Dato - 2,24,3,[7,1]       
+        let contenidosMatchean = contenidoCondicional?.find((contMacth) => this.objectToString(contMacth.id) === this.objectToString(idCC));
+        if(contenidosMatchean){
+            if(contenidosMatchean.herencia != null){
+                let filaDatosRecursivo = this.obtenerFilasCCHeredadas(contenidosMatchean.herencia);
+                for(let fila of filaDatosRecursivo){
+                    filaDatosAAgregar.push(fila);
+                }
+            }
+            let copiaFilaDatosAAgregar = this.stringToObject(this.objectToString(contenidosMatchean.filasDatos));
+            for(let fila of copiaFilaDatosAAgregar){
+                filaDatosAAgregar.push(fila);
+            }
+        }
+
+        return filaDatosAAgregar;
     }
 
     eliminarInformacionGuardada(ubicacion:Ubicacion){
