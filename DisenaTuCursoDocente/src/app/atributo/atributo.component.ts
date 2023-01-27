@@ -9,7 +9,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalConfirmacionComponent } from '../modal/confirmacion/modal-confirmacion.component';
 import { _countGroupLabelsBeforeOption } from '@angular/material/core';
 import { ModalComentariosComponent } from '../modal/comentarios/modal-comentarios.component';
-import { fromEventPattern } from 'rxjs';
 
 declare var bootstrap: any;
 
@@ -422,44 +421,45 @@ export class AtributoComponent {
                     }
                     array!.push(nuevaOpcion);
                 }
-                let retrievedValue = this.mapOpcionesSelect.get(claveIntesado!);
-                if(retrievedValue){
-                    //Se eliminaron opciones, corrijo indices guardados de CC si aplica
-                    if(retrievedValue.length > array.length && this.mapContenidoCondicional.size !== 0){
-                        //ClaveInteresado = '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},0,3'
-                        //Interesado = '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[7,1]}'
-                        //Necesito traerme Mod 0, Unidad 0, Dato 3
-                        
-                        //Construyo Ubicacion de la Unidad que depende del Dato eliminado
-                        let indiceEliminado = registroDependencia.indiceEliminado!;
 
-                        let idDato = [...registroDependencia.interesado.idDato!];
-                        let arraySplit = claveIntesado!.split(',');
-                        let indiceDato = arraySplit[arraySplit.length-1];
-                        let indiceUnidad = arraySplit[arraySplit.length-2];
-                        let indiceMod = arraySplit[3];//"idDato":[0]}
-                        indiceMod = indiceMod.substring(
-                            indiceMod.indexOf("[") + 1, 
-                            indiceMod.lastIndexOf("]")
-                        );
-                        idDato.push(Number(indiceDato));
+                //Se eliminaron opciones, corrijo indices guardados de CC si aplica
+                let indiceEliminado = registroDependencia.indiceEliminado!;
+                if(this.mapContenidoCondicional.size !== 0 && indiceEliminado !== null){
+                    //Construyo Ubicacion de la Unidad que depende del Dato eliminado
+                    //ClaveInteresado = '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},0,3'
+                    //Interesado = '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[7,1]}'
+                    //Necesito traerme Mod 0, Unidad 0, Dato 3
+                    let idDato = [...registroDependencia.interesado.idDato!];
+                    let arraySplit = claveIntesado!.split(',');
+                    let indiceDato = arraySplit[arraySplit.length-1];
+                    let indiceUnidad = arraySplit[arraySplit.length-2];
+                    let indiceMod = arraySplit[3];//"idDato":[0]}
+                    indiceMod = indiceMod.substring(
+                        indiceMod.indexOf("[") + 1, 
+                        indiceMod.lastIndexOf("]")
+                    );
+                    idDato.push(Number(indiceDato));
 
-                        let ubicacionModulo : Ubicacion = {
-                            idEtapa: registroDependencia.interesado.idEtapa,
-                            idGrupo: registroDependencia.interesado.idGrupo,
-                            idAtributo: registroDependencia.interesado.idAtributo,
-                            idDato: [...registroDependencia.interesado.idDato!]
-                        }
-                        //Agrego elemento al inicio, unidades del Modulo = indiceMod
-                        ubicacionModulo.idDato!.unshift(Number(indiceMod));
+                    let unidadesDeModulo : Ubicacion = {
+                        idEtapa: registroDependencia.interesado.idEtapa,
+                        idGrupo: registroDependencia.interesado.idGrupo,
+                        idAtributo: registroDependencia.interesado.idAtributo,
+                        idDato: [...registroDependencia.interesado.idDato!]
+                    }
+                    //Agrego indiceMod al inicio, unidades del Modulo = indiceMod
+                    unidadesDeModulo.idDato!.unshift(Number(indiceMod));
 
-                        let datosGuardados = this.buscoValoresDatoDeAtributo(ubicacionModulo,idDato);
-                        let datoACambiar = datosGuardados[indiceUnidad];
-                        if(datoACambiar.selectUsuario != null){
-                            this.corregirIndicesGuardados(indiceEliminado,datoACambiar.selectUsuario);
-                            if(datoACambiar.selectUsuario.length === 0){
-                                datoACambiar.selectUsuario = null;
-                            }
+                    let datosGuardados = this.buscoValoresDatoDeAtributo(unidadesDeModulo,idDato);
+                    let datoACambiar = datosGuardados[indiceUnidad];
+                    if(indiceEliminado === -1){
+                        datoACambiar.selectUsuario = null;
+                        //Reseteo Opciones Seleccionadas para que se actualice en UI las opciones de la Herencia
+                        this.mapOpcionesSeleccionadas = new Map();
+                    }
+                    if(datoACambiar.selectUsuario != null){
+                        this.corregirIndicesGuardados(indiceEliminado,datoACambiar.selectUsuario);
+                        if(datoACambiar.selectUsuario.length === 0){
+                            datoACambiar.selectUsuario = null;
                         }
                     }
                 }
@@ -624,6 +624,13 @@ export class AtributoComponent {
             {idEtapa:this.atributo.ubicacion.idEtapa,idGrupo:this.atributo.ubicacion.idGrupo,idAtributo:this.atributo.id,idDato:null}
         );
         if(atributoHerencia!=null){
+            //Emito que quizá cambiaron los valores
+            for(let filaDatos of atributoHerencia.filasDatos){
+                for(let dato of filaDatos.datos){
+                    let ubicacionDato = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
+                    this.informarCambio.emit({cambioEnUbicacion:ubicacionDato,indiceEliminado:-1});
+                }
+            }
             //Asigno variable atributoHerencia que imprime en UI
             this.atributoHerencia =  atributoHerencia;
         }
