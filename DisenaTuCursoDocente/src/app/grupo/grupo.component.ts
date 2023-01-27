@@ -62,10 +62,10 @@ export class GrupoComponent implements OnInit {
         }
     }
 
-    informarCambio(cambioEnUbicacion:Ubicacion){
-        const ordered = Object.keys(cambioEnUbicacion).sort().reduce(
+    informarCambio(paramEntrada:{cambioEnUbicacion:Ubicacion,indiceEliminado:number|null}){
+        const ordered = Object.keys(paramEntrada.cambioEnUbicacion).sort().reduce(
             (obj, key) => { 
-              obj[key] = cambioEnUbicacion[key]; 
+              obj[key] = paramEntrada.cambioEnUbicacion[key];
               return obj;
             }, 
             {}
@@ -76,6 +76,9 @@ export class GrupoComponent implements OnInit {
             for(let dependencia of depdendencias){
                 let claveObservado = this.objectToString(dependencia.observado);
                 if(claveMap === claveObservado){
+                    if(paramEntrada.indiceEliminado != null){
+                        dependencia.indiceEliminado=paramEntrada.indiceEliminado;
+                    }
                     dependencia.interesadoEscucha.emit(dependencia);
                 }
             }
