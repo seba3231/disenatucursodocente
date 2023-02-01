@@ -37,11 +37,11 @@
                 <i class="bi bi-share-fill me-2"></i>COMPARTIR
             </a> -->
             <a class="btn btn-primary background-primary m-2" role="button" (click)="invertirMostrarVersiones()">
-                <i class="bi bi-clock-history me-2"></i>VER HISTORIAL
+                <i class="bi bi-clock-history me-2"></i>VER VERSIONES
             </a>
-            <a title="Crea una nueva versión a partir de la version actual" class="btn btn-primary background-primary m-2" role="button" (click)="openModal('nuevo')">
+            <!--<a title="Crea una nueva versión a partir de la version actual" class="btn btn-primary background-primary m-2" role="button" (click)="openModal('nuevo')">
                 <i class="bi bi-plus-circle me-2"></i>NUEVA VERSIÓN
-            </a>
+            </a>-->
             <a class="btn btn-outline-primary m-2" role="button" (click)="openModal('eliminar')">
                 <i class="bi bi-trash-fill  me-2"></i>ELIMINAR CURSO
             </a>
@@ -52,15 +52,37 @@
 <!-- -------------------- ZONA VERSIONES -------------------- -->
 <div class="'container p-4" *ngIf="this.mostrarVersiones">
     <div class="card container p-4 mb-4">
-        <h3 class="mb-4">Versiones anteriores</h3>
+        <h3 class="mb-4">Versiones</h3>
         <ul class="list-group">
-            <li *ngFor="let version of this.initialSchemaService.loadedData?.versiones" class="list-group-item d-flex align-items-center justify-content-between">
-                <div>
-                    <span style="margin-right: 8px;">{{ version.nombre }}</span>
-                    <span class="badge bg-primary m-2" *ngIf="version.version == this.initialSchemaService.loadedData?.versiones?.at(-1)?.version">Version actual</span>
-                    <span style="opacity: .6; font-size: 11px;">‧ {{ version.fechaCreacion| date:'yyyy-MM-dd' }} ‧</span>
+            <li *ngFor="let version of this.initialSchemaService.loadedData?.versiones" class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <span style="margin-right: 8px;">{{ version.nombre }}</span>
+                        <span *ngIf="version.version == this.versionSeleccionada!.version" class="badge bg-primary m-2">Version actual</span>
+                        <span style="opacity: .6; font-size: 11px;">‧ {{ version.fechaCreacion| date:'yyyy-MM-dd' }} ‧</span>
+                    </div>
+                    <div class="col text-end">
+                        <!-- Si la Row es de la versión seleccionada -->
+                        <ng-container *ngIf="version.version == this.versionSeleccionada!.version">
+                                            
+                            <button disabled class="btn btn-outline-secondary m-2" style="font-size: 10px;">CARGAR VERSIÓN</button>
+
+                            <button (click)="openModal('nuevo')" class="btn btn-outline-primary m-2" style="font-size: 10px;">
+                                <i class="bi bi-plus-circle me-2"></i>
+                                NUEVA VERSIÓN
+                            </button>
+                        </ng-container>
+                        <!-- Si la Row es de una versión NO seleccionada -->
+                        <ng-container *ngIf="version.version != this.versionSeleccionada!.version">
+                            <button (click)="seleccionarVersion(version.version, $event)" class="btn btn-outline-primary m-2" style="font-size: 10px;">CARGAR VERSIÓN</button>
+
+                            <button disabled class="btn btn-outline-secondary m-2" style="font-size: 10px;">
+                                <i class="bi bi-plus-circle me-2"></i>
+                                NUEVA VERSIÓN
+                            </button>
+                        </ng-container>
+                    </div>
                 </div>
-                <button *ngIf="!(version.version == this.initialSchemaService.loadedData?.versiones?.at(-1)?.version)" class="btn btn-outline-primary m-2" (click)="seleccionarVersion(version.version, $event)" style="font-size: 10px;">RESTAURAR VERSIÓN</button>
             </li>
         </ul>
         <button class="btn btn-primary background-primary mt-4" style="width: fit-content;" (click)="cancelarVersion($event)">CANCELAR</button>

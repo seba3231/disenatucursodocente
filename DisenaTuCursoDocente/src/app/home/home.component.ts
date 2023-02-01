@@ -292,7 +292,7 @@ export class HomeComponent {
             autor: this.autor, //tomar el autor del nombre
             fechaModificacion: new Date(),
             fechaCreacion: new Date(),
-            nombre: 'Primera versión'
+            nombre: 'Versión inicial'
           },
         ],
         archivos:[]

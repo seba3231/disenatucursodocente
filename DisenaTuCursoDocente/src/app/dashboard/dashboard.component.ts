@@ -227,41 +227,21 @@ export class DashboardComponent implements OnInit {
     }
 
     nuevaVersion(){
-        // console.log('prevengo')
-        // e.preventDefault();
         const curso = this.initialSchemaService.loadedData;
-        const ultimaVersionActual = structuredClone(curso?.versiones.at(-1));
-        if(ultimaVersionActual){
-            const nuevaVersion = {...ultimaVersionActual,
-                nombre: this.nombreVersion,
-                version: ultimaVersionActual.version+1,
-                fechaCreacion: new Date()
-            }
-            curso?.versiones.push(nuevaVersion);
-            this.versionSeleccionada = nuevaVersion;
-            this.accionesCursosService.modificarCurso();
-        }
-        
+        let nuevaVersion = structuredClone(curso?.versiones.find(v => v.version === this.versionSeleccionada!.version));
+        const ultimaVersion = curso?.versiones.at(-1)?.version;
+        nuevaVersion!.version = ultimaVersion!+1;
+        let fechaMod = new Date();
+        nuevaVersion!.fechaCreacion = fechaMod;
+        nuevaVersion!.fechaModificacion = fechaMod;
+        nuevaVersion!.nombre = this.nombreVersion;
+        curso?.versiones.push(nuevaVersion!);
+        this.versionSeleccionada = nuevaVersion;
+        this.accionesCursosService.modificarCurso();
     }
 
     seleccionarVersion(version: number, e:any){
         const curso = this.initialSchemaService.loadedData;
-        const versionSeleccionada = structuredClone(curso?.versiones.find(v => v.version === version));
-        const ultimoIdentificador = curso?.versiones.at(-1)?.version;
-        console.log(versionSeleccionada?.datosGuardados?.[0].valoresAtributo?.[0].valoresDato?.[0]);
-        if (curso?.versiones.at(-1)?.nombre)
-            this.nombreVersion = versionSeleccionada?.nombre || '';
-        if(versionSeleccionada && ultimoIdentificador){
-            const nuevaVersion = {...versionSeleccionada,
-                nombre: this.nombreVersion,
-                version: ultimoIdentificador+1,
-                fechaCreacion: new Date()
-            };
-            curso?.versiones.push(nuevaVersion);
-            this.versionSeleccionada = nuevaVersion;
-            this.accionesCursosService.modificarCurso();
-        }
-        
+        this.versionSeleccionada = curso?.versiones.find(v => v.version === version);
     }
-
 }
