@@ -1182,9 +1182,6 @@ export class AtributoComponent {
                 case TipoInput.selectFijoUnico:{
                     let valueObject = this.stringToObject(nuevoValor.value);
 
-                    //Elimino Archivo
-                    this.eliminarArchivo(ubicacionClaveMap,indicePadre,indiceHijo);
-
                     //Reseteo datos guardados del CC viejo - los de la forma 2,24,3,[7,1,idDato]
                     let valoresAtributo : ValoresAtributo[] = this.buscoValoresAtributoDeAtributo(ubicacionAtributo);
                     for(let valorAtributo of valoresAtributo){
@@ -1237,14 +1234,19 @@ export class AtributoComponent {
                             for(let dat of fD.datos){
                                 switch (this.mapTipoInput.revGet(dat.tipo)) {
                                     case TipoInput.selectUsuarioMultiple:{
-                                        //EMITO
+                                        //Elimino dependencia en componente Grupo
                                         //claveInteresado = '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},0,3'
-                                        this.eliminarDependencia.emit(this.objectToString({
+                                        let claveInteresado = this.objectToString({
                                             idEtapa:ubicacionAtributo.idEtapa,
                                             idGrupo:ubicacionAtributo.idGrupo,
                                             idAtributo:ubicacionAtributo.idAtributo,
                                             idDato:[indicePadre]
-                                        })+","+indiceHijo+","+dat.id);
+                                        })+","+indiceHijo+","+dat.id;
+                                        this.eliminarDependencia.emit(claveInteresado);
+                                        
+                                        //Elimino dependencia en mapManejadorEventos
+                                        let claveObservado = this.objectToString(dat.opciones.referencia);
+                                        this.mapManejadorEventos.delete(claveInteresado+claveObservado);
                                     }
                                 }
                             }
