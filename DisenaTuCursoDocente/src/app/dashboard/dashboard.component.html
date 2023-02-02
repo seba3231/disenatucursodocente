@@ -64,19 +64,21 @@
                     <div class="col text-end">
                         <!-- Si la Row es de la versión seleccionada -->
                         <ng-container *ngIf="version.version == this.versionSeleccionada!.version">
-                                            
-                            <button disabled class="btn btn-outline-secondary m-2" style="font-size: 10px;">CARGAR VERSIÓN</button>
 
-                            <button (click)="openModal('nuevo')" class="btn btn-outline-primary m-2" style="font-size: 10px;">
+                            <button disabled class="btn btn-outline-secondary m-2" style="font-size: 10px;" title="Restaurar esta versión y convertir en la version activa.">
+                                CARGAR VERSIÓN</button>
+
+                            <button (click)="openModal('nuevo')" class="btn btn-outline-primary m-2" style="font-size: 10px;" title="Crea una nueva versión a partir de la version actual">
                                 <i class="bi bi-plus-circle me-2"></i>
                                 NUEVA VERSIÓN
                             </button>
                         </ng-container>
                         <!-- Si la Row es de una versión NO seleccionada -->
                         <ng-container *ngIf="version.version != this.versionSeleccionada!.version">
-                            <button (click)="seleccionarVersion(version.version, $event)" class="btn btn-outline-primary m-2" style="font-size: 10px;">CARGAR VERSIÓN</button>
+                            <button (click)="seleccionarVersion(version.version, $event)" class="btn btn-outline-primary m-2" style="font-size: 10px;" title="Restaurar esta versión y convertir en la version activa.">
+                            CARGAR VERSIÓN</button>
 
-                            <button disabled class="btn btn-outline-secondary m-2" style="font-size: 10px;">
+                            <button disabled class="btn btn-outline-secondary m-2" style="font-size: 10px;" title="Crea una nueva versión a partir de la version actual">
                                 <i class="bi bi-plus-circle me-2"></i>
                                 NUEVA VERSIÓN
                             </button>
