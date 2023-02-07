@@ -817,14 +817,14 @@ export class ExportpdfComponent{
                                           if (datoCondicional.opciones.idGrupoDatoFijo)
                                             valueString = this.getValueDatoFijo(datoCondicional.opciones.idGrupoDatoFijo,valorDato.selectFijo);
                                           else{
-                                            
                                             if(datoCondicional.opciones.referencia)
                                               valueString = this.getValueDatoFijoRef(datoCondicional.opciones.referencia,valorDato.selectFijo, cursosDatos.datosGuardados);
                                           }
                                       
 
                                         }else if(valorDato.selectUsuario){
-                                          valueString = this.getValueDatoFijoRef(datoCondicional.opciones.referencia,valorDato.selectUsuario, cursosDatos.datosGuardados);
+                                          if(datoCondicional.opciones.referencia)
+                                            valueString = this.getValueDatoFijoRef(datoCondicional.opciones.referencia,valorDato.selectUsuario, cursosDatos.datosGuardados);
                                           
                                         }else if(valorDato.archivo){
                                           console.log(valorDato)
