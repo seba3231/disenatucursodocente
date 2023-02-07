@@ -1473,8 +1473,7 @@
                             "multiInstanciable": true,
                             "puntoCritico": {
                                 "normativa": null,
-                                "informacionAmpliatoria": "un string",
-                                "aporteConceptual": "un string"
+                                "informacionAmpliatoria": "Los recursos educativos son los diversos materiales que se utilizan para asistir y facilitar los procesos de enseñanza y aprendizaje. Pueden incluir aquellos que se diseñan con el propósito específico de servir como apoyo, tema o soporte de la enseñanza. Es el caso por ej. de los libros de texto, los polimedias educativos, las fichas de lectura. Pero también pueden ser materiales que utilizamos diariamente, que no fueron creados con fines educativos, como por ej. un artículo de un periódico, que se adaptan y/o complementan con actividades vinculadas. En el caso de los artículos podría ser por ejemplo, preguntas de comprensión lectora. También puede ser elementos gráficos como mapas, esquemas, imágenes u objetos a los cuales se les asigna un propósito en el proceso educativo, ya sea para presentar un tema, realizar una actividad de práctica, de evaluación, etc."
                             },
                             "filasDatos": null
                         },
@@ -2207,8 +2206,8 @@
                             },
                             "multiInstanciable": true,
                             "puntoCritico": {
-                                "aporteConceptual": "aaaa",
-                                "informacionAmpliatoria": "bbb",
+                                "aporteConceptual": "Puede leer más sobre evaluación y tipos de evaluación en Rodríguez Enríquez— Rodés, 2020: https://eva.udelar.edu.uy/mod/book/view.php?id=24539",
+                                "informacionAmpliatoria": "El concepto de evaluación ha evolucionado a través de los años. En términos generales, se refiere a una forma de 'medir' cuánto y qué se ha aprendido en un período específico. Un concepto actual y vigente sería el siguiente: 'Concebimos evaluar como un proceso continuo, sistemático y flexible por el cual se emiten juicios de valor'.(Rodríguez Eríquez-Rodés, 2020). Es importante recordar que la evaluación requiere prever formas de retroalimentación de los estudiantes a partir de los resultados y las correcciones. Otro punto importante a tomar en cuenta es que evaluar y calificar (asignar una calificación) son procesos diferentes.",
                                 "normativa": null
                             },
                             "filasDatos": null
