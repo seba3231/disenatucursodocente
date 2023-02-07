@@ -349,8 +349,8 @@ export class ExportpdfComponent{
     }
 
     dateToString(dateValue:Date|null):string{
-        if(dateValue == null){
-            return "-";
+        if(dateValue == null || Object.entries(dateValue).length == 0){
+          return "--/--/----"
         }
         
         let date : Date = new Date(dateValue);
@@ -367,11 +367,8 @@ export class ExportpdfComponent{
         if(mesCalculado <= 9){
             mes = "0"+mesCalculado.toString();
         }
-        if(date == null){
-          return "--/--/----"
-        }else{
-          return dia+"/"+mes+"/"+date.getFullYear() + "este";
-        }
+
+        return dia+"/"+mes+"/"+date.getFullYear();
     }
 
     cumpleDependencia(dependencia:DependenciaDeDatos|null,versionSeleccionada:Version):boolean{
