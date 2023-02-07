@@ -88,11 +88,11 @@ export class ExportpdfComponent{
         for(let etapa of schema.etapas){
             
             this.pdf.content.push({text: '__________________________________________________________________________________', style: 'body'});
-            this.pdf.content.push({text: "Etapa: "+etapa.nombre, style: 'subheader',margin: [ 0, 15, 0, 5 ] });
+            this.pdf.content.push({text: etapa.nombre, style: 'subheader',margin: [ 0, 15, 0, 5 ] });
 
             for(let grupo of etapa.grupos){
                 
-                this.pdf.content.push({text: "Grupo: "+grupo.nombre, style: 'subsubheader',margin: [ 0, 10, 0, 5 ] });
+                this.pdf.content.push({text: grupo.nombre, style: 'subsubheader',margin: [ 0, 10, 0, 5 ] });
                 
                 for(let atributo of grupo.atributos){
                     let ubicacionAtr : Ubicacion = this.interaccionSchemaConData.ubicacionAbsolutaDeAtributo(atributo.ubicacion,atributo.id);
@@ -129,9 +129,9 @@ export class ExportpdfComponent{
     }
 
     imprimirAtributo(atributo:Atributo,datoGuardado : InformacionGuardada | null, versionSeleccionada:Version){
-        let tituloAtributo = "Atributo";
+        let tituloAtributo = "";
         if(atributo.nombre != null){
-            tituloAtributo+=": "+atributo.nombre;
+            tituloAtributo+= atributo.nombre;
         }
         this.pdf.content.push({text: tituloAtributo ,style: 'nombreAtributo', preserveLeadingSpaces: true });
         
@@ -143,7 +143,7 @@ export class ExportpdfComponent{
             for(let index = 0; index<datoGuardado.cantidadInstancias; index++){
                 const [esAtrCC,_unused] = this.interaccionSchemaConData.esAtributoConContenidoCondicional(atributo.ubicacion,atributo.id);
                 if(esAtrCC){
-                    this.pdf.content.push({text: "Modulo "+index.toString() ,style: 'body', preserveLeadingSpaces: true });
+                    // this.pdf.content.push({text: "Modulo "+index.toString() ,style: 'body', preserveLeadingSpaces: true });
                 }
                 for(let filaDatos of atributo.filasDatos){
                     let lineaAImprimir :string;
@@ -318,19 +318,15 @@ export class ExportpdfComponent{
                         else{
                             vuelta+="-";
                         }
-                        vuelta+="\n    "+indent+"Enlance: ";
+                        
                         if(valoresDato[indexPadre!]?.archivo?.ruta !== null){
+                            vuelta+="\n    "+indent+"Enlace: ";
                             vuelta+=valoresDato[indexPadre!]?.archivo?.ruta;
                         }
-                        else{
-                            vuelta+="-";
-                        }
-                        vuelta+="\n    "+indent+"Nombre de Archivo: ";
+                        
                         if(valoresDato[indexPadre!]?.archivo?.fileName !== null){
+                            vuelta+="\n    "+indent+"Nombre de Archivo: ";
                             vuelta+=valoresDato[indexPadre!]?.archivo?.fileName;
-                        }
-                        else{
-                            vuelta+="-";
                         }
                     }
                     break;
@@ -372,7 +368,11 @@ export class ExportpdfComponent{
         if(mesCalculado <= 9){
             mes = "0"+mesCalculado.toString();
         }
-        return dia+"/"+mes+"/"+date.getFullYear();
+        if(date == null){
+          return "--/--/----"
+        }else{
+          return dia+"/"+mes+"/"+date.getFullYear() + "este";
+        }
     }
 
     cumpleDependencia(dependencia:DependenciaDeDatos|null,versionSeleccionada:Version):boolean{
