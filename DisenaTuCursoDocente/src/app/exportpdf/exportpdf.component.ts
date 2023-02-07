@@ -95,12 +95,11 @@ export class ExportpdfComponent{
                 this.pdf.content.push({text: grupo.nombre, style: 'subsubheader',margin: [ 0, 10, 0, 5 ] });
                 
                 for(let atributo of grupo.atributos){
-                    let ubicacionAtr : Ubicacion = this.interaccionSchemaConData.ubicacionAbsolutaDeAtributo(atributo.ubicacion,atributo.id);
-                    let claveMap = JSON.stringify(ubicacionAtr);
+                    //Obtengo InformacionGuardada de Atributo
+                    let stringUbicacionAtrib = JSON.stringify(this.interaccionSchemaConData.ubicacionAbsolutaDeAtributo(atributo.ubicacion,atributo.id));
                     let datoGuardado : InformacionGuardada | null = null;
-                    //let cantidadInstanciasAtrib : number = 0;
                     for(let infoGuardada of versionSeleccionada.datosGuardados!){
-                        if (JSON.stringify(infoGuardada.ubicacionAtributo) === claveMap){
+                        if (JSON.stringify(infoGuardada.ubicacionAtributo) === stringUbicacionAtrib){
                             datoGuardado = infoGuardada;
                             break;
                         }
