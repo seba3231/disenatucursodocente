@@ -138,7 +138,8 @@ export class HomeComponent {
                     fechaModificacion: new Date()
                 }
                 nuevoCurso?.versiones.push(nuevaVersion)
-                this.modificarCurso(nuevoCurso)
+                nuevoCurso.id = (this.initialSchemaService.allData?.length || 0) + 1;
+                // this.modificarCurso(nuevoCurso)
                 this.initialSchemaService.allData?.push(nuevoCurso);
             }
           } else console.log('Ha ocurrido un error, ', response.status);
