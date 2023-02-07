@@ -211,7 +211,7 @@ export class GrupoComponent implements OnInit {
         }
     }*/
 
-    onModify(){
+    /*onModify(){
         console.log(this.grupo.atributos);
-    }
+    }*/
 }

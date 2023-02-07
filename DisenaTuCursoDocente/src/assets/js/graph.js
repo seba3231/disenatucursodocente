@@ -182,8 +182,8 @@ var Graph = function(targetElement, graph) {
         },
     
         expandGraph = function(links, nodes) {
-            console.log(nodes)
-            console.log(links)
+            //console.log(nodes)
+            //console.log(links)
             var gradoActual = nodes[0].grado;
 
             //elimino nodos

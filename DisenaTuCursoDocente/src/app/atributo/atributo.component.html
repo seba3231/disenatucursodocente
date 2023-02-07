@@ -1,4 +1,4 @@
-<div *ngFor="let _ of [].constructor(mapInformacionGuardadaDeAtributo.get(objectToString(ubicacionAbsolutaDeAtributo(atributo.ubicacion,atributo.id)))!.cantidadInstancias); index as indiceInstancia;" class="atr-container">
+<div *ngFor="let _ of [].constructor(mapInformacionGuardadaDeAtributo.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeAtributo(atributo.ubicacion,atributo.id)))!.cantidadInstancias); index as indiceInstancia;" class="atr-container">
     <!-- A la primer instancia, le imprimo el nombre del Atributo -->
     <div *ngIf="indiceInstancia === 0 && atributo.nombre" class="row">
         <h5>{{ atributo.nombre ? atributo.nombre+' ' : '' }}
@@ -42,7 +42,7 @@
         </div>
     </div>
 
-    <!-- subir archivos -->
+    <!-- subir archivos, invisible -->
     <input type="file" (change)="onFileSelected($event)" #fileUploader style="display:none">
     <a #fileDownloader style="display:none"></a>
 
@@ -50,7 +50,6 @@
     <div *ngIf="indiceInstancia==0 && atributo.herencia && atributoHerencia && atributoHerencia!.filasDatos" class="d-flex flex-column pb-2 pt-2 align-items-end">
         <button class="btn btn-outline-primary" role="button" style="font-size: 12px; border: none;" data-bs-toggle="popover" data-bs-trigger="hover focus" [attr.data-bs-content]="'Podras cargar este dato con la información cargada en la sección ' + grupoHerencia!.nombre + ' de ' + etapaHerencia!.nombre"
             data-bs-custom-class="custom-popover" (click)="cargarDatosDesdeHerencia()">
-            <!-- (click)="openModal('eliminar')" -->
             <i class="bi bi-arrow-bar-down pe-2"></i>CARGAR DATOS DESDE {{grupoHerencia!.nombre | uppercase}} DE {{etapaHerencia!.nombre | uppercase}}
         </button>
     </div>
@@ -80,7 +79,7 @@
                                     </label>
                                     <!-- Codigo computo -->
                                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.computo))">
-                                        <p>{{ mapValoresComputados.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))!.valor }}</p>
+                                        <p>{{ mapValoresComputados.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))!.valor }}</p>
                                     </ng-container>
                                     <!-- Codigo text -->
                                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.text))">
@@ -97,7 +96,7 @@
                                     <!-- Codigo selectFijoUnico -->
                                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
                                         <select class="form-select" (change)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)">
-                                            <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))">
+                                            <ng-container *ngFor="let opcion of mapOpcionesSelect.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))">
                                                 <option 
                                                     *ngIf="muestroOpcion(opcion.muestroSi,indiceInstancia)"
                                                     [selected]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,opcion.valor)"
@@ -113,7 +112,7 @@
                                         <mat-form-field appearance="fill">
                                             <mat-label>{{ dato.nombre ? dato.nombre : "Seleccione" }}</mat-label>
                                             <mat-select multiple (selectionChange)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event)" [ngModel]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)">
-                                                <mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">
+                                                <mat-option *ngFor="let opcion of mapOpcionesSelect.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">
                                                     {{opcion.string}}
                                                 </mat-option>
                                             </mat-select>
@@ -121,10 +120,10 @@
                                     </ng-container>
                                     <!-- Codigo radio -->
                                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.radio))">
-                                        <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))">
+                                        <ng-container *ngFor="let opcion of mapOpcionesSelect.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))">
                                             <div class="form-check">
                                                 <input type="radio" (click)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [attr.checked]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,opcion.valor) ? '' : null"
-                                                    value={{objectToString(opcion.valor)}} class="form-check-input" [name]="objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id))+indiceInstancia">
+                                                    value={{JSON.stringify(opcion.valor)}} class="form-check-input" [name]="JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id))+indiceInstancia">
                                                 <label class="form-check-label">{{opcion.string}}</label>
                                             </div>
                                         </ng-container>
@@ -140,8 +139,8 @@
                                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.porcentaje))">
                                         <fieldset [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)">
                                             <input class="form-control" (keyup)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [type]="mapTipoInputHTML.get(enumTiposInput.porcentaje)" [placeholder]="dato.nombre || ''" [formControl]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
-                                                [ngClass]="{ 'is-invalid': mapControlesCampos.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id))+indiceInstancia)!.invalid }">
-                                            <div *ngIf="mapControlesCampos.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id))+indiceInstancia)!.invalid" class="invalid-feedback">
+                                                [ngClass]="{ 'is-invalid': mapControlesCampos.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id))+indiceInstancia)!.invalid }">
+                                            <div *ngIf="mapControlesCampos.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id))+indiceInstancia)!.invalid" class="invalid-feedback">
                                                 Porcentaje debe estar entre 0 y 100.
                                             </div>
                                         </fieldset>
@@ -158,11 +157,11 @@
                                             <ng-container *ngIf="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,'ExisteFile')">
                                                 <!-- Descargar archivo -->
                                                 <div class="col-auto d-block p-0" style="width: 0px;">
-                                                    <i title="Descargar archivo" (click)="downloadUserFile(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia,null)" class="bi bi-file-earmark-check fs-5 position-relative " style="right: 44px; color: #0d6efd;cursor: pointer;"></i>
+                                                    <i title="Descargar archivo" (click)="downloadUserFile(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia,null)" class="bi bi-file-earmark-check fs-5 position-relative " style="right: 44px; color: #0d6efd;cursor: pointer;"></i>
                                                 </div>
                                                 <!-- Eliminar archivo -->
                                                 <div class="col-auto">
-                                                    <button (click)="eliminarArchivo(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia,null)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Desvincular archivo"><i class="bi bi-trash-fill fs-5"></i></button>
+                                                    <button (click)="eliminarArchivo(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia,null)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Desvincular archivo"><i class="bi bi-trash-fill fs-5"></i></button>
                                                 </div>
                                             </ng-container>
 
@@ -170,13 +169,13 @@
                                             <ng-container *ngIf="!cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,'ExisteFile')">
                                                 <!-- Subir archivo archivo -->
                                                 <div class="col-auto">
-                                                    <button (click)="openSelectFileDialog(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia,null)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar archivo"><i class="bi bi-file-earmark-plus-fill fs-5"></i></button>
+                                                    <button (click)="openSelectFileDialog(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia,null)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar archivo"><i class="bi bi-file-earmark-plus-fill fs-5"></i></button>
                                                 </div>
                                             </ng-container>
 
                                             <!-- Agrego link a Dato tipo archivo -->
                                             <div class="col-auto">
-                                                <button (click)="openModalAgrergoLinkArchivo(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar enlace a sitio"><i class="bi bi-link fs-5"></i></button>
+                                                <button (click)="openModalAgrergoLinkArchivo(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar enlace a sitio"><i class="bi bi-link fs-5"></i></button>
                                             </div>
                                         </div>
                                     </ng-container>
@@ -185,7 +184,7 @@
                                         <mat-form-field appearance="fill">
                                             <mat-label>{{ dato.nombre ? dato.nombre : "Seleccione" }}</mat-label>
                                             <mat-select multiple (selectionChange)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event)" [ngModel]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)">
-                                                <mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">
+                                                <mat-option *ngFor="let opcion of mapOpcionesSelect.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">
                                                     {{opcion.string}}
                                                 </mat-option>
                                             </mat-select>
@@ -201,10 +200,6 @@
                         <div *ngFor="let fila of atributo.filasDatos" class="row">
                             <div *ngFor="let dato of fila.datos" class="col">
                                 <div class="mb-3">
-                                    <!--
-                                        date,
-                                        dateLog
-                                    -->
                                     <label class="form-label pt-2">
                                         {{ dato.nombre ? dato.nombre+' ' : "&nbsp;" }}
                                         <span *ngIf="dato.ayuda"
@@ -219,12 +214,12 @@
                                     </label>
 
                                     <!-- Codigo contenidoCondicional -->
-                                    <ng-container *ngIf="dato.filasDatos !== null && mapContenidoCondicional.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,indiceInstancia)))">
+                                    <ng-container *ngIf="dato.filasDatos !== null && mapContenidoCondicional.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,indiceInstancia)))">
                                         <!-- REPITO SEGUN CANTIDAD DE INSTANCIAS DE ESTE DATO
                                         <div *ngFor="let item of testObject | keyvalue">
                                             Key: <b>{{item.key}}</b> and Value: <b>{{item.value}}</b>
                                         </div>-->
-                                        <ng-container *ngFor="let contCondicional of mapContenidoCondicional.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,indiceInstancia))); index as indiceInstanciaDeDato;">
+                                        <ng-container *ngFor="let contCondicional of mapContenidoCondicional.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,indiceInstancia))); index as indiceInstanciaDeDato;">
                                             <!--                                                            [  Unidad 0   ,  Unidad 1   ,  Unidad 2  ,  Unidad 3   ] -->
                                             <!-- mapContenidoCondicional.get( 2,24,3,[instanciaModulo] ) -> [ FilaDatos[] , FilaDatos[] , FilaDatos[], FilaDatos[] ] -->
                                             <div class="card border-secondary mb-4" style="background-color: transparent !important;">
@@ -251,7 +246,7 @@
                                                                             <select class="form-select" 
                                                                                 (change)="guardarCambioContenidoCondicional(datoInterior.ubicacion,datoInterior.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoInterior.tipo)!,$event.target)"
                                                                             >
-                                                                                <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(datoInterior.ubicacion,datoInterior.id)))">
+                                                                                <ng-container *ngFor="let opcion of mapOpcionesSelect.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(datoInterior.ubicacion,datoInterior.id)))">
                                                                                     <option
                                                                                         [selected]="cargarInfoPreviaContenidoCondicional(datoInterior.ubicacion,datoInterior.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoInterior.tipo)!,opcion.valor)"
                                                                                         value={{opcion.valor}}
@@ -328,11 +323,11 @@
                                                                                 <ng-container *ngIf="cargarInfoPreviaContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,'ExisteFile')">
                                                                                     <!-- Descargar archivo -->
                                                                                     <div class="col-auto d-block p-0" style="width: 0px;">
-                                                                                        <i title="Descargar archivo" (click)="downloadUserFile(ubicacionAbsolutaDeDato(datoContCond.ubicacion,datoContCond.id),indiceInstancia,indiceInstanciaDeDato)" class="bi bi-file-earmark-check fs-5 position-relative " style="right: 44px; color: #0d6efd;cursor: pointer;"></i>
+                                                                                        <i title="Descargar archivo" (click)="downloadUserFile(interaccionSchemaConData.ubicacionAbsolutaDeDato(datoContCond.ubicacion,datoContCond.id),indiceInstancia,indiceInstanciaDeDato)" class="bi bi-file-earmark-check fs-5 position-relative " style="right: 44px; color: #0d6efd;cursor: pointer;"></i>
                                                                                     </div>
                                                                                     <!-- Eliminar archivo -->
                                                                                     <div class="col-auto">
-                                                                                        <button (click)="eliminarArchivo(ubicacionAbsolutaDeDato(datoContCond.ubicacion,datoContCond.id),indiceInstancia,indiceInstanciaDeDato)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Desvincular archivo"><i class="bi bi-trash-fill fs-5"></i></button>
+                                                                                        <button (click)="eliminarArchivo(interaccionSchemaConData.ubicacionAbsolutaDeDato(datoContCond.ubicacion,datoContCond.id),indiceInstancia,indiceInstanciaDeDato)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Desvincular archivo"><i class="bi bi-trash-fill fs-5"></i></button>
                                                                                     </div>
                                                                                 </ng-container>
 
@@ -340,13 +335,13 @@
                                                                                 <ng-container *ngIf="!cargarInfoPreviaContenidoCondicional(datoContCond.ubicacion,datoContCond.id,indiceInstancia,indiceInstanciaDeDato,mapTipoInput.revGet(datoContCond.tipo)!,'ExisteFile')">
                                                                                     <!-- Subir archivo archivo -->
                                                                                     <div class="col-auto">
-                                                                                        <button (click)="openSelectFileDialog(ubicacionAbsolutaDeDato(datoContCond.ubicacion,datoContCond.id),indiceInstancia,indiceInstanciaDeDato)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar archivo"><i class="bi bi-file-earmark-plus-fill fs-5"></i></button>
+                                                                                        <button (click)="openSelectFileDialog(interaccionSchemaConData.ubicacionAbsolutaDeDato(datoContCond.ubicacion,datoContCond.id),indiceInstancia,indiceInstanciaDeDato)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar archivo"><i class="bi bi-file-earmark-plus-fill fs-5"></i></button>
                                                                                     </div>
                                                                                 </ng-container>
 
                                                                                 <!-- Agrego link a Dato tipo archivo 
                                                                                 <div class="col-auto">
-                                                                                    <button (click)="openModalAgrergoLinkArchivo(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar enlace a sitio"><i class="bi bi-link fs-5"></i></button>
+                                                                                    <button (click)="openModalAgrergoLinkArchivo(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar enlace a sitio"><i class="bi bi-link fs-5"></i></button>
                                                                                 </div>-->
                                                                             </div>
                                                                         </ng-container>
@@ -375,7 +370,7 @@
 
                                     <!-- Codigo computo -->
                                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.computo))">
-                                        <p>{{ mapValoresComputados.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))!.valor }}</p>
+                                        <p>{{ mapValoresComputados.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))!.valor }}</p>
                                     </ng-container>
                                     <!-- Codigo text -->
                                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.text))">
@@ -392,7 +387,7 @@
                                     <!-- Codigo selectFijoUnico -->
                                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.selectFijoUnico))">
                                         <select class="form-select" (change)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)">
-                                            <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))">
+                                            <ng-container *ngFor="let opcion of mapOpcionesSelect.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))">
                                                 <option
                                                     *ngIf="muestroOpcion(opcion.muestroSi,indiceInstancia)"
                                                     [selected]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,opcion.valor)"
@@ -408,7 +403,7 @@
                                         <mat-form-field appearance="fill">
                                             <mat-label>{{ dato.nombre ? dato.nombre : "Seleccione" }}</mat-label>
                                             <mat-select multiple (selectionChange)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event)" [ngModel]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)">
-                                                <mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">
+                                                <mat-option *ngFor="let opcion of mapOpcionesSelect.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">
                                                     {{opcion.string}}
                                                 </mat-option>
                                             </mat-select>
@@ -416,10 +411,10 @@
                                     </ng-container>
                                     <!-- Codigo radio -->
                                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.radio))">
-                                        <ng-container *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))">
+                                        <ng-container *ngFor="let opcion of mapOpcionesSelect.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))">
                                             <div class="form-check">
                                                 <input type="radio" (click)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [attr.checked]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,opcion.valor) ? '' : null"
-                                                    value={{objectToString(opcion.valor)}} class="form-check-input" [name]="objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id))+indiceInstancia">
+                                                    value={{JSON.stringify(opcion.valor)}} class="form-check-input" [name]="JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id))+indiceInstancia">
                                                 <label class="form-check-label">{{opcion.string}}</label>
                                             </div>
                                         </ng-container>
@@ -427,17 +422,15 @@
                                     <!-- Codigo date -->
                                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.date))">
                                         <div class="input-group">
-
                                             <input class="form-control" type="date" [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)" [ngModel]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)" (change)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)">
-                                            <!-- <button class="btn btn-outline-primary bi bi-calendar-event" (click)="d.toggle()" type="button"></button> -->
                                         </div>
                                     </ng-container>
                                     <!-- Codigo porcentaje -->
                                     <ng-container *ngIf="dato.tipo === (mapTipoInput.get(enumTiposInput.porcentaje))">
                                         <fieldset [disabled]="estaDeshabilitado(dato.habilitadoSi,indiceInstancia)">
                                             <input class="form-control" (keyup)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event.target)" [type]="mapTipoInputHTML.get(enumTiposInput.porcentaje)" [placeholder]="dato.nombre || ''" [formControl]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)"
-                                                [ngClass]="{ 'is-invalid': mapControlesCampos.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id))+indiceInstancia)!.invalid }">
-                                            <div *ngIf="mapControlesCampos.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id))+indiceInstancia)!.invalid" class="invalid-feedback">
+                                                [ngClass]="{ 'is-invalid': mapControlesCampos.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id))+indiceInstancia)!.invalid }">
+                                            <div *ngIf="mapControlesCampos.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id))+indiceInstancia)!.invalid" class="invalid-feedback">
                                                 Porcentaje debe estar entre 0 y 100.
                                             </div>
                                         </fieldset>
@@ -454,11 +447,11 @@
                                             <ng-container *ngIf="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,'ExisteFile')">
                                                 <!-- Descargar archivo -->
                                                 <div class="col-auto d-block p-0" style="width: 0px;">
-                                                    <i title="Descargar archivo" (click)="downloadUserFile(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia,null)" class="bi bi-file-earmark-check fs-5 position-relative " style="right: 44px; color: #0d6efd;cursor: pointer;"></i>
+                                                    <i title="Descargar archivo" (click)="downloadUserFile(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia,null)" class="bi bi-file-earmark-check fs-5 position-relative " style="right: 44px; color: #0d6efd;cursor: pointer;"></i>
                                                 </div>
                                                 <!-- Eliminar archivo -->
                                                 <div class="col-auto">
-                                                    <button (click)="eliminarArchivo(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia,null)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Desvincular archivo"><i class="bi bi-trash-fill fs-5"></i></button>
+                                                    <button (click)="eliminarArchivo(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia,null)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Desvincular archivo"><i class="bi bi-trash-fill fs-5"></i></button>
                                                 </div>
                                             </ng-container>
 
@@ -466,13 +459,13 @@
                                             <ng-container *ngIf="!cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,'ExisteFile')">
                                                 <!-- Subir archivo archivo -->
                                                 <div class="col-auto">
-                                                    <button (click)="openSelectFileDialog(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia,null)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar archivo"><i class="bi bi-file-earmark-plus-fill fs-5"></i></button>
+                                                    <button (click)="openSelectFileDialog(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia,null)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar archivo"><i class="bi bi-file-earmark-plus-fill fs-5"></i></button>
                                                 </div>
                                             </ng-container>
 
                                             <!-- Agrego link a Dato tipo archivo -->
                                             <div class="col-auto">
-                                                <button (click)="openModalAgrergoLinkArchivo(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar enlace a sitio"><i class="bi bi-link fs-5"></i></button>
+                                                <button (click)="openModalAgrergoLinkArchivo(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id),indiceInstancia)" type="button" class="btn btn-outline-primary background-primary" style="padding-top:3px;padding-bottom:3px;" title="Agregar enlace a sitio"><i class="bi bi-link fs-5"></i></button>
                                             </div>
                                         </div>
                                     </ng-container>
@@ -481,7 +474,7 @@
                                         <mat-form-field appearance="fill">
                                             <mat-label>{{ dato.nombre ? dato.nombre : "Seleccione" }}</mat-label>
                                             <mat-select multiple (selectionChange)="guardarCambio(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,$event)" [ngModel]="cargarInfoPrevia(dato.ubicacion,dato.id,indiceInstancia,mapTipoInput.revGet(dato.tipo)!,null)">
-                                                <mat-option *ngFor="let opcion of mapOpcionesSelect.get(objectToString(ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">
+                                                <mat-option *ngFor="let opcion of mapOpcionesSelect.get(JSON.stringify(interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id)))" [value]="opcion.valor">
                                                     {{opcion.string}}
                                                 </mat-option>
                                             </mat-select>

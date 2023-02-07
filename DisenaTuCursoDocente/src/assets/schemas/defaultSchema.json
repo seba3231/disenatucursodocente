@@ -2823,7 +2823,7 @@
                     }
                 },
                 {
-                    "id": 8,
+                    "id": 9,
                     "idGrupo": 4,
                     "valor": "Medicina",
                     "muestroSi": {
@@ -2842,7 +2842,7 @@
                     }
                 },
                 {
-                    "id": 9,
+                    "id": 10,
                     "idGrupo": 4,
                     "valor": "Odontología",
                     "muestroSi": {
@@ -2861,7 +2861,7 @@
                     }
                 },
                 {
-                    "id": 10,
+                    "id": 11,
                     "idGrupo": 4,
                     "valor": "Psicología",
                     "muestroSi": {
@@ -2880,7 +2880,7 @@
                     }
                 },
                 {
-                    "id": 11,
+                    "id": 12,
                     "idGrupo": 4,
                     "valor": "Escuela Universitaria de Música",
                     "muestroSi": {
@@ -2899,7 +2899,7 @@
                     }
                 },
                 {
-                    "id": 12,
+                    "id": 13,
                     "idGrupo": 4,
                     "valor": "Instituto Escuela Nacional de Bellas Artes",
                     "muestroSi": {
@@ -2918,7 +2918,7 @@
                     }
                 },
                 {
-                    "id": 13,
+                    "id": 14,
                     "idGrupo": 4,
                     "valor": "Ciencias Económicas y de Administración",
                     "muestroSi": {
@@ -2937,7 +2937,7 @@
                     }
                 },
                 {
-                    "id": 14,
+                    "id": 15,
                     "idGrupo": 4,
                     "valor": "Ciencias Sociales",
                     "muestroSi": {
@@ -2956,7 +2956,7 @@
                     }
                 },
                 {
-                    "id": 15,
+                    "id": 16,
                     "idGrupo": 4,
                     "valor": "Derecho",
                     "muestroSi": {
@@ -2975,7 +2975,7 @@
                     }
                 },
                 {
-                    "id": 16,
+                    "id": 17,
                     "idGrupo": 4,
                     "valor": "Información y Comunicación",
                     "muestroSi": {
@@ -2994,7 +2994,7 @@
                     }
                 },
                 {
-                    "id": 17,
+                    "id": 18,
                     "idGrupo": 4,
                     "valor": "Humanidades",
                     "muestroSi": {
@@ -3013,7 +3013,7 @@
                     }
                 },
                 {
-                    "id": 18,
+                    "id": 19,
                     "idGrupo": 4,
                     "valor": "Ciencias de la Educación",
                     "muestroSi": {
@@ -3963,7 +3963,7 @@
                     "datos": [
                         {
                             "id": 4,
-                            "nombre": "Comentarios de la evaliación",
+                            "nombre": "Comentarios de la evaluación",
                             "ubicacion": {
                                 "idEtapa": 2,
                                 "idGrupo": 24,

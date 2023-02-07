@@ -37,7 +37,7 @@
                 <i class="bi bi-share-fill me-2"></i>COMPARTIR
             </a> -->
             <a class="btn btn-primary background-primary m-2" role="button" (click)="invertirMostrarVersiones()">
-                <i class="bi bi-clock-history me-2"></i>VER VERSIONES
+                <i class="bi bi-clock-history me-2"></i>VERSIONADO
             </a>
             <!--<a title="Crea una nueva versión a partir de la version actual" class="btn btn-primary background-primary m-2" role="button" (click)="openModal('nuevo')">
                 <i class="bi bi-plus-circle me-2"></i>NUEVA VERSIÓN
@@ -50,9 +50,9 @@
 </div>
 
 <!-- -------------------- ZONA VERSIONES -------------------- -->
-<div class="'container p-4" *ngIf="this.mostrarVersiones">
+<div class="'container p-4" *ngIf="this.mostrarUIVersiones">
     <div class="card container p-4 mb-4">
-        <h3 class="mb-4">Versiones</h3>
+        <h3 class="mb-4">Administrar Versiones</h3>
         <ul class="list-group">
             <li *ngFor="let version of this.initialSchemaService.loadedData?.versiones" class="list-group-item">
                 <div class="row">
@@ -76,7 +76,7 @@
                         <!-- Si la Row es de una versión NO seleccionada -->
                         <ng-container *ngIf="version.version != this.versionSeleccionada!.version">
                             <button (click)="seleccionarVersion(version.version, $event)" class="btn btn-outline-primary m-2" style="font-size: 10px;" title="Restaurar esta versión y convertir en la version activa.">
-                            CARGAR VERSIÓN</button>
+                                CARGAR VERSIÓN</button>
 
                             <button disabled class="btn btn-outline-secondary m-2" style="font-size: 10px;" title="Crea una nueva versión a partir de la version actual">
                                 <i class="bi bi-plus-circle me-2"></i>
@@ -87,15 +87,15 @@
                 </div>
             </li>
         </ul>
-        <button class="btn btn-primary background-primary mt-4" style="width: fit-content;" (click)="cancelarVersion($event)">CANCELAR</button>
+        <button class="btn btn-primary background-primary mt-4" style="width: fit-content;" (click)="invertirMostrarVersiones()">CANCELAR</button>
     </div>
 </div>
 
 <!-- -------------------- ZONA CONTENIDO GRUPO -------------------- -->
-<div class="'container p-4" *ngIf="grupoCargado && !this.mostrarVersiones">
+<div class="'container p-4" *ngIf="grupoCargado && !this.mostrarUIVersiones">
     <app-grupo [grupo]="grupoCargado" [versionSeleccionada]="versionSeleccionada"></app-grupo>
 </div>
-<div class="'container" *ngIf="!grupoCargado && !this.mostrarVersiones">
+<div class="'container" *ngIf="!grupoCargado && !this.mostrarUIVersiones">
     <div class="card container p-4 mb-4">
         <div class="card-body ">
             <h2 class="p-2 fw-bolder text-center opacity-75 p-4 m-auto" style="max-width: 50ch;">En este espacio podrás editar tu curso luego de seleccionar la etapa en el menú</h2>

@@ -7,6 +7,7 @@ import {ExportpdfComponent} from   '../exportpdf/exportpdf.component'
 import { Router } from '@angular/router';
 import { ModalComentariosComponent } from '../modal/comentarios/modal-comentarios.component';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Interaccion_Schema_Data } from '../servicios/interaccion-schema-data.service';
 imports: [
   NgbModule
 ]
@@ -23,20 +24,21 @@ export class DashboardComponent implements OnInit {
     title = 'DisenaTuCursoDocente';
     gruposDeEtapa : Grupo[] | undefined = undefined;
     grupoCargado : Grupo | undefined = undefined;
-    savedData : SchemaSavedData | undefined = undefined;
-    defaultSchema : Esquema | undefined = undefined;
-    mostrarVersiones: boolean = false
-    nombreVersion: string = '';
-    versionSeleccionada: Version | undefined = this.initialSchemaService.loadedData?.versiones.at(-1);
+    mostrarUIVersiones: boolean = false;
 
-    nombreArchivo:string='';
+    savedDataCurso : SchemaSavedData = this.initialSchemaService.loadedData!;
+    versionSeleccionada: Version = this.savedDataCurso.versiones.at(-1)!;
+
     constructor(public initialSchemaService : InitialSchemaLoaderService,
         private router: Router,
         private modalService: NgbModal,
-        public accionesCursosService: AccionesCursosService){ }
+        public accionesCursosService: AccionesCursosService,
+        public interaccionSchemaConData: Interaccion_Schema_Data
+    ){ }
 
 
     ngOnInit() {
+
         const palette = ["#c0392b","#2980b9","#27ae60","#708284"] //rojo, azul, verde, gris
         setTimeout(()=>{
             // tiene que estar en el timeout sino da undefined
@@ -44,8 +46,6 @@ export class DashboardComponent implements OnInit {
 
             let graph: any = {nodes:[],links:[]};
 
-            console.log(schemaEtapas)
-            console.log(this.initialSchemaService)  
             if (schemaEtapas)
                 for (var i=0; i < schemaEtapas.length; i++) {
                     //recorrida de etapas -> nodos principales (grado 1)
@@ -101,36 +101,30 @@ export class DashboardComponent implements OnInit {
 
     @HostListener('window:grupoOnClick', ['$event.detail.grupoId'])
     grupoOnClick(grupoId:number){
-        // this.accionesCursosService.setImpactarCambios(false);
         var schemaEtapas = this.initialSchemaService.defaultSchema?.etapas;
-        console.log(schemaEtapas)
         var grupoSeleccionado;
         if (schemaEtapas)
             for (var i=0; i < schemaEtapas.length; i++) {
                 if (schemaEtapas[i].grupos)
                     for (var j=0; j < schemaEtapas[i].grupos.length; j++) {
-                        if (schemaEtapas[i].grupos[j].id == grupoId 
-                            //  &&
-                            //  schemaEtapas[i].grupos[j].ubicacion.idEtapa == 1
-                            ) // HARDCORE PARA VER SOLO PROGRAMA
+                        if (schemaEtapas[i].grupos[j].id == grupoId)
                             grupoSeleccionado = schemaEtapas[i].grupos[j]
                     }
             }
         this.grupoCargado = grupoSeleccionado; 
-        this.mostrarVersiones = false
-        // setTimeout(() => this.accionesCursosService.setImpactarCambios(true), 5000);
+        this.mostrarUIVersiones = false
     }
     
     mostrarGruposDeEtapa(etapa: Etapa){
         console.log(etapa.grupos)
         this.gruposDeEtapa = etapa.grupos;
-        this.mostrarVersiones = false
+        this.mostrarUIVersiones = false
     }
 
     cargarGrupo(grupo:Grupo){
         console.log(grupo)
         this.grupoCargado = grupo;
-        this.mostrarVersiones = false
+        this.mostrarUIVersiones = false
     }
 
     openModal(opcion: string){
@@ -147,9 +141,7 @@ export class DashboardComponent implements OnInit {
             modalRef.closed.subscribe({
                 next: (resp) => {
                     if (resp.length > 0){
-                        console.log(resp);
-                        this.nombreVersion = resp[0]
-                        this.nuevaVersion()
+                        this.nuevaVersion(resp[0])
                     }
                 },
                 error: () => {
@@ -180,9 +172,6 @@ export class DashboardComponent implements OnInit {
         }
         
     }
-    /*cargarArchivo(){
-        this.initialSchemaService.loadDataFile(this.nombreArchivo);
-    }*/
 
     descargarArchivo(){
         let a = document.createElement('a');
@@ -200,14 +189,13 @@ export class DashboardComponent implements OnInit {
         
     }
 
-    
-
     public descargarPDF(event: any):void{
         event.stopPropagation();
-        const exportPdf = new ExportpdfComponent(this.initialSchemaService);
+        const exportPdf = new ExportpdfComponent(this.initialSchemaService,this.interaccionSchemaConData);
         var pdf;
-        if (this.initialSchemaService.loadedData?.id){
-            pdf = exportPdf.generatePdf(this.initialSchemaService.loadedData?.id)
+        if(this.versionSeleccionada){
+            //pdf = exportPdf.generatePdf(this.initialSchemaService.loadedData?.id!);
+            pdf = exportPdf.newGeneratePdf(this.savedDataCurso,this.versionSeleccionada);
             pdf.open();
         }
     }
@@ -218,15 +206,10 @@ export class DashboardComponent implements OnInit {
     }
 
     invertirMostrarVersiones(){
-        this.mostrarVersiones = !this.mostrarVersiones;
-        console.log(this.initialSchemaService)
+        this.mostrarUIVersiones = !this.mostrarUIVersiones;
     }
 
-    cancelarVersion(event: any){
-        this.mostrarVersiones = false
-    }
-
-    nuevaVersion(){
+    nuevaVersion(nombreVersion:string){
         const curso = this.initialSchemaService.loadedData;
         let nuevaVersion = structuredClone(curso?.versiones.find(v => v.version === this.versionSeleccionada!.version));
         const ultimaVersion = curso?.versiones.at(-1)?.version;
@@ -234,14 +217,14 @@ export class DashboardComponent implements OnInit {
         let fechaMod = new Date();
         nuevaVersion!.fechaCreacion = fechaMod;
         nuevaVersion!.fechaModificacion = fechaMod;
-        nuevaVersion!.nombre = this.nombreVersion;
+        nuevaVersion!.nombre = nombreVersion;
         curso?.versiones.push(nuevaVersion!);
-        this.versionSeleccionada = nuevaVersion;
+        this.versionSeleccionada = nuevaVersion!;
         this.accionesCursosService.modificarCurso();
     }
 
     seleccionarVersion(version: number, e:any){
         const curso = this.initialSchemaService.loadedData;
-        this.versionSeleccionada = curso?.versiones.find(v => v.version === version);
+        this.versionSeleccionada = curso?.versiones.find(v => v.version === version)!;
     }
 }

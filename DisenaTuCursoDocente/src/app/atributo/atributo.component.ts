@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Atributo, Computo, DependenciaDeDatos, Ubicacion, Grupo, Etapa, Dato, ContenidoCondicional,FilaDatos } from '../modelos/schema.model';
+import { Atributo, Computo, DependenciaDeDatos, Ubicacion, Grupo, Etapa, Dato, FilaDatos } from '../modelos/schema.model';
 import { MapTipoInput, MapTipoInputHTML, TipoInput, TwoWayMap } from '../enumerados/enums';
 import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.service';
 import { AccionesCursosService } from '../servicios/acciones-cursos.service';
@@ -9,6 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalConfirmacionComponent } from '../modal/confirmacion/modal-confirmacion.component';
 import { _countGroupLabelsBeforeOption } from '@angular/material/core';
 import { ModalComentariosComponent } from '../modal/comentarios/modal-comentarios.component';
+import { Interaccion_Schema_Data } from '../servicios/interaccion-schema-data.service';
 
 declare var bootstrap: any;
 
@@ -66,6 +67,9 @@ export class AtributoComponent {
     etapaHerencia: Etapa | undefined;
 
     versionActual:Version | undefined;
+
+    //Disponibilizamos librería JSON en Template
+    JSON = JSON;
     
     //Map con el ContenidoCondicional de un Dato
     mapContenidoCondicional : Map<string,FilaDatos[][]> = new Map();
@@ -90,8 +94,9 @@ export class AtributoComponent {
 
     constructor(private initialSchemaService : InitialSchemaLoaderService
         ,private modalService: NgbModal
-        ,private accionesCursosService: AccionesCursosService) {
-        
+        ,private accionesCursosService: AccionesCursosService
+        ,public interaccionSchemaConData: Interaccion_Schema_Data
+    ) {
         this.mapTipoInput = MapTipoInput;
         this.mapTipoInputHTML = MapTipoInputHTML;
     }
@@ -109,13 +114,13 @@ export class AtributoComponent {
         //Veo cuantas instancias de este atributo hay y cargo los Datos guardados de este Atributo
         this.versionActual = this.versionSeleccionada;
         if(this.versionActual !== undefined){
-            let ubicacionAtr : Ubicacion = this.ubicacionAbsolutaDeAtributo(this.atributo.ubicacion,this.atributo.id);
-            let claveMap = this.objectToString(ubicacionAtr);
+            let ubicacionAtr : Ubicacion = this.interaccionSchemaConData.ubicacionAbsolutaDeAtributo(this.atributo.ubicacion,this.atributo.id);
+            let claveMap = JSON.stringify(ubicacionAtr);
             let retrievedValue = this.mapInformacionGuardadaDeAtributo.get(claveMap);
             if(!retrievedValue){
                 //Si no existe la key en el map
                 for(let datoGuardado of this.versionActual.datosGuardados!){
-                    if (this.objectToString(datoGuardado.ubicacionAtributo) === claveMap){
+                    if (JSON.stringify(datoGuardado.ubicacionAtributo) === claveMap){
                         this.mapInformacionGuardadaDeAtributo.set(claveMap,datoGuardado);
                         break;
                     }
@@ -124,7 +129,7 @@ export class AtributoComponent {
         }
 
         if (this.atributo.herencia){
-            const [atributoHerencia, grupoHerencia, etapaHerencia] = this.getAtributoHerencia(this.atributo.herencia,{idEtapa:this.atributo.ubicacion.idEtapa,idGrupo:this.atributo.ubicacion.idGrupo,idAtributo:this.atributo.id,idDato:null});
+            const [atributoHerencia, grupoHerencia, etapaHerencia] = this.interaccionSchemaConData.getAtributoHerencia(this.atributo.herencia,{idEtapa:this.atributo.ubicacion.idEtapa,idGrupo:this.atributo.ubicacion.idGrupo,idAtributo:this.atributo.id,idDato:null});
             this.cargarAtributoHerencia(atributoHerencia,grupoHerencia,etapaHerencia);
         }
 
@@ -132,8 +137,8 @@ export class AtributoComponent {
         if (this.atributo.filasDatos && !this.atributo.herencia){
             for(let filaDatos of this.atributo.filasDatos){
                 for(let dato of filaDatos.datos){
-                    let ubicacionAbsoluta = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
-                    let claveMap = this.objectToString(ubicacionAbsoluta);
+                    let ubicacionAbsoluta = this.interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
+                    let claveMap = JSON.stringify(ubicacionAbsoluta);
                     //Computo opciones de los Select del Atributo
                     if(dato.opciones){
                         this.cargoOpcionesSelect(dato,claveMap,ubicacionAbsoluta);
@@ -161,8 +166,8 @@ export class AtributoComponent {
             }
             for(let filaDatos of this.atributoHerencia.filasDatos){
                 for(let dato of filaDatos.datos){
-                    let ubicacionAbsoluta = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
-                    let claveMap = this.objectToString(ubicacionAbsoluta);
+                    let ubicacionAbsoluta = this.interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
+                    let claveMap = JSON.stringify(ubicacionAbsoluta);
                     //Computo opciones de los Select del Atributo
                     if(dato.opciones){
                         this.cargoOpcionesSelect(dato,claveMap,ubicacionAbsoluta);
@@ -194,15 +199,15 @@ export class AtributoComponent {
     cargarCC(dato:Dato){
 
         let datoInterior = dato.filasDatos[0].datos[0];
-        let ubicacionAbsInterior = this.ubicacionAbsolutaDeDato(datoInterior.ubicacion,datoInterior.id);
+        let ubicacionAbsInterior = this.interaccionSchemaConData.ubicacionAbsolutaDeDato(datoInterior.ubicacion,datoInterior.id);
         //ubicacionAbsInterior = 2,24,3,[7,1]
         this.cargoOpcionesSelect(datoInterior
-            ,this.objectToString(ubicacionAbsInterior)
+            ,JSON.stringify(ubicacionAbsInterior)
             ,ubicacionAbsInterior
         );
         
         //Cantidad de instancias de Modulo
-        let cantidadInstanciasAtributo = this.buscoInformacionGuardadaDeAtributo(dato.ubicacion)?.cantidadInstancias;
+        let cantidadInstanciasAtributo = this.interaccionSchemaConData.buscoInformacionGuardadaDeAtributo(dato.ubicacion,this.versionSeleccionada!)?.cantidadInstancias;
         //Copio array: arrayDato = [7,1]
         let arrayDato = [...ubicacionAbsInterior.idDato!];
 
@@ -220,7 +225,7 @@ export class AtributoComponent {
             }
             //Por ejemplo, Padre (modulo) indice 0
             //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]}"
-            let clavePadreContCondicional = this.objectToString(ubicacionContCondicional);
+            let clavePadreContCondicional = JSON.stringify(ubicacionContCondicional);
             let contCondicional = this.mapContenidoCondicional.get(clavePadreContCondicional);
             if(contCondicional === undefined){
                 this.mapContenidoCondicional.set(
@@ -229,17 +234,17 @@ export class AtributoComponent {
                 );
                 contCondicional = this.mapContenidoCondicional.get(clavePadreContCondicional);
                 ubicacionContCondicional.idDato = ubicacionAbsInterior.idDato
-                var datosGuardados = this.buscoInformacionGuardadaDeAtributo(ubicacionContCondicional) as InformacionGuardada;
+                var datosGuardados = this.interaccionSchemaConData.buscoInformacionGuardadaDeAtributo(ubicacionContCondicional,this.versionSeleccionada!) as InformacionGuardada;
                 this.mapInformacionGuardadaDeAtributo.set
                 (
-                    this.objectToString(ubicacionContCondicional),
+                    JSON.stringify(ubicacionContCondicional),
                     datosGuardados
                 );
             }
                                         
             ubicacionAbsInterior.idDato![0] = i;
             //ubicacionAbsInterior = 2,24,3,[i,7,1]
-            let valoresSelectCondicional : ValoresDato[] = this.buscoValoresDatoDeAtributo(ubicacionAbsInterior,arrayDato);
+            let valoresSelectCondicional : ValoresDato[] = this.interaccionSchemaConData.buscoValoresDatoDeAtributo(ubicacionAbsInterior,arrayDato,this.versionSeleccionada!);
             for(let [indexSelCond,valSelCond] of valoresSelectCondicional.entries()){
 
                 let idOpcion = 0;
@@ -276,27 +281,11 @@ export class AtributoComponent {
             idAtributo: ubicacionDato.idAtributo,
             idDato: [indicePadre]
         }
-        return this.objectToString(nuevaUbicacion)+","+indiceHijo+","+idDatoCondicional;
+        return JSON.stringify(nuevaUbicacion)+","+indiceHijo+","+idDatoCondicional;
     }
 
-    obtengoOpcionesSelectUsuario(ubicacionAtr:Ubicacion, idDato:number[], ubicacionInteresado:Ubicacion, claveInteresado:string) : ValorSelect[] {
-        let opcionesDevueltas : ValorSelect[] = [];
-        let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionAtr,idDato);
-        for(let [index,valorDato] of valoresDato.entries()){
-            let stringOpcion = 'Nombre no asignado';
-            if(valorDato.string){
-                stringOpcion = valorDato.string;
-            }
-            if(valorDato.archivo && valorDato.archivo.texto){
-                stringOpcion = valorDato.archivo.texto;
-            }
-            let nuevaOpcion : ValorSelect = {
-                string:stringOpcion,
-                muestroSi:null,
-                valor:index
-            }
-            opcionesDevueltas.push(nuevaOpcion);
-        }
+    cargarOpcionesSelectUsuario(ubicacionAtr:Ubicacion, idDato:number[], ubicacionInteresado:Ubicacion, claveInteresado:string) : ValorSelect[] {
+        let opcionesDevueltas : ValorSelect[] = this.interaccionSchemaConData.obtengoOpcionesSelectUsuario(ubicacionAtr,idDato,this.versionSeleccionada!);
 
         let ubicacionRef : Ubicacion = {
             idEtapa : ubicacionAtr.idEtapa
@@ -307,7 +296,7 @@ export class AtributoComponent {
 
         //Si dependo de alguien mas, debo de saber cuando ese alguien
         //mas cambia para actualizar y recomputar acorde
-        let claveObservado = this.objectToString(ubicacionRef);
+        let claveObservado = JSON.stringify(ubicacionRef);
         let claveEvento = claveInteresado+claveObservado;
 
         let retrievedEventEmitter = this.mapManejadorEventos.get(claveEvento);
@@ -339,7 +328,7 @@ export class AtributoComponent {
                 }
 
                 //Reseteo los maps de opciones disponibles
-                let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.observado.idDato);
+                let valoresDato = this.interaccionSchemaConData.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.observado.idDato,this.versionSeleccionada!);
                 let array : ValorSelect[] = [];
                 
                 for(let [index,valorDato] of valoresDato.entries()){
@@ -385,7 +374,7 @@ export class AtributoComponent {
                     //Agrego indiceMod al inicio, unidades del Modulo = indiceMod
                     unidadesDeModulo.idDato!.unshift(Number(indiceMod));
 
-                    let datosGuardados = this.buscoValoresDatoDeAtributo(unidadesDeModulo,idDato);
+                    let datosGuardados = this.interaccionSchemaConData.buscoValoresDatoDeAtributo(unidadesDeModulo,idDato,this.versionSeleccionada!);
                     let datoACambiar = datosGuardados[indiceUnidad];
                     if(indiceEliminado === -1){
                         datoACambiar.selectUsuario = null;
@@ -405,23 +394,6 @@ export class AtributoComponent {
         return opcionesDevueltas;
     }
 
-    obtengoOpcionesSelectFijo(idGrupoDatoFijo:number) : ValorSelect[] {
-        let opcionesDevueltas : ValorSelect[] = [];
-        //Proceso Datos Fijos
-        let datosFijos = this.initialSchemaService.defaultSchema?.gruposDatosFijos;
-        let datoFijo = datosFijos?.find((datoFijo) => datoFijo.id === idGrupoDatoFijo);
-
-        for (let opcion of datoFijo?.opciones!) {
-            let nuevaOpcion : ValorSelect = {
-                string:opcion.valor,
-                muestroSi:opcion.muestroSi,
-                valor:opcion.id
-            }
-            opcionesDevueltas.push(nuevaOpcion);
-        }
-        return opcionesDevueltas;
-    }
-
     cargoOpcionesSelect(dato:Dato,claveMap:string,ubicacionAbsoluta:Ubicacion){
         if(dato.opciones.referencia){
             //Busco en los datos guardados la Ubicación dato.opciones.referencia
@@ -434,7 +406,7 @@ export class AtributoComponent {
 
             let retrievedValue = this.mapOpcionesSelect.get(claveMap);
             if(!retrievedValue){
-                let array : ValorSelect[] = this.obtengoOpcionesSelectUsuario(ubicacionDesarmada,dato.opciones.referencia.idDato!,ubicacionAbsoluta,claveMap);
+                let array : ValorSelect[] = this.cargarOpcionesSelectUsuario(ubicacionDesarmada,dato.opciones.referencia.idDato!,ubicacionAbsoluta,claveMap);
                 this.mapOpcionesSelect.set(claveMap,array);
             }
         }
@@ -445,7 +417,7 @@ export class AtributoComponent {
             
             let retrievedValue = this.mapOpcionesSelect.get(claveMap);
             if(!retrievedValue){
-                let array : ValorSelect[] = this.obtengoOpcionesSelectFijo(dato.opciones.idGrupoDatoFijo);
+                let array : ValorSelect[] = this.interaccionSchemaConData.obtenerOpcionesSelectFijo(dato.opciones.idGrupoDatoFijo);
                 this.mapOpcionesSelect.set(claveMap,array);
             }
             for (let opcion of datoFijo?.opciones!) {
@@ -454,8 +426,8 @@ export class AtributoComponent {
                 //mas cambia para actualizar la información guardada en this.datoGuardado.valoresAtributo
                 //y recomputar acorde
                 if(opcion.muestroSi){
-                    let claveInteresado = this.objectToString(claveMap);
-                    let claveObservado = this.objectToString(opcion.muestroSi.referencia);
+                    let claveInteresado = JSON.stringify(claveMap);
+                    let claveObservado = JSON.stringify(opcion.muestroSi.referencia);
                     let claveEvento = claveInteresado+claveObservado;
 
                     let retrievedEventEmitter = this.mapManejadorEventos.get(claveEvento);
@@ -478,7 +450,7 @@ export class AtributoComponent {
 
                         //Si cambia el dato observado, se llama esta funcion
                         retrievedEventEmitter.subscribe((registroDependencia:RegistrarDependencia) => {
-                            let claveIntesado = this.objectToString(registroDependencia.interesado);
+                            let claveIntesado = JSON.stringify(registroDependencia.interesado);
 
                             //Reseteo el valor guardado y el mapOpcionSeleccionada
                             //cargarInfoPrevia se encarga de seleccionar la primer opcion by default
@@ -488,7 +460,7 @@ export class AtributoComponent {
                                 ,idAtributo : registroDependencia.interesado.idAtributo
                                 ,idDato : null
                             }
-                            let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.interesado.idDato);
+                            let valoresDato = this.interaccionSchemaConData.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.interesado.idDato,this.versionSeleccionada!);
                             valoresDato[0].selectFijo = null;
                             this.mapOpcionSeleccionada.delete(claveIntesado);
                         });
@@ -510,17 +482,17 @@ export class AtributoComponent {
     }
 
     cargarDatosDesdeHerencia(){
-        let infoHerdada : InformacionGuardada = JSON.parse(JSON.stringify(this.buscoInformacionGuardadaDeAtributo(this.atributo.herencia)!));
-        let infoActual : InformacionGuardada = this.buscoInformacionGuardadaDeAtributo(this.ubicacionAbsolutaDeAtributo(this.atributo.ubicacion,this.atributo.id))!;
+        let infoHerdada : InformacionGuardada = JSON.parse(JSON.stringify(this.interaccionSchemaConData.buscoInformacionGuardadaDeAtributo(this.atributo.herencia,this.versionSeleccionada!)!));
+        let infoActual : InformacionGuardada = this.interaccionSchemaConData.buscoInformacionGuardadaDeAtributo(this.interaccionSchemaConData.ubicacionAbsolutaDeAtributo(this.atributo.ubicacion,this.atributo.id),this.versionSeleccionada!)!;
         
-        const [esAtrCC,arrayIDDato] = this.esAtributoConContenidoCondicional(this.atributo.ubicacion,this.atributo.id);
+        const [esAtrCC,arrayIDDato] = this.interaccionSchemaConData.esAtributoConContenidoCondicional(this.atributo.ubicacion,this.atributo.id);
         //Si es CC, copio los datos de las Unidades
         if(esAtrCC){
             let maxIndexMod = infoActual.cantidadInstancias!-1;
             //Elimino los Módulos de infoActual
             for (let i = maxIndexMod; i >= 0; i--) {
                 let ubicacionAtr : Ubicacion = {idEtapa:this.atributo.ubicacion.idEtapa,idGrupo:this.atributo.ubicacion.idGrupo,idAtributo:this.atributo.id,idDato:null}
-                let retrievedValue = this.mapInformacionGuardadaDeAtributo.get(this.objectToString(ubicacionAtr));
+                let retrievedValue = this.mapInformacionGuardadaDeAtributo.get(JSON.stringify(ubicacionAtr));
                 if(retrievedValue){
                     this.eliminarUnidadesDeModulo(
                         ubicacionAtr,
@@ -553,8 +525,8 @@ export class AtributoComponent {
             let idsUnidadNuevos : number[][] = [];
             let idDatoUnidad_0 = [...arrayIDDato];
             idDatoUnidad_0.unshift(0);
-            let infoActualUnidad : InformacionGuardada = this.buscoInformacionGuardadaDeAtributo({idEtapa:this.atributo.ubicacion.idEtapa,idGrupo:this.atributo.ubicacion.idGrupo,idAtributo:this.atributo.id,idDato:idDatoUnidad_0})!;
-            let infoHerdadaUnidad : InformacionGuardada = this.buscoInformacionGuardadaDeAtributo({idEtapa:this.atributo.herencia.idEtapa,idGrupo:this.atributo.herencia.idGrupo,idAtributo:this.atributo.herencia.idAtributo,idDato:idDatoUnidad_0})!;
+            let infoActualUnidad : InformacionGuardada = this.interaccionSchemaConData.buscoInformacionGuardadaDeAtributo({idEtapa:this.atributo.ubicacion.idEtapa,idGrupo:this.atributo.ubicacion.idGrupo,idAtributo:this.atributo.id,idDato:idDatoUnidad_0},this.versionSeleccionada!)!;
+            let infoHerdadaUnidad : InformacionGuardada = this.interaccionSchemaConData.buscoInformacionGuardadaDeAtributo({idEtapa:this.atributo.herencia.idEtapa,idGrupo:this.atributo.herencia.idGrupo,idAtributo:this.atributo.herencia.idAtributo,idDato:idDatoUnidad_0},this.versionSeleccionada!)!;
             let valsAtribActual = infoActualUnidad!.valoresAtributo;
             let valsAtribHeredado = infoHerdadaUnidad!.valoresAtributo;
             for(let valAtribA of valsAtribActual){
@@ -578,7 +550,7 @@ export class AtributoComponent {
                 let idDatoUnidadesDeModulo_I = [...arrayIDDato];
                 idDatoUnidadesDeModulo_I.unshift(i);
                 //Copio los datos viejos
-                let infoGuardadaUnidadesDeModulo_I : InformacionGuardada = JSON.parse(JSON.stringify(this.buscoInformacionGuardadaDeAtributo({idEtapa:this.atributo.herencia.idEtapa,idGrupo:this.atributo.herencia.idGrupo,idAtributo:this.atributo.herencia.idAtributo,idDato:idDatoUnidadesDeModulo_I})));
+                let infoGuardadaUnidadesDeModulo_I : InformacionGuardada = JSON.parse(JSON.stringify(this.interaccionSchemaConData.buscoInformacionGuardadaDeAtributo({idEtapa:this.atributo.herencia.idEtapa,idGrupo:this.atributo.herencia.idGrupo,idAtributo:this.atributo.herencia.idAtributo,idDato:idDatoUnidadesDeModulo_I},this.versionSeleccionada!)));
                 
                 //Creo el Dato que no tienen las Unidades de Etapa anaterior
                 for(let idUnidadNuevo of idsUnidadNuevos){
@@ -653,7 +625,7 @@ export class AtributoComponent {
         }
 
         //Actualizo estructuras del render
-        let [atributoHerencia, grupoHerencia, etapaHerencia] = this.getAtributoHerencia(this.atributo.herencia,
+        let [atributoHerencia, grupoHerencia, etapaHerencia] = this.interaccionSchemaConData.getAtributoHerencia(this.atributo.herencia,
             {idEtapa:this.atributo.ubicacion.idEtapa,idGrupo:this.atributo.ubicacion.idGrupo,idAtributo:this.atributo.id,idDato:null}
         );
         //Si no es CC y Hereda
@@ -662,7 +634,7 @@ export class AtributoComponent {
                 //Emito que quizá cambiaron los valores
                 for(let filaDatos of atributoHerencia.filasDatos){
                     for(let dato of filaDatos.datos){
-                        let ubicacionDato = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
+                        let ubicacionDato = this.interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
                         this.informarCambio.emit({cambioEnUbicacion:ubicacionDato,indiceEliminado:-1});
                     }
                 }
@@ -694,9 +666,10 @@ export class AtributoComponent {
                                 idDatoAtrib.unshift(indiceModulo);
                                 let idDatoDato : number[] = [...arrayIDDato];
                                 idDatoDato.push(dato.id);
-                                let valoresDato = this.buscoValoresDatoDeAtributo(
+                                let valoresDato = this.interaccionSchemaConData.buscoValoresDatoDeAtributo(
                                     {idEtapa:this.atributo.ubicacion.idEtapa,idGrupo:this.atributo.ubicacion.idGrupo,idAtributo:this.atributo.id,idDato:idDatoAtrib},
                                     idDatoDato
+                                    ,this.versionSeleccionada!
                                 );
                                 valoresDato[indiceUnidad].selectUsuario = null;
                             }
@@ -717,42 +690,6 @@ export class AtributoComponent {
         this.accionesCursosService.modificarCurso();
     }
 
-    getAtributoHerencia(ubicacion: Ubicacion, nuevaUbicacion: Ubicacion): [Atributo|null,Grupo|null,Etapa|null]{ //retorna un Dato completo
-        if (this.initialSchemaService.defaultSchema){
-            for(let etapa of this.initialSchemaService.defaultSchema?.etapas){
-                for(let grupo of etapa.grupos){
-                    for(let atributo of grupo.atributos){
-                        
-                        if (atributo.ubicacion.idEtapa == ubicacion.idEtapa
-                            && atributo.ubicacion.idGrupo == ubicacion.idGrupo
-                            && atributo.id == ubicacion.idAtributo
-                        ){
-                            if (atributo.herencia){
-                                const [atributoHerencia,,] = this.getAtributoHerencia(atributo.herencia,nuevaUbicacion);
-                                return [atributoHerencia, grupo, etapa]
-                            }
-                            else{
-                                //Retornar copia del Atrib, con IDs cambiados
-                                let copyAtributoHerencia :  Atributo = JSON.parse(JSON.stringify(atributo));
-                                copyAtributoHerencia.ubicacion.idEtapa = nuevaUbicacion.idEtapa;
-                                copyAtributoHerencia.ubicacion.idGrupo = nuevaUbicacion.idGrupo;
-                                copyAtributoHerencia.id = nuevaUbicacion.idAtributo;
-
-                                for(let filaDato of copyAtributoHerencia.filasDatos){
-                                    for(let dato of filaDato.datos){
-                                        this.actualizarUbicacionesDatosHeredados(dato,nuevaUbicacion);
-                                    }
-                                }
-                                return [copyAtributoHerencia, grupo, etapa]
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return [null,null,null];
-    }
-
     agregarInstanciaAtributo(ubicacion:Ubicacion,idAtributo:number) {
         let ubicacionAtr : Ubicacion = {
             idEtapa : ubicacion.idEtapa,
@@ -761,10 +698,10 @@ export class AtributoComponent {
             idDato : null
         }
         
-        let infoGuardada : InformacionGuardada | null = this.buscoInformacionGuardadaDeAtributo(ubicacionAtr);
+        let infoGuardada : InformacionGuardada | null = this.interaccionSchemaConData.buscoInformacionGuardadaDeAtributo(ubicacionAtr,this.versionSeleccionada!);
         if(infoGuardada !== null){
             //Si es un Modulo (Contenido Condicional), tengo que acomodar las Unidades
-            const [esAtrCC,arrayIDDato] = this.esAtributoConContenidoCondicional(ubicacionAtr,idAtributo);
+            const [esAtrCC,arrayIDDato] = this.interaccionSchemaConData.esAtributoConContenidoCondicional(ubicacionAtr,idAtributo);
             if(esAtrCC){
                 //Construyo Ubicacion de Unidad
                 //2,24,3,[indiceModulo,7,1]
@@ -843,7 +780,7 @@ export class AtributoComponent {
                 }
 
                 //Agrego FilaDatos a mapCC
-                this.mapContenidoCondicional.set(this.objectToString(ubicacionContCondicional),[filaDatos]);
+                this.mapContenidoCondicional.set(JSON.stringify(ubicacionContCondicional),[filaDatos]);
 
                 this.versionActual!.datosGuardados!.push(infoGuardadaUnidad);
             }
@@ -865,7 +802,7 @@ export class AtributoComponent {
             //Por cada Dato del Atributo creado, emito por si alguien más depende de el
             let datosDeAtrib : Dato[] = this.datosDeAtributo(ubicacionAtr);
             for(let dato of datosDeAtrib){
-                let ubicacionDato = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
+                let ubicacionDato = this.interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
                 this.informarCambio.emit({cambioEnUbicacion:ubicacionDato,indiceEliminado:null});
             }
         }
@@ -882,7 +819,7 @@ export class AtributoComponent {
             idDato : [idModulo,dato.id,datoInterior.id]
         }
 
-        let infoGuardada : InformacionGuardada | null= this.buscoInformacionGuardadaDeAtributo(ubicacionAtr);
+        let infoGuardada : InformacionGuardada | null= this.interaccionSchemaConData.buscoInformacionGuardadaDeAtributo(ubicacionAtr,this.versionSeleccionada!);
         let indiceNuevoHijo = 0;
         if(infoGuardada !==null){
             //Reseteo los datos de la nueva instancia
@@ -908,7 +845,7 @@ export class AtributoComponent {
             idDato : [idModulo]
         }
 
-        let clavePadreContCondicional = this.objectToString(ubicacionContCondicional);
+        let clavePadreContCondicional = JSON.stringify(ubicacionContCondicional);
         var contCondicional = this.mapContenidoCondicional.get(clavePadreContCondicional);
 
         //UbSchema = 2,24,3,[7,1]
@@ -981,13 +918,13 @@ export class AtributoComponent {
                 idDato:idDato
             }
             let indicePadre = fileUploader.getAttribute('indicePadre');
-            let claveMap = this.objectToString(ubicacion)+indicePadre;
+            let claveMap = JSON.stringify(ubicacion)+indicePadre;
 
             //Si es un Archivo de CC, viene el IndiceHijo
             let indiceHijo = fileUploader.getAttribute('indiceHijo');
             if(indiceHijo!=null){
                 //Cambio clave para que reconozca Unidades
-                claveMap = this.objectToString(ubicacion)+indicePadre+','+indiceHijo;
+                claveMap = JSON.stringify(ubicacion)+indicePadre+','+indiceHijo;
             }
 
             let archivoCargado = this.mapDatoArchivo.get(claveMap);
@@ -1016,7 +953,7 @@ export class AtributoComponent {
     }
 
     eliminarArchivo(ubicacion:Ubicacion,indicePadre:number,indiceHijo:number|null){
-        let claveMap = this.objectToString(ubicacion)+indicePadre;
+        let claveMap = JSON.stringify(ubicacion)+indicePadre;
         if(indiceHijo!=null){
             claveMap=claveMap+','+indiceHijo;
         }
@@ -1032,7 +969,7 @@ export class AtributoComponent {
 
     muestroOpcion(muestroSi:DependenciaDeDatos|null, indice:number){
         if(muestroSi){
-            let clave = this.objectToString(muestroSi.referencia)+indice;
+            let clave = JSON.stringify(muestroSi.referencia)+indice;
             let opcionSeleccionada = this.mapOpcionSeleccionada.get(clave);
             if(opcionSeleccionada !== undefined){
 
@@ -1044,7 +981,7 @@ export class AtributoComponent {
 
     estaDeshabilitado(dependencia:DependenciaDeDatos, indice:number){
         if(dependencia){
-            let key = this.objectToString(dependencia.referencia)+indice;
+            let key = JSON.stringify(dependencia.referencia)+indice;
             let value = this.mapOpcionSeleccionada.get(key);
 
             if(value !== undefined){
@@ -1057,10 +994,10 @@ export class AtributoComponent {
 
     guardarCambio(ubicacion:Ubicacion,idDato:number,indice:number,tipoInput:TipoInput,nuevoValor:any){
         
-        let valoresDato = this.buscoValoresDatoDeAtributo(ubicacion,[idDato]);
+        let valoresDato = this.interaccionSchemaConData.buscoValoresDatoDeAtributo(ubicacion,[idDato],this.versionSeleccionada!);
         if(valoresDato.length !== 0){
-            //let claveMap = this.objectToString(ubicacion)+indice;
-            let claveMap = this.objectToString(this.ubicacionAbsolutaDeDato(ubicacion,idDato))+indice;
+            //let claveMap = JSON.stringify(ubicacion)+indice;
+            let claveMap = JSON.stringify(this.interaccionSchemaConData.ubicacionAbsolutaDeDato(ubicacion,idDato))+indice;
             switch (tipoInput) {
                 case TipoInput.text:{
                     valoresDato[indice].string = nuevoValor.value;
@@ -1084,7 +1021,7 @@ export class AtributoComponent {
                 //Una vez que matchea una opcion, ejecuta codigo hasta encontrar un break
                 //Osea, selectFijoUnico ejecuta el mismo codigo que radio
                 case TipoInput.radio:{
-                    let valueObject = this.stringToObject(nuevoValor.value);
+                    let valueObject = JSON.parse(nuevoValor.value);
                     //Actualizo control interno
                     if(!this.atributo.multiInstanciable){
                         this.mapOpcionSeleccionada.set(
@@ -1166,10 +1103,10 @@ export class AtributoComponent {
             idDato:[...arrayIdDato]
         }
         
-        let valoresDato : ValoresDato[]= this.buscoValoresDatoDeAtributo(ubicacionAtributo,arrayIdDato);
+        let valoresDato : ValoresDato[]= this.interaccionSchemaConData.buscoValoresDatoDeAtributo(ubicacionAtributo,arrayIdDato,this.versionSeleccionada!);
         if(valoresDato.length !== 0){
             //calveMap = '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[7,1]}0,0'
-            let claveMap = this.objectToString(ubicacionClaveMap)+indicePadre+','+indiceHijo;
+            let claveMap = JSON.stringify(ubicacionClaveMap)+indicePadre+','+indiceHijo;
             switch (tipoInput) {
                 case TipoInput.text:{
                     valoresDato[indiceHijo].string = nuevoValor.value;
@@ -1180,10 +1117,10 @@ export class AtributoComponent {
                     break;
                 }
                 case TipoInput.selectFijoUnico:{
-                    let valueObject = this.stringToObject(nuevoValor.value);
+                    let valueObject = JSON.parse(nuevoValor.value);
 
                     //Reseteo datos guardados del CC viejo - los de la forma 2,24,3,[7,1,idDato]
-                    let valoresAtributo : ValoresAtributo[] = this.buscoValoresAtributoDeAtributo(ubicacionAtributo);
+                    let valoresAtributo : ValoresAtributo[] = this.interaccionSchemaConData.buscoValoresAtributoDeAtributo(ubicacionAtributo,this.versionSeleccionada!);
                     for(let valorAtributo of valoresAtributo){
                         //Si tiene archivo, intento eliminarlo
                         if(valorAtributo.valoresDato[indiceHijo].archivo!=null 
@@ -1226,7 +1163,7 @@ export class AtributoComponent {
                         idAtributo:ubicacionAtributo.idAtributo,
                         idDato:[indicePadre]
                     }
-                    let clavePadreContCondicional = this.objectToString(ubicacionContCondicional);
+                    let clavePadreContCondicional = JSON.stringify(ubicacionContCondicional);
                     let contCondicional = this.mapContenidoCondicional.get(clavePadreContCondicional);
                     if(contCondicional !== undefined){
                         //Elimino eventos de dependencia de los selectUsuario viejos
@@ -1236,7 +1173,7 @@ export class AtributoComponent {
                                     case TipoInput.selectUsuarioMultiple:{
                                         //Elimino dependencia en componente Grupo
                                         //claveInteresado = '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},0,3'
-                                        let claveInteresado = this.objectToString({
+                                        let claveInteresado = JSON.stringify({
                                             idEtapa:ubicacionAtributo.idEtapa,
                                             idGrupo:ubicacionAtributo.idGrupo,
                                             idAtributo:ubicacionAtributo.idAtributo,
@@ -1245,7 +1182,7 @@ export class AtributoComponent {
                                         this.eliminarDependencia.emit(claveInteresado);
                                         
                                         //Elimino dependencia en mapManejadorEventos
-                                        let claveObservado = this.objectToString(dat.opciones.referencia);
+                                        let claveObservado = JSON.stringify(dat.opciones.referencia);
                                         this.mapManejadorEventos.delete(claveInteresado+claveObservado);
                                     }
                                 }
@@ -1311,9 +1248,9 @@ export class AtributoComponent {
 
     cargarInfoPrevia(ubicacion:Ubicacion, idDato:number, indice:number, tipoInput: TipoInput, posibleValor:any) : any {
         
-        let valoresDato = this.buscoValoresDatoDeAtributo(ubicacion,[idDato]);
+        let valoresDato = this.interaccionSchemaConData.buscoValoresDatoDeAtributo(ubicacion,[idDato],this.versionSeleccionada!);
         if(valoresDato.length !== 0){
-            let claveMap = this.objectToString(this.ubicacionAbsolutaDeDato(ubicacion,idDato))+indice;
+            let claveMap = JSON.stringify(this.interaccionSchemaConData.ubicacionAbsolutaDeDato(ubicacion,idDato))+indice;
             switch (tipoInput) {
                 case TipoInput.text:{
                     return valoresDato[indice!].string;
@@ -1459,15 +1396,11 @@ export class AtributoComponent {
     cargarInfoPreviaContenidoCondicional(ubicacion:Ubicacion, idDato:number, indicePadre:number,indiceHijo:number,tipoInput: TipoInput, posibleValor:any) : any {
         
         const [ubicacionAtributo, arrayIdDato] = this.ubicacionContenidoCondicional(ubicacion,idDato,indicePadre);
-        
-        /*if(this.objectToString(arrayIdDato)==="[7,1,2]" && indicePadre===0 && indiceHijo===0){
-            console.log("aca");
-        }*/
 
-        let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionAtributo,arrayIdDato);
+        let valoresDato = this.interaccionSchemaConData.buscoValoresDatoDeAtributo(ubicacionAtributo,arrayIdDato,this.versionSeleccionada!);
         if(valoresDato.length !== 0){
             //calveMap = '{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[7,1]}0,0'
-            let claveMap = this.objectToString(this.ubicacionAbsolutaDeDato(ubicacion,idDato))+indicePadre+','+indiceHijo;
+            let claveMap = JSON.stringify(this.interaccionSchemaConData.ubicacionAbsolutaDeDato(ubicacion,idDato))+indicePadre+','+indiceHijo;
             switch (tipoInput) {
                 case TipoInput.text:{
                     return valoresDato[indiceHijo].string;
@@ -1545,7 +1478,7 @@ export class AtributoComponent {
     }
 
     downloadUserFile(ubicacion:Ubicacion,indicePadre:number,indiceHijo:number|null){
-        let claveMap = this.objectToString(ubicacion)+indicePadre;
+        let claveMap = JSON.stringify(ubicacion)+indicePadre;
         if(indiceHijo!=null){
             claveMap=claveMap+','+indiceHijo;
         }
@@ -1563,7 +1496,7 @@ export class AtributoComponent {
     }
 
     openModalAgrergoLinkArchivo(ubicacion:Ubicacion,indice:number){
-        let claveMap = this.objectToString(ubicacion)+indice;
+        let claveMap = JSON.stringify(ubicacion)+indice;
         let archivoCargado = this.mapDatoArchivo.get(claveMap);
         if(archivoCargado !== undefined){
 
@@ -1592,29 +1525,6 @@ export class AtributoComponent {
             });
         }
     }
-    
-    ubicacionAbsolutaDeAtributo(ubicacion:Ubicacion,idAtributo:number){
-        return {
-            idEtapa : ubicacion.idEtapa,
-            idGrupo : ubicacion.idGrupo,
-            idAtributo : idAtributo,
-            idDato : null
-        }
-    }
-
-    ubicacionAbsolutaDeDato(ubicacion:Ubicacion,idDato:number) : Ubicacion {
-        let idDatoAbsoluto:number[] = [];
-        if(ubicacion.idDato){
-            idDatoAbsoluto = [...ubicacion.idDato];
-        }
-        idDatoAbsoluto.push(idDato);
-        return {
-            idEtapa : ubicacion.idEtapa,
-            idGrupo : ubicacion.idGrupo,
-            idAtributo : ubicacion.idAtributo,
-            idDato : idDatoAbsoluto
-        }
-    }
 
     ubicacionContenidoCondicional(ubicacion:Ubicacion,idDato:number,indicePadre:number) : [Ubicacion,number[]]{
         let ubicacionAtributo : Ubicacion = {
@@ -1632,7 +1542,7 @@ export class AtributoComponent {
         else{
             //Caso SelectFijoUnico que determina Contenido Condicional
             //ubicacionAtributo = 2,24,3,[7,1]
-            ubicacionAtributo = this.ubicacionAbsolutaDeDato(ubicacion,idDato);
+            ubicacionAtributo = this.interaccionSchemaConData.ubicacionAbsolutaDeDato(ubicacion,idDato);
             //arrayIdDato = [7,1]
             arrayIdDato = [...ubicacionAtributo.idDato!];
         }
@@ -1641,140 +1551,20 @@ export class AtributoComponent {
         return [ubicacionAtributo,arrayIdDato];
     }
 
-    objectToString(obj:any){
-
-        return JSON.stringify(obj);
-    }
-
-    stringToObject(string:string){
-        return JSON.parse(string);
-    }
-
-    buscoInformacionGuardadaDeAtributo(ubicacion:Ubicacion) : InformacionGuardada | null{
-        if(this.versionActual !== undefined){
-            for(let datoGuardado of this.versionActual.datosGuardados!){
-                //Busco por "ubicacionAtributo"
-                //ordeno los atributos dentro del objeto para asegurar que no de distinto por un orden diferente
-                var ordered = Object.keys(datoGuardado.ubicacionAtributo).sort().reduce(
-                    (obj, key) => { 
-                      obj[key] = datoGuardado.ubicacionAtributo[key]; 
-                      return obj;
-                    }, 
-                    {}
-                  );
-        
-                let datoUbiAtr = this.objectToString(ordered)
-
-                ordered = Object.keys(ubicacion).sort().reduce(
-                    (obj, key) => { 
-                      obj[key] = ubicacion[key]; 
-                      return obj;
-                    }, 
-                    {}
-                  );
-                let claveUbiAtr = this.objectToString(ordered)
-
-                if(datoUbiAtr === claveUbiAtr){
-                    return datoGuardado;
-                }
-            }
-        }
-        return null;
-    }
-
-    buscoValoresAtributoDeAtributo(ubicacion:Ubicacion) : ValoresAtributo[]{
-        let inforGuardada : InformacionGuardada | null = this.buscoInformacionGuardadaDeAtributo(ubicacion);
-        if(inforGuardada !== null){
-            return inforGuardada.valoresAtributo;
-        }
-        return [];
-    }
-
-    buscoValoresDatoDeAtributo(ubicacion:Ubicacion,idDato:number[] | null) : ValoresDato[]{
-        //Busco por "ubicacionAtributo"
-        let valsAtrib : ValoresAtributo[] = this.buscoValoresAtributoDeAtributo(ubicacion);
-        //Busco por "idDato" dentro de "valoresAtributo"
-        for(let valorDato of valsAtrib){
-            if(this.objectToString(valorDato.idDato) === this.objectToString(idDato)){
-                return valorDato.valoresDato;
-            }
-        }
-        return [];
-    }
-
     procesarDatoComputo(datoComputo:Computo,ubicacion:Ubicacion){
-        let claveIntesado = this.objectToString(ubicacion);
+        let claveIntesado = JSON.stringify(ubicacion);
         let valorComputado = this.mapValoresComputados.get(claveIntesado);
         if(valorComputado === undefined){
-            let valorOP1 = this.calcularValorOperando(datoComputo.op1,datoComputo.op2,ubicacion);
-            let valorOP2 = this.calcularValorOperando(datoComputo.op2,datoComputo.op1,ubicacion);
-            let valorOP3 = this.calcularValorOperando(datoComputo.op3,undefined,ubicacion);
-            let op1=0;
-            let op2=0;
-            let op3=0;
-            if(typeof valorOP1 === "object"){
-                op1 = valorOP1.valor;
-            }
-            else{
-                op1 = valorOP1;
-            }
-            if(typeof valorOP2 === "object"){
-                op2 = valorOP2.valor;
-            }
-            else{
-                op2 = valorOP2;
-            }
-            if (valorOP3){
-                if(typeof valorOP3 === "object"){
-                    op3 = valorOP3.valor;
-                }
-                else{
-                    op3 = valorOP3;
-                }
-            }
-            //Hago la cuenta
-            let nuevoValorComputado=0;
-            if(op2!==0 || (op2===0 && datoComputo.operacion[0] !== '/')){
-                switch(datoComputo.operacion[0]){
-                    case '/':{
-                        nuevoValorComputado=op1/op2;
-                        break;
-                    }
-                    case '+':{
-                        nuevoValorComputado=op1+op2;
-                        break;
-                    }
-                    case '-':{
-                        nuevoValorComputado=op1-op2;
-                        break;
-                    }
-                    case '*':{
-                        nuevoValorComputado=op1*op2;
-                        break;
-                    }
-                }
-            }
-            if(op3!==0 || (op3===0 && datoComputo.operacion[1] && datoComputo.operacion[1] !== '/')){
-                switch(datoComputo.operacion[1]){
-                    case '/':{
-                        nuevoValorComputado=nuevoValorComputado/op3;
-                        break;
-                    }
-                    case '+':{
-                        nuevoValorComputado=nuevoValorComputado+op3;
-                        break;
-                    }
-                    case '-':{
-                        nuevoValorComputado=nuevoValorComputado-op3;
-                        break;
-                    }
-                    case '*':{
-                        nuevoValorComputado=nuevoValorComputado*op3;
-                        break;
-                    }
-                }
-            }
-            nuevoValorComputado = Math.ceil(nuevoValorComputado)
+            let op1 = this.calcularValorOperando(datoComputo.op1,datoComputo.op2,ubicacion);
+            let op2 = this.calcularValorOperando(datoComputo.op2,datoComputo.op1,ubicacion);
+            let op3 = this.calcularValorOperando(datoComputo.op3,undefined,ubicacion);
+
+            let nuevoValorComputado = this.interaccionSchemaConData.calcularResultadoOperacion(op1,op2,op3,datoComputo);
+            
+            let valorOP1 : ComputoValorUbicacion | number = this.empaquetoOperando(op1,datoComputo.op1);
+            let valorOP2 : ComputoValorUbicacion | number = this.empaquetoOperando(op2,datoComputo.op2);
+            let valorOP3 : ComputoValorUbicacion | number = this.empaquetoOperando(op3,datoComputo.op3);
+            
             let valorComputado:ValorComputado = {
                 valor:nuevoValorComputado,
                 op1:valorOP1,
@@ -1786,27 +1576,26 @@ export class AtributoComponent {
         }
     }
 
-    calcularValorOperando(operandoObservado:Ubicacion|number,operandoObservado2:Ubicacion|number|undefined,ubicacionInteresado:Ubicacion):number|ComputoValorUbicacion{
-        let resultado=0;
+    empaquetoOperando(resultado:number,op:number|Ubicacion):ComputoValorUbicacion | number{
+        let vuelta : ComputoValorUbicacion | number = resultado;
+        if(typeof op === "object"){
+            let claveObservado = JSON.stringify(op);
+            vuelta = {
+                claveUbicacion:claveObservado,
+                valor:resultado
+            }
+        }
+        return vuelta;
+    }
+
+    calcularValorOperando(operandoObservado:Ubicacion|number,operandoObservado2:Ubicacion|number|undefined,ubicacionInteresado:Ubicacion):number{
+        let resultado = this.interaccionSchemaConData.calcularValorOperando(operandoObservado,this.versionSeleccionada!); 
+        
         if(typeof operandoObservado === "object"){
-            //Busco en los datos guardados la Ubicación dato.computo.op1
-            let ubicacionDesarmada : Ubicacion = {
-                idEtapa : operandoObservado.idEtapa
-                ,idGrupo : operandoObservado.idGrupo
-                ,idAtributo : operandoObservado.idAtributo
-                ,idDato : null
-            }
-            let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,operandoObservado.idDato);
-            for(let valorDato of valoresDato){
-                //Si hay valor válido
-                if(valorDato.number){
-                    resultado = resultado + valorDato.number;
-                }
-            }
             //Si el operando son datos de una Ubicacion, se debe de saber
             //cuando ese dato cambia para recomputar
-            let claveInteresado = this.objectToString(ubicacionInteresado);
-            let claveObservado = this.objectToString(operandoObservado);
+            let claveInteresado = JSON.stringify(ubicacionInteresado);
+            let claveObservado = JSON.stringify(operandoObservado);
             let claveEvento = claveInteresado+claveObservado;
 
             let retrievedEventEmitter = this.mapManejadorEventos.get(claveEvento);
@@ -1829,9 +1618,9 @@ export class AtributoComponent {
 
                 //Si cambia el dato observado, se llama esta funcion
                 retrievedEventEmitter.subscribe((registroDependencia:RegistrarDependencia) => {
-                    let claveIntesado = this.objectToString(registroDependencia.interesado);
-                    let claveObservado = this.objectToString(registroDependencia.observado);
-                    let claveObservado2 = this.objectToString(registroDependencia.observado2); //2
+                    let claveIntesado = JSON.stringify(registroDependencia.interesado);
+                    let claveObservado = JSON.stringify(registroDependencia.observado);
+                    let claveObservado2 = JSON.stringify(registroDependencia.observado2); //2
                     
                     //cambiar el registro dependencias y tener un observado y observado2
 
@@ -1846,7 +1635,7 @@ export class AtributoComponent {
                                 ,idAtributo : registroDependencia.observado.idAtributo
                                 ,idDato : null
                             }
-                            let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.observado.idDato);
+                            let valoresDato = this.interaccionSchemaConData.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.observado.idDato,this.versionSeleccionada!);
 
                             let nuevoResultadoOP = 0;
                             for(let valorDato of valoresDato){
@@ -1871,7 +1660,7 @@ export class AtributoComponent {
                                 ,idAtributo : registroDependenciaobservado2.idAtributo
                                 ,idDato : null
                             }
-                            let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependenciaobservado2.idDato);
+                            let valoresDato = this.interaccionSchemaConData.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependenciaobservado2.idDato,this.versionSeleccionada!);
                             
                             let nuevoResultadoOP = 0;
                             if (valoresDato){
@@ -1896,8 +1685,8 @@ export class AtributoComponent {
                                 ,idAtributo : registroDependencia.observado.idAtributo
                                 ,idDato : null
                             }
-                            let valoresDato = this.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.observado.idDato);
-                            //let valoresDato = this.buscoValoresDatoDeAtributo(registroDependencia.observado);
+                            let valoresDato = this.interaccionSchemaConData.buscoValoresDatoDeAtributo(ubicacionDesarmada,registroDependencia.observado.idDato,this.versionSeleccionada!);
+                            //let valoresDato = this.interaccionSchemaConData.buscoValoresDatoDeAtributo(registroDependencia.observado);
                             let nuevoResultadoOP = 0;
                             for(let valorDato of valoresDato){
                                 //Si hay valor válido
@@ -1961,19 +1750,9 @@ export class AtributoComponent {
                     }
                 });
             }
-            let vuelta : ComputoValorUbicacion = {
-                claveUbicacion:claveObservado,
-                valor:resultado
-            }
-            return vuelta;
         }
-        else{
-            //Busco el valor constante con id dato.computo.op1
-            let constantes = this.initialSchemaService.defaultSchema?.constantes;
-            let constanteSeleccionada = constantes?.find((constante) => constante.id === operandoObservado);
-            resultado = constanteSeleccionada?.valor!;
-            return resultado;
-        }
+
+        return resultado;
     }
 
     datosDeAtributo(ubicacionAtributo:Ubicacion) :Dato[]{
@@ -1987,11 +1766,11 @@ export class AtributoComponent {
                         idAtributo:atrib.id,
                         idDato:atrib.ubicacion.idDato
                     }
-                    if(this.objectToString(iterUbiAtr) === this.objectToString(ubicacionAtributo)){
+                    if(JSON.stringify(iterUbiAtr) === JSON.stringify(ubicacionAtributo)){
                         
                         //Busco los Datos Heredados
                         if(atrib.herencia != null){
-                            const [atributoHerencia, grupoHerencia, etapaHerencia] = this.getAtributoHerencia(atrib.herencia,
+                            const [atributoHerencia, grupoHerencia, etapaHerencia] = this.interaccionSchemaConData.getAtributoHerencia(atrib.herencia,
                                 {idEtapa:atrib.ubicacion.idEtapa,idGrupo:atrib.ubicacion.idGrupo,idAtributo:atrib.id,idDato:null}
                             );
                             if(atributoHerencia!=null){
@@ -2024,17 +1803,17 @@ export class AtributoComponent {
         });
         modalRef.componentInstance.tittle = 'Atención';
         modalRef.componentInstance.body = '¿Está seguro que desea eliminar el registro?';
-        modalRef.componentInstance.ubicacionAtr = this.ubicacionAbsolutaDeAtributo(ubicacionAtributo,idAtributo);
+        modalRef.componentInstance.ubicacionAtr = this.interaccionSchemaConData.ubicacionAbsolutaDeAtributo(ubicacionAtributo,idAtributo);
         
         //Control Resolve with Observable
         modalRef.closed.subscribe({
             next: (ubicacionAtr:Ubicacion) => {
-                let claveUbiAtr = this.objectToString(ubicacionAtr);
+                let claveUbiAtr = JSON.stringify(ubicacionAtr);
                 let retrievedValue = this.mapInformacionGuardadaDeAtributo.get(claveUbiAtr);
                 if(retrievedValue){
                     
                     //Si es un Modulo (Contenido Condicional), tengo que acomodar las Unidades
-                    const [esAtrCC,arrayIDDato] = this.esAtributoConContenidoCondicional(ubicacionAtributo,idAtributo);
+                    const [esAtrCC,arrayIDDato] = this.interaccionSchemaConData.esAtributoConContenidoCondicional(ubicacionAtributo,idAtributo);
                     if(esAtrCC){
                         this.eliminarUnidadesDeModulo(ubicacionAtr,arrayIDDato,retrievedValue,indice);
                     }
@@ -2075,7 +1854,7 @@ export class AtributoComponent {
                                                 && referencia.idGrupo === ubicacionAtributo.idGrupo
                                                 && referencia.idAtributo === idAtributo
                                             ){
-                                                let datosGuardados = this.buscoValoresDatoDeAtributo(dato.ubicacion,[dato.id]);
+                                                let datosGuardados = this.interaccionSchemaConData.buscoValoresDatoDeAtributo(dato.ubicacion,[dato.id],this.versionSeleccionada!);
                                                 for(let datoGuardado of datosGuardados){
                                                     if(datoGuardado.selectUsuario != null){
                                                         this.corregirIndicesGuardados(indice,datoGuardado.selectUsuario);
@@ -2105,7 +1884,7 @@ export class AtributoComponent {
                 //Por cada Dato del Atributo eliminado, emito por si alguien más depende de el
                 let datosDeAtrib : Dato[] = this.datosDeAtributo(ubicacionAtr);
                 for(let dato of datosDeAtrib){
-                    let ubicacionDato = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
+                    let ubicacionDato = this.interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
                     this.informarCambio.emit({cambioEnUbicacion:ubicacionDato,indiceEliminado:indice});
                 }
             },
@@ -2134,7 +1913,7 @@ export class AtributoComponent {
                     idDato : [idModulo,dato.id,datoInterior.id]
                 }
                 
-                let infoGuardada : InformacionGuardada | null= this.buscoInformacionGuardadaDeAtributo(ubicacionAtr);
+                let infoGuardada : InformacionGuardada | null= this.interaccionSchemaConData.buscoInformacionGuardadaDeAtributo(ubicacionAtr,this.versionSeleccionada!);
                 if(infoGuardada !==null){
                     if(infoGuardada.cantidadInstancias !== 1){
                         
@@ -2157,7 +1936,7 @@ export class AtributoComponent {
                 }
 
                 ubicacionAtr.idDato = [idModulo];
-                let clavePadreContCondicional = this.objectToString(ubicacionAtr);
+                let clavePadreContCondicional = JSON.stringify(ubicacionAtr);
                 let contCondicional = this.mapContenidoCondicional.get(clavePadreContCondicional);
                 if(contCondicional !== undefined){
                     //Para todos los CC que hay en este Modulo
@@ -2225,7 +2004,7 @@ export class AtributoComponent {
                 //Por cada Dato del Atributo eliminado, emito por si alguien más depende de el
                 let datosDeAtrib : Dato[] = this.datosDeAtributo(ubicacionAtr);
                 for(let dato of datosDeAtrib){
-                    let ubicacionDato = this.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
+                    let ubicacionDato = this.interaccionSchemaConData.ubicacionAbsolutaDeDato(dato.ubicacion,dato.id);
                     this.informarCambio.emit({cambioEnUbicacion:ubicacionDato,indiceEliminado:null});
                 }
             },
@@ -2255,34 +2034,10 @@ export class AtributoComponent {
     }
 
     corregirIndicesModuloUnidad(ubicacionUnidad:Ubicacion){
-        let info : InformacionGuardada | null= this.buscoInformacionGuardadaDeAtributo(ubicacionUnidad);
+        let info : InformacionGuardada | null= this.interaccionSchemaConData.buscoInformacionGuardadaDeAtributo(ubicacionUnidad,this.versionSeleccionada!);
         if(info !== null){
             info.ubicacionAtributo.idDato![0] = info.ubicacionAtributo.idDato![0]-1;
         }
-    }
-
-    esAtributoConContenidoCondicional(ubicacionAtr:Ubicacion,idAtr:number):[boolean,number[]]{
-        for(let etapa of this.initialSchemaService.defaultSchema?.etapas!){
-            for(let grupo of etapa.grupos){
-                for(let atrib of grupo.atributos){
-                    if(atrib.filasDatos != null){
-                        for(let filaDatos of atrib.filasDatos){
-                            for(let dato of filaDatos.datos){
-                                if(dato.filasDatos !== null
-                                    && dato.ubicacion.idEtapa === ubicacionAtr.idEtapa
-                                    && dato.ubicacion.idGrupo === ubicacionAtr.idGrupo
-                                    && dato.ubicacion.idAtributo === idAtr
-                                ){
-                                    return [true,[dato.id,1]];
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return [false,[]];
     }
 
     obtengoIngredientesContCond(ubicacionSchemaCC:Ubicacion,ubicacionModulo:Ubicacion,idOpcion:number,indiceHijo:number):[FilaDatos[],Map<string,ValorSelect[]>,number]{
@@ -2293,7 +2048,7 @@ export class AtributoComponent {
         let opcionesSelect : Map<string,ValorSelect[]> = new Map();
         //let maxCantDatos : number = 0;
 
-        const [filaDatosAAgregar,maxCantDatos] = this.obtenerFilasCC(ubicacionSchemaCC,idOpcion);
+        const [filaDatosAAgregar,maxCantDatos] = this.interaccionSchemaConData.obtenerFilasCC(ubicacionSchemaCC,idOpcion);
 
         //Tengo que agregar las opciones de los selectUsuarioMultiple
         for(let filaDatosCondional of filaDatosAAgregar){
@@ -2302,7 +2057,7 @@ export class AtributoComponent {
                     case TipoInput.selectUsuarioMultiple:{
                         //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, idDato 2
                         //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"
-                        let claveHijoContCondicional = this.objectToString(ubicacionModulo)+","+indiceHijo+","+datoInterno.id;
+                        let claveHijoContCondicional = JSON.stringify(ubicacionModulo)+","+indiceHijo+","+datoInterno.id;
 
                         let ubicacionDesarmada : Ubicacion = {
                             idEtapa : datoInterno.opciones.referencia.idEtapa
@@ -2310,7 +2065,7 @@ export class AtributoComponent {
                             ,idAtributo : datoInterno.opciones.referencia.idAtributo
                             ,idDato : null
                         }
-                        let opSel = this.obtengoOpcionesSelectUsuario(ubicacionDesarmada,datoInterno.opciones.referencia.idDato!,datoInterno.ubicacion,claveHijoContCondicional);
+                        let opSel = this.cargarOpcionesSelectUsuario(ubicacionDesarmada,datoInterno.opciones.referencia.idDato!,datoInterno.ubicacion,claveHijoContCondicional);
                         opcionesSelect.set(claveHijoContCondicional,opSel);
                     }
                 }
@@ -2318,124 +2073,6 @@ export class AtributoComponent {
         }
 
         return [filaDatosAAgregar,opcionesSelect,maxCantDatos];
-    }
-
-    obtenerFilasCC(ubicacionSchemaCC:Ubicacion,idOpcion:number):[FilaDatos[],number]{
-
-        let filaDatosAAgregar : FilaDatos[] = [];
-        let maxCantDatos : number = 0;
-
-        //Todos los ContCond
-        let contenidoCondicional = this.initialSchemaService.defaultSchema?.contenidoCondicional;
-        //Los ContCond que son de este Dato - 2,24,3,[7,1]
-        let contenidosMatchean = contenidoCondicional?.filter((contMacth) => this.objectToString(contMacth.muestroSi.referencia) === this.objectToString(ubicacionSchemaCC));
-
-        for (let contenidoEncontrado of contenidosMatchean!) {
-            
-            let maxLocal = 0;
-            let filaDatosHeredadas : FilaDatos[] = [];
-
-            //Obtengo las filaDatos Heredadas de CC y la cantidad de Datos
-            if(contenidoEncontrado.herencia != null){
-
-                filaDatosHeredadas = this.obtenerFilasCCHeredadas(contenidoEncontrado.herencia);
-                for(let filaDato of filaDatosHeredadas){
-                    maxLocal += filaDato.datos.length;
-                }
-            }
-            
-            //Si "Original" tiene filaDatos, sumo a Cantidad de Datos
-            if (contenidoEncontrado.filasDatos){
-                for(let filaDatosCondional of contenidoEncontrado.filasDatos){
-                    maxLocal += filaDatosCondional.datos.length;
-                }
-            }
-
-            if(contenidoEncontrado.muestroSi.valorSeleccionado.idOpcion === idOpcion){
-
-                for(let filaDato of filaDatosHeredadas){
-                    for(let dato of filaDato.datos){
-                        this.actualizarUbicacionesDatosHeredados(dato,ubicacionSchemaCC);
-                    }
-                    //Lo agrego al FilaDatos retorno
-                    filaDatosAAgregar.push(filaDato);
-                }
-
-                //FilaDatos del "Original", luego de lo heredado
-                if(contenidoEncontrado.filasDatos){
-                    let copiaFilaDatosAAgregar = this.stringToObject(this.objectToString(contenidoEncontrado.filasDatos));
-                    for(let filaDato of copiaFilaDatosAAgregar){
-                        filaDatosAAgregar.push(filaDato);
-                    }
-                }
-            }
-
-            if(maxLocal > maxCantDatos){
-                maxCantDatos=maxLocal;
-            }
-        }
-        
-        return [filaDatosAAgregar,maxCantDatos];
-    }
-
-    actualizarUbicacionesDatosHeredados(datoACambiar:Dato,nuevaUbicacion:Ubicacion){
-        //Cambio Ubicación de lo Heredado
-        datoACambiar.ubicacion.idEtapa=nuevaUbicacion.idEtapa;
-        datoACambiar.ubicacion.idGrupo=nuevaUbicacion.idGrupo;
-        datoACambiar.ubicacion.idAtributo=nuevaUbicacion.idAtributo;
-
-        //Si depende de otro Dato, debo actualizar la 
-        //ubicación en caso de que ese Dato exista en esta Etapa
-        if(datoACambiar.opciones != null
-            && datoACambiar.opciones.referencia != null
-        ){
-            let schema = this.initialSchemaService.defaultSchema;
-            let ubicacionReferencia = datoACambiar.opciones.referencia;
-            let atributosPadreDeReferencia : Atributo[] = [];
-            for(let etapa of schema?.etapas!){
-                for(let grupo of etapa.grupos){
-                    let result = grupo.atributos.filter(atributo=>
-                        {
-                            return atributo.herencia !== null
-                            && atributo.herencia.idEtapa===ubicacionReferencia.idEtapa
-                            && atributo.herencia.idGrupo===ubicacionReferencia.idGrupo
-                            && atributo.herencia.idAtributo===ubicacionReferencia.idAtributo;
-                        }
-                    );
-                    atributosPadreDeReferencia = atributosPadreDeReferencia.concat(result);
-                }
-            }
-            //Solo puede haber un Atributo en Etapa 3 que Herede de un Atributo de Etapa 2.
-            //No puede pasar que 2 Atrubutos de Etapa 3 Hereden de un mismo Atrib de Etapa 2.
-            if(atributosPadreDeReferencia.length===1){
-                datoACambiar.opciones.referencia.idEtapa=atributosPadreDeReferencia[0].ubicacion.idEtapa;
-                datoACambiar.opciones.referencia.idGrupo=atributosPadreDeReferencia[0].ubicacion.idGrupo;
-                datoACambiar.opciones.referencia.idAtributo=atributosPadreDeReferencia[0].id;
-            }
-        }
-    }
-
-    obtenerFilasCCHeredadas(idCC:number):FilaDatos[]{
-        let filaDatosAAgregar : FilaDatos[] = [];
-
-        //Todos los ContCond
-        let contenidoCondicional = this.initialSchemaService.defaultSchema?.contenidoCondicional;
-        //Los ContCond que son de este Dato - 2,24,3,[7,1]       
-        let contenidosMatchean = contenidoCondicional?.find((contMacth) => this.objectToString(contMacth.id) === this.objectToString(idCC));
-        if(contenidosMatchean){
-            if(contenidosMatchean.herencia != null){
-                let filaDatosRecursivo = this.obtenerFilasCCHeredadas(contenidosMatchean.herencia);
-                for(let fila of filaDatosRecursivo){
-                    filaDatosAAgregar.push(fila);
-                }
-            }
-            let copiaFilaDatosAAgregar = this.stringToObject(this.objectToString(contenidosMatchean.filasDatos));
-            for(let fila of copiaFilaDatosAAgregar){
-                filaDatosAAgregar.push(fila);
-            }
-        }
-
-        return filaDatosAAgregar;
     }
 
     eliminarUnidadesDeModulo(ubicacionAtr:Ubicacion,arrayIDDato:number[],infoGuardadaModulos:InformacionGuardada,indice:number){
@@ -2456,8 +2093,8 @@ export class AtributoComponent {
             idAtributo:ubicacionAtr.idAtributo,
             idDato:[indice]
         }
-        let clavePadreContCondicional = this.objectToString(ubicacionContCondicional);
-        let infoGuardadaUnidadesDeModulo_I : InformacionGuardada | null = this.buscoInformacionGuardadaDeAtributo(ubicacionUnidad);
+        let clavePadreContCondicional = JSON.stringify(ubicacionContCondicional);
+        let infoGuardadaUnidadesDeModulo_I : InformacionGuardada | null = this.interaccionSchemaConData.buscoInformacionGuardadaDeAtributo(ubicacionUnidad,this.versionSeleccionada!);
 
         if(infoGuardadaModulos.cantidadInstancias === 1){
             
@@ -2507,7 +2144,7 @@ export class AtributoComponent {
                 }
 
                 //Actualizo mapCC
-                this.mapContenidoCondicional.set(this.objectToString(ubicacionContCondicional),[filaDatos]);
+                this.mapContenidoCondicional.set(JSON.stringify(ubicacionContCondicional),[filaDatos]);
             }
         }
         else{
@@ -2518,9 +2155,9 @@ export class AtributoComponent {
 
                 if(indiceModulo >= indice){
                     //Elimino dependencias de dato y opciones de selectUsuario
-                    let contCondicional = this.mapContenidoCondicional.get(this.objectToString(ubicacionContCondicional));
+                    let contCondicional = this.mapContenidoCondicional.get(JSON.stringify(ubicacionContCondicional));
                     if(contCondicional !== undefined){
-                        this.eliminarEntradasMapsPorCambioEnCC(contCondicional,0,this.objectToString(ubicacionContCondicional));
+                        this.eliminarEntradasMapsPorCambioEnCC(contCondicional,0,JSON.stringify(ubicacionContCondicional));
                     }
                 }
 
@@ -2528,22 +2165,22 @@ export class AtributoComponent {
                     //Elimino las Unidades del Modulo
                     this.eliminarInformacionGuardada(ubicacionUnidad);
                     //Elimino Contenido Condicional a mostrar en UI
-                    this.mapContenidoCondicional.delete(this.objectToString(ubicacionContCondicional));
+                    this.mapContenidoCondicional.delete(JSON.stringify(ubicacionContCondicional));
                 }
 
                 if(indiceModulo > indice){
                     //Muevo las Unidades de Modulos en base un lugar para atras
                     this.corregirIndicesModuloUnidad(ubicacionUnidad);
                     //Muevo las claves de CC
-                    let contCondModulo = this.mapContenidoCondicional.get(this.objectToString(ubicacionContCondicional));
-                    this.mapContenidoCondicional.delete(this.objectToString(ubicacionContCondicional));
+                    let contCondModulo = this.mapContenidoCondicional.get(JSON.stringify(ubicacionContCondicional));
+                    this.mapContenidoCondicional.delete(JSON.stringify(ubicacionContCondicional));
                     let nuevaUbicacionContCondicional : Ubicacion = {
                         idEtapa:ubicacionAtr.idEtapa,
                         idGrupo:ubicacionAtr.idGrupo,
                         idAtributo:ubicacionAtr.idAtributo,
                         idDato:[indiceModulo-1]
                     }
-                    this.mapContenidoCondicional.set(this.objectToString(nuevaUbicacionContCondicional),contCondModulo!);
+                    this.mapContenidoCondicional.set(JSON.stringify(nuevaUbicacionContCondicional),contCondModulo!);
                     //Muevo las claves de los selectUsuario de la UI
                     for(const [indiceHijo,filaDatos] of contCondModulo!.entries()){
                         for(let filaDatosCondional of filaDatos){
@@ -2552,7 +2189,7 @@ export class AtributoComponent {
                                     case TipoInput.selectUsuarioMultiple:{
                                         //Por ejemplo, Padre (modulo) indice 0, Hijo (unidad) indice 1, idDato 2
                                         //"{"idEtapa":2,"idGrupo":24,"idAtributo":3,"idDato":[0]},1,2"
-                                        let newClaveHijoContCondicional = this.objectToString(nuevaUbicacionContCondicional)+","+indiceHijo+","+datoInterno.id;
+                                        let newClaveHijoContCondicional = JSON.stringify(nuevaUbicacionContCondicional)+","+indiceHijo+","+datoInterno.id;
                                         this.cargoOpcionesSelect(datoInterno,newClaveHijoContCondicional,datoInterno.ubicacion);
                                     }
                                 }
@@ -2568,7 +2205,7 @@ export class AtributoComponent {
         if(this.versionActual !== undefined){
             let indiceEliminar = -1;
             for(const [indice, informacionGuardada] of this.versionActual.datosGuardados!.entries()){
-                if(this.objectToString(informacionGuardada.ubicacionAtributo) === this.objectToString(ubicacion)){
+                if(JSON.stringify(informacionGuardada.ubicacionAtributo) === JSON.stringify(ubicacion)){
                     indiceEliminar = indice;
                     break;
                 }
@@ -2593,7 +2230,7 @@ export class AtributoComponent {
                                 this.eliminarDependencia.emit(claveInteresado);
 
                                 //Elimino entrada de manejadorEventos Local
-                                let claveObservado = this.objectToString(dat.opciones.referencia);
+                                let claveObservado = JSON.stringify(dat.opciones.referencia);
                                 let claveEvento = claveInteresado+claveObservado;
                                 this.mapManejadorEventos.delete(claveEvento);
 

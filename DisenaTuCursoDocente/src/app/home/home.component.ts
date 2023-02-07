@@ -283,7 +283,7 @@ export class HomeComponent {
         id: (this.initialSchemaService.allData?.length || 0) + 1,
         
         nombreCurso: this.nombreArchivo,
-        intitucion: '',
+        institucion: '',
         versiones: [
           {
             schemaVersion: 1,
@@ -411,25 +411,6 @@ export class HomeComponent {
               });
           }
           
-      }
-      public descargarCurso(event: any, cursoId: number):void{
-          event.stopPropagation();
-          let a = document.createElement('a');
-          if (cursoId && this.initialSchemaService.allData)
-              for (var i=0; i < this.initialSchemaService.allData.length; i++) {
-                  if (this.initialSchemaService.allData[i].id == cursoId)
-                      a.setAttribute('href', 'data:text/plain;charset=utf-u,'+encodeURIComponent(JSON.stringify(this.initialSchemaService.allData[i], null, 4)));
-                      a.setAttribute('download', this.initialSchemaService.allData[i].nombreCurso + ".json");
-                      a.click();
-              }
-          
-      }
-  
-      public descargarPDF(event: any, cursoId: number):void{
-          event.stopPropagation();
-          const exportPdf = new ExportpdfComponent(this.initialSchemaService);
-          const pdf = exportPdf.generatePdf(cursoId)
-          pdf.open();
       }
   
       openModal(){
