@@ -20,7 +20,10 @@ console.log("¿Es ambiente de Desarrollo? : " + ambienteDesarrollo);
 appp.post("/cursos", function(req, res) {
     const curso = req.body.curso;
     if(fs.existsSync(__dirname + "/dist/disena-tu-curso-docente/assets/schemasData/" + `curso_${req.body.curso.id}.json`)){
-        const idNueva = fs.readdirSync(__dirname + "/dist/disena-tu-curso-docente/assets/schemasData").length+1;
+        let idNueva = fs.readdirSync(__dirname + "/dist/disena-tu-curso-docente/assets/schemasData").length+1;
+        while(fs.existsSync(__dirname + "/dist/disena-tu-curso-docente/assets/schemasData/" + `curso_${idNueva}.json`)){
+            idNueva = idNueva+1;
+        }
         curso.id = idNueva;
     }
     fs.writeFile(
@@ -31,7 +34,7 @@ appp.post("/cursos", function(req, res) {
                 console.log(err);
                 res.status(400).send(err);
             } else {
-                res.status(201).send();
+                res.status(201).send({id: curso.id});
             }
         }
     );

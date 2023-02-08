@@ -127,6 +127,7 @@ export class HomeComponent {
             }),
           });
           if (response.status === 201) {
+            const idCreado = await response.json();
             console.log('Curso importado exitosamente');
             const ultimaVersionActual = structuredClone(nuevoCurso?.versiones.at(-1));
             if(ultimaVersionActual){
@@ -138,8 +139,8 @@ export class HomeComponent {
                     fechaModificacion: new Date()
                 }
                 nuevoCurso?.versiones.push(nuevaVersion)
-                nuevoCurso.id = (this.initialSchemaService.allData?.length || 0) + 1;
-                // this.modificarCurso(nuevoCurso)
+                nuevoCurso.id = idCreado.id;
+                this.modificarCurso(nuevoCurso)
                 this.initialSchemaService.allData?.push(nuevoCurso);
             }
           } else console.log('Ha ocurrido un error, ', response.status);
