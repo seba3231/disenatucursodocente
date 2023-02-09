@@ -2480,6 +2480,18 @@
                     "idGrupo": 2,
                     "valor": "Tecnólogo en Radioterapia",
                     "muestroSi": null
+                },
+                {
+                    "id": 9,
+                    "idGrupo": 2,
+                    "valor": "Lic. de Relaciones Laborales",
+                    "muestroSi": null
+                },
+                {
+                    "id": 10,
+                    "idGrupo": 2,
+                    "valor": "Ciclo Inicial Optativo Area Social",
+                    "muestroSi": null
                 }
             ]
         },
