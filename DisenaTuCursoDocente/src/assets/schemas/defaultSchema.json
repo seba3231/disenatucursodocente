@@ -122,7 +122,7 @@
                                                 "idDato": null
                                             },
                                             "herencia": null,
-                                            "ayuda": " Las competencias combinan habilidades, actitudes y conocimientos que los estudiantes deben desarrollar en su proceso de aprendizaje. Se pueden formular en un enunciado que la describa en términos generales y haga referencia a algunos aspectos específicos. <br>Ej. Resolución de problemas: seleccionar estrategias y recursos para llegar a una solución a partir de lo que se conoce. Puede incluir analizar información, ponderar alternativas y crear planes de acción.",
+                                            "ayuda": " Las competencias combinan habilidades, actitudes y conocimientos que los estudiantes deben desarrollar en su proceso de aprendizaje. Se pueden formular en un enunciado que la describa en términos generales y haga referencia a algunos aspectos específicos. Ej. Resolución de problemas: seleccionar estrategias y recursos para llegar a una solución a partir de lo que se conoce. Puede incluir analizar información, ponderar alternativas y crear planes de acción.",
                                             "tipo": "selectFijoUnico",
                                             "computo": null,
                                             "opciones": {
@@ -1363,7 +1363,7 @@
                         },
                         {
                             "id": 4,
-                            "nombre": "Equipamiento de prestamo a estudiantes",
+                            "nombre": "Equipamiento de préstamo a estudiantes",
                             "ubicacion": {
                                 "idEtapa": 2,
                                 "idGrupo": 22,
@@ -1623,7 +1623,7 @@
                             "herencia": null,
                             "multiInstanciable": true,
                             "puntoCritico": {
-                                "aporteConceptual": "El concepto de evaluación ha evolucionado a través de los años. En términos generales, se refiere a una forma de 'medir' cuánto y qué se ha aprendido en un período específico.  Un concepto actual y vigente sería el siguiente: 'Concebimos evaluar como un proceso continuo, sistemático y flexible por el cual se emiten juicios de valor'.(Rodríguez Eríquez-Rodés, 2020). Es importante recordar que la evaluación requiere prever formas de retroalimentación de los estudiantes a partir de los resultados y las correcciones. Otro punto importante a tomar en cuenta es que evaluar y calificar (asignar una calificación) son procesos diferentes.",
+                                "aporteConceptual": "El concepto de evaluación ha evolucionado a través de los años. En términos generales, se refiere a una forma de 'medir' cuánto y qué se ha aprendido en un período específico.  Un concepto actual y vigente sería el siguiente: 'Concebimos evaluar como un proceso continuo, sistemático y flexible por el cual se emiten juicios de valor'. (Rodríguez Eríquez-Rodés, 2020). Es importante recordar que la evaluación requiere prever formas de retroalimentación de los estudiantes a partir de los resultados y las correcciones. Otro punto importante a tomar en cuenta es que evaluar y calificar (asignar una calificación) son procesos diferentes.",
                                 "informacionAmpliatoria": "Puede leer más sobre evaluación y tipos de evaluación en Rodríguez Enríquez— Rodés, 2020: https://eva.udelar.edu.uy/mod/book/view.php?id=24539 ",
                                 "normativa": null
                             },
@@ -1824,7 +1824,7 @@
                                 {
                                     "datos": [{
                                             "id": 5,
-                                            "nombre": "Espacios fisicos utilizados",
+                                            "nombre": "Espacios físicos utilizados",
                                             "ubicacion": {
                                                 "idEtapa": 2,
                                                 "idGrupo": 24,
@@ -2207,7 +2207,7 @@
                             "multiInstanciable": true,
                             "puntoCritico": {
                                 "aporteConceptual": "Puede leer más sobre evaluación y tipos de evaluación en Rodríguez Enríquez— Rodés, 2020: https://eva.udelar.edu.uy/mod/book/view.php?id=24539",
-                                "informacionAmpliatoria": "El concepto de evaluación ha evolucionado a través de los años. En términos generales, se refiere a una forma de 'medir' cuánto y qué se ha aprendido en un período específico. Un concepto actual y vigente sería el siguiente: 'Concebimos evaluar como un proceso continuo, sistemático y flexible por el cual se emiten juicios de valor'.(Rodríguez Eríquez-Rodés, 2020). Es importante recordar que la evaluación requiere prever formas de retroalimentación de los estudiantes a partir de los resultados y las correcciones. Otro punto importante a tomar en cuenta es que evaluar y calificar (asignar una calificación) son procesos diferentes.",
+                                "informacionAmpliatoria": "El concepto de evaluación ha evolucionado a través de los años. En términos generales, se refiere a una forma de 'medir' cuánto y qué se ha aprendido en un período específico. Un concepto actual y vigente sería el siguiente: 'Concebimos evaluar como un proceso continuo, sistemático y flexible por el cual se emiten juicios de valor'. (Rodríguez Eríquez-Rodés, 2020). Es importante recordar que la evaluación requiere prever formas de retroalimentación de los estudiantes a partir de los resultados y las correcciones. Otro punto importante a tomar en cuenta es que evaluar y calificar (asignar una calificación) son procesos diferentes.",
                                 "normativa": null
                             },
                             "filasDatos": null
@@ -2414,12 +2414,6 @@
                     "id": 1,
                     "idGrupo": 1,
                     "valor": "Competencia",
-                    "muestroSi": null
-                },
-                {
-                    "id": 2,
-                    "idGrupo": 1,
-                    "valor": "TercerOpcion",
                     "muestroSi": null
                 }
             ]
@@ -2995,7 +2989,7 @@
         },
         {
             "id": 11,
-            "nombre": "Tipos de espacios fisicos",
+            "nombre": "Tipos de espacios físicos",
             "opciones": [{
                     "id": 0,
                     "idGrupo": 11,
@@ -3100,7 +3094,7 @@
         },
         {
             "id": 14,
-            "nombre": "Tipos de evaluacion",
+            "nombre": "Tipos de evaluación",
             "opciones": [{
                     "id": 0,
                     "idGrupo": 14,
@@ -3879,6 +3873,6 @@
     "constantes": [{
         "id": 1,
         "valor": 10,
-        "descripcion": "Valor para calculo de creditos"
+        "descripcion": "Valor para cálculo de créditos"
     }]
 }
