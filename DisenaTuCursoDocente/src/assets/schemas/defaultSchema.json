@@ -2438,6 +2438,54 @@
                     "idGrupo": 2,
                     "valor": "Lic. en Educación Física",
                     "muestroSi": null
+                },
+                {
+                    "id": 3,
+                    "idGrupo": 2,
+                    "valor": "Tecnicatura en Desarrollo Regional Sustentable",
+                    "muestroSi": null
+                },
+                {
+                    "id": 4,
+                    "idGrupo": 2,
+                    "valor": "Doctorado en Medicina",
+                    "muestroSi": null
+                },
+                {
+                    "id": 5,
+                    "idGrupo": 2,
+                    "valor": "Tecnólogo en Administración y Contabilidad",
+                    "muestroSi": null
+                },
+                {
+                    "id": 6,
+                    "idGrupo": 2,
+                    "valor": "Licenciatura en Economía",
+                    "muestroSi": null
+                },
+                {
+                    "id": 7,
+                    "idGrupo": 2,
+                    "valor": "Lic, en Administración y Tecnólogo en Administración y Contabiidad",
+                    "muestroSi": null
+                },
+                {
+                    "id": 8,
+                    "idGrupo": 2,
+                    "valor": "Tecnólogo en Radioterapia",
+                    "muestroSi": null
+                },
+                {
+                    "id": 9,
+                    "idGrupo": 2,
+                    "valor": "Lic. de Relaciones Laborales",
+                    "muestroSi": null
+                },
+                {
+                    "id": 10,
+                    "idGrupo": 2,
+                    "valor": "Ciclo Inicial Optativo Area Social",
+                    "muestroSi": null
                 }
             ]
         },
