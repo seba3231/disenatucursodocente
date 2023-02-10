@@ -2486,6 +2486,12 @@
                     "idGrupo": 2,
                     "valor": "Ciclo Inicial Optativo Area Social",
                     "muestroSi": null
+                },
+                {
+                    "id": 11,
+                    "idGrupo": 2,
+                    "valor": "Tecnicatura Universitaria en Bienes Culturales",
+                    "muestroSi": null
                 }
             ]
         },
