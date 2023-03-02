@@ -1,6 +1,4 @@
 const { app, BrowserWindow } = require("electron");
-const url = require("url");
-const path = require("path");
 const { fork } = require("child_process");
 
 let appWindow;
@@ -17,6 +15,17 @@ function initWindow() {
             },
         }
     );
+
+    //Para las ventanas del reporte PDF, oculto el menu
+    appWindow.webContents.setWindowOpenHandler(({ url }) => {
+        return {
+            action: 'allow',
+            overrideBrowserWindowOptions: {
+                autoHideMenuBar : true
+            }
+        }
+    })
+
     //Mientras levanta el Backend, muestro Loading
     appWindow.loadFile('loading.html');
     appWindow.setMenu(null);
@@ -38,7 +47,7 @@ function initWindow() {
         appWindow.loadFile('dist/disena-tu-curso-docente/index.html');
 
         appWindow.on("closed", function () {
-          appWindow = null;
+            appWindow = null;
         });
     });
 }
@@ -46,13 +55,13 @@ function initWindow() {
 app?.on("ready", initWindow);
 
 app?.on("window-all-closed", function () {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+    if (process.platform !== "darwin") {
+        app.quit();
+    }
 });
 
 app?.on("activate", function () {
-  if (win === null) {
-    initWindow();
-  }
+    if (win === null) {
+        initWindow();
+    }
 });

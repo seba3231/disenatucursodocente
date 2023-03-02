@@ -36,11 +36,13 @@ export class ExportpdfComponent{
         pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
         this.pdf = {
-            content: [
-                //   {text: 'PdfComponent Example', style: 'header'},
-                //   {text: 'This was generated using Angular and PdfMake', style: 'body'},
-                //   {text: 'PdfMake', link: 'https://pdfmake.github.io/docs/', style: 'link'}
-            ],
+            info: {
+                title: 'Reporte PDF Curso',
+                author: 'Tesis Ingeniería en Computación',
+                subject: 'Información Curso',
+                keywords: '',
+            },
+            content: [],
             styles: {
                 header: {
                     fontSize: 24,
