@@ -44,6 +44,8 @@ foreach ($target in $targets) {
 
     npm run package -- --platform=$platform --arch=$arch
 
+    #El compilador empaqueta todas las dependencias del proyecto.
+    #No todas las dependencias del proyecto son necesarias para ejecutar el binario compilado.
     write-host "ELIMINANDO ARCHIVOS INNECESARIOS"
     Get-ChildItem "$dirCompiladoProyecto" -Exclude dist,ElectronEntry.js,Backend.js,package.json,loading.html,node_modules | Remove-Item -Recurse -Force
     switch ($target) {
