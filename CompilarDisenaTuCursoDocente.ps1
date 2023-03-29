@@ -4,9 +4,8 @@
 $targets = @()
 $targets += 'darwin-x64'
 $targets += 'linux-x64'
-#$targets += 'linux-ia32'
 $targets += 'win32-ia32'
-$targets += 'win32-x64'
+#$targets += 'win32-x64'
 
 cd "$PSScriptRoot\DisenaTuCursoDocente"
 write-host "COMPILANDO ANGULAR"
@@ -14,10 +13,7 @@ ng build --configuration production --base-href ./
 
 foreach ($target in $targets) {
     $dirCompiladoProyecto = "$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-$target\resources\app\"
-    $imgOrigen="$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-$target\resources\app\dist\disena-tu-curso-docente\assets\img"
-    $imgDestino="$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-$target\resources\app\dist\assets"
     $cursosDeDesarrollo="$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-$target\resources\app\dist\disena-tu-curso-docente\assets\schemasData\"
-    $filesDeDesarrollo="$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-$target\resources\app\dist\disena-tu-curso-docente\assets\files\"
 
     write-host "-----------------------------------"
     write-host "COMPILANDO ELECTRON para $target"
@@ -47,7 +43,6 @@ foreach ($target in $targets) {
     #El compilador empaqueta todas las dependencias del proyecto.
     #No todas las dependencias del proyecto son necesarias para ejecutar el binario compilado.
     write-host "ELIMINANDO ARCHIVOS INNECESARIOS"
-    Get-ChildItem "$dirCompiladoProyecto" -Exclude dist,ElectronEntry.js,Backend.js,package.json,loading.html,node_modules | Remove-Item -Recurse -Force
     switch ($target) {
         "win32-x64"  {
             $dependencias="accepts,body-parser,call-bind,content-disposition,content-type,cookie,cookie-signature,cors,depd,destroy,ee-first,encodeurl,escape-html,etag,express,finalhandler,forwarded,fresh,function-bind,get-intrinsic,has,has-symbols,http-errors,iconv-lite,inherits,media-typer,merge-descriptors,methods,mime,mime-db,mime-types,negotiator,object-assign,object-inspect,on-finished,parseurl,path-to-regexp,proxy-addr,qs,range-parser,raw-body,safer-buffer,send,serve-static,setprototypeof,side-channel,statuses,toidentifier,type-is,unpipe,utils-merge,vary"
@@ -62,12 +57,19 @@ foreach ($target in $targets) {
             $dependencias="accepts,body-parser,call-bind,content-disposition,content-type,cookie,cookie-signature,cors,depd,destroy,ee-first,encodeurl,escape-html,etag,express,finalhandler,forwarded,fresh,function-bind,get-intrinsic,has,has-symbols,http-errors,iconv-lite,inherits,media-typer,merge-descriptors,methods,mime,mime-db,mime-types,negotiator,object-assign,object-inspect,on-finished,parseurl,path-to-regexp,proxy-addr,qs,range-parser,raw-body,safer-buffer,send,serve-static,setprototypeof,side-channel,statuses,toidentifier,type-is,unpipe,utils-merge,vary"
             break
         }
+        "darwin-x64"  {
+            $cursosDeDesarrollo="$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-$target\disena-tu-curso-docente.app\Contents\Resources\app\dist\disena-tu-curso-docente\assets\schemasData\"
+            $dirCompiladoProyecto = "$PSScriptRoot\DisenaTuCursoDocente\out\disena-tu-curso-docente-$target\disena-tu-curso-docente.app\Contents\Resources\app\"
+            $dependencias="accepts,body-parser,call-bind,content-disposition,content-type,cookie,cookie-signature,cors,depd,destroy,ee-first,encodeurl,escape-html,etag,express,finalhandler,forwarded,fresh,function-bind,get-intrinsic,has,has-symbols,http-errors,iconv-lite,inherits,media-typer,merge-descriptors,methods,mime,mime-db,mime-types,negotiator,object-assign,object-inspect,on-finished,parseurl,path-to-regexp,proxy-addr,qs,range-parser,raw-body,safer-buffer,send,serve-static,setprototypeof,side-channel,statuses,toidentifier,type-is,unpipe,utils-merge,vary"
+            break
+        }
         default {
             write-host "Target $target desconocido"
             continue
         }
     }
     $arrayDep = $dependencias -split ','
+    Get-ChildItem "$dirCompiladoProyecto" -Exclude dist,ElectronEntry.js,Backend.js,package.json,loading.html,node_modules | Remove-Item -Recurse -Force
     Get-ChildItem "$dirCompiladoProyecto\node_modules" -Exclude $arrayDep | Remove-Item -Recurse -Force
 
     write-host "ELIMINO CURSOS QUE HAYAN VENIDO DESDE DESARROLLO"
@@ -76,14 +78,6 @@ foreach ($target in $targets) {
     }
     else{
         mkdir "$cursosDeDesarrollo" | Out-Null
-    }
-    
-    write-host "ELIMINO FILES DE USUARIO QUE HAYAN VENIDO DESDE DESARROLLO"
-    if(test-path -path "$filesDeDesarrollo"){
-        rm "$filesDeDesarrollo\*"
-    }
-    else{
-        mkdir "$filesDeDesarrollo" | Out-Null
     }
 }
 
