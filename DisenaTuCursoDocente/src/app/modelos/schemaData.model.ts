@@ -2,6 +2,7 @@ import { Ubicacion } from './schema.model';
 
 export interface SchemaSavedData {
   id: number;
+  idGlobal: number | null;
   nombreCurso: string;
   institucion?: string;
   versiones: Version[];

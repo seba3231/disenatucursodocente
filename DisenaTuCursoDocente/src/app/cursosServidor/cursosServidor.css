@@ -33,7 +33,7 @@
 
 .card-img-containter {
     background: #0b5dd770;
-    max-height: 150px;
+    max-height: 230px;
     position: relative;
 }
 
@@ -139,13 +139,4 @@
 .l-bg-cyan {
   background: linear-gradient(135deg, #289cf5, #84c0ec) !important;
   color: #fff;
-}
-
-
-.link-hover{
-  cursor: pointer;
-}
-
-.link-hover:hover{
-  text-decoration: underline;
 }

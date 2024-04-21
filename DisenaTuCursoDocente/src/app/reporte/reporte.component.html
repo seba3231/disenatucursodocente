@@ -1,0 +1,44 @@
+<!-- cabezal -->
+<header class="container d-flex flex-row border-bottom justify-content-between">
+  <div class="d-flex flex-row align-items-center">
+    <i class="bi bi-mortarboard-fill p-2" style="font-size: 1.8rem;"></i>
+    <h1 class="p-2 fw-bolder">Reportar</h1>
+  </div>
+  <div class="text-center d-flex align-items-center" *ngIf="this.initialSchemaService.allData">
+    <div>
+      <button class="btn btn-primary btn-rounded background-primary m-2" (click)="goHome()" role="button"
+        title="Ir al inicio">
+        <i class="bi bi-house me-2"></i>INICIO</button>
+    </div>
+  </div>
+</header>
+
+<div class="container mt-5">
+  <form>
+    <div class="form-group">
+      <label for="titulo">Título:</label>
+      <input type="text" class="form-control" id="titulo" name="titulo" required>
+    </div>
+    <div class="form-group">
+      <label for="nombre_apellido">Nombre y Apellido:</label>
+      <input type="text" class="form-control" id="nombre_apellido" name="nombre_apellido" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="descripcion">Descripción:</label>
+      <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="categoria">Categoría:</label>
+      <select class="form-control" id="categoria" name="categoria" required>
+        <option value="error">Error</option>
+        <option value="sugerencia">Sugerencia</option>
+        <option value="comentario">Comentario</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+  </form>
+</div>

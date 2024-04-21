@@ -7,9 +7,7 @@ imports: [
 const pdfMakeX = require('pdfmake/build/pdfmake.js');
 const pdfFontsX = require('pdfmake-unicode/dist/pdfmake-unicode.js');
 pdfMakeX.vfs = pdfFontsX.pdfMake.vfs;
-import * as pdfMake from 'pdfmake/build/pdfmake';
 import { __values } from 'tslib';
-import { ExportpdfComponent } from '../exportpdf/exportpdf.component';
 import { ModalComentariosComponent } from '../modal/comentarios/modal-comentarios.component';
 import { GrupoDatoFijo } from '../modelos/schema.model';
 import { InformacionGuardada, SchemaSavedData, Version } from '../modelos/schemaData.model';
@@ -17,11 +15,11 @@ import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.s
 
 
 @Component({
-    selector: 'app-home',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.css'],
+    selector: 'app-reporte',
+    templateUrl: './reporte.component.html',
+    styleUrls: ['./reporte.component.css'],
 })
-export class HomeComponent {
+export class ReporteComponent {
     pdf: any;
     title = 'DisenaTuCursoDocente';
     nombreArchivo:string='';
@@ -43,51 +41,6 @@ export class HomeComponent {
       this.datosFijos = this.initialSchemaService.defaultSchema?.gruposDatosFijos;
     }
 
-    cardClick(idCurso: any) {
-      var cursos = this.initialSchemaService.allData;
-      if (cursos)
-        for (var i = 0; i < cursos.length; i++) {
-          if (cursos[i].id == idCurso)
-            this.initialSchemaService.loadedData = cursos[i];
-          this.router.navigate(['/dashboard']);
-        }
-    }
-
-    cardReporte() {
-      console.log("reporte")
-      this.router.navigate(['/reporte']);
-
-    }
-
-    editarNombre(curso: SchemaSavedData,event: any){
-      event.stopPropagation();
-      console.log(curso)
-      const modalRef = this.modalService.open(ModalComentariosComponent, {
-        scrollable: false,
-    });
-    modalRef.componentInstance.tittle = 'Editar nombre del curso';
-    modalRef.componentInstance.inputDisclaimer[0] = curso.nombreCurso;
-
-    //Control Resolve with Observable
-    modalRef.closed.subscribe({
-        next: (resp) => {
-            if (resp.length > 0){
-                console.log(resp);
-                curso.nombreCurso = resp[0]
-                const ver : Version | undefined = curso.versiones.at(-1);
-                if (ver){
-                  ver.fechaModificacion = new Date()
-                  ver.version = ver.version + 1
-                  curso.versiones.push(ver)
-                }
-                this.modificarCurso(curso)
-            }
-        },
-        error: () => {
-            //Nunca se llama aca
-        },
-    });
-    }
 
     importarCurso(event: any) {
       // MODAL PARA AGREGAR COMENTARIOS
@@ -112,6 +65,21 @@ export class HomeComponent {
           },
       });
     }
+
+    cardClick(idCurso: any) {
+      var cursos = this.initialSchemaService.allData;
+      if (cursos)
+        for (var i = 0; i < cursos.length; i++) {
+          if (cursos[i].id == idCurso)
+            this.initialSchemaService.loadedData = cursos[i];
+          this.router.navigate(['/dashboard']);
+        }
+    }
+
+    goHome(){
+      this.initialSchemaService.loadedData = undefined
+      this.router.navigate(['/']);
+  }
 
     cargarArchivo(event: any) {
       let files = event.srcElement.files;
@@ -160,18 +128,6 @@ export class HomeComponent {
       reader.readAsText(file);
     }
 
-    descargarArchivo() {
-      let a = document.createElement('a');
-      a.setAttribute(
-        'href',
-        'data:text/plain;charset=utf-u,' +
-          encodeURIComponent(
-            JSON.stringify(this.initialSchemaService.loadedData, null, 4)
-          )
-      );
-      a.setAttribute('download', 'file.json');
-      a.click();
-    }
 
     initDatosGuardados(): any[] | undefined {
       let datosAInformacionGuardada: any[] = [];
@@ -284,52 +240,6 @@ export class HomeComponent {
       return datos;
     }
 
-    async crearCurso() {
-      const datosGuardados: InformacionGuardada[] | undefined =
-        this.initDatosGuardados();
-      let curso: SchemaSavedData = {
-        id: (this.initialSchemaService.allData?.length || 0) + 1,
-        idGlobal: null,
-        nombreCurso: this.nombreArchivo,
-        institucion: '',
-        versiones: [
-          {
-            schemaVersion: 1,
-            version: 0,
-            datosGuardados,
-            autor: this.autor, //tomar el autor del nombre
-            fechaModificacion: new Date(),
-            fechaCreacion: new Date(),
-            nombre: 'Versión inicial'
-          },
-        ],
-        archivos:[]
-      };
-      let headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-
-      try {
-        const response = await fetch('http://localhost:'+this.initialSchemaService.puertoBackend+'/cursos', {
-          method: 'POST',
-          headers: headers,
-          mode: 'cors',
-          body: JSON.stringify({
-            curso,
-          }),
-        });
-        if (response.status === 201) {
-          console.log('Curso creado exitosamente');
-          this.initialSchemaService.allData?.push(curso);
-          this.initialSchemaService.loadedData = curso;
-          this.router.navigate(['/dashboard']);
-        } else console.log('Ha ocurrido un error, ', response.status);
-      } catch (e) {
-        const alert = document.querySelector('ngb-alert')
-        if(alert)
-          alert.classList.add('show')
-        console.error(e);
-      }
-    }
 
     async obtenerCurso(id: number) {
       let headers = new Headers();
@@ -421,56 +331,7 @@ export class HomeComponent {
 
       }
 
-      openModal(){
-        // MODAL PARA AGREGAR COMENTARIOS
-        const modalRef = this.modalService.open(ModalComentariosComponent, {
-            scrollable: false,
-        });
-        modalRef.componentInstance.tittle = 'Nuevo curso';
-        modalRef.componentInstance.inputDisclaimer[0] = 'Nombre del curso';
-        modalRef.componentInstance.inputDisclaimer[1] = 'Ingrese su nombre';
 
-        //Control Resolve with Observable
-        modalRef.closed.subscribe({
-            next: (resp) => {
-                if (resp.length > 0){
-                    console.log(resp);
-                    this.nombreArchivo = resp[0]
-                    this.autor = resp[1]
-                    this.crearCurso()
-                }
-            },
-            error: () => {
-                //Nunca se llama aca
-            },
-      });
-
-
-    }
-
-    openModalLogin(){
-      // MODAL PARA AGREGAR COMENTARIOS
-      const modalRef = this.modalService.open(ModalComentariosComponent, {
-          scrollable: false,
-      });
-      modalRef.componentInstance.tittle = 'Iniciar sesión';
-      modalRef.componentInstance.inputDisclaimer[0] = 'Email';
-      modalRef.componentInstance.inputDisclaimer[1] = 'Contraseña';
-      modalRef.componentInstance.inputDisclaimer[2] = 'Url del servidor';
-
-      //Control Resolve with Observable
-      modalRef.closed.subscribe({
-          next: (resp) => {
-              if (resp.length > 0){
-                  console.log(resp);
-                  this.router.navigate(['/cursosServidor']);
-              }
-          },
-          error: () => {
-              //Nunca se llama aca
-          },
-      });
-    }
 
     muestroHeader(){
         let vuelta = this.initialSchemaService.loadedData !== undefined;

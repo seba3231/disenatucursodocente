@@ -1,0 +1,8 @@
+Levanto el backend con:
+node Backend.js
+
+Levanto el frontend con:
+ng serve
+
+Los cursos quedan en:
+C:\Users\sebap\OneDrive\Documentos\Github\disenatucursodocente\DisenaTuCursoDocente\dist\disena-tu-curso-docente\assets\schemasData
