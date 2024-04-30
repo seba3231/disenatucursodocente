@@ -1,0 +1,37 @@
+ul.lista-comentarios {
+  list-style: none !important;
+  padding: 0 1rem 0 1rem;
+}
+
+ul.lista-comentarios>li {
+  padding: .5rem 1.2rem .5rem 1rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+ul.lista-comentarios>li>i {
+  padding-right: 0.75rem;
+  color: #616161;
+  cursor: pointer;
+}
+
+ul.lista-comentarios>li>.comentario-fecha {
+  font-size: 11px;
+  opacity: .60;
+}
+
+ul.lista-comentarios>li>button {
+  border: none;
+  background: transparent;
+  font-size: 10px;
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  height: 24px;
+  width: 24px;
+}
+
+ul.lista-comentarios>li>button:hover {
+  background-color: lightgray;
+  border-radius: 50%;
+}

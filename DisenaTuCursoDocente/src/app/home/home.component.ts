@@ -11,6 +11,7 @@ import * as pdfMake from 'pdfmake/build/pdfmake';
 import { __values } from 'tslib';
 import { ExportpdfComponent } from '../exportpdf/exportpdf.component';
 import { ModalComentariosComponent } from '../modal/comentarios/modal-comentarios.component';
+import { ModalLoginComponent } from '../modal-login/modal-login.component';
 import { GrupoDatoFijo } from '../modelos/schema.model';
 import { InformacionGuardada, SchemaSavedData, Version } from '../modelos/schemaData.model';
 import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.service';
@@ -450,7 +451,7 @@ export class HomeComponent {
 
     openModalLogin(){
       // MODAL PARA AGREGAR COMENTARIOS
-      const modalRef = this.modalService.open(ModalComentariosComponent, {
+      const modalRef = this.modalService.open(ModalLoginComponent, {
           scrollable: false,
       });
       modalRef.componentInstance.tittle = 'Iniciar sesión';

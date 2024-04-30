@@ -18,6 +18,7 @@ import { ModalConfirmacionComponent } from './modal/confirmacion/modal-confirmac
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './home/home.component';
 import { ReporteComponent } from './reporte/reporte.component';
+import { ModalLoginComponent } from './modal-login/modal-login.component';
 
 
 export function initConfig(loaderService : InitialSchemaLoaderService) {
@@ -43,7 +44,8 @@ export function initConfig(loaderService : InitialSchemaLoaderService) {
     DashboardComponent,
     cursosServidorComponent,
     ExportpdfComponent,
-    ReporteComponent
+    ReporteComponent,
+    ModalLoginComponent
   ],
   imports: [
     BrowserModule,

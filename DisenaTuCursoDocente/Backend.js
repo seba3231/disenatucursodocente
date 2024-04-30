@@ -76,6 +76,29 @@ appp.get("/cursos", function(req, res) {
     res.status(200).send(cursos);
 });
 
+appp.get("/servers", function(req, res) {
+  const serversFilePath = __dirname + "/dist/disena-tu-curso-docente/assets/servers.json";
+  let servers = [];
+
+  try {
+      // Verificar si el archivo existe
+      if (fs.existsSync(serversFilePath)) {
+          // Si existe, leer el contenido y analizarlo como JSON
+          const data = fs.readFileSync(serversFilePath, 'utf8');
+          servers = JSON.parse(data);
+      } else {
+          // Si no existe, crear el archivo y escribir el array vacío
+          fs.writeFileSync(serversFilePath, '[]', 'utf8');
+      }
+  } catch (err) {
+      console.error(err.message);
+      return res.status(400).send(err.message);
+  }
+
+  // Devolver el array de servidores
+  return res.status(200).send(servers);
+});
+
 appp.put("/cursos/:id", function(req, res) {
     const { id } = req.params;
     const cursoActualizado = req.body.curso;
@@ -91,6 +114,22 @@ appp.put("/cursos/:id", function(req, res) {
             }
         }
     );
+});
+
+appp.put("/servers", function(req, res) {
+  const serversActualizado = req.body.servers;
+  fs.writeFile(
+      __dirname + "/dist/disena-tu-curso-docente/assets/servers.json",
+      JSON.stringify(serversActualizado),
+      (err) => {
+          if (err) {
+              console.log(err);
+              res.status(400).send(err);
+          } else {
+              res.status(200).send();
+          }
+      }
+  );
 });
 
 appp.delete("/cursos/:id", function(req, res) {

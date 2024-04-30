@@ -1,0 +1,39 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{tittle}}</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+  </button>
+</div>
+<div class="modal-body">
+  <p class="small">Para iniciar sesión debes ingresar el usuario, la contraseña y la url del servidor de cursos correspondiente.</p>
+  <input type='text' class="form-control" id="user" placeholder="Usuario" style="margin: 0.5rem 0;">
+  <div class="input-group" style="margin: 0.5rem 0;">
+    <input id="password" type="password" class="form-control pwd" value="" placeholder="Contraseña">
+    <span class="input-group-btn">
+      <button class="reveal form-control" type="button" (click)="togglePassword()"
+        style="border-top-left-radius: 0px; border-bottom-left-radius: 0px;">
+        <i class="bi bi-eye-slash-fill"></i></button>
+    </span>
+  </div>
+  <div class="input-group my-2">
+    <input id="urlServidor" type="text" class="form-control" aria-label="Text input with dropdown button"
+      placeholder="Url del servidor">
+    <div class="dropdown">
+      <button type="button" class="form-control dropdown-toggle" data-bs-toggle="dropdown"
+        style="border-top-left-radius: 0px; border-bottom-left-radius: 0px;" aria-expanded="false"
+        data-bs-offset="10,10">
+        Mis servidores
+      </button>
+      <ul class="dropdown-menu">
+        <li *ngFor="let server of servers">
+          <a class="dropdown-item" href="#" (click)="cargarServidorEnInput(server)">{{ server }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <a class="my-2 small" href="#" (click)="olvidoContrasenia()">¿Olvidó su contraseña?</a>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-gray" (click)="reject()">Cancelar</button>
+  <button type="button" class="btn btn-primary background-primary m-2" (click)="resolve()">Iniciar sesión</button>
+</div>
