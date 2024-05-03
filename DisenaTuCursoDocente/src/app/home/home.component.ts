@@ -462,10 +462,7 @@ export class HomeComponent {
       //Control Resolve with Observable
       modalRef.closed.subscribe({
           next: (resp) => {
-              if (resp.length > 0){
-                  console.log(resp);
-                  this.router.navigate(['/cursosServidor']);
-              }
+            this.router.navigate(['/cursosServidor'], { queryParams: { token: resp.token, servidor: resp.urlServidorValue } });
           },
           error: () => {
               //Nunca se llama aca

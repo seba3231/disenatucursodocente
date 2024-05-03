@@ -12,27 +12,75 @@
     </div>
     <div class="text-center d-flex align-items-center">
       <div>
-          <button class="btn btn-primary btn-rounded background-primary m-2" (click)="goHome()" role="button" title="Ir al inicio">
+        <button class="btn btn-primary btn-rounded background-primary m-2" (click)="goHome()" role="button"
+          title="Ir al inicio">
           <i class="bi bi-house me-2"></i>INICIO</button>
       </div>
-  </div>
+    </div>
   </div>
   <!-- <p>1</p> -->
 </header>
 
+<!-- card con info del Servidor -->
+<section class="container d-flex align-items-center row m-auto">
+  <!-- <p>3</p> -->
+  <div class="p-4">
+    <div class="container">
+      <div class="row ">
+        <div class="">
+          <div class="card l-bg-green-dark">
+            <div class="card-statistic-3 p-4">
+              <div class="card-icon card-icon-large">
+                <i class="fas bi bi-cloud-arrow-down  px-2"></i>
+              </div>
+              <div class="mb-4">
+                <h5 id="titulo_card" class="mb-0">{{servidor}}</h5>
+              </div>
+              <div class="row align-items-center mb-2 d-flex">
+                <div class="text-right small">
+                  <span>Aquí podrás buscar y descargar cursos para usarlos en tu computadora.</span>
+                </div>
+              </div>
 
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- buscador -->
+  <div class="container-card">
+    <div class="container">
+      <form>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Buscar curso | Puedes buscar por nombre del curso, una descripción o el autor">
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</section>
 
 <!-- Lista de cursos -->
 <section class="container border-bottom">
-  <!-- <p>4</p> -->
-  <div class="container-card">
+  <div *ngIf="!this.cursosBuscados || this.cursosBuscados.length == 0">
+    <img src="assets/img/empty_search.svg" alt="Bienvenido/a" class="d-block m-auto" style="max-height: 200px;">
+  </div>
+
+
+  <div class="container-card" *ngIf="this.cursosBuscados && this.cursosBuscados.length > 0">
     <div class="container">
-      <h3 class="opacity-75">Mis cursos</h3>
+      <h3 class="opacity-75">Resultado de la búsqueda</h3>
       <div class="row">
 
       </div>
     </div>
   </div>
-  <!-- <p>4</p> -->
 </section>
-

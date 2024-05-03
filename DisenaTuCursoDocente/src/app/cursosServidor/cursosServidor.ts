@@ -1,20 +1,12 @@
 import { Component, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 imports: [
   NgbModule
 ]
-const pdfMakeX = require('pdfmake/build/pdfmake.js');
-const pdfFontsX = require('pdfmake-unicode/dist/pdfmake-unicode.js');
-pdfMakeX.vfs = pdfFontsX.pdfMake.vfs;
-import * as pdfMake from 'pdfmake/build/pdfmake';
 import { __values } from 'tslib';
-import { ExportpdfComponent } from '../exportpdf/exportpdf.component';
-import { ModalComentariosComponent } from '../modal/comentarios/modal-comentarios.component';
 import { GrupoDatoFijo } from '../modelos/schema.model';
-import { InformacionGuardada, SchemaSavedData, Version } from '../modelos/schemaData.model';
 import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.service';
-
 
 @Component({
     selector: 'app-cursosServidor',
@@ -22,16 +14,26 @@ import { InitialSchemaLoaderService } from '../servicios/initial-schema-loader.s
     styleUrls: ['./cursosServidor.css'],
 })
 export class cursosServidorComponent {
-    pdf: any;
     title = 'DisenaTuCursoDocente';
-    nombreArchivo:string='';
-    autor:string='';
-    datosFijos: GrupoDatoFijo[] | undefined;
+    token:string='';
+    servidor:string='';
+    cursosBuscados: any;
 
     constructor(private modalService: NgbModal, private router: Router,
-      public initialSchemaService : InitialSchemaLoaderService) {}
+      public initialSchemaService : InitialSchemaLoaderService,
+      private route: ActivatedRoute) {}
 
     ngOnInit(): void {
+      // Recuperar los parámetros de la URL
+      this.route.queryParams.subscribe(params => {
+        this.token = params['token'];
+        this.servidor = params['servidor'];
+        // Hacer lo que necesites con el token y la URL del servidor
+        console.log('Token:', this.token);
+        console.log('URL del servidor:', this.servidor);
+        // Llamar a la función que necesites pasándoles estos valores
+      });
+
       const alert = document.querySelector('ngb-alert')
       if(alert)
         alert.classList.remove('show')

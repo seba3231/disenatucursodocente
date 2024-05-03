@@ -80,26 +80,19 @@ export class ModalLoginComponent implements OnInit {
       let headers = new Headers();
       headers.append('Accept', 'application/json');
       headers.append('Content-Type', 'application/json');
-      headers.append('Access-Control-Allow-Origin', '*');
       try {
         // no hay convencion sobre los nombres aun asi que paso id para que busque archivo curso_id
-        const response = await fetch(urlServidorValue + `/api/login`, {
-          method: 'POST',
-          mode: 'no-cors',
+        const response = await fetch(`http://localhost:3000/` + this.initialSchemaService.puertoBackend + `/servers`, {
+          method: 'PUT',
           headers: headers,
+          mode: 'cors',
           body: JSON.stringify({
-            username: userValue,
-            password: passwordValue
+            servers: this.servers,
           }),
         });
-        if (response.status === 200) {
-          console.log('Login exitoso');
-          console.log(response)
-          this.activeModal.close(this.salida);
-        } else {
-          console.log('Ha ocurrido un error, ', response);
-          alert("Error al iniciar sesión")
-        }
+        if (response.status === 200)
+          console.log('Servidores actualizados exitosamente');
+        else console.log('Ha ocurrido un error, ', response.status);
       } catch (e) {
         console.error(e);
       }
@@ -107,35 +100,35 @@ export class ModalLoginComponent implements OnInit {
 
     // login
     // Realizar la solicitud de inicio de sesión al backend
-  const requestBody = { username: userValue, password: passwordValue };
-  const apiUrl = urlServidorValue + '/api/login';
+    const requestBody = { username: userValue, password: passwordValue };
+    const apiUrl = urlServidorValue + '/api/login';
 
-  try {
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(requestBody)
-    });
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      });
 
-    if (response.ok) {
-      // Si la solicitud fue exitosa, extraer el token de la respuesta
-      const responseData = await response.json();
-      const token = responseData.token;
-      console.log('Login exitoso',token);
+      if (response.ok) {
+        // Si la solicitud fue exitosa, extraer el token de la respuesta
+        const responseData = await response.json();
+        const token = responseData.token;
+        console.log('Login exitoso', token);
 
-      this.activeModal.close([userValue, passwordValue, urlServidorValue]);
-    } else {
-      // Si la solicitud no fue exitosa, mostrar un mensaje de error
-      console.log('Ha ocurrido un error:', response.status);
+        this.activeModal.close({ token: token, urlServidorValue: urlServidorValue });
+      } else {
+        // Si la solicitud no fue exitosa, mostrar un mensaje de error
+        console.log('Ha ocurrido un error:', response.status);
+        alert("Error al iniciar sesión.");
+      }
+    } catch (error) {
+      // Manejar errores de la solicitud
+      console.error('Error al realizar la solicitud:', error);
       alert("Error al iniciar sesión.");
     }
-  } catch (error) {
-    // Manejar errores de la solicitud
-    console.error('Error al realizar la solicitud:', error);
-    alert("Error al iniciar sesión.");
-  }
   }
 
   cargarServidorEnInput(servidor: string): void {
@@ -146,7 +139,7 @@ export class ModalLoginComponent implements OnInit {
     }
   }
 
-  olvidoContrasenia(): void {
+  async olvidoContrasenia(): Promise<void> {
     const userValue = (document.querySelector("#user") as HTMLInputElement)?.value;
     const urlServidorValue = (document.querySelector("#urlServidor") as HTMLInputElement)?.value;
 
@@ -154,9 +147,71 @@ export class ModalLoginComponent implements OnInit {
       // Mostrar mensaje de error si algún campo está vacío
       alert("Por favor, ingrese su usuario y la URL del servidor.");
       return;
+    }else{
+      this.salida.push(userValue)
+      this.salida.push(urlServidorValue)
     }
 
-    // Continuar con el proceso de recuperación de contraseña...
+    // Continuar con el proceso de recuperación de contraseña..
+
+    // Verificar si la URL del servidor está presente en this.servers
+    if (!this.servers.includes(urlServidorValue)) {
+      // Agregar la URL del servidor a this.servers si no está presente
+      this.servers.push(urlServidorValue);
+
+      //la actualizo en el archivo de servers
+      let headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Content-Type', 'application/json');
+      try {
+        // no hay convencion sobre los nombres aun asi que paso id para que busque archivo curso_id
+        const response = await fetch(`http://localhost:3000/` + this.initialSchemaService.puertoBackend + `/servers`, {
+          method: 'PUT',
+          headers: headers,
+          mode: 'cors',
+          body: JSON.stringify({
+            servers: this.servers,
+          }),
+        });
+        if (response.status === 200)
+          console.log('Servidores actualizados exitosamente');
+        else console.log('Ha ocurrido un error, ', response.status);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+
+    // Realizar la solicitud de inicio de sesión al backend
+    const requestBody = { username: userValue};
+    const apiUrl = urlServidorValue + '/api/forgotPass';
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      if (response.ok) {
+        // Si la solicitud fue exitosa, extraer el token de la respuesta
+        const responseData = await response.json();
+        const token = responseData.token;
+        console.log('Contraseña recuperada', token);
+
+        this.activeModal.close({ token: token, urlServidorValue: urlServidorValue });
+      } else {
+        // Si la solicitud no fue exitosa, mostrar un mensaje de error
+        console.log('Ha ocurrido un error:', response.status);
+        alert("Error al recuperar la contraseña.");
+      }
+    } catch (error) {
+      // Manejar errores de la solicitud
+      console.error('Error al realizar la solicitud:', error);
+      alert("Error al recuperar la contraseña.");
+    }
   }
 
 
