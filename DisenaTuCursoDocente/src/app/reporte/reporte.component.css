@@ -1,0 +1,8 @@
+.background-primary {
+    background-color: var(--bs-btn-bg);
+}
+
+.btn-rounded {
+    border-radius: 1.75rem;
+    padding: 0.35rem 1rem;
+}

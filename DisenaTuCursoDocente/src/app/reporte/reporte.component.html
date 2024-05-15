@@ -1,8 +1,8 @@
 <!-- cabezal -->
 <header class="container d-flex flex-row border-bottom justify-content-between">
   <div class="d-flex flex-row align-items-center">
-    <i class="bi bi-mortarboard-fill p-2" style="font-size: 1.8rem;"></i>
-    <h1 class="p-2 fw-bolder">Reportar</h1>
+    <i class="bi bi-exclamation-triangle" style="font-size: 1.8rem;"></i>
+    <h1 class="p-2 fw-bolder">Reportar incidente</h1>
   </div>
   <div class="text-center d-flex align-items-center" *ngIf="this.initialSchemaService.allData">
     <div>
@@ -14,23 +14,25 @@
 </header>
 
 <div class="container mt-5">
-  <form>
-    <div class="form-group">
+  <p class="m-2 pb-2">Al ingresar un incidente, estás reportando cualquier problema, sugerencia o pregunta que tengas sobre nuestro software. Nuestro equipo de soporte revisará tu reporte y se encargará de resolverlo lo más pronto posible para mejorar tu experiencia con nuestra plataforma.</p>
+  <form (ngSubmit)="enviarReporte($event)">
+    <div class="form-group p-2">
       <label for="titulo">Título:</label>
-      <input type="text" class="form-control" id="titulo" name="titulo" required>
+      <input type="text" class="form-control" id="titulo" name="titulo" required placeholder="Título de la incidencia" [(ngModel)]="titulo">
     </div>
-    <div class="form-group">
+    <div class="form-group p-2">
       <label for="descripcion">Descripción:</label>
-      <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
+      <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required placeholder="Detalle lo mejor posible la incidencia" [(ngModel)]="descripcion"></textarea>
     </div>
-    <div class="form-group">
+    <div class="form-group p-2">
       <label for="categoria">Categoría:</label>
-      <select class="form-control" id="categoria" name="categoria" required>
+      <select class="form-control" id="categoria" name="categoria" required [(ngModel)]="categoria">
         <option value="error">Error</option>
         <option value="sugerencia">Sugerencia</option>
         <option value="comentario">Comentario</option>
       </select>
     </div>
-    <button type="submit" class="btn btn-primary">Enviar</button>
+    <button type="submit" class="btn btn-primary m-2">Enviar</button>
   </form>
+
 </div>

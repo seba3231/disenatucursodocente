@@ -122,12 +122,12 @@
                 <small *ngIf="cursos?.idGlobal && cursos?.idGlobal !== null">Servidor: {{cursos.versiones.at(-1)?.autor}}</small>
               </div>
               <div class="d-flex" *ngIf="cursos?.idGlobal == null">
-                <button class="btn btn-outline-primary small m-2" style="font-size: 12px;" type="button" (click)="onClick($event)">
+                <button class="btn btn-outline-primary small m-2" style="font-size: 12px;" type="button" (click)="subirPrimeraVez(cursos.id,$event)">
                     <i class="bi bi-cloud-upload-fill" style="margin-right: 0.25rem;"></i> SUBIR A SERVIDOR
                 </button>
               </div>
               <div class="d-flex" *ngIf="cursos?.idGlobal && cursos?.idGlobal !== null">
-                <button class="btn btn-outline-primary small m-2" style="font-size: 12px;" type="button" (click)="onClick($event)">
+                <button class="btn btn-outline-primary small m-2" style="font-size: 12px;" type="button" (click)="subirCambios(cursos.idGlobal,$event)">
                     <i class="bi bi-arrow-up-circle-fill" style="margin-right: 0.25rem;"></i> SUBIR MIS CAMBIOS
                 </button>
               </div>
@@ -149,7 +149,7 @@
 
 <footer class="bd-footer bg-light" style="position: relative;">
   <div class="container py-3">
-    <div class="link-hover cursor-pointer text-primary" (click)="cardReporte()">
+    <div class="link-hover cursor-pointer text-primary" (click)="cardReporte($event)">
       <i class="bi bi-chat-left-text px-2"></i>
       ¿Tienes alguna incidencia, sugerencia o comentario sobre el software? ¡Haznos saber! Haz clic aquí para enviar tus
       comentarios.

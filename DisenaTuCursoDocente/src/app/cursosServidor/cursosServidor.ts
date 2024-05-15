@@ -42,17 +42,10 @@ export class cursosServidorComponent {
 
 
     cardClick(idCurso: any) {
-      var cursos = this.initialSchemaService.allData;
-      if (cursos)
-        for (var i = 0; i < cursos.length; i++) {
-          if (cursos[i].id == idCurso)
-            this.initialSchemaService.loadedData = cursos[i];
-          this.router.navigate(['/dashboard']);
-        }
+      //cuardo el curso en la pc local
     }
 
     goHome(){
-      this.initialSchemaService.loadedData = undefined
       this.router.navigate(['/']);
   }
 
