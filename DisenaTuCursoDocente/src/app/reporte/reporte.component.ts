@@ -64,7 +64,7 @@ export class ReporteComponent {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': this.token
+          'Authorization': 'Bearer ' + this.token
         },
         body: JSON.stringify(requestBody)
       });
