@@ -4,7 +4,7 @@
     <i class="bi bi-exclamation-triangle" style="font-size: 1.8rem;"></i>
     <h1 class="p-2 fw-bolder">Reportar incidente</h1>
   </div>
-  <div class="text-center d-flex align-items-center" *ngIf="this.initialSchemaService.allData">
+  <div class="text-center d-flex align-items-center">
     <div>
       <button class="btn btn-primary btn-rounded background-primary m-2" (click)="goHome()" role="button"
         title="Ir al inicio">
@@ -13,7 +13,7 @@
   </div>
 </header>
 
-<div class="container mt-5">
+<div class="container mt-5" id="form-incidencia">
   <p class="m-2 pb-2">Al ingresar un incidente, estás reportando cualquier problema, sugerencia o pregunta que tengas sobre nuestro software. Nuestro equipo de soporte revisará tu reporte y se encargará de resolverlo lo más pronto posible para mejorar tu experiencia con nuestra plataforma.</p>
   <form (ngSubmit)="enviarReporte($event)">
     <div class="form-group p-2">
@@ -26,7 +26,7 @@
     </div>
     <div class="form-group p-2">
       <label for="categoria">Categoría:</label>
-      <select class="form-control" id="categoria" name="categoria" required [(ngModel)]="categoria">
+      <select class="form-control" placeholder="Error/Sugencia/Comentario" id="categoria" name="categoria" required [(ngModel)]="categoria">
         <option value="error">Error</option>
         <option value="sugerencia">Sugerencia</option>
         <option value="comentario">Comentario</option>
@@ -36,3 +36,9 @@
   </form>
 
 </div>
+
+<section id="empty-ok" style="display: none;">
+  <img src="assets/img/empty_incidencia.svg" alt="Bienvenido/a" class="d-block m-auto img-empty p-2" style="height: 300px;">
+    <h2 class="p-2 fw-bolder text-center opacity-75 p-4 m-auto" style="max-width: 50ch;">Gracias por tu aporte.</h2>
+    <h3 class="p-2 text-center opacity-75 m-auto" id="texto-incidente">Hemos recibido tu incidente y ha sido ingresado con el código</h3>
+</section>

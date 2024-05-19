@@ -31,6 +31,25 @@ export class ModalLoginComponent implements OnInit {
     }
   }
 
+  urlServidor: string ='';
+  urlServidorInvalid: boolean = false;
+
+  validateUrl() {
+    // const urlPattern = /^(https?:\/\/)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?::\d{1,5})?(?:\/[^\s]*)?$/;
+
+    // this.urlServidorInvalid = !urlPattern.test(this.urlServidor);
+    // var textoUrlInvalida = document.getElementById('url-invalida');
+    // if (this.urlServidorInvalid){
+    //   if (textoUrlInvalida)
+    //     textoUrlInvalida.style.display = 'none';
+
+    // }else{
+    //   if (textoUrlInvalida)
+    //     textoUrlInvalida.style.display = 'block';
+    // }
+  }
+
+
   async ngOnInit(): Promise<void> {
     let headers = new Headers();
     headers.append('Accept', 'application/json');

@@ -73,6 +73,23 @@ export class ReporteComponent {
         // Si la solicitud fue exitosa, extraer el token de la respuesta
         const responseData = await response.json();
         console.log('Incidencia ', responseData);
+
+        var formIncidencia = document.getElementById('form-incidencia');
+        var empty = document.getElementById('empty-ok');
+        var textoIncidente = document.getElementById('texto-incidente');
+
+
+        // Oculta el elemento cambiando su estilo
+        if (formIncidencia)
+          formIncidencia.style.display = 'none';
+        // Oculta el elemento cambiando su estilo
+        if (empty){
+          empty.style.display = 'block';
+          if (textoIncidente)
+            textoIncidente.innerText += ' ' + responseData.idIncidencia
+        }
+
+
       } else {
         // Si la solicitud no fue exitosa, mostrar un mensaje de error
         console.log('Ha ocurrido un error:', response.status);
