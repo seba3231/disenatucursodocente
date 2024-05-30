@@ -137,7 +137,7 @@ export class ModalLoginComponent implements OnInit {
         const token = responseData.token;
         console.log('Login exitoso', token);
 
-        this.activeModal.close({ token: token, urlServidorValue: urlServidorValue });
+        this.activeModal.close({ token: token, urlServidorValue: urlServidorValue , username: userValue});
       } else {
         // Si la solicitud no fue exitosa, mostrar un mensaje de error
         console.log('Ha ocurrido un error:', response.status);

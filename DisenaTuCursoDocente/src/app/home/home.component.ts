@@ -56,51 +56,158 @@ export class HomeComponent {
       }
   }
 
-  subirPrimeraVez(idCurso: any, event: any) {
+  async subirPrimeraVez(idCurso: any, event: any) {
     event.stopPropagation();
-    console.log(idCurso)
+    console.log(idCurso);
+
     const modalRef = this.modalService.open(ModalLoginComponent, {
       scrollable: false,
     });
+
     modalRef.componentInstance.tittle = 'Iniciar sesión';
     modalRef.componentInstance.inputDisclaimer[0] = 'Email';
     modalRef.componentInstance.inputDisclaimer[1] = 'Contraseña';
     modalRef.componentInstance.inputDisclaimer[2] = 'Url del servidor';
 
-    //Control Resolve with Observable
+    // Control Resolve with Observable
     modalRef.closed.subscribe({
-      next: (resp) => {
-        // this.token = resp.token
-        // this.urlServidor = resp.urlServidorValue
-        // this.router.navigate(['/cursosServidor'], { queryParams: { token: resp.token, servidor: resp.urlServidorValue } });
+      next: async (resp) => { // Añadimos async aquí
+        const cursoJson = await this.obtenerCurso(idCurso);
+
+        cursoJson.idGlobal = null; // Agregar el atributo idGlobal con valor null
+
+        // Verificar y agregar autores si no existen
+
+        if (!Array.isArray(cursoJson.autores)) {
+          cursoJson.autores = [];
+        }
+
+        const autor = {
+          "username": null,
+          "institucion": null,
+          "nombre": resp.username,
+        };
+
+        cursoJson.autores.push(autor);
+
+        // Verificar y agregar referencias si no existen
+        if (!Array.isArray(cursoJson.referencias)) {
+          cursoJson.referencias = [];
+        }
+
+        // Comprobar si el array referencias está vacío y agregar la referencia si es necesario
+        if (cursoJson.referencias.length === 0) {
+          cursoJson.referencias = { internas: [], externas: [] };
+        }
+
+        const cursoB64 = btoa(JSON.stringify(cursoJson)); // Convertir el JSON a base64
+        const requestBody = { base64: cursoB64 };
+        const apiUrl = `${resp.urlServidorValue}/api/subirCurso`;
+
+        try {
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + resp.token,
+            },
+            body: JSON.stringify(requestBody),
+          });
+
+          if (response.ok) {
+            // Si la solicitud fue exitosa, extraer el token de la respuesta
+            const responseData = await response.json();
+            const idCurso = responseData.idCurso;
+            const base64 = responseData.base64;
+            console.log('Curso subido exitosamente', idCurso);
+            console.log('Nuevo base64', base64);
+            // Convertir el base64 de la salida en JSON
+            const decodedCurso = JSON.parse(atob(base64));
+            console.log('Nuevo JSON', decodedCurso);
+
+            alert('Tu curso ha sido subido exitosamente al servidor.');
+            this.modificarCurso(decodedCurso)
+            // Recargar el componente
+            this.ngOnInit();
+          } else {
+            // Si la solicitud no fue exitosa, mostrar un mensaje de error
+            console.log('Ha ocurrido un error:', response.status);
+            alert('Error al subir el curso. Intente luego o consulte al administrador del sistema.');
+          }
+        } catch (error) {
+          // Manejar errores de la solicitud
+          console.error('Error al realizar la solicitud:', error);
+          alert('Error al subir el curso. Intente luego o consulte al administrador del sistema.');
+        }
       },
       error: () => {
-        //Nunca se llama aca
+        // Nunca se llama acá
       },
     });
-
   }
 
-  subirCambios(idGlobal: any, event: any) {
+
+  subirCambios(idCurso: any, event: any) {
     event.stopPropagation();
-    console.log(idGlobal)
+    console.log(idCurso);
+
     const modalRef = this.modalService.open(ModalLoginComponent, {
       scrollable: false,
     });
+
     modalRef.componentInstance.tittle = 'Iniciar sesión';
     modalRef.componentInstance.inputDisclaimer[0] = 'Email';
     modalRef.componentInstance.inputDisclaimer[1] = 'Contraseña';
     modalRef.componentInstance.inputDisclaimer[2] = 'Url del servidor';
 
-    //Control Resolve with Observable
+    // Control Resolve with Observable
     modalRef.closed.subscribe({
-      next: (resp) => {
-        // this.token = resp.token
-        // this.urlServidor = resp.urlServidorValue
-        // this.router.navigate(['/cursosServidor'], { queryParams: { token: resp.token, servidor: resp.urlServidorValue } });
+      next: async (resp) => { // Añadimos async aquí
+        const cursoJson = await this.obtenerCurso(idCurso);
+
+        const cursoB64 = btoa(JSON.stringify(cursoJson)); // Convertir el JSON a base64
+        const requestBody = { base64: cursoB64 };
+        const apiUrl = `${resp.urlServidorValue}/api/subirCurso`;
+
+        try {
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + resp.token,
+            },
+            body: JSON.stringify(requestBody),
+          });
+
+          if (response.ok) {
+            // Si la solicitud fue exitosa, extraer el token de la respuesta
+            const responseData = await response.json();
+            const idCurso = responseData.idCurso;
+            const base64 = responseData.base64;
+            console.log('Curso subido exitosamente', idCurso);
+            console.log('Nuevo base64', base64);
+            // Convertir el base64 de la salida en JSON
+            const decodedCurso = JSON.parse(atob(base64));
+            console.log('Nuevo JSON', decodedCurso);
+
+            alert('Tu curso ha sido actualizado en el servidor.');
+            this.modificarCurso(decodedCurso)
+
+            // Recargar el componente
+            this.ngOnInit();
+          } else {
+            // Si la solicitud no fue exitosa, mostrar un mensaje de error
+            console.log('Ha ocurrido un error:', response.status);
+            alert('Error al subir el curso. Intente luego o consulte al administrador del sistema.');
+          }
+        } catch (error) {
+          // Manejar errores de la solicitud
+          console.error('Error al realizar la solicitud:', error);
+          alert('Error al subir el curso. Intente luego o consulte al administrador del sistema.');
+        }
       },
       error: () => {
-        //Nunca se llama aca
+        // Nunca se llama acá
       },
     });
 
@@ -418,14 +525,16 @@ export class HomeComponent {
     headers.append('Accept', 'application/json');
 
     try {
-      const response = await fetch(`http://localhost:${this.initialSchemaService.puertoBackend}+'/cursos/${id}`, {
-        method: 'GET',
-        headers: headers,
-        mode: 'cors',
-      });
+      const response = await fetch(`http://localhost:`+this.initialSchemaService.puertoBackend+`/cursos/${id}`, {
+            method: 'GET',
+            headers: headers,
+            mode: 'cors',
+          });
       const curso = await response.json();
-      if (response.status === 200)
+      if (response.status === 200){
         console.log('Curso obtenido exitosamente', curso);
+        return curso
+      }
       else console.log('Ha ocurrido un error, ', response.status);
     } catch (e) {
       const alert = document.querySelector('ngb-alert')

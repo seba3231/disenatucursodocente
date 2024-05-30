@@ -2,11 +2,14 @@ import { Ubicacion } from './schema.model';
 
 export interface SchemaSavedData {
   id: number;
-  idGlobal: number | null;
+  idGlobal?: number | null;
+  versionGlobal?: number;
   nombreCurso: string;
   institucion?: string;
   versiones: Version[];
   archivos: Archivo[];
+  autores?:Autores[];
+  referencias?:Referencias[];
 }
 
 export interface Archivo {
@@ -57,3 +60,29 @@ export interface ComentarioPrivado{
     fecha:number | null;
     valor:string| null;
 }
+
+export interface Autores{
+  username:string;
+  institucion:string;
+  nombre:string;
+}
+
+export interface Referencias{
+  internas:ReferenciasInternas[];
+  externas:ReferenciasExternas[];
+}
+
+export interface ReferenciasInternas{
+  idGlobal:number;
+  versionGlobal:string;
+  username:string;
+  institucion:string;
+}
+
+export interface ReferenciasExternas{
+  idGlobal:number;
+  versionGlobal:string;
+  username:string;
+  institucion:string;
+}
+
