@@ -53,9 +53,10 @@
   <!-- buscador -->
   <div class="container-card">
     <div class="container">
-      <form>
+      <form (ngSubmit)="buscarCurso(busqueda.value)">
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Buscar curso | Puedes buscar por nombre del curso, una descripción o el autor">
+          <input #busqueda type="text" class="form-control"
+            placeholder="Buscar curso | Puedes buscar por nombre del curso, una descripción o el autor">
           <div class="input-group-btn">
             <button class="btn btn-default" type="submit">
               <i class="bi bi-search"></i>
@@ -63,24 +64,42 @@
           </div>
         </div>
       </form>
-
     </div>
   </div>
+
 </section>
 
 <!-- Lista de cursos -->
-<section class="container border-bottom">
-  <div *ngIf="!this.cursosBuscados || this.cursosBuscados.length == 0">
-    <img src="assets/img/empty_search.svg" alt="Bienvenido/a" class="d-block m-auto" style="max-height: 200px;">
-  </div>
-
-
-  <div class="container-card" *ngIf="this.cursosBuscados && this.cursosBuscados.length > 0">
+<section class="container border-bottom" *ngIf="this.cursosBuscados && this.cursosBuscados.length > 0">
+  <div class="container-card">
     <div class="container">
       <h3 class="opacity-75">Resultado de la búsqueda</h3>
       <div class="row">
-
+        <div class="col-md-4 mt-4" *ngFor="let curso of cursosBuscados">
+          <div class="card cursor-pointer">
+            <div class="card-title">
+              <div class="d-flex align-items-center">
+                <h5>{{curso.nombreCurso}}</h5>
+              </div>
+              <small class="m-0">Autor: {{curso.nombreUsuario}}</small>
+              <div class="d-flex flex-column">
+                <small>Versión: {{curso.version}}</small>
+                <!-- Otros detalles del curso si los hay -->
+              </div>
+              <div class="d-flex">
+                <button class="btn btn-outline-primary small mt-2" style="font-size: 12px;" type="button" (click)="cardClick(curso.idCurso)">
+                  <i class="bi bi-download" style="margin-right: 0.25rem;"></i> Descargar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- Mensaje cuando no hay resultados -->
+<div *ngIf="!this.cursosBuscados || this.cursosBuscados.length === 0">
+  <img src="assets/img/empty_search.svg" alt="Bienvenido/a" class="d-block m-auto" style="max-height: 200px;">
+</div>
